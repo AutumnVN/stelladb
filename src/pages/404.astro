@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Home">
+    <div class="center">
+        <h1>404</h1>
+        <p>cunny not found</p>
+    </div>
+
+    <footer>
+        <p>read if cute and funny</p>
+    </footer>
+</Layout>
+
+<style>
+    .center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 2 * var(--nav-height));
+    }
+
+    .center h1 {
+        margin: 1rem;
+        font-size: 4rem;
+    }
+
+    .center p {
+        margin: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: var(--nav-height);
+        color: var(--muted);
+    }
+</style>

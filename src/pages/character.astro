@@ -1,0 +1,36 @@
+---
+// @ts-nocheck
+import Layout from '../layouts/Layout.astro';
+
+import Card from '../components/Card.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    Melee: '⚔️',
+    Ranged: '🏹',
+};
+---
+
+<Layout title="Character">
+    <div class="grid">
+        {Object.entries(data).map(([id, char]) => <Card href={`/character/${id}`} name={char.name} desc={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]}`} star={char.star} />)}
+    </div>
+</Layout>
+
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+</style>

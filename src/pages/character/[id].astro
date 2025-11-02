@@ -1,0 +1,579 @@
+---
+// @ts-nocheck
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const char = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    Melee: '⚔️',
+    Ranged: '🏹',
+};
+
+if (!char) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={char.name}>
+    <div class="character-page" data-json={JSON.stringify(char)}>
+        <div class="header">
+            <h1>{char.name}</h1>
+
+            <nav class="tabs">
+                <button data-tab="details" class="tab active">Details</button>
+                <button data-tab="skills" class="tab">Skills</button>
+                <button data-tab="potentials" class="tab">Potentials</button>
+                <button data-tab="talents" class="tab">Talents</button>
+                <button data-tab="gifts" class="tab">Gifts</button>
+                <button data-tab="dates" class="tab">Dates</button>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <p>
+                    {`${char.star}⭐`}<br />
+                    {char.element}{emoji[char.element]}<br />
+                    {char.class}{emoji[char.attackType]}<br />
+                    {
+                        char.tag.shift() &&
+                            char.tag.map((tag) => (
+                                <>
+                                    {tag}
+                                    <br />
+                                </>
+                            ))
+                    }
+                </p>
+            </div>
+
+            <div class="right">
+                <section id="details" class="tab-panel">
+                    <div class="details">
+                        <div class="slider-container">
+                            <div class="slider upgrade1">
+                                <p class="upgrade1-output">Upgrade: 0</p>
+                                <input type="range" id="upgrade1" min="0" max="8" value="0" />
+                            </div>
+
+                            <div class="slider level">
+                                <p class="level-output">Level: 1</p>
+                                <input type="range" id="level" min="0" max="10" value="1" />
+                            </div>
+                        </div>
+
+                        <div class="stats">
+                            <h2>Stats</h2>
+                            <p>
+                                HP: {char.stat[0].hp}<br />
+                                ATK: {char.stat[0].atk}<br />
+                            </p>
+                            <p>other stats doesnt change, dont care</p>
+                        </div>
+
+                        <div class="upgrade-cost">
+                            <h2>Next upgrade cost</h2>
+                            <p>
+                                {
+                                    Object.entries(char.upgrade[0]).map(([item, amount]) => (
+                                        <>
+                                            {item}: {amount}
+                                            <br />
+                                        </>
+                                    ))
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="skills" class="tab-panel" hidden>
+                    <div class="slider-container">
+                        <div class="slider upgrade2">
+                            <p class="upgrade2-output">Upgrade: 0</p>
+                            <input type="range" id="upgrade2" min="0" max="8" value="0" />
+                        </div>
+                        <div class="slider skill-level1">
+                            <p class="skill-level1-output">Skill level: 1</p>
+                            <input type="range" id="skill-level1" min="1" max="13" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="normal-attack">
+                        <h2>Normal attack: {char.normalAtk.name}</h2>
+                        <p>{char.normalAtk.desc}</p>
+                    </div>
+
+                    <div class="skill">
+                        <h2>Skill: {char.skill.name}</h2>
+                        <p>{char.skill.desc}</p>
+                    </div>
+
+                    <div class="support-skill">
+                        <h2>Support skill: {char.supportSkill.name}</h2>
+                        <p>{char.supportSkill.desc}</p>
+                    </div>
+
+                    <div class="ultimate">
+                        <h2>Ultimate: {char.ultimate.name}</h2>
+                        <p>{char.ultimate.desc}</p>
+                    </div>
+
+                    <div class="skill-upgrade-cost">
+                        <h2>Next skill upgrade cost</h2>
+                        <p>
+                            {
+                                Object.entries(char.skillUpgrade[0]).map(([item, amount]) => (
+                                    <>
+                                        {item}: {amount}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+
+                <section id="potentials" class="tab-panel" hidden>
+                    <div class="slider-container">
+                        <div class="slider potential-level">
+                            <p class="potential-level-output">Potential level: 1</p>
+                            <input type="range" id="potential-level" min="1" max="9" value="1" />
+                        </div>
+                        <div class="slider skill-level2">
+                            <p class="skill-level2-output">Skill level: 1</p>
+                            <input type="range" id="skill-level2" min="1" max="13" value="1" />
+                        </div>
+                    </div>
+
+                    <h2>Main core</h2>
+                    {
+                        char.potential.mainCore.map((pot) => (
+                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                <h3>{pot.name}</h3>
+                                <p>{pot.desc}</p>
+                            </div>
+                        ))
+                    }
+                    <h2>Main normal</h2>
+                    {
+                        char.potential.mainNormal.map((pot) => (
+                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                <h3>{pot.name}</h3>
+                                <p>{pot.desc}</p>
+                            </div>
+                        ))
+                    }
+                    <h2>Common</h2>
+                    {
+                        char.potential.common.map((pot) => (
+                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                <h3>{pot.name}</h3>
+                                <p>{pot.desc}</p>
+                            </div>
+                        ))
+                    }
+                    <h2>Support core</h2>
+                    {
+                        char.potential.supportCore.map((pot) => (
+                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                <h3>{pot.name}</h3>
+                                <p>{pot.desc}</p>
+                            </div>
+                        ))
+                    }
+                    <h2>Support normal</h2>
+                    {
+                        char.potential.supportNormal.map((pot) => (
+                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                <h3>{pot.name}</h3>
+                                <p>{pot.desc}</p>
+                            </div>
+                        ))
+                    }
+                </section>
+
+                <section id="talents" class="tab-panel" hidden>
+                    {
+                        char.talent.map((talent) => (
+                            <div class="talent">
+                                <h2>{talent.name}</h2>
+                                <p>
+                                    {talent.boost.map((b) => {
+                                        return (
+                                            <>
+                                                {b.desc}
+                                                <br />
+                                            </>
+                                        );
+                                    })}
+                                </p>
+                            </div>
+                        ))
+                    }
+                </section>
+
+                <section id="gifts" class="tab-panel" hidden>
+                    <div class="love-gift">
+                        <h2>Love gift</h2>
+                        <p>
+                            {
+                                char.loveGift.map((gift) => (
+                                    <>
+                                        {gift}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+
+                    <div class="hate-gift">
+                        <h2>Hate gift</h2>
+                        <p>
+                            {
+                                char.hateGift.map((gift) => (
+                                    <>
+                                        {gift}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+
+                <section id="dates" class="tab-panel" hidden>
+                    first choice just do whatever
+                    {
+                        char.date.map((date) => (
+                            <div class="date">
+                                <h2>{date.name}</h2>
+                                <p>{date.clue}</p>
+                                <p>Choice: {date.secondChoice}</p>
+                            </div>
+                        ))
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const char = JSON.parse(document.querySelector('.character-page').dataset.json);
+
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        document.addEventListener('click', (e) => {
+            const tab = e.target.closest('.tab');
+            if (tab) {
+                tabs.forEach((t) => {
+                    const selected = t === tab;
+                    t.classList.toggle('active', selected);
+                });
+
+                panels.forEach((p) => {
+                    p.hidden = p.id !== tab.dataset.tab;
+                });
+            }
+        });
+
+        const upgrade1Input = document.querySelector('#upgrade1');
+        const upgrade1Output = document.querySelector('.upgrade1-output');
+        const levelInput = document.querySelector('#level');
+        const levelOutput = document.querySelector('.level-output');
+        const stats = document.querySelector('.stats p');
+        const upgradeCost = document.querySelector('.upgrade-cost p');
+
+        let upgrade1;
+        let level;
+
+        upgrade1Input.addEventListener('input', onDetailsInput);
+        levelInput.addEventListener('input', onDetailsInput);
+        onDetailsInput();
+
+        function onDetailsInput() {
+            upgrade1 = +upgrade1Input.value;
+            level = +upgrade1Input.value * 10 + +levelInput.value;
+
+            if (level < 1) level = 1;
+            if (level > 90) level = 90;
+
+            upgrade1Output.innerHTML = `Upgrade: ${upgrade1}`;
+            levelOutput.innerHTML = `Level: ${level}`;
+            stats.innerHTML = `
+                HP: ${char.stat[level + upgrade1 - 1].hp}<br />
+                ATK: ${char.stat[level + upgrade1 - 1].atk}<br />
+            `;
+            upgradeCost.innerHTML = `
+                ${
+                    upgrade1 >= 8
+                        ? 'Max upgrade reached<br />'
+                        : Object.entries(char.upgrade[upgrade1])
+                              .map(([item, amount]) => `${item}: ${amount}<br />`)
+                              .join('')
+                }
+            `;
+        }
+
+        const upgrade2Input = document.querySelector('#upgrade2');
+        const upgrade2Output = document.querySelector('.upgrade2-output');
+        const skillLevel1Input = document.querySelector('#skill-level1');
+        const skillLevel1Output = document.querySelector('.skill-level1-output');
+        const normalAttack = document.querySelector('.normal-attack p');
+        const skill = document.querySelector('.skill p');
+        const supportSkill = document.querySelector('.support-skill p');
+        const ultimate = document.querySelector('.ultimate p');
+        const skillUpgradeCost = document.querySelector('.skill-upgrade-cost p');
+
+        let upgrade2;
+        let skillLevel;
+
+        upgrade2Input.addEventListener('input', onSkillsInput);
+        skillLevel1Input.addEventListener('input', onSkillsInput);
+        onSkillsInput();
+
+        function onSkillsInput() {
+            upgrade2 = +upgrade2Input.value;
+            skillLevel = +skillLevel1Input.value;
+
+            if (skillLevel < 1) skillLevel = 1;
+            if (skillLevel > 13) skillLevel = 13;
+
+            upgrade2Output.innerHTML = `Upgrade: ${upgrade2}`;
+            skillLevel1Output.innerHTML = `Skill level: ${skillLevel}`;
+            normalAttack.innerHTML = replaceParams(char.normalAtk.desc, char.normalAtk.params, upgrade2, skillLevel);
+            skill.innerHTML = replaceParams(char.skill.desc, char.skill.params, upgrade2, skillLevel);
+            supportSkill.innerHTML = replaceParams(char.supportSkill.desc, char.supportSkill.params, upgrade2, skillLevel);
+            ultimate.innerHTML = replaceParams(char.ultimate.desc, char.ultimate.params, upgrade2, skillLevel);
+            skillUpgradeCost.innerHTML = `
+                ${
+                    skillLevel >= 10
+                        ? 'Max skill level reached<br />'
+                        : Object.entries(char.skillUpgrade[skillLevel - 1])
+                              .map(([item, amount]) => `${item}: ${amount}<br />`)
+                              .join('')
+                }
+            `;
+        }
+
+        function replaceParams(desc, params, upgrade, level) {
+            let result = desc;
+
+            params.forEach((paramSet, index) => {
+                const splited = paramSet.toString().split('/');
+                const paramValue = splited.length === 13 ? splited[skillLevel - 1] : splited.length === 9 ? splited[upgrade2] : splited[0];
+                result = result.replace(`&Param${index + 1}&`, paramValue);
+            });
+
+            result = result
+                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                .replace(/\u000b/g, '<br />')
+                .replace(/##/g, '<b>')
+                .replace(/#.{4}#/g, '</b>');
+
+            return result;
+        }
+
+        const potentialLevelInput = document.querySelector('#potential-level');
+        const potentialLevelOutput = document.querySelector('.potential-level-output');
+        const skillLevel2Input = document.querySelector('#skill-level2');
+        const skillLevel2Output = document.querySelector('.skill-level2-output');
+        const potentialElements = document.querySelectorAll('.potential');
+
+        let potentialLevel;
+        let skillLevel2;
+
+        potentialLevelInput.addEventListener('input', onPotentialsInput);
+        skillLevel2Input.addEventListener('input', onPotentialsInput);
+        onPotentialsInput();
+
+        function onPotentialsInput() {
+            potentialLevel = +potentialLevelInput.value;
+            skillLevel2 = +skillLevel2Input.value;
+
+            potentialLevelOutput.innerHTML = `Potential level: ${potentialLevel}`;
+            skillLevel2Output.innerHTML = `Skill level: ${skillLevel2}`;
+            potentialElements.forEach((e) => {
+                const desc = JSON.parse(e.dataset.desc);
+                const params = JSON.parse(e.dataset.params);
+
+                let result = desc;
+
+                params.forEach((paramSet, index) => {
+                    const splited = paramSet.toString().split('/');
+                    const paramValue = splited.length === 13 ? splited[skillLevel2 - 1] : splited.length === 9 ? splited[potentialLevel - 1] : splited[0];
+                    result = result.replace(`&Param${index + 1}&`, paramValue);
+                });
+
+                result = result
+                    .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                    .replace(/\u000b/g, '<br />')
+                    .replace(/##/g, '<b>')
+                    .replace(/#.{4}#/g, '</b>');
+
+                e.querySelector('p').innerHTML = result;
+            });
+        }
+
+        const talentElements = document.querySelectorAll('.talent p');
+
+        talentElements.forEach((el, i) => {
+            const talent = char.talent[i];
+            let result = '';
+
+            talent.boost.forEach((b, i) => {
+                if ([6, 7, 8, 9, 10].includes(i)) return;
+
+                let desc = b.desc;
+
+                b.params.forEach((param, index) => {
+                    if ([1, 2, 3, 4, 5].includes(i)) {
+                        if (param.includes('%')) {
+                            param = parseFloat(param) * 2 + '%';
+                        } else {
+                            param = parseFloat(param) * 2;
+                        }
+                    }
+                    desc = desc.replace(`&Param${index + 1}&`, param);
+                });
+
+                desc = desc
+                    .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                    .replace(/\u000b/g, '<br />')
+                    .replace(/##/g, '<b>')
+                    .replace(/#.{4}#/g, '</b>');
+
+                result += `${desc}<br />`;
+            });
+
+            el.innerHTML = result;
+        });
+    </script>
+
+    <style>
+        .character-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: 64px;
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .tab {
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background: var(--bg);
+            padding: 0.5rem 0.75rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .tab.active {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 150px;
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: var(--nav-height);
+            background: var(--bg1a);
+            backdrop-filter: blur(5px);
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider p {
+            width: 13ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .potential {
+            margin-left: 1rem;
+        }
+
+        div[class] > p {
+            margin-left: 1rem;
+        }
+
+        h2 {
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        h3 {
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

@@ -1,0 +1,118 @@
+---
+export interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>{title}</title>
+        <link rel="preload" href="/font.woff2" as="font" type="font/woff2" crossorigin />
+    </head>
+    <body>
+        <nav>
+            <a href="/" class="logo">the worst stella sora database</a>
+            <div class="navlinks">
+                <a href="/character">Character</a>
+                <a href="/disc">Disc</a>
+            </div>
+        </nav>
+
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>
+
+<style is:global>
+    :root {
+        --bg: #111;
+        --bg1a: #1116;
+        --bg2: #222;
+        --bg3: #6df2;
+        --bg4: #df62;
+        --bg5: #f6d2;
+        --muted: #bbb;
+        --text: #eee;
+        --accent: #6f9;
+        --nav-height: 64px;
+    }
+
+    html,
+    body {
+        margin: 0;
+        min-height: 100%;
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
+    }
+
+    a {
+        color: var(--muted);
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: var(--text);
+    }
+
+    button {
+        font-family: inherit;
+    }
+
+    @font-face {
+        src: url('/font.woff2') format('woff2');
+        font-family: Inter;
+        font-display: swap;
+    }
+</style>
+
+<style>
+    nav {
+        display: flex;
+        position: sticky;
+        top: 0;
+        align-items: center;
+        z-index: 727;
+        background: var(--bg1a);
+        backdrop-filter: blur(5px);
+        margin: 0 auto;
+        padding: 0 1rem;
+        max-width: 1000px;
+        height: var(--nav-height);
+    }
+
+    .logo {
+        margin-right: 1rem;
+        padding: 0.5rem 0.5rem;
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+    }
+
+    .navlinks {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-left: auto;
+    }
+
+    .navlinks a {
+        padding: 0.5rem 0.5rem;
+    }
+
+    main {
+        margin: auto;
+        padding: 0 1rem;
+        max-width: 1000px;
+    }
+</style>

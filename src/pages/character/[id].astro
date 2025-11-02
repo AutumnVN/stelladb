@@ -426,7 +426,7 @@ if (!char) {
                 params.forEach((paramSet, index) => {
                     const splited = paramSet.toString().split('/');
                     const paramValue = splited.length === 13 ? splited[skillLevel2 - 1] : splited.length === 9 ? splited[potentialLevel - 1] : splited[0];
-                    result = result.replace(`&Param${index + 1}&`, paramValue);
+                    result = result.replace(`&Param${index + 1}&`, paramValue).replace(/&Param10&/g, params[params.length - 1]);
                 });
 
                 result = result

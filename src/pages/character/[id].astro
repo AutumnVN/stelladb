@@ -388,8 +388,8 @@ if (!char) {
             let result = desc;
 
             params.forEach((paramSet, index) => {
-                const splited = paramSet.toString().split('/');
-                const paramValue = splited.length === 13 ? splited[skillLevel - 1] : splited.length === 9 ? splited[upgrade2] : splited[0];
+                const splitted = paramSet.toString().split('/');
+                const paramValue = splitted.length === 13 ? splitted[skillLevel - 1] : splitted.length === 9 ? splitted[upgrade2] : splitted[0];
                 result = result.replace(`&Param${index + 1}&`, paramValue);
             });
 
@@ -428,8 +428,8 @@ if (!char) {
                 let result = desc;
 
                 params.forEach((paramSet, index) => {
-                    const splited = paramSet.toString().split('/');
-                    const paramValue = splited.length === 13 ? splited[skillLevel2 - 1] : splited.length === 9 ? splited[potentialLevel - 1] : splited[0];
+                    const splitted = paramSet.toString().split('/');
+                    const paramValue = splitted.length === 13 ? splitted[skillLevel2 - 1] : splitted.length === 9 ? splitted[potentialLevel - 1] : splitted[0];
                     result = result.replace(`&Param${index + 1}&`, paramValue).replace(/&Param10&/g, params[params.length - 1]);
                 });
 
@@ -445,7 +445,7 @@ if (!char) {
 
         const talentElements = document.querySelectorAll('.talent p');
 
-        talentElements.forEach((el, i) => {
+        talentElements.forEach((e, i) => {
             const talent = char.talent[i];
             let result = '';
 
@@ -474,7 +474,7 @@ if (!char) {
                 result += `${desc}<br />`;
             });
 
-            el.innerHTML = result;
+            e.innerHTML = result;
         });
     </script>
 

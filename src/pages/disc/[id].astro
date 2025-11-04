@@ -1,0 +1,394 @@
+---
+// @ts-nocheck
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const disc = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!disc) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={`${disc.name} | stelladb`}>
+    <div class="disc-page" data-json={JSON.stringify(disc)}>
+        <div class="header">
+            <h1>{disc.name}</h1>
+
+            <nav class="tabs">
+                <button data-tab="melody" class="tab active">Melody</button>
+                {
+                    disc.secondarySkill1 && (
+                        <button data-tab="harmony" class="tab">
+                            Harmony
+                        </button>
+                    )
+                }
+                <button data-tab="note" class="tab">Note</button>
+            </nav>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <p>
+                    {`${disc.star}⭐`}<br />
+                    {disc.element}{emoji[disc.element]}<br />
+                    {
+                        disc.tag.map((tag) => (
+                            <>
+                                {tag}
+                                <br />
+                            </>
+                        ))
+                    }
+                </p>
+            </div>
+
+            <div class="right">
+                <section id="melody" class="tab-panel">
+                    <div class="slider-container">
+                        <div class="slider dupe">
+                            <label class="dupe-output">Dupe: 0</label>
+                            <input type="range" id="dupe" min="1" max="6" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="melody">
+                        <h2>{disc.mainSkill.name}</h2>
+                        <p>{disc.mainSkill.description}</p>
+                    </div>
+                </section>
+
+                {
+                    disc.secondarySkill1 && (
+                        <section id="harmony" class="tab-panel" hidden>
+                            <div class="slider-container">
+                                <div class="slider harmony-level">
+                                    <label class="harmony-level-output">Harmony level: 0</label>
+                                    <input type="range" id="harmony-level" min="1" max="5" value="1" />
+                                </div>
+                            </div>
+
+                            <div class="harmony1">
+                                <h2>{disc.secondarySkill1.name}</h2>
+                                <p>{disc.secondarySkill1.description}</p>
+                                <p class="requirements">
+                                    {Object.entries(disc.secondarySkill1.requirements[0]).map(([note, amount]) => (
+                                        <>
+                                            {note}: {amount}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            </div>
+
+                            {disc.secondarySkill2 && (
+                                <div class="harmony2">
+                                    <h2>{disc.secondarySkill2.name}</h2>
+                                    <p>{disc.secondarySkill2.description}</p>
+                                    <p class="requirements">
+                                        {Object.entries(disc.secondarySkill2.requirements[0]).map(([note, amount]) => (
+                                            <>
+                                                {note}: {amount}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </p>
+                                </div>
+                            )}
+                        </section>
+                    )
+                }
+
+                <section id="note" class="tab-panel" hidden>
+                    <div class="slider-container">
+                        <div class="slider upgrade">
+                            <label class="upgrade-output">Upgrade: 0</label>
+                            <input type="range" id="upgrade" min="0" max="8" value="0" />
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <h2>Support Note</h2>
+                        <p>
+                            {
+                                Object.entries(disc.supportNote[0]).map(([note, amount]) => (
+                                    <>
+                                        {note}: {amount}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const disc = JSON.parse(document.querySelector('.disc-page').dataset.json);
+
+        const tabs = document.querySelectorAll('.tab');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        document.addEventListener('click', (e) => {
+            const tab = e.target.closest('.tab');
+            if (tab) {
+                tabs.forEach((t) => {
+                    const selected = t === tab;
+                    t.classList.toggle('active', selected);
+                });
+
+                panels.forEach((p) => {
+                    p.hidden = p.id !== tab.dataset.tab;
+                });
+            }
+        });
+
+        const dupeInput = document.querySelector('#dupe');
+        const dupeOutput = document.querySelector('.dupe-output');
+        const melody = document.querySelector('.melody p');
+
+        let dupe = 1;
+
+        dupeInput.addEventListener('input', onDupeInput);
+        onDupeInput();
+
+        function onDupeInput() {
+            dupe = +dupeInput.value;
+            dupeOutput.innerHTML = `Dupe: ${dupe}`;
+
+            const desc = disc.mainSkill.desc;
+            const params = disc.mainSkill.params;
+            const splitted = params.split('/')[dupe - 1].split(',');
+
+            let result = desc;
+
+            splitted.forEach((param, index) => {
+                result = result.replace(`\{${index + 1}\}`, param);
+            });
+
+            result = result
+                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                .replace(/\u000b/g, '<br />')
+                .replace(/##/g, '<b>')
+                .replace(/#.{4}#/g, '</b>');
+
+            melody.innerHTML = result;
+        }
+
+        if (disc.secondarySkill1) {
+            const harmonyLevelInput = document.querySelector('#harmony-level');
+            const harmonyLevelOutput = document.querySelector('.harmony-level-output');
+            const harmony1 = document.querySelector('.harmony1 p');
+            const harmony1Req = document.querySelector('.harmony1 .requirements');
+            const harmony2 = document.querySelector('.harmony2 p');
+            const harmony2Req = document.querySelector('.harmony2 .requirements');
+
+            let harmonyLevel = 1;
+
+            harmonyLevelInput.addEventListener('input', onHarmonyLevelInput);
+            onHarmonyLevelInput();
+
+            function onHarmonyLevelInput() {
+                harmonyLevel = +harmonyLevelInput.value;
+                harmonyLevelOutput.innerHTML = `Harmony level: ${harmonyLevel}`;
+
+                const skill1 = disc.secondarySkill1;
+                const desc1 = skill1.desc;
+                const params1 = skill1.params;
+                const splitted1 = params1.split('/')[harmonyLevel - 1].split(',');
+
+                let result1 = desc1;
+
+                splitted1.forEach((param, index) => {
+                    result1 = result1.replace(`\{${index + 1}\}`, param);
+                });
+
+                result1 = result1
+                    .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                    .replace(/\u000b/g, '<br />')
+                    .replace(/##/g, '<b>')
+                    .replace(/#.{4}#/g, '</b>');
+
+                harmony1.innerHTML = result1;
+
+                harmony1Req.innerHTML = Object.entries(skill1.requirements[harmonyLevel - 1])
+                    .map(([note, amount]) => `${note}: ${amount}`)
+                    .join('<br />');
+
+                if (disc.secondarySkill2) {
+                    const skill2 = disc.secondarySkill2;
+                    const desc2 = skill2.desc;
+                    const params2 = skill2.params;
+                    const splitted2 = params2.split('/')[harmonyLevel - 1].split(',');
+
+                    let result2 = desc2;
+
+                    splitted2.forEach((param, index) => {
+                        result2 = result2.replace(`\{${index + 1}\}`, param);
+                    });
+
+                    result2 = result2
+                        .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                        .replace(/\u000b/g, '<br />')
+                        .replace(/##/g, '<b>')
+                        .replace(/#.{4}#/g, '</b>');
+
+                    harmony2.innerHTML = result2;
+
+                    harmony2Req.innerHTML = Object.entries(skill2.requirements[harmonyLevel - 1])
+                        .map(([note, amount]) => `${note}: ${amount}`)
+                        .join('<br />');
+                }
+            }
+        }
+
+        const upgradeInput = document.querySelector('#upgrade');
+        const upgradeOutput = document.querySelector('.upgrade-output');
+        const note = document.querySelector('.note p');
+
+        let upgrade = 0;
+
+        upgradeInput.addEventListener('input', onUpgradeInput);
+        onUpgradeInput();
+
+        function onUpgradeInput() {
+            upgrade = +upgradeInput.value;
+            upgradeOutput.innerHTML = `Upgrade: ${upgrade}`;
+
+            note.innerHTML = Object.entries(disc.supportNote[upgrade])
+                .map(([note, amount]) => `${note}: ${amount}`)
+                .join('<br />');
+        }
+    </script>
+
+    <style>
+        .disc-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: 64px;
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
+
+        .tab {
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background: var(--bg);
+            padding: 0.5rem 0.75rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .tab.active {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 150px;
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: var(--nav-height);
+            background: var(--bg1a);
+            backdrop-filter: blur(5px);
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider label {
+            width: 13ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .potential {
+            margin-left: 1rem;
+        }
+
+        div[class] > p {
+            margin-left: 1rem;
+        }
+
+        h2 {
+            margin: 1.5rem 0 0.75rem 0;
+        }
+
+        h3 {
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

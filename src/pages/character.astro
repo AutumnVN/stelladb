@@ -20,7 +20,7 @@ const emoji = {
 };
 ---
 
-<Layout title="Character List | stelladb">
+<Layout title="Character | stelladb">
     <div class="grid">
         {Object.entries(data).map(([id, char]) => <Card href={`/character/${id}`} name={char.name} desc={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]}`} star={char.star} />)}
     </div>

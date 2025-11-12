@@ -57,6 +57,7 @@ if (!disc) {
 
         <div class="content">
             <div class="left">
+                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.png`} alt={disc.name} title={disc.name} width="256" height="256" />
                 <p>
                     {`${disc.star}⭐`}<br />
                     {disc.element}{emoji[disc.element]}<br />
@@ -480,7 +481,7 @@ if (!disc) {
         }
 
         .left {
-            width: 150px;
+            width: 256px;
         }
 
         .right {

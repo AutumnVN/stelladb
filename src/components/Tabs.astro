@@ -1,0 +1,51 @@
+<div class="tabs-wrapper">
+    <nav class="tabs" role="tablist">
+        <slot />
+    </nav>
+</div>
+
+<script>
+    // @ts-nocheck
+    const panels = document.querySelectorAll('.tab-panel');
+
+    document.addEventListener('click', (e) => {
+        const tab = e.target.closest('.tab');
+        if (!tab) return;
+
+        const container = tab.closest('.astro-tabs');
+        const localTabs = container ? container.querySelectorAll('.tab') : document.querySelectorAll('.tab');
+
+        localTabs.forEach((t) => t.classList.toggle('active', t === tab));
+
+        panels.forEach((p) => {
+            p.hidden = p.id !== tab.dataset.tab;
+        });
+    });
+</script>
+
+<style is:global>
+    .tabs-wrapper {
+        margin-left: auto;
+    }
+
+    .tabs {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .tab {
+        cursor: pointer;
+        border: none;
+        border-radius: 10px;
+        background: var(--bg);
+        padding: 0.5rem;
+        color: var(--muted);
+        font-size: 1rem;
+    }
+
+    .tab.active {
+        color: var(--text);
+        font-weight: 700;
+    }
+</style>

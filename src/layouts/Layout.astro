@@ -56,6 +56,7 @@ const { title } = Astro.props;
     body {
         margin: 0;
         min-height: 100%;
+        scrollbar-gutter: stable;
     }
 
     body {
@@ -91,9 +92,9 @@ const { title } = Astro.props;
         top: 0;
         align-items: center;
         z-index: 727;
-        background: var(--bg1a);
         backdrop-filter: blur(5px);
         margin: 0 auto;
+        background: var(--bg1a);
         padding: 0 1rem;
         max-width: 1000px;
         height: var(--nav-height);

@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
 import Layout from '../../layouts/Layout.astro';
+import Tabs from '../../components/Tabs.astro';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
@@ -41,7 +42,7 @@ if (!disc) {
         <div class="header">
             <h1>{disc.name}</h1>
 
-            <nav class="tabs">
+            <Tabs>
                 <button data-tab="details" class="tab active">Details</button>
                 <button data-tab="melody" class="tab">Melody</button>
                 {
@@ -52,7 +53,7 @@ if (!disc) {
                     )
                 }
                 <button data-tab="note" class="tab">Note</button>
-            </nav>
+            </Tabs>
         </div>
 
         <div class="content">
@@ -209,23 +210,6 @@ if (!disc) {
         // @ts-nocheck
         const disc = JSON.parse(document.querySelector('.disc-page').dataset.json);
         const itemId = JSON.parse(document.querySelector('.disc-page').dataset.item);
-
-        const tabs = document.querySelectorAll('.tab');
-        const panels = document.querySelectorAll('.tab-panel');
-
-        document.addEventListener('click', (e) => {
-            const tab = e.target.closest('.tab');
-            if (tab) {
-                tabs.forEach((t) => {
-                    const selected = t === tab;
-                    t.classList.toggle('active', selected);
-                });
-
-                panels.forEach((p) => {
-                    p.hidden = p.id !== tab.dataset.tab;
-                });
-            }
-        });
 
         const upgrade1Input = document.querySelector('#upgrade1');
         const upgrade1Output = document.querySelector('.upgrade1-output');
@@ -452,28 +436,6 @@ if (!disc) {
             font-size: 1.5rem;
         }
 
-        .tabs {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-left: auto;
-        }
-
-        .tab {
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            background: var(--bg);
-            padding: 0.5rem 0.75rem;
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        .tab.active {
-            color: var(--text);
-            font-weight: 700;
-        }
-
         .content {
             display: flex;
             gap: 1rem;
@@ -492,8 +454,8 @@ if (!disc) {
         .slider-container {
             position: sticky;
             top: var(--nav-height);
-            background: var(--bg1a);
             backdrop-filter: blur(5px);
+            background: var(--bg1a);
         }
 
         .slider {

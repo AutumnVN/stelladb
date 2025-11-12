@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
 import Layout from '../layouts/Layout.astro';
+import Tabs from '../components/Tabs.astro';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/emblem.json';
 
@@ -12,11 +13,11 @@ const data = await fetch(DATA_URL).then((res) => res.json());
         <div class="header">
             <h1>Emblem</h1>
 
-            <nav class="tabs">
+            <Tabs>
                 <button data-tab="lv70" class="tab active">Lv70</button>
                 <button data-tab="lv80" class="tab">Lv80</button>
                 <button data-tab="lv90" class="tab">Lv90</button>
-            </nav>
+            </Tabs>
         </div>
 
         <div class="content">
@@ -82,26 +83,6 @@ const data = await fetch(DATA_URL).then((res) => res.json());
     </div>
 </Layout>
 
-<script>
-    // @ts-nocheck
-    const tabs = document.querySelectorAll('.tab');
-    const panels = document.querySelectorAll('.tab-panel');
-
-    document.addEventListener('click', (e) => {
-        const tab = e.target.closest('.tab');
-        if (tab) {
-            tabs.forEach((t) => {
-                const selected = t === tab;
-                t.classList.toggle('active', selected);
-            });
-
-            panels.forEach((p) => {
-                p.hidden = p.id !== tab.dataset.tab;
-            });
-        }
-    });
-</script>
-
 <style>
     .emblem-page {
         padding: 0 1rem;
@@ -120,28 +101,6 @@ const data = await fetch(DATA_URL).then((res) => res.json());
         margin: 0 1rem 0 0;
         font-weight: 700;
         font-size: 1.5rem;
-    }
-
-    .tabs {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-left: auto;
-    }
-
-    .tab {
-        cursor: pointer;
-        border: none;
-        border-radius: 10px;
-        background: var(--bg);
-        padding: 0.5rem 0.75rem;
-        color: var(--muted);
-        font-size: 1rem;
-    }
-
-    .tab.active {
-        color: var(--text);
-        font-weight: 700;
     }
 
     .content {

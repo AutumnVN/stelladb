@@ -3,6 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 
 import Card from '../components/Card.astro';
+import SearchableGrid from '../components/SearchableGrid.astro';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
 
@@ -21,11 +22,7 @@ const emoji = {
 ---
 
 <Layout title="Character | stelladb">
-    <div class="search-wrap">
-        <label for="search" class="visually-hidden">Search characters</label>
-        <input id="search" type="search" placeholder="Search characters by id, name, element, or tag... holyshit finally a search bar 😭" autofocus />
-    </div>
-    <div class="grid">
+    <SearchableGrid placeholder="Search characters by id, name, element, or tag..." noResultsText="No characters found.">
         {
             Object.entries(data).map(([id, char]) => (
                 <div class="card-item" data-id={id} data-name={char.name} data-element={char.element} data-class={char.class} data-attacktype={char.attackType} data-tag={char.tag.join(' ')}>
@@ -40,100 +37,5 @@ const emoji = {
                 </div>
             ))
         }
-    </div>
-    <div id="no-results" hidden>No characters found.</div>
+    </SearchableGrid>
 </Layout>
-
-<style>
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-    }
-
-    .search-wrap {
-        display: flex;
-    }
-
-    #search {
-        flex: 1 1 auto;
-        padding: 0.75rem;
-        border-radius: 6px;
-        border: var(--text) 3px solid;
-        font-size: 1.25rem;
-        background: var(--bg1);
-        accent-color: var(--accent);
-        color: var(--text);
-    }
-
-    #search:focus {
-        outline: none;
-        border: var(--accent) 3px solid;
-    }
-
-    #search::-webkit-search-cancel-button {
-        filter: invert(100%) sepia(100%) saturate(500%) hue-rotate(90deg);
-        padding-left: 0.3rem;
-    }
-
-    .visually-hidden {
-        position: absolute !important;
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-        clip: rect(1px, 1px, 1px, 1px);
-        white-space: nowrap;
-        border: 0;
-        padding: 0;
-        margin: -1px;
-    }
-
-    #no-results {
-        margin-top: 2rem;
-        font-size: 2rem;
-        text-align: center;
-        color: var(--text);
-    }
-</style>
-
-<script>
-    // @ts-nocheck
-    const input = document.querySelector('#search');
-    const grid = document.querySelector('.grid');
-    const noResults = document.querySelector('#no-results');
-
-    const items = Array.from(grid.querySelectorAll('.card-item'));
-
-    function normalize(s) {
-        return (s || '').toString().toLowerCase();
-    }
-
-    function matches(item, q) {
-        if (!q) return true;
-        const id = normalize(item.dataset.id);
-        const name = normalize(item.dataset.name);
-        const element = normalize(item.dataset.element);
-        const cls = normalize(item.dataset.class);
-        const attacktype = normalize(item.dataset.attacktype);
-        const tag = normalize(item.dataset.tag);
-        return id.includes(q) || name.includes(q) || element.includes(q) || cls.includes(q) || attacktype.includes(q) || tag.includes(q);
-    }
-
-    let timeout = null;
-    function onInput() {
-        const q = normalize(input.value.trim());
-        if (timeout) clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            let anyMatched = false;
-            items.forEach((item) => {
-                const matched = matches(item, q);
-                item.style.display = matched ? '' : 'none';
-                if (matched) anyMatched = true;
-            });
-            noResults.hidden = anyMatched;
-        }, 150);
-    }
-
-    input.addEventListener('input', onInput);
-</script>

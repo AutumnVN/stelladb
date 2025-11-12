@@ -21,20 +21,27 @@ const emoji = {
 ---
 
 <Layout title="Character | stelladb">
+    <div class="search-wrap">
+        <label for="search" class="visually-hidden">Search characters</label>
+        <input id="search" type="search" placeholder="Search characters by id, name, element, or tag... holyshit finally a search bar 😭" />
+    </div>
     <div class="grid">
         {
             Object.entries(data).map(([id, char]) => (
-                <Card
-                    href={`/character/${id}`}
-                    name={char.name}
-                    desc={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]}`}
-                    star={char.star}
-                    image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}01_XL.png`}
-                    isChar={true}
-                />
+                <div class="card-item" data-id={id} data-name={char.name} data-element={char.element} data-class={char.class} data-attacktype={char.attackType} data-tag={char.tag.join(' ')}>
+                    <Card
+                        href={`/character/${id}`}
+                        name={char.name}
+                        desc={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]}`}
+                        star={char.star}
+                        image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}01_XL.png`}
+                        isChar={true}
+                    />
+                </div>
             ))
         }
     </div>
+    <div id="no-results" hidden>No characters found.</div>
 </Layout>
 
 <style>
@@ -44,4 +51,89 @@ const emoji = {
         gap: 1rem;
         margin-top: 1rem;
     }
+
+    .search-wrap {
+        display: flex;
+    }
+
+    #search {
+        flex: 1 1 auto;
+        padding: 0.75rem;
+        border-radius: 6px;
+        border: var(--text) 3px solid;
+        font-size: 1.25rem;
+        background: var(--bg1);
+        accent-color: var(--accent);
+        color: var(--text);
+    }
+
+    #search:focus {
+        outline: none;
+        border: var(--accent) 3px solid;
+    }
+
+    #search::-webkit-search-cancel-button {
+        filter: invert(100%) sepia(100%) saturate(500%) hue-rotate(90deg);
+        padding-left: 0.3rem;
+    }
+
+    .visually-hidden {
+        position: absolute !important;
+        height: 1px;
+        width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap;
+        border: 0;
+        padding: 0;
+        margin: -1px;
+    }
+
+    #no-results {
+        margin-top: 2rem;
+        font-size: 2rem;
+        text-align: center;
+        color: var(--text);
+    }
 </style>
+
+<script>
+    // @ts-nocheck
+    const input = document.querySelector('#search');
+    const grid = document.querySelector('.grid');
+    const noResults = document.querySelector('#no-results');
+
+    const items = Array.from(grid.querySelectorAll('.card-item'));
+
+    function normalize(s) {
+        return (s || '').toString().toLowerCase();
+    }
+
+    function matches(item, q) {
+        if (!q) return true;
+        const id = normalize(item.dataset.id);
+        const name = normalize(item.dataset.name);
+        const element = normalize(item.dataset.element);
+        const cls = normalize(item.dataset.class);
+        const attacktype = normalize(item.dataset.attacktype);
+        const tag = normalize(item.dataset.tag);
+        return id.includes(q) || name.includes(q) || element.includes(q) || cls.includes(q) || attacktype.includes(q) || tag.includes(q);
+    }
+
+    let timeout = null;
+    function onInput() {
+        const q = normalize(input.value.trim());
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            let anyMatched = false;
+            items.forEach((item) => {
+                const matched = matches(item, q);
+                item.style.display = matched ? '' : 'none';
+                if (matched) anyMatched = true;
+            });
+            noResults.hidden = anyMatched;
+        }, 150);
+    }
+
+    input.addEventListener('input', onInput);
+</script>

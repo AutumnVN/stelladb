@@ -194,50 +194,75 @@ if (!char) {
                     <h2>Main core</h2>
                     {
                         char.potential.mainCore.map((pot) => (
-                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
-                                <h3>{pot.name}</h3>
-                                <p>{pot.desc}</p>
-                                {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                            <div class="potential-wrapper">
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.png') center/cover no-repeat;`}>
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" />
+                                </div>
+                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                    <h3>{pot.name}</h3>
+                                    <p>{pot.desc}</p>
+                                    {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                                </div>
                             </div>
                         ))
                     }
                     <h2>Main normal</h2>
                     {
                         char.potential.mainNormal.map((pot) => (
-                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
-                                <h3>{pot.name}</h3>
-                                <p>{pot.desc}</p>
-                                {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                            <div class="potential-wrapper">
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.png') center/cover no-repeat;`}>
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" />
+                                </div>
+                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                    <h3>{pot.name}</h3>
+                                    <p>{pot.desc}</p>
+                                    {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                                </div>
                             </div>
                         ))
                     }
                     <h2>Common</h2>
                     {
                         char.potential.common.map((pot) => (
-                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
-                                <h3>{pot.name}</h3>
-                                <p>{pot.desc}</p>
-                                {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                            <div class="potential-wrapper">
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.png') center/cover no-repeat;`}>
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" />
+                                </div>
+                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                    <h3>{pot.name}</h3>
+                                    <p>{pot.desc}</p>
+                                    {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                                </div>
                             </div>
                         ))
                     }
                     <h2>Support core</h2>
                     {
                         char.potential.supportCore.map((pot) => (
-                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
-                                <h3>{pot.name}</h3>
-                                <p>{pot.desc}</p>
-                                {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                            <div class="potential-wrapper">
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.png') center/cover no-repeat;`}>
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" />
+                                </div>
+                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                    <h3>{pot.name}</h3>
+                                    <p>{pot.desc}</p>
+                                    {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                                </div>
                             </div>
                         ))
                     }
                     <h2>Support normal</h2>
                     {
                         char.potential.supportNormal.map((pot) => (
-                            <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
-                                <h3>{pot.name}</h3>
-                                <p>{pot.desc}</p>
-                                {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                            <div class="potential-wrapper">
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.png') center/cover no-repeat;`}>
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" />
+                                </div>
+                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
+                                    <h3>{pot.name}</h3>
+                                    <p>{pot.desc}</p>
+                                    {!pot.damageType.length ? null : <p>Damage type: {pot.damageType.join(', ')}</p>}
+                                </div>
                             </div>
                         ))
                     }
@@ -599,7 +624,8 @@ if (!char) {
             accent-color: var(--accent);
         }
 
-        .skill-header {
+        .skill-header,
+        .potential-wrapper {
             display: flex;
             align-items: center;
             gap: 1rem;
@@ -607,6 +633,10 @@ if (!char) {
 
         .skill-header ~ h3 {
             margin-left: 1rem;
+        }
+
+        .potential-image {
+            margin: 10px 0;
         }
 
         .potential {

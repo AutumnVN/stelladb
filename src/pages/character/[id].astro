@@ -124,27 +124,39 @@ if (!char) {
                     </div>
 
                     <div class="normal-attack">
-                        <h2>Normal attack: {char.normalAtk.name}</h2>
+                        <div class="skill-header">
+                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.normalAtk.icon}.png`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" />
+                            <h2>Normal attack: {char.normalAtk.name}</h2>
+                        </div>
                         <p>{char.normalAtk.desc}</p>
                         {!char.normalAtk.damageType.length ? null : <p>Damage type: {char.normalAtk.damageType.join(', ')}</p>}
                     </div>
 
                     <div class="skill">
-                        <h2>Skill: {char.skill.name}</h2>
+                        <div class="skill-header">
+                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.skill.icon}.png`} alt={char.skill.name} title={char.skill.name} width="64" height="64" />
+                            <h2>Skill: {char.skill.name}</h2>
+                        </div>
                         <h3>Cooldown: {char.skill.cooldown}</h3>
                         <p>{char.skill.desc}</p>
                         {!char.skill.damageType.length ? null : <p>Damage type: {char.skill.damageType.join(', ')}</p>}
                     </div>
 
                     <div class="support-skill">
-                        <h2>Support skill: {char.supportSkill.name}</h2>
+                        <div class="skill-header">
+                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.supportSkill.icon}.png`} alt={char.supportSkill.name} title={char.supportSkill.name} width="64" height="64" />
+                            <h2>Support skill: {char.supportSkill.name}</h2>
+                        </div>
                         <h3>Cooldown: {char.supportSkill.cooldown}</h3>
                         <p>{char.supportSkill.desc}</p>
                         {!char.supportSkill.damageType.length ? null : <p>Damage type: {char.supportSkill.damageType.join(', ')}</p>}
                     </div>
 
                     <div class="ultimate">
-                        <h2>Ultimate: {char.ultimate.name}</h2>
+                        <div class="skill-header">
+                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.ultimate.icon}.png`} alt={char.ultimate.name} title={char.ultimate.name} width="64" height="64" />
+                            <h2>Ultimate: {char.ultimate.name}</h2>
+                        </div>
                         <h3>Cooldown: {char.ultimate.cooldown}</h3>
                         <h3>Energy: {char.ultimate.energy}</h3>
                         <p>{char.ultimate.desc}</p>
@@ -566,6 +578,7 @@ if (!char) {
             top: var(--nav-height);
             backdrop-filter: blur(5px);
             background: var(--bg1a);
+            padding: 1rem;
         }
 
         .slider {
@@ -586,6 +599,16 @@ if (!char) {
             accent-color: var(--accent);
         }
 
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .skill-header ~ h3 {
+            margin-left: 1rem;
+        }
+
         .potential {
             margin-left: 1rem;
         }
@@ -596,11 +619,11 @@ if (!char) {
         }
 
         h2 {
-            margin: 1.5rem 0 0.75rem 0;
+            margin: 1rem 0;
         }
 
         h3 {
-            margin: 1rem 0 0.5rem 0;
+            margin: 0.75rem 0;
         }
 
         p {

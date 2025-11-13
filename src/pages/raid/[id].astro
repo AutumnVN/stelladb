@@ -1,0 +1,206 @@
+---
+// @ts-nocheck
+import Layout from '../../layouts/Layout.astro';
+import Tabs from '../../components/Tabs.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const raid = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!raid) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={`${raid.name} | stelladb`}>
+    <div class="raid-page" data-json={JSON.stringify(raid)}>
+        <div class="header">
+            <h1>{raid.name}</h1>
+
+            <Tabs>
+                <button data-tab="mechanic" class="tab active">Mechanic</button>
+                <button data-tab="stats" class="tab">Stats</button>
+            </Tabs>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} alt={raid.name} title={raid.name} width="256" height="256" />
+                <p>
+                    {`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                    {`Resist: ${raid.resistTo}${emoji[raid.resistTo]}`}<br />
+                </p>
+            </div>
+
+            <div class="right">
+                <section id="mechanic" class="tab-panel">
+                    {
+                        raid.mechanic.map((mechanic) => (
+                            <div class="mechanic">
+                                <div class="mechanic-header">
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monsterskill//jointdrill/${mechanic.icon}.png`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
+                                    <h3>{mechanic.name}</h3>
+                                </div>
+                                <p>{mechanic.desc}</p>
+                            </div>
+                        ))
+                    }
+                </section>
+
+                <section id="stats" class="tab-panel" hidden>
+                    <div class="slider-container">
+                        <div class="slider difficulty">
+                            <label class="difficulty-output">Diff: {raid.diff[0].name}</label>
+                            <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value="0" />
+                        </div>
+                    </div>
+
+                    <div class="stats">
+                        <h2>Stats</h2>
+                        <p>
+                            {
+                                Object.entries(raid.diff[0].stat).map(([stat, value]) => (
+                                    <>
+                                        {stat}: {value.toLocaleString()}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const raid = JSON.parse(document.querySelector('.raid-page').dataset.json);
+
+        const difficultyInput = document.querySelector('#difficulty');
+        const difficultyOutput = document.querySelector('.difficulty-output');
+        const stats = document.querySelector('.stats p');
+
+        let difficulty = 0;
+
+        difficultyInput.addEventListener('input', onDifficultyInput);
+        onDifficultyInput();
+
+        function onDifficultyInput() {
+            difficulty = +difficultyInput.value;
+
+            difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
+            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat)
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}<br />`)
+                .join('')}`;
+        }
+    </script>
+
+    <style>
+        .raid-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: 64px;
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 256px;
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: var(--nav-height);
+            backdrop-filter: blur(5px);
+            background: var(--bg1a);
+            padding: 1rem;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider label {
+            width: 13ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .mechanic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        div[class] > p,
+        div[class] > .item-image {
+            margin-left: 1rem;
+        }
+
+        h2 {
+            margin: 1rem 0;
+        }
+
+        h3 {
+            margin: 0.75rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

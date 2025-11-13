@@ -26,14 +26,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, char]) => (
                 <div class="card-item" data-id={id} data-name={char.name} data-element={char.element} data-class={char.class} data-attacktype={char.attackType} data-tag={char.tag.join(' ')}>
-                    <Card
-                        href={`/character/${id}`}
-                        name={char.name}
-                        desc={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]}`}
-                        star={char.star}
-                        image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}01_XL.png`}
-                        isChar={true}
-                    />
+                    <Card href={`/character/${id}`} name={char.name} desc={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]}`} star={char.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}01_XL.png`} inset={-12} />
                 </div>
             ))
         }

@@ -6,14 +6,14 @@ interface Props {
     desc2?: string;
     star: number;
     image: string;
-    isChar?: boolean;
+    inset?: number;
 }
 
-const { href, name, desc, desc2, star, image, isChar } = Astro.props;
+const { href, name, desc, desc2, star, image, inset = 0 } = Astro.props;
 ---
 
 <a href={href} class="card" style={`border: var(--bg${star}) 5px solid;`}>
-    <div class=`image ${isChar ? 'isChar' : ''}` style={`background-image: url(${image});`} role="img" aria-label={name}></div>
+    <div class=`image` style={`background-image: url(${image}); inset: ${inset}px`} role="img" aria-label={name}></div>
     <div class="text">
         <h2>{name}</h2>
         <p>{desc}</p>
@@ -37,14 +37,9 @@ const { href, name, desc, desc2, star, image, isChar } = Astro.props;
     .image {
         position: absolute;
         inset: 0;
-        background-position: center;
+        background-position: top;
         background-repeat: no-repeat;
         background-size: cover;
-    }
-
-    .isChar {
-        background-position: top;
-        inset: -12px;
     }
 
     .text {

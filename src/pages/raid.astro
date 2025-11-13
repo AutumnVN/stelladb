@@ -1,0 +1,33 @@
+---
+// @ts-nocheck
+import Layout from '../layouts/Layout.astro';
+
+import Card from '../components/Card.astro';
+import SearchableGrid from '../components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title="Raid | stelladb">
+    <SearchableGrid placeholder="Search raids by id, name, or element..." noResultsText="No raids found.">
+        {
+            Object.entries(data).map(([id, raid]) => (
+                <div class="card-item" data-id={id} data-name={raid.name} data-weakto={raid.weakTo.join(', ')} data-resistto={raid.resistTo}>
+                    <Card href={`/raid/${id}`} name={raid.name} desc={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${raid.resistTo}${emoji[raid.resistTo]}`} star={raid.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} inset={-30} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

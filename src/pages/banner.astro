@@ -13,7 +13,10 @@ const data = await fetch(DATA_URL).then((res) => res.json());
         .sort((a, b) => new Date(b[1].startTime) - new Date(a[1].startTime))
         .map(([id, banner]) => (
             <div class="banner">
-                <h2>{banner.name}</h2>
+                <div class="banner-header">
+                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles_en/icon/gacha/tab_gacha_${id}.png`} alt={banner.name} title={banner.name} width="192" height="96" />
+                    <h2>{banner.name}</h2>
+                </div>
                 <p>Rate-up 5⭐: {banner.rateUp5Star.map((charOrDisc) => <a href={`/${charOrDisc.id < 10000 ? 'character' : 'disc'}/${charOrDisc.id}`}>{charOrDisc.name}</a>).reduce((prev, curr) => [prev, ', ', curr])}</p>
                 <p>Rate-up 4⭐: {banner.rateUp4Star.map((charOrDisc) => <a href={`/${charOrDisc.id < 10000 ? 'character' : 'disc'}/${charOrDisc.id}`}>{charOrDisc.name}</a>).reduce((prev, curr) => [prev, ', ', curr])}</p>
                 {(() => {
@@ -72,6 +75,11 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 </script>
 
 <style>
+    .banner-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
     div[class] > p {
         margin-left: 1rem;
     }

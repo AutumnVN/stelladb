@@ -1,0 +1,43 @@
+---
+// @ts-nocheck
+import Layout from '../layouts/Layout.astro';
+
+import Card from '../components/Card.astro';
+import SearchableGrid from '../components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
+const SCOREBOSSCONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/ScoreBossControl.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const scoreBossControl = await fetch(SCOREBOSSCONTROL_URL).then((res) => res.json());
+const currentSeason = Object.values(scoreBossControl).filter((season) => Date.now() >= new Date(season.StartTime) && Date.now() <= new Date(season.EndTime))[0];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title="Boss Blitz | stelladb">
+    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No bosses found.">
+        {
+            Object.entries(data).map(([id, blitz]) => (
+                <div class={`card-item ${currentSeason?.LevelGroup?.includes(+id) ? 'current' : ''}`} data-id={id} data-name={blitz.name} data-weakto={blitz.weakTo.join(', ')} data-resistto={blitz.resistTo}>
+                    <Card href={`/blitz/${id}`} name={blitz.name} desc={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`} star={blitz.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} inset={-30} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>
+
+<style>
+    .current {
+        border: var(--accent) 5px solid;
+        border-radius: 5px;
+    }
+</style>

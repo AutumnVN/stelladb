@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import Tabs from '../../components/Tabs.astro';
 
 export async function getStaticPaths() {
-    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
     const data = await fetch(DATA_URL).then((res) => res.json());
 
     return Object.keys(data).map((id) => ({
@@ -12,13 +12,13 @@ export async function getStaticPaths() {
     }));
 }
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
 
 const { params, request } = Astro;
 const id = params.id;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
-const raid = data[id];
+const blitz = data[id];
 
 const emoji = {
     Aqua: '💧',
@@ -30,15 +30,15 @@ const emoji = {
     None: '⬜',
 };
 
-if (!raid) {
+if (!blitz) {
     throw Astro.redirect('/404', 302);
 }
 ---
 
-<Layout title={`${raid.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat.HP.toLocaleString()}`}>
-    <div class="raid-page" data-json={JSON.stringify(raid)}>
+<Layout title={`${blitz.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}, HP: ${blitz.stat.HP.toLocaleString()}`}>
+    <div class="blitz-page" data-json={JSON.stringify(blitz)}>
         <div class="header">
-            <h1>{raid.name}</h1>
+            <h1>{blitz.name}</h1>
 
             <Tabs>
                 <button data-tab="mechanic" class="tab active">Mechanic</button>
@@ -48,20 +48,20 @@ if (!raid) {
 
         <div class="content">
             <div class="left">
-                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} alt={raid.name} title={raid.name} width="256" height="256" />
+                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} alt={blitz.name} title={blitz.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
                 <p>
-                    {`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
-                    {`Resist: ${raid.resistTo}${emoji[raid.resistTo]}`}<br />
+                    {`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                    {`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`}<br />
                 </p>
             </div>
 
             <div class="right">
                 <section id="mechanic" class="tab-panel">
                     {
-                        raid.mechanic.map((mechanic) => (
+                        blitz.mechanic.map((mechanic) => (
                             <div class="mechanic">
                                 <div class="mechanic-header">
-                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monsterskill/jointdrill/${mechanic.icon}.png`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monsterskill/bossrush/${mechanic.icon}.png`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
                                     <h3>{mechanic.name}</h3>
                                 </div>
                                 <p>{mechanic.desc}</p>
@@ -71,18 +71,11 @@ if (!raid) {
                 </section>
 
                 <section id="stats" class="tab-panel" hidden>
-                    <div class="slider-container">
-                        <div class="slider difficulty">
-                            <label class="difficulty-output">Diff: {raid.diff[0].name}</label>
-                            <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value="0" />
-                        </div>
-                    </div>
-
                     <div class="stats">
                         <h2>Stats</h2>
                         <p>
                             {
-                                Object.entries(raid.diff[0].stat).map(([stat, value]) => (
+                                Object.entries(blitz.stat).map(([stat, value]) => (
                                     <>
                                         {stat}: {value.toLocaleString()}
                                         <br />
@@ -98,29 +91,18 @@ if (!raid) {
 
     <script>
         // @ts-nocheck
-        const raid = JSON.parse(document.querySelector('.raid-page').dataset.json);
-
-        const difficultyInput = document.querySelector('#difficulty');
-        const difficultyOutput = document.querySelector('.difficulty-output');
-        const stats = document.querySelector('.stats p');
-
-        let difficulty = 0;
-
-        difficultyInput.addEventListener('input', onDifficultyInput);
-        onDifficultyInput();
-
-        function onDifficultyInput() {
-            difficulty = +difficultyInput.value;
-
-            difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
-            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat)
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}<br />`)
-                .join('')}`;
-        }
+        const mechanicDesc = document.querySelectorAll('.mechanic p');
+        mechanicDesc.forEach((desc) => {
+            desc.innerHTML = desc.textContent
+                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                .replace(/\u000b/g, '<br />')
+                .replace(/##/g, '<b>')
+                .replace(/#.{4}#/g, '</b>');
+        });
     </script>
 
     <style>
-        .raid-page {
+        .blitz-page {
             padding: 0 1rem;
         }
 

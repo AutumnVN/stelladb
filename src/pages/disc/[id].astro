@@ -71,6 +71,7 @@ if (!disc) {
                         ))
                     }
                 </p>
+                <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${disc.name.replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
             </div>
 
             <div class="right">
@@ -447,6 +448,15 @@ if (!disc) {
 
         .left {
             width: 256px;
+        }
+
+        .wiki {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem;
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 600;
         }
 
         .right {

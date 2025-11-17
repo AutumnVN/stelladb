@@ -78,12 +78,12 @@ if (!char) {
                 <section id="details" class="tab-panel">
                     <div class="slider-container">
                         <div class="slider upgrade1">
-                            <label class="upgrade1-output">Upgrade: 0</label>
+                            <label class="upgrade1-output">Upgrade: 8</label>
                             <input type="range" id="upgrade1" min="0" max="8" value="8" />
                         </div>
 
                         <div class="slider level">
-                            <label class="level-output">Level: 1</label>
+                            <label class="level-output">Level: 90</label>
                             <input type="range" id="level" min="0" max="10" value="10" />
                         </div>
                     </div>
@@ -91,8 +91,8 @@ if (!char) {
                     <div class="stats">
                         <h2>Stats</h2>
                         <p>
-                            HP: {char.stat[0].hp.toLocaleString()}<br />
-                            ATK: {char.stat[0].atk.toLocaleString()}<br />
+                            HP: {char.stat[97].hp.toLocaleString()}<br />
+                            ATK: {char.stat[97].atk.toLocaleString()}<br />
                         </p>
                         <p>other stats doesnt change, dont care</p>
                     </div>
@@ -102,14 +102,7 @@ if (!char) {
                         <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
                         <div class="item-image"></div>
                         <p>
-                            {
-                                Object.entries(char.upgrade[0]).map(([item, amount]) => (
-                                    <>
-                                        {item}: {amount.toLocaleString()}
-                                        <br />
-                                    </>
-                                ))
-                            }
+                            Max upgrade reached<br />
                         </p>
                     </div>
                 </section>
@@ -175,14 +168,7 @@ if (!char) {
                         <label class="cumulative"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
                         <div class="item-image"></div>
                         <p>
-                            {
-                                Object.entries(char.skillUpgrade[0]).map(([item, amount]) => (
-                                    <>
-                                        {item}: {amount.toLocaleString()}
-                                        <br />
-                                    </>
-                                ))
-                            }
+                            Max upgrade reached<br />
                         </p>
                     </div>
                 </section>

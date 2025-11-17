@@ -78,17 +78,17 @@ if (!disc) {
                 <section id="details" class="tab-panel">
                     <div class="slider-container">
                         <div class="slider upgrade1">
-                            <label class="upgrade1-output">Upgrade: 0</label>
+                            <label class="upgrade1-output">Upgrade: 8</label>
                             <input type="range" id="upgrade1" min="0" max="8" value="8" />
                         </div>
 
                         <div class="slider level">
-                            <label class="level-output">Level: 1</label>
+                            <label class="level-output">Level: 90</label>
                             <input type="range" id="level" min="0" max="10" value="10" />
                         </div>
 
                         <div class="slider dupe1">
-                            <label class="dupe1-output">Dupe: 0</label>
+                            <label class="dupe1-output">Dupe: 6</label>
                             <input type="range" id="dupe1" min="1" max="6" value="6" />
                         </div>
                     </div>
@@ -97,9 +97,9 @@ if (!disc) {
                         <h2>Stats</h2>
                         <p>
                             {
-                                Object.entries(disc.stat[0]).map(([stat, value]) => (
+                                Object.entries(disc.stat[97]).map(([stat, value]) => (
                                     <>
-                                        {stat}: {value.toLocaleString()}
+                                        {`${stat}: ${(stat === 'ATK' ? value + disc.dupe[4].ATK : value).toLocaleString()}`}
                                         <br />
                                     </>
                                 ))
@@ -112,14 +112,7 @@ if (!disc) {
                         <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
                         <div class="item-image"></div>
                         <p>
-                            {
-                                Object.entries(disc.upgrade[0]).map(([item, amount]) => (
-                                    <>
-                                        {item}: {amount.toLocaleString()}
-                                        <br />
-                                    </>
-                                ))
-                            }
+                            Max upgrade reached<br />
                         </p>
                     </div>
                 </section>
@@ -127,7 +120,7 @@ if (!disc) {
                 <section id="melody" class="tab-panel" hidden>
                     <div class="slider-container">
                         <div class="slider dupe2">
-                            <label class="dupe2-output">Dupe: 0</label>
+                            <label class="dupe2-output">Dupe: 6</label>
                             <input type="range" id="dupe2" min="1" max="6" value="6" />
                         </div>
                     </div>

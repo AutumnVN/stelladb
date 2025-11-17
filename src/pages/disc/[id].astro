@@ -79,17 +79,17 @@ if (!disc) {
                     <div class="slider-container">
                         <div class="slider upgrade1">
                             <label class="upgrade1-output">Upgrade: 0</label>
-                            <input type="range" id="upgrade1" min="0" max="8" value="0" />
+                            <input type="range" id="upgrade1" min="0" max="8" value="8" />
                         </div>
 
                         <div class="slider level">
                             <label class="level-output">Level: 1</label>
-                            <input type="range" id="level" min="0" max="10" value="1" />
+                            <input type="range" id="level" min="0" max="10" value="10" />
                         </div>
 
                         <div class="slider dupe1">
                             <label class="dupe1-output">Dupe: 0</label>
-                            <input type="range" id="dupe1" min="1" max="6" value="1" />
+                            <input type="range" id="dupe1" min="1" max="6" value="6" />
                         </div>
                     </div>
 
@@ -109,6 +109,7 @@ if (!disc) {
 
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
+                        <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
                         <div class="item-image"></div>
                         <p>
                             {
@@ -127,7 +128,7 @@ if (!disc) {
                     <div class="slider-container">
                         <div class="slider dupe2">
                             <label class="dupe2-output">Dupe: 0</label>
-                            <input type="range" id="dupe2" min="1" max="6" value="1" />
+                            <input type="range" id="dupe2" min="1" max="6" value="6" />
                         </div>
                     </div>
 
@@ -149,7 +150,7 @@ if (!disc) {
                             <div class="slider-container">
                                 <div class="slider harmony-level">
                                     <label class="harmony-level-output">Harmony level: 0</label>
-                                    <input type="range" id="harmony-level" min="1" max="5" value="1" />
+                                    <input type="range" id="harmony-level" min="1" max="5" value="5" />
                                 </div>
                             </div>
 
@@ -202,7 +203,7 @@ if (!disc) {
                     <div class="slider-container">
                         <div class="slider upgrade2">
                             <label class="upgrade2-output">Upgrade: 0</label>
-                            <input type="range" id="upgrade2" min="0" max="8" value="0" />
+                            <input type="range" id="upgrade2" min="0" max="8" value="8" />
                         </div>
                     </div>
 
@@ -239,6 +240,7 @@ if (!disc) {
         const stats = document.querySelector('.stats p');
         const upgradeCost = document.querySelector('.upgrade-cost p');
         const upgradeCostItemImage = document.querySelector('.upgrade-cost .item-image');
+        const cumulativeUpgrade = document.querySelector('#cumulative-upgrade');
 
         let upgrade1 = 0;
         let level = 1;
@@ -247,6 +249,7 @@ if (!disc) {
         upgrade1Input.addEventListener('input', onDetailsInput);
         levelInput.addEventListener('input', onDetailsInput);
         dupe1Input.addEventListener('input', onDetailsInput);
+        cumulativeUpgrade.addEventListener('change', onDetailsInput);
         onDetailsInput();
 
         function onDetailsInput() {
@@ -266,25 +269,43 @@ if (!disc) {
             stats.innerHTML = Object.entries(stat)
                 .map(([stat, value]) => `${stat}: ${(stat === 'ATK' && dupe1 > 1 ? value + disc.dupe[dupe1 - 2].ATK : value).toLocaleString()}`)
                 .join('<br />');
-            upgradeCost.innerHTML = `
-                ${
-                    upgrade1 >= 8
-                        ? 'Max upgrade reached<br />'
-                        : Object.entries(disc.upgrade[upgrade1])
-                              .map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`)
-                              .join('')
+            if (upgrade1 >= 8) {
+                upgradeCost.innerHTML = 'Max upgrade reached<br />';
+                upgradeCostItemImage.innerHTML = '';
+            } else {
+                let totals = {};
+                if (cumulativeUpgrade.checked && upgrade1 >= 1) {
+                    for (let i = 1; i <= upgrade1; i++) {
+                        Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                } else {
+                    Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
+                        totals[item] = (totals[item] || 0) + amount;
+                    });
                 }
-            `;
-            upgradeCostItemImage.innerHTML = `${
-                upgrade1 >= 8
-                    ? ''
-                    : Object.entries(disc.upgrade[upgrade1])
-                          .map(([item, amount]) => {
-                              const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
-                              return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
-                          })
-                          .join('')
-            }`;
+
+                const sorted = sortByItemId(totals);
+
+                upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+                upgradeCostItemImage.innerHTML = sorted
+                    .map(([item]) => {
+                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
+                        return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
+                    })
+                    .join('');
+            }
+        }
+
+        function sortByItemId(totals) {
+            return Object.entries(totals).sort((a, b) => {
+                const ida = itemId[a[0]];
+                const idb = itemId[b[0]];
+                if (ida === 1) return 1;
+                if (idb === 1) return -1;
+                return ida - idb;
+            });
         }
 
         const dupe2Input = document.querySelector('#dupe2');
@@ -510,6 +531,19 @@ if (!disc) {
             align-items: center;
             gap: 1rem;
             margin-left: 1rem;
+        }
+
+        .cumulative {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .cumulative input {
+            height: 1rem;
+            width: 1rem;
+            accent-color: var(--accent);
         }
 
         div[class] > p,

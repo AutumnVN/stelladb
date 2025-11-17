@@ -79,12 +79,12 @@ if (!char) {
                     <div class="slider-container">
                         <div class="slider upgrade1">
                             <label class="upgrade1-output">Upgrade: 0</label>
-                            <input type="range" id="upgrade1" min="0" max="8" value="0" />
+                            <input type="range" id="upgrade1" min="0" max="8" value="8" />
                         </div>
 
                         <div class="slider level">
                             <label class="level-output">Level: 1</label>
-                            <input type="range" id="level" min="0" max="10" value="1" />
+                            <input type="range" id="level" min="0" max="10" value="10" />
                         </div>
                     </div>
 
@@ -99,6 +99,7 @@ if (!char) {
 
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
+                        <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
                         <div class="item-image"></div>
                         <p>
                             {
@@ -117,11 +118,11 @@ if (!char) {
                     <div class="slider-container">
                         <div class="slider upgrade2">
                             <label class="upgrade2-output">Upgrade: 0</label>
-                            <input type="range" id="upgrade2" min="0" max="8" value="0" />
+                            <input type="range" id="upgrade2" min="0" max="8" value="8" />
                         </div>
                         <div class="slider skill-level1">
                             <label class="skill-level1-output">Skill level: 1</label>
-                            <input type="range" id="skill-level1" min="1" max="13" value="1" />
+                            <input type="range" id="skill-level1" min="1" max="13" value="10" />
                         </div>
                     </div>
 
@@ -171,6 +172,7 @@ if (!char) {
 
                     <div class="skill-upgrade-cost">
                         <h2>Next skill upgrade cost</h2>
+                        <label class="cumulative"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
                         <div class="item-image"></div>
                         <p>
                             {
@@ -189,11 +191,11 @@ if (!char) {
                     <div class="slider-container">
                         <div class="slider potential-level">
                             <label class="potential-level-output">Potential level: 1</label>
-                            <input type="range" id="potential-level" min="1" max="9" value="1" />
+                            <input type="range" id="potential-level" min="1" max="9" value="6" />
                         </div>
                         <div class="slider skill-level2">
                             <label class="skill-level2-output">Skill level: 1</label>
-                            <input type="range" id="skill-level2" min="1" max="13" value="1" />
+                            <input type="range" id="skill-level2" min="1" max="13" value="10" />
                         </div>
                     </div>
 
@@ -363,12 +365,14 @@ if (!char) {
         const stats = document.querySelector('.stats p');
         const upgradeCost = document.querySelector('.upgrade-cost p');
         const upgradeCostItemImage = document.querySelector('.upgrade-cost .item-image');
+        const cumulativeUpgrade = document.querySelector('#cumulative-upgrade');
 
         let upgrade1;
         let level;
 
         upgrade1Input.addEventListener('input', onDetailsInput);
         levelInput.addEventListener('input', onDetailsInput);
+        cumulativeUpgrade.addEventListener('change', onDetailsInput);
         onDetailsInput();
 
         function onDetailsInput() {
@@ -384,25 +388,43 @@ if (!char) {
                 HP: ${char.stat[level + upgrade1 - 1].hp.toLocaleString()}<br />
                 ATK: ${char.stat[level + upgrade1 - 1].atk.toLocaleString()}<br />
             `;
-            upgradeCost.innerHTML = `
-                ${
-                    upgrade1 >= 8
-                        ? 'Max upgrade reached<br />'
-                        : Object.entries(char.upgrade[upgrade1])
-                              .map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`)
-                              .join('')
+            if (upgrade1 >= 8) {
+                upgradeCost.innerHTML = 'Max upgrade reached<br />';
+                upgradeCostItemImage.innerHTML = '';
+            } else {
+                let totals = {};
+                if (cumulativeUpgrade.checked && upgrade1 >= 1) {
+                    for (let i = 1; i <= upgrade1; i++) {
+                        Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                } else {
+                    Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
+                        totals[item] = (totals[item] || 0) + amount;
+                    });
                 }
-            `;
-            upgradeCostItemImage.innerHTML = `${
-                upgrade1 >= 8
-                    ? ''
-                    : Object.entries(char.upgrade[upgrade1])
-                          .map(([item, amount]) => {
-                              const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
-                              return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
-                          })
-                          .join('')
-            }`;
+
+                const sorted = sortByItemId(totals);
+
+                upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+                upgradeCostItemImage.innerHTML = sorted
+                    .map(([item]) => {
+                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
+                        return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
+                    })
+                    .join('');
+            }
+        }
+
+        function sortByItemId(totals) {
+            return Object.entries(totals).sort((a, b) => {
+                const ida = itemId[a[0]];
+                const idb = itemId[b[0]];
+                if (ida === 1) return 1;
+                if (idb === 1) return -1;
+                return ida - idb;
+            });
         }
 
         const upgrade2Input = document.querySelector('#upgrade2');
@@ -415,12 +437,14 @@ if (!char) {
         const ultimate = document.querySelector('.ultimate p');
         const skillUpgradeCost = document.querySelector('.skill-upgrade-cost p');
         const skillUpgradeItemImage = document.querySelector('.skill-upgrade-cost .item-image');
+        const cumulativeSkill = document.querySelector('#cumulative-skill');
 
         let upgrade2;
         let skillLevel;
 
         upgrade2Input.addEventListener('input', onSkillsInput);
         skillLevel1Input.addEventListener('input', onSkillsInput);
+        cumulativeSkill.addEventListener('change', onSkillsInput);
         onSkillsInput();
 
         function onSkillsInput() {
@@ -436,25 +460,33 @@ if (!char) {
             skill.innerHTML = replaceSkillParams(char.skill.desc, char.skill.params, upgrade2, skillLevel);
             supportSkill.innerHTML = replaceSkillParams(char.supportSkill.desc, char.supportSkill.params, upgrade2, skillLevel);
             ultimate.innerHTML = replaceSkillParams(char.ultimate.desc, char.ultimate.params, upgrade2, skillLevel);
-            skillUpgradeCost.innerHTML = `
-                ${
-                    skillLevel >= 10
-                        ? 'Max skill level reached<br />'
-                        : Object.entries(char.skillUpgrade[skillLevel - 1])
-                              .map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`)
-                              .join('')
+            if (skillLevel >= 10) {
+                skillUpgradeCost.innerHTML = 'Max skill level reached<br />';
+                skillUpgradeItemImage.innerHTML = '';
+            } else {
+                let totals = {};
+                if (cumulativeSkill.checked) {
+                    for (let i = 0; i <= skillLevel - 1; i++) {
+                        Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                } else {
+                    Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
+                        totals[item] = (totals[item] || 0) + amount;
+                    });
                 }
-            `;
-            skillUpgradeItemImage.innerHTML = `${
-                skillLevel >= 10
-                    ? ''
-                    : Object.entries(char.skillUpgrade[skillLevel - 1])
-                          .map(([item, amount]) => {
-                              const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
-                              return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
-                          })
-                          .join('')
-            }`;
+
+                const sorted = sortByItemId(totals);
+
+                skillUpgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+                skillUpgradeItemImage.innerHTML = sorted
+                    .map(([item]) => {
+                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
+                        return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
+                    })
+                    .join('');
+            }
         }
 
         function replaceSkillParams(desc, params, upgrade, level) {
@@ -654,6 +686,19 @@ if (!char) {
 
         .skill-header ~ h3 {
             margin-left: 1rem;
+        }
+
+        .cumulative {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .cumulative input {
+            height: 1rem;
+            width: 1rem;
+            accent-color: var(--accent);
         }
 
         .potential-image {

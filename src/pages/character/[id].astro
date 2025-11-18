@@ -103,6 +103,14 @@ if (!char) {
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
+                            {
+                                Object.entries(char.upgrade[7]).map(([item, amount]) => (
+                                    <>
+                                        {item}: {amount.toLocaleString()}
+                                        <br />
+                                    </>
+                                ))
+                            }
                         </p>
                     </div>
                 </section>
@@ -169,6 +177,14 @@ if (!char) {
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
+                            {
+                                Object.entries(char.skillUpgrade[8]).map(([item, amount]) => (
+                                    <>
+                                        {item}: {amount.toLocaleString()}
+                                        <br />
+                                    </>
+                                ))
+                            }
                         </p>
                     </div>
                 </section>
@@ -374,33 +390,31 @@ if (!char) {
                 HP: ${char.stat[level + upgrade1 - 1].hp.toLocaleString()}<br />
                 ATK: ${char.stat[level + upgrade1 - 1].atk.toLocaleString()}<br />
             `;
-            if (upgrade1 >= 8) {
-                upgradeCost.innerHTML = 'Max upgrade reached<br />';
-                upgradeCostItemImage.innerHTML = '';
-            } else {
-                let totals = {};
-                if (cumulativeUpgrade.checked && upgrade1 >= 1) {
-                    for (let i = 1; i <= upgrade1; i++) {
-                        Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
-                            totals[item] = (totals[item] || 0) + amount;
-                        });
-                    }
-                } else {
-                    Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
+            if (upgrade1 >= 7) upgrade1 = 7;
+
+            let totals = {};
+            if (cumulativeUpgrade.checked && upgrade1 >= 1) {
+                for (let i = 1; i <= upgrade1; i++) {
+                    Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
                         totals[item] = (totals[item] || 0) + amount;
                     });
                 }
-
-                const sorted = sortByItemId(totals);
-
-                upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
-                upgradeCostItemImage.innerHTML = sorted
-                    .map(([item]) => {
-                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
-                        return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
-                    })
-                    .join('');
+            } else {
+                Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
+                    totals[item] = (totals[item] || 0) + amount;
+                });
             }
+
+            const sorted = sortByItemId(totals);
+
+            upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+            if (+upgrade1Input.value > 7) upgradeCost.innerHTML = 'Max upgrade reached<br />' + upgradeCost.innerHTML;
+            upgradeCostItemImage.innerHTML = sorted
+                .map(([item]) => {
+                    const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
+                    return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
+                })
+                .join('');
         }
 
         function sortByItemId(totals) {
@@ -446,33 +460,31 @@ if (!char) {
             skill.innerHTML = replaceSkillParams(char.skill.desc, char.skill.params, upgrade2, skillLevel);
             supportSkill.innerHTML = replaceSkillParams(char.supportSkill.desc, char.supportSkill.params, upgrade2, skillLevel);
             ultimate.innerHTML = replaceSkillParams(char.ultimate.desc, char.ultimate.params, upgrade2, skillLevel);
-            if (skillLevel >= 10) {
-                skillUpgradeCost.innerHTML = 'Max skill level reached<br />';
-                skillUpgradeItemImage.innerHTML = '';
-            } else {
-                let totals = {};
-                if (cumulativeSkill.checked) {
-                    for (let i = 0; i <= skillLevel - 1; i++) {
-                        Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
-                            totals[item] = (totals[item] || 0) + amount;
-                        });
-                    }
-                } else {
-                    Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
+
+            if (skillLevel >= 9) skillLevel = 9;
+            let totals = {};
+            if (cumulativeSkill.checked) {
+                for (let i = 0; i <= skillLevel - 1; i++) {
+                    Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
                         totals[item] = (totals[item] || 0) + amount;
                     });
                 }
-
-                const sorted = sortByItemId(totals);
-
-                skillUpgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
-                skillUpgradeItemImage.innerHTML = sorted
-                    .map(([item]) => {
-                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
-                        return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
-                    })
-                    .join('');
+            } else {
+                Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
+                    totals[item] = (totals[item] || 0) + amount;
+                });
             }
+
+            const sorted = sortByItemId(totals);
+
+            skillUpgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+            if (+skillLevel1Input.value > 9) skillUpgradeCost.innerHTML = 'Max upgrade reached<br />' + skillUpgradeCost.innerHTML;
+            skillUpgradeItemImage.innerHTML = sorted
+                .map(([item]) => {
+                    const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
+                    return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
+                })
+                .join('');
         }
 
         function replaceSkillParams(desc, params, upgrade, level) {

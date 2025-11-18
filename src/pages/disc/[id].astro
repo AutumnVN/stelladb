@@ -113,6 +113,14 @@ if (!disc) {
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
+                            {
+                                Object.entries(disc.upgrade[7]).map(([item, amount]) => (
+                                    <>
+                                        {`${item}: ${amount.toLocaleString()}`}
+                                        <br />
+                                    </>
+                                ))
+                            }
                         </p>
                     </div>
                 </section>
@@ -262,33 +270,31 @@ if (!disc) {
             stats.innerHTML = Object.entries(stat)
                 .map(([stat, value]) => `${stat}: ${(stat === 'ATK' && dupe1 > 1 ? value + disc.dupe[dupe1 - 2].ATK : value).toLocaleString()}`)
                 .join('<br />');
-            if (upgrade1 >= 8) {
-                upgradeCost.innerHTML = 'Max upgrade reached<br />';
-                upgradeCostItemImage.innerHTML = '';
-            } else {
-                let totals = {};
-                if (cumulativeUpgrade.checked && upgrade1 >= 1) {
-                    for (let i = 1; i <= upgrade1; i++) {
-                        Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
-                            totals[item] = (totals[item] || 0) + amount;
-                        });
-                    }
-                } else {
-                    Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
+            if (upgrade1 >= 7) upgrade1 = 7;
+
+            let totals = {};
+            if (cumulativeUpgrade.checked && upgrade1 >= 1) {
+                for (let i = 1; i <= upgrade1; i++) {
+                    Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
                         totals[item] = (totals[item] || 0) + amount;
                     });
                 }
-
-                const sorted = sortByItemId(totals);
-
-                upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
-                upgradeCostItemImage.innerHTML = sorted
-                    .map(([item]) => {
-                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
-                        return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
-                    })
-                    .join('');
+            } else {
+                Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
+                    totals[item] = (totals[item] || 0) + amount;
+                });
             }
+
+            const sorted = sortByItemId(totals);
+
+            upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+            if (+upgrade1Input.value > 7) upgradeCost.innerHTML = 'Max upgrade reached<br />' + upgradeCost.innerHTML;
+            upgradeCostItemImage.innerHTML = sorted
+                .map(([item]) => {
+                    const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${itemId[item]}.png`;
+                    return `<img src="${imageUrl}" alt="${item}" title="${item}" width="64" height="64" />`;
+                })
+                .join('');
         }
 
         function sortByItemId(totals) {

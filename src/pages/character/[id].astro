@@ -588,7 +588,7 @@ if (!char) {
         dateItemImages.forEach((e, i) => {
             const date = char.date[i];
             const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/datingeventcg/DatingSPCG_${date.id}.png`;
-            e.innerHTML = `<img src="${imageUrl}" alt="${date.clueItem}" title="${date.clueItem}" width="128" height="128" />`;
+            e.innerHTML = `<img src="${imageUrl}" alt="${date.name}" title="${date.name}" width="128" height="128" />`;
         });
     </script>
 

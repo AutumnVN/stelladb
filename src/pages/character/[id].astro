@@ -171,6 +171,17 @@ if (!char) {
                         {!char.ultimate.effectType.length ? null : <p>Effect type: {char.ultimate.effectType.join(', ')}</p>}
                     </div>
 
+                    {
+                        char.special && (
+                            <div class="special">
+                                <h2>Special: {char.special.name}</h2>
+                                <p>Type: {char.special.type}</p>
+                                <p>Params: {char.special.params}</p>
+                                <p>Damage type: {char.special.damageType}</p>
+                            </div>
+                        )
+                    }
+
                     <div class="skill-upgrade-cost">
                         <h2>Next skill upgrade cost</h2>
                         <label class="cumulative"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>

@@ -18,7 +18,7 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         <meta name="google-site-verification" content="QnPzHT-3k8oi0acqMvSozJjSGyAgimpbAop5WpEQ_Oc" />
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta name="theme-color" content="#00a9ff" />
+        <meta name="theme-color" content="#66ff99" />
         <meta property="og:site_name" content="stelladb.pages.dev" />
         <link rel="canonical" href={Astro.url.href} />
         <meta property="og:image" content={image} />
@@ -34,6 +34,12 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
                 <a href="/blitz">B.Blitz</a>
                 <a href="/banner">Banner</a>
                 <a href="/emblem">Emblem</a>
+                <!-- <details>
+                    <summary>Tools</summary>
+                    <div>
+                        <a href="/404">placeholder</a>
+                    </div>
+                </details> -->
             </div>
         </nav>
 
@@ -120,6 +126,41 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
 
     .navlinks a {
         padding: 0.5rem 0.5rem;
+    }
+
+    .navlinks details {
+        position: relative;
+    }
+
+    .navlinks summary {
+        cursor: pointer;
+        padding: 0.5rem;
+        color: var(--muted);
+        list-style: none;
+    }
+
+    .navlinks summary:hover {
+        color: var(--text);
+    }
+
+    .navlinks details[open] summary {
+        color: var(--text);
+    }
+
+    .navlinks details[open] div {
+        position: absolute;
+        right: 0;
+        top: calc(var(--nav-height) - 1rem);
+        background: var(--bg2);
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        width: max-content;
+        padding: 0.25rem 0;
+    }
+
+    .navlinks details[open] a {
+        padding: 0.5rem 0.75rem;
     }
 
     main {

@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import Tabs from '../../components/Tabs.astro';
 
 export async function getStaticPaths() {
-    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/ground.json';
     const data = await fetch(DATA_URL).then((res) => res.json());
 
     return Object.keys(data).map((id) => ({
@@ -12,13 +12,13 @@ export async function getStaticPaths() {
     }));
 }
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/ground.json';
 
 const { params, request } = Astro;
 const id = params.id;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
-const raid = data[id];
+const ground = data[id];
 
 const emoji = {
     Aqua: '💧',
@@ -30,15 +30,15 @@ const emoji = {
     None: '⬜',
 };
 
-if (!raid) {
+if (!ground) {
     throw Astro.redirect('/404', 302);
 }
 ---
 
-<Layout title={`${raid.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat.HP.toLocaleString()}`}>
-    <div class="raid-page" data-json={JSON.stringify(raid)}>
+<Layout title={`${ground.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${ground.icon}.png`} description={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${ground.resistTo}${emoji[ground.resistTo]}, Last diff HP: ${ground.diff[ground.diff.length - 1].stat.HP.toLocaleString()}`}>
+    <div class="ground-page" data-json={JSON.stringify(ground)}>
         <div class="header">
-            <h1>{raid.name}</h1>
+            <h1>{ground.name}</h1>
 
             <Tabs>
                 <button data-tab="mechanic" class="tab active">Mechanic</button>
@@ -48,20 +48,20 @@ if (!raid) {
 
         <div class="content">
             <div class="left">
-                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} alt={raid.name} title={raid.name} width="256" height="256" />
+                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${ground.icon}.png`} alt={ground.name} title={ground.name} width="256" height="256" />
                 <p>
-                    {`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
-                    {`Resist: ${raid.resistTo}${emoji[raid.resistTo]}`}<br />
+                    {`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                    {`Resist: ${ground.resistTo}${emoji[ground.resistTo]}`}<br />
                 </p>
             </div>
 
             <div class="right">
                 <section id="mechanic" class="tab-panel">
                     {
-                        raid.mechanic.map((mechanic) => (
+                        ground.mechanic.map((mechanic) => (
                             <div class="mechanic">
                                 <div class="mechanic-header">
-                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monsterskill/jointdrill/${mechanic.icon}.png`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
+                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monsterskill/regionaffix/${mechanic.icon}.png`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
                                     <h3>{mechanic.name}</h3>
                                 </div>
                                 <p>{mechanic.desc}</p>
@@ -73,8 +73,8 @@ if (!raid) {
                 <section id="stats" class="tab-panel" hidden>
                     <div class="slider-container">
                         <div class="slider difficulty">
-                            <label class="difficulty-output">Diff: {raid.diff[raid.diff.length - 1].name}</label>
-                            <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
+                            <label class="difficulty-output">Difficulty: {ground.diff.length}</label>
+                            <input type="range" id="difficulty" min="0" max={ground.diff.length - 1} value={ground.diff.length - 1} />
                         </div>
                     </div>
 
@@ -82,7 +82,7 @@ if (!raid) {
                         <h2>Stats</h2>
                         <p>
                             {
-                                Object.entries(raid.diff[0].stat).map(([stat, value]) => (
+                                Object.entries(ground.diff[0].stat).map(([stat, value]) => (
                                     <>
                                         {stat}: {value.toLocaleString()}
                                         <br />
@@ -98,7 +98,7 @@ if (!raid) {
 
     <script>
         // @ts-nocheck
-        const raid = JSON.parse(document.querySelector('.raid-page').dataset.json);
+        const ground = JSON.parse(document.querySelector('.ground-page').dataset.json);
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
@@ -112,15 +112,15 @@ if (!raid) {
         function onDifficultyInput() {
             difficulty = +difficultyInput.value;
 
-            difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
-            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat)
+            difficultyOutput.innerHTML = `Difficulty: ${difficulty + 1}`;
+            stats.innerHTML = `${Object.entries(ground.diff[difficulty].stat)
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString()}<br />`)
                 .join('')}`;
         }
     </script>
 
     <style>
-        .raid-page {
+        .ground-page {
             padding: 0 1rem;
         }
 

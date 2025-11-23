@@ -24,7 +24,7 @@ const emoji = {
 ---
 
 <Layout title="Boss Blitz | stelladb">
-    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No bosses found.">
+    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
         {
             Object.entries(data).map(([id, blitz]) => (
                 <div class={`card-item ${currentSeason?.LevelGroup?.includes(+id) ? 'current' : ''}`} data-id={id} data-name={blitz.name} data-weakto={blitz.weakTo.join(', ')} data-resistto={blitz.resistTo}>

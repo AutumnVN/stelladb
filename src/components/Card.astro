@@ -22,11 +22,16 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner }
             <p>{desc}</p>
             {desc2 && <p>{desc2}</p>}
         </div>
-        {corner && <img class="corner" src={corner} width="48" height="48" />}
     </a>
+    {corner && <img class="corner" src={corner} width="48" height="48" />}
 </div>
 
 <style>
+    .card-border {
+        display: block;
+        position: relative;
+    }
+
     .card {
         display: block;
         position: relative;
@@ -91,7 +96,8 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner }
 
     .corner {
         position: absolute;
-        top: -5px;
-        left: -5px;
+        top: -4px;
+        left: -4px;
+        pointer-events: none;
     }
 </style>

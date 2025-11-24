@@ -21,7 +21,7 @@ const emoji = {
 ---
 
 <Layout title="Raid | stelladb">
-    <SearchableGrid placeholder="Search boss by id, name, or element..." noResultsText="No boss found.">
+    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
         {
             Object.entries(data).map(([id, raid]) => (
                 <div class="card-item" data-id={id} data-name={raid.name} data-weakto={raid.weakTo.join(', ')} data-resistto={raid.resistTo}>

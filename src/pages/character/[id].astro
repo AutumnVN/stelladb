@@ -14,12 +14,14 @@ export async function getStaticPaths() {
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
+const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
 
 const { params, request } = Astro;
 const id = params.id;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 const itemId = await fetch(ITEM_URL).then((res) => res.json());
+const word = await fetch(WORD_URL).then((res) => res.json());
 const char = data[id];
 
 char.tag.shift();
@@ -41,7 +43,7 @@ if (!char) {
 ---
 
 <Layout title={`${char.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}02_XL.png`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
-    <div class="character-page" data-json={JSON.stringify(char)} data-item={JSON.stringify(itemId)}>
+    <div class="character-page" data-json={JSON.stringify(char)} data-item={JSON.stringify(itemId)} data-word={JSON.stringify(word)}>
         <div class="header">
             <h1>{char.name}</h1>
 
@@ -406,6 +408,30 @@ if (!char) {
         // @ts-nocheck
         const char = JSON.parse(document.querySelector('.character-page').dataset.json);
         const itemId = JSON.parse(document.querySelector('.character-page').dataset.item);
+        const word = JSON.parse(document.querySelector('.character-page').dataset.word);
+
+        function format(desc) {
+            return desc
+                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                .replace(/\u000b/g, '<br />')
+                .replace(/##(.*?)#(\d{1,4})#/g, (match, name, id) => {
+                    let result2 = word[id].desc;
+
+                    word[id].params.forEach((param, index) => {
+                        result2 = result2.replaceAll(`&Param${index + 1}&`, param);
+                    });
+
+                    result2 = result2.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+
+                    return `<span class="tooltip">
+                        ${name}
+                        <div class="tooltip-text">
+                            <b>${name}</b><br />
+                            <p>${result2}</p>
+                        </div>
+                    </span>`;
+                });
+        }
 
         const upgrade1Input = document.querySelector('#upgrade1');
         const upgrade1Output = document.querySelector('.upgrade1-output');
@@ -543,13 +569,7 @@ if (!char) {
                 result = result.replaceAll(`&Param${index + 1}&`, paramValue);
             });
 
-            result = result
-                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                .replace(/\u000b/g, '<br />')
-                .replace(/##/g, '<b>')
-                .replace(/#.{4}#/g, '</b>');
-
-            return result;
+            return format(result);
         }
 
         const potentialLevelInput = document.querySelector('#potential-level');
@@ -583,13 +603,7 @@ if (!char) {
                     result = result.replaceAll(`&Param${index + 1}&`, paramValue);
                 });
 
-                result = result
-                    .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                    .replace(/\u000b/g, '<br />')
-                    .replace(/##/g, '<b>')
-                    .replace(/#.{4}#/g, '</b>');
-
-                e.querySelector('p').innerHTML = result;
+                e.querySelector('p').innerHTML = format(result);
             });
         }
 
@@ -615,13 +629,7 @@ if (!char) {
                     desc = desc.replaceAll(`&Param${index + 1}&`, param);
                 });
 
-                desc = desc
-                    .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                    .replace(/\u000b/g, '<br />')
-                    .replace(/##/g, '<b>')
-                    .replace(/#.{4}#/g, '</b>');
-
-                result += `${desc}<br />`;
+                result += `${format(desc)}<br />`;
             });
 
             e.innerHTML = result;

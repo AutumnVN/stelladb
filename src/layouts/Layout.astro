@@ -50,6 +50,19 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
     </body>
 </html>
 
+<script>
+    // @ts-nocheck
+    const tooltips = document.querySelectorAll('.tooltip');
+
+    for (let i = 0; i < tooltips.length; i++) {
+        tooltips[i].addEventListener('mousemove', (e) => {
+            const tooltip = e.target.querySelector('.tooltip-text');
+            tooltip.style.left = e.pageX + tooltip.clientWidth + 16 < document.body.clientWidth ? e.pageX + 16 + 'px' : document.body.clientWidth - tooltip.clientWidth + 'px';
+            tooltip.style.top = e.pageY + tooltip.clientHeight + 16 < document.body.clientHeight ? e.pageY + 16 + 'px' : document.body.clientHeight - tooltip.clientHeight + 'px';
+        });
+    }
+</script>
+
 <style is:global>
     :root {
         --bg: #111;
@@ -85,6 +98,24 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
 
     button {
         font-family: inherit;
+    }
+
+    .tooltip {
+        font-weight: bold;
+    }
+
+    .tooltip-text {
+        display: none;
+        position: absolute;
+        border-radius: 6px;
+        background: var(--bg2);
+        padding: 1rem;
+        width: 400px;
+        font-weight: normal;
+    }
+
+    .tooltip:hover .tooltip-text {
+        display: block;
     }
 
     @font-face {
@@ -149,15 +180,15 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
     }
 
     .navlinks details[open] div {
-        position: absolute;
-        right: 0;
-        top: calc(var(--nav-height) - 1rem);
-        background: var(--bg2);
-        border-radius: 6px;
         display: flex;
+        position: absolute;
+        top: calc(var(--nav-height) - 1rem);
+        right: 0;
         flex-direction: column;
-        width: max-content;
+        border-radius: 6px;
+        background: var(--bg2);
         padding: 0.25rem 0;
+        width: max-content;
     }
 
     .navlinks details[open] a {

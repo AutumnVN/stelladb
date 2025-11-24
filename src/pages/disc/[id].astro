@@ -14,12 +14,14 @@ export async function getStaticPaths() {
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
+const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
 
 const { params, request } = Astro;
 const id = params.id;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 const itemId = await fetch(ITEM_URL).then((res) => res.json());
+const word = await fetch(WORD_URL).then((res) => res.json());
 const disc = data[id];
 
 const emoji = {
@@ -38,7 +40,7 @@ if (!disc) {
 ---
 
 <Layout title={`${disc.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.png`} description={`${disc.star}⭐ ${disc.element}${emoji[disc.element]} ${disc.tag.join(' ')}`}>
-    <div class="disc-page" data-json={JSON.stringify(disc)} data-item={JSON.stringify(itemId)}>
+    <div class="disc-page" data-json={JSON.stringify(disc)} data-item={JSON.stringify(itemId)} data-word={JSON.stringify(word)}>
         <div class="header">
             <h1>{disc.name}</h1>
 
@@ -231,6 +233,30 @@ if (!disc) {
         // @ts-nocheck
         const disc = JSON.parse(document.querySelector('.disc-page').dataset.json);
         const itemId = JSON.parse(document.querySelector('.disc-page').dataset.item);
+        const word = JSON.parse(document.querySelector('.character-page').dataset.word);
+
+        function format(desc) {
+            return desc
+                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                .replace(/\u000b/g, '<br />')
+                .replace(/##(.*?)#(\d{1,4})#/g, (match, name, id) => {
+                    let result2 = word[id].desc;
+
+                    word[id].params.forEach((param, index) => {
+                        result2 = result2.replaceAll(`&Param${index + 1}&`, param);
+                    });
+
+                    result2 = result2.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+
+                    return `<span class="tooltip">
+                        ${name}
+                        <div class="tooltip-text">
+                            <b>${name}</b><br />
+                            <p>${result2}</p>
+                        </div>
+                    </span>`;
+                });
+        }
 
         const upgrade1Input = document.querySelector('#upgrade1');
         const upgrade1Output = document.querySelector('.upgrade1-output');
@@ -330,13 +356,7 @@ if (!disc) {
                 result = result.replace(`\{${index + 1}\}`, param);
             });
 
-            result = result
-                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                .replace(/\u000b/g, '<br />')
-                .replace(/##/g, '<b>')
-                .replace(/#.{4}#/g, '</b>');
-
-            melody.innerHTML = result;
+            melody.innerHTML = format(result);
         }
 
         if (disc.secondarySkill1) {
@@ -369,13 +389,7 @@ if (!disc) {
                     result1 = result1.replace(`\{${index + 1}\}`, param);
                 });
 
-                result1 = result1
-                    .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                    .replace(/\u000b/g, '<br />')
-                    .replace(/##/g, '<b>')
-                    .replace(/#.{4}#/g, '</b>');
-
-                harmony1.innerHTML = result1;
+                harmony1.innerHTML = format(result1);
 
                 harmony1Req.innerHTML = Object.entries(skill1.requirements[harmonyLevel - 1])
                     .map(([note, amount]) => `${note}: ${amount}`)
@@ -402,13 +416,7 @@ if (!disc) {
                         result2 = result2.replace(`\{${index + 1}\}`, param);
                     });
 
-                    result2 = result2
-                        .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                        .replace(/\u000b/g, '<br />')
-                        .replace(/##/g, '<b>')
-                        .replace(/#.{4}#/g, '</b>');
-
-                    harmony2.innerHTML = result2;
+                    harmony2.innerHTML = format(result2);
 
                     harmony2Req.innerHTML = Object.entries(skill2.requirements[harmonyLevel - 1])
                         .map(([note, amount]) => `${note}: ${amount}`)

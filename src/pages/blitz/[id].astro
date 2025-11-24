@@ -93,11 +93,7 @@ if (!blitz) {
         // @ts-nocheck
         const mechanicDesc = document.querySelectorAll('.mechanic p');
         mechanicDesc.forEach((desc) => {
-            desc.innerHTML = desc.textContent
-                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
-                .replace(/\u000b/g, '<br />')
-                .replace(/##/g, '<b>')
-                .replace(/#.{4}#/g, '</b>');
+            desc.innerHTML = desc.textContent.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
         });
     </script>
 

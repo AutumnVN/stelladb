@@ -17,8 +17,8 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                     <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles_en/icon/gacha/tab_gacha_${id}.png`} alt={banner.name} title={banner.name} width="192" height="96" />
                     <h2>{banner.name}</h2>
                 </div>
-                <p>Rate-up 5⭐: {banner.rateUp5Star.map((charOrDisc) => <a href={`/${charOrDisc.id < 10000 ? 'character' : 'disc'}/${charOrDisc.id}`}>{charOrDisc.name}</a>).reduce((prev, curr) => [prev, ', ', curr])}</p>
-                <p>Rate-up 4⭐: {banner.rateUp4Star.map((charOrDisc) => <a href={`/${charOrDisc.id < 10000 ? 'character' : 'disc'}/${charOrDisc.id}`}>{charOrDisc.name}</a>).reduce((prev, curr) => [prev, ', ', curr])}</p>
+                <p>Rate-up 5⭐: {banner.rateUp5Star.map((charOrDisc) => <a href={`/${charOrDisc.id < 10000 ? 'trekker' : 'disc'}/${charOrDisc.id}`}>{charOrDisc.name}</a>).reduce((prev, curr) => [prev, ', ', curr])}</p>
+                <p>Rate-up 4⭐: {banner.rateUp4Star.map((charOrDisc) => <a href={`/${charOrDisc.id < 10000 ? 'trekker' : 'disc'}/${charOrDisc.id}`}>{charOrDisc.name}</a>).reduce((prev, curr) => [prev, ', ', curr])}</p>
                 {(() => {
                     const option = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'};
                     const start = new Date(banner.startTime).toLocaleString('en-US', option);

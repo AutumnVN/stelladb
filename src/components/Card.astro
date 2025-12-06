@@ -18,7 +18,7 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
     <a href={href} class="card">
-        <div class=`image` style={`background-image: url(${image})${imageFallback ? `, url(${imageFallback})` : ''}; inset: ${inset}px`}></div>
+        <div class="image" style={`background-image: url(${image})${imageFallback ? `, url(${imageFallback})` : ''}; inset: ${inset}px`}></div>
         <div class="text">
             <h2>{name}</h2>
             {desc && <p>{desc}</p>}

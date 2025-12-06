@@ -19,9 +19,12 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="theme-color" content="#66ff99" />
-        <meta property="og:site_name" content="stelladb.pages.dev" />
         <link rel="canonical" href={Astro.url.href} />
+        <meta property="og:site_name" content="stelladb.pages.dev" />
         <meta property="og:image" content={image} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={Astro.url.href} />
         <link rel="sitemap" href="/sitemap-index.xml" />
     </head>
     <body>

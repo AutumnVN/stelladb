@@ -366,8 +366,8 @@ if (!disc) {
 
         function sortByItemId(totals) {
             return Object.entries(totals).sort((a, b) => {
-                const ida = Object.keys(itemData).find((key) => itemData[key].name === a[0]).id;
-                const idb = Object.keys(itemData).find((key) => itemData[key].name === b[0]).id;
+                const ida = Object.values(itemData).find((item) => item.name === a[0]).id;
+                const idb = Object.values(itemData).find((item) => item.name === b[0]).id;
                 if (ida === 1) return 1;
                 if (idb === 1) return -1;
                 return ida - idb;

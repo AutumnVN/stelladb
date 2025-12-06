@@ -638,8 +638,8 @@ if (!char) {
 
         function sortByItemId(totals) {
             return Object.entries(totals).sort((a, b) => {
-                const ida = itemData[a[0]];
-                const idb = itemData[b[0]];
+                const ida = Object.keys(itemData).find((key) => itemData[key].name === a[0]);
+                const idb = Object.keys(itemData).find((key) => itemData[key].name === b[0]);
                 if (ida === 1) return 1;
                 if (idb === 1) return -1;
                 return ida - idb;

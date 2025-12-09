@@ -89,14 +89,18 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         background: var(--bg);
         color: var(--text);
         font-family: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
     }
 
     a {
         color: var(--muted);
         text-decoration: none;
+        transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease;
     }
 
-    a:hover {
+    a:hover,
+    a:focus-visible {
         color: var(--text);
     }
 
@@ -148,32 +152,49 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         top: 0;
         align-items: center;
         z-index: 727;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(8px);
         margin: 0 auto;
         background: var(--bg1a);
-        padding: 0 1rem;
+        padding: 0 1.25rem;
         max-width: 1000px;
         height: var(--nav-height);
+        border-bottom: 1px solid #ffffff10;
     }
 
     .logo {
         margin-right: 1rem;
-        padding: 0.5rem 0.5rem;
+        padding: 0.65rem 0.75rem;
         color: var(--accent);
         font-weight: 700;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         text-decoration: none;
+        letter-spacing: 0.02em;
     }
 
     .navlinks {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 0.5rem;
         margin-left: auto;
     }
 
-    .navlinks a {
-        padding: 0.5rem 0.5rem;
+    .navlinks a,
+    .navlinks summary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.5rem 0.65rem;
+        border-radius: 8px;
+        color: var(--muted);
+    }
+
+    .navlinks a:hover,
+    .navlinks a:focus-visible,
+    .navlinks summary:hover,
+    .navlinks summary:focus-visible {
+        color: var(--text);
+        background: #ffffff0a;
+        outline: none;
     }
 
     .navlinks details {
@@ -182,38 +203,36 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
 
     .navlinks summary {
         cursor: pointer;
-        padding: 0.5rem;
-        color: var(--muted);
         list-style: none;
-    }
-
-    .navlinks summary:hover {
-        color: var(--text);
     }
 
     .navlinks details[open] summary {
         color: var(--text);
+        background: #ffffff12;
     }
 
     .navlinks details[open] div {
         display: flex;
         position: absolute;
-        top: calc(var(--nav-height) - 1rem);
+        top: calc(var(--nav-height) - 0.5rem);
         right: 0;
         flex-direction: column;
-        border-radius: 6px;
+        border-radius: 10px;
         background: var(--bg2);
-        padding: 0.25rem 0;
+        padding: 0.35rem 0;
         width: max-content;
+        box-shadow: 0 12px 28px #0008;
+        border: 1px solid #ffffff14;
     }
 
     .navlinks details[open] a {
-        padding: 0.5rem 0.75rem;
+        padding: 0.6rem 0.9rem;
+        border-radius: 6px;
     }
 
     main {
         margin: auto;
-        padding: 0 1rem;
+        padding: 2rem 1.25rem 3rem;
         max-width: 1000px;
     }
 </style>

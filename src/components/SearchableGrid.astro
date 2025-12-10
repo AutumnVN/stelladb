@@ -63,28 +63,22 @@ const { placeholder = 'Search...', noResultsText = 'No results found.', cardWidt
 <style>
     .search-wrap {
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
     }
 
     input[type='search'] {
         flex: 1 1 auto;
-        border: 1.5px solid #ffffff1f;
-        border-radius: 10px;
+        border: var(--muted) 3px solid;
+        border-radius: 6px;
         background: var(--bg2);
-        padding: 0.85rem 1rem;
+        padding: 0.75rem;
         color: var(--text);
         accent-color: var(--accent);
-        font-size: 1rem;
-        letter-spacing: 0.01em;
-        transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+        font-size: 1.25rem;
     }
 
     input[type='search']:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 8px 18px #0009, 0 0 0 3px #6ff3;
-        background: #ffffff08;
     }
 
     input[type='search']::-webkit-search-cancel-button {
@@ -106,15 +100,14 @@ const { placeholder = 'Search...', noResultsText = 'No results found.', cardWidt
 
     .grid {
         display: grid;
-        gap: 1.1rem;
-        margin-top: 1.25rem;
+        gap: 1rem;
+        margin-top: 1rem;
     }
 
     .no-results {
         margin-top: 2rem;
         color: var(--text);
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         text-align: center;
-        letter-spacing: 0.01em;
     }
 </style>

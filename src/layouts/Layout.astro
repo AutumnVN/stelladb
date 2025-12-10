@@ -89,6 +89,7 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         background: var(--bg);
         color: var(--text);
         font-family: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
+        line-height: 1.3;
     }
 
     a {
@@ -187,7 +188,8 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         list-style: none;
     }
 
-    .navlinks summary:hover {
+    .navlinks summary:hover,
+    .navlinks summary:focus-visible {
         color: var(--text);
     }
 
@@ -205,6 +207,7 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         background: var(--bg2);
         padding: 0.25rem 0;
         width: max-content;
+        box-shadow: 0 12px 28px #0008;
     }
 
     .navlinks details[open] a {

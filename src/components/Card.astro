@@ -86,6 +86,12 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
         background-position: top;
         background-size: cover;
         background-repeat: no-repeat;
+        transform: scale(1);
+        transition: transform ease 0.2s;
+    }
+
+    .card-border:hover .image {
+        transform: scale(1.1);
     }
 
     .text {
@@ -93,8 +99,19 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
         right: 0;
         bottom: 0;
         left: 0;
-        background: #0006;
-        padding: 0.5rem;
+        padding: 0.75rem;
+    }
+
+    .text::before {
+        content: '';
+        position: absolute;
+        inset: -10px -10px -6px -10px;
+        background: linear-gradient(180deg, #0000 0%, #0009 35%, #000d 75%, #000f 100%);
+    }
+
+    .text h2,
+    .text p {
+        position: relative;
     }
 
     .char-info {
@@ -104,6 +121,7 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
         right: 0;
         align-items: center;
         clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 7% 100%);
+        font-weight: 500;
     }
 
     .vanguard {
@@ -129,12 +147,13 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
 
     .card h2 {
         margin: 0;
-        font-size: 1.2rem;
+        font-size: 1.15rem;
     }
 
     .card p {
         margin: 0.25rem 0 0 0;
         font-size: 0.8rem;
+        color: var(--muted);
     }
 
     .corner {

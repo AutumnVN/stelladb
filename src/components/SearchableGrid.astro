@@ -67,9 +67,9 @@ const { placeholder = 'Search...', noResultsText = 'No results found.', cardWidt
 
     input[type='search'] {
         flex: 1 1 auto;
-        border: var(--text) 3px solid;
+        border: var(--muted) 3px solid;
         border-radius: 6px;
-        background: var(--bg1);
+        background: var(--bg2);
         padding: 0.75rem;
         color: var(--text);
         accent-color: var(--accent);
@@ -78,7 +78,7 @@ const { placeholder = 'Search...', noResultsText = 'No results found.', cardWidt
 
     input[type='search']:focus {
         outline: none;
-        border: var(--accent) 3px solid;
+        border-color: var(--accent);
     }
 
     input[type='search']::-webkit-search-cancel-button {
@@ -107,7 +107,7 @@ const { placeholder = 'Search...', noResultsText = 'No results found.', cardWidt
     .no-results {
         margin-top: 2rem;
         color: var(--text);
-        font-size: 2rem;
+        font-size: 1.5rem;
         text-align: center;
     }
 </style>

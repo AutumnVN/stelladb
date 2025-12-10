@@ -499,7 +499,11 @@ if (!disc) {
 
             noteItemImage.innerHTML = `
                 ${Object.entries(disc.supportNote[upgrade1])
-                    .map(([note, amount]) => itemNameToImage(note))
+                    .map(([note, amount]) => {
+                        const item = Object.values(itemData).find((i) => i.name === note);
+                        const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/note/note_${item.id}_S.png`;
+                        return `<img src="${imageUrl}" alt="${note}" title="${note}" width="64" height="64" />`;
+                    })
                     .join('')}
             `;
         }

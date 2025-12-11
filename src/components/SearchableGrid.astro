@@ -63,13 +63,18 @@ const { placeholder = 'Search...', noResultsText = 'No results found.', cardWidt
 <style>
     .search-wrap {
         display: flex;
+        position: sticky;
+        top: var(--nav-height);
+        z-index: 1;
+        background: var(--bg1a);
     }
 
     input[type='search'] {
         flex: 1 1 auto;
+        backdrop-filter: blur(5px);
         border: var(--muted) 3px solid;
         border-radius: 6px;
-        background: var(--bg2);
+        background: var(--bg1a);
         padding: 0.75rem;
         color: var(--text);
         accent-color: var(--accent);

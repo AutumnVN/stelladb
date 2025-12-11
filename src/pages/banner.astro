@@ -98,7 +98,6 @@ const sections = [
                                             class="time-summary"
                                             data-start={banner.startTime}
                                             data-end={banner.endTime}
-                                            data-status={banner.status.toLowerCase()}
                                             data-start-label={banner.startLabel}
                                             data-end-label={banner.endLabel}
                                         />
@@ -169,17 +168,21 @@ const sections = [
     }
 
     function updateTimeSummaries() {
-            const now = new Date();
+        const now = new Date();
 
         document.querySelectorAll('.time-summary').forEach((node) => {
             const start = new Date(node.dataset.start);
             const end = new Date(node.dataset.end);
-            const status = node.dataset.status;
             const startLabel = start.toLocaleString('en-US', dateOptions);
             const endLabel = end.toLocaleString('en-US', dateOptions);
 
             const untilStart = start - now;
             const untilEnd = end - now;
+
+            // Compute status dynamically based on current time
+            let status = 'ongoing';
+            if (now < start) status = 'upcoming';
+            if (now > end) status = 'ended';
 
             if (status === 'upcoming') {
                 node.textContent = `Starts in ${formatCompactRelative(untilStart)}`;

@@ -29,10 +29,11 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
     </head>
     <body>
         <nav>
-            <a href="/" class="logo">stelladb</a>
+            <a href="/" class="logo"><span style="color: #f66">stella</span><span style="color: #eee">db</span>🎄</a>
             <div class="navlinks">
                 <a href="/trekker">Trekker</a>
                 <a href="/disc">Disc</a>
+                <a href="/banner">Banner</a>
                 <details>
                     <summary>Boss</summary>
                     <div>
@@ -41,9 +42,13 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
                         <a href="/ground">Proving Ground</a>
                     </div>
                 </details>
-                <a href="/banner">Banner</a>
-                <a href="/emblem">Emblem</a>
-                <a href="https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950">DMG Formula</a>
+                <details>
+                    <summary>Other</summary>
+                    <div>
+                        <a href="/emblem">Emblem</a>
+                        <a href="https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950">Damage Formula ↗</a>
+                    </div>
+                </details>
             </div>
         </nav>
 
@@ -64,6 +69,25 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
             tooltip.style.top = e.pageY + tooltip.clientHeight + 16 < document.body.clientHeight ? e.pageY + 16 + 'px' : document.body.clientHeight - tooltip.clientHeight + 'px';
         });
     }
+
+    const navDetails = document.querySelectorAll('.navlinks details');
+
+    navDetails.forEach((d) => {
+        d.addEventListener('toggle', () => {
+            if (!d.open) return;
+            navDetails.forEach((other) => {
+                if (other !== d && other.open) other.open = false;
+            });
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (Array.from(navDetails).some((d) => d.contains(e.target))) return;
+
+        navDetails.forEach((d) => {
+            if (d.open) d.open = false;
+        });
+    });
 </script>
 
 <style is:global>
@@ -155,6 +179,7 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         padding: 0 1rem;
         max-width: 1000px;
         height: var(--nav-height);
+        white-space: nowrap;
     }
 
     .logo {

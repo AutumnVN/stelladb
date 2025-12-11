@@ -11,7 +11,7 @@ const trekkerData = await fetch(TREKKER_URL).then((res) => res.json());
 const discData = await fetch(DISC_URL).then((res) => res.json());
 
 const formatShortTime = (time: string) =>
-    new Date(time).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    new Date(time).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 
 const normalizeRarity = (value) => {
     if (typeof value === 'number') return value;
@@ -71,14 +71,13 @@ const sections = [
 <Layout title="Banner | stelladb">
     {sections.map((section) => {
         const list = banners.filter(section.filter);
-        if (!list.length) return null;
 
         return (
-            <section class="banner-section">
+            <section class="banner-section" data-section-type={section.title.toLowerCase()} style={list.length === 0 ? 'display: none;' : ''}>
                 <div class="section-title">{section.title}</div>
                 <div class="banner-list">
                     {list.map((banner) => (
-                        <article class={`banner-card status-${banner.status.toLowerCase()}`}>
+                        <article class={`banner-card status-${banner.status.toLowerCase()}`} data-banner-id={banner.id}>
                             <div class="card-top">
                                 <img
                                     src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles_en/icon/gacha/tab_gacha_${banner.id}.png`}
@@ -173,8 +172,9 @@ const sections = [
         document.querySelectorAll('.time-summary').forEach((node) => {
             const start = new Date(node.dataset.start);
             const end = new Date(node.dataset.end);
-            const startLabel = start.toLocaleString('en-US', dateOptions);
-            const endLabel = end.toLocaleString('en-US', dateOptions);
+            // Use pre-calculated labels from data attributes to preserve hour and minute information
+            const startLabel = node.dataset.startLabel || start.toLocaleString('en-US', dateOptions);
+            const endLabel = node.dataset.endLabel || end.toLocaleString('en-US', dateOptions);
 
             const untilStart = start - now;
             const untilEnd = end - now;
@@ -183,6 +183,41 @@ const sections = [
             let status = 'ongoing';
             if (now < start) status = 'upcoming';
             if (now > end) status = 'ended';
+
+            // Update CSS classes on banner card and status pill to match runtime status
+            const bannerCard = node.closest('.banner-card');
+            const statusPill = bannerCard?.querySelector('.status-pill');
+            
+            if (bannerCard) {
+                // Remove old status class and add new one
+                bannerCard.classList.remove('status-upcoming', 'status-ongoing', 'status-ended');
+                bannerCard.classList.add(`status-${status}`);
+                
+                // Determine which section this banner should be in based on current status
+                let targetSectionType = 'ongoing';
+                if (status === 'ended') targetSectionType = 'ended';
+                
+                // Get current section and target section
+                const currentSection = bannerCard.closest('.banner-section');
+                const targetSection = document.querySelector(`.banner-section[data-section-type="${targetSectionType}"]`);
+                const targetList = targetSection?.querySelector('.banner-list');
+                
+                // Move banner to correct section if status changed and sections exist
+                if (currentSection && targetSection && currentSection !== targetSection && targetList) {
+                    // Only move if not already in the correct section
+                    const currentSectionType = currentSection.dataset.sectionType;
+                    if (currentSectionType !== targetSectionType) {
+                        targetList.appendChild(bannerCard);
+                    }
+                }
+            }
+            
+            if (statusPill) {
+                // Update status pill class and text
+                statusPill.classList.remove('status-upcoming', 'status-ongoing', 'status-ended');
+                statusPill.classList.add(`status-${status}`);
+                statusPill.textContent = status.toUpperCase();
+            }
 
             if (status === 'upcoming') {
                 node.textContent = `Starts in ${formatCompactRelative(untilStart)}`;
@@ -195,6 +230,13 @@ const sections = [
             }
 
             node.textContent = `Ended ${formatCompactRelative(now - end)} ago`;
+        });
+        
+        // Update section visibility based on whether they have banners
+        document.querySelectorAll('.banner-section').forEach((section) => {
+            const list = section.querySelector('.banner-list');
+            const hasBanners = list && list.children.length > 0;
+            section.style.display = hasBanners ? '' : 'none';
         });
     }
 </script>

@@ -1,7 +1,7 @@
 ---
 interface Props {
     href: string;
-    name: string;
+    name?: string;
     desc?: string;
     desc2?: string;
     star?: number;
@@ -9,21 +9,26 @@ interface Props {
     imageFallback?: string;
     inset?: number;
     corner?: string;
+    cornerSize?: number;
     charClass?: string;
     attackType?: string;
 }
 
-const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, charClass, attackType } = Astro.props;
+const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, cornerSize = 48, charClass, attackType } = Astro.props;
 ---
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
     <a href={href} class="card">
         <div class="image" style={`background-image: url(${image})${imageFallback ? `, url(${imageFallback})` : ''}; inset: ${inset}px`}></div>
-        <div class="text">
-            <h2>{name}</h2>
-            {desc && <p>{desc}</p>}
-            {desc2 && <p>{desc2}</p>}
-        </div>
+        {
+            name && (
+                <div class="text">
+                    <h2>{name}</h2>
+                    {desc && <p>{desc}</p>}
+                    {desc2 && <p>{desc2}</p>}
+                </div>
+            )
+        }
         {
             charClass && attackType && (
                 <div class={`char-info ${charClass.toLowerCase()}`}>
@@ -35,7 +40,7 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
             )
         }
     </a>
-    {corner && <img class="corner" src={corner} width="48" height="48" />}
+    {corner && <img class="corner" src={corner} width={cornerSize} height={cornerSize} />}
 </div>
 
 <style>
@@ -86,12 +91,6 @@ const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, 
         background-position: top;
         background-size: cover;
         background-repeat: no-repeat;
-        transform: scale(1);
-        transition: transform ease 0.2s;
-    }
-
-    .card-border:hover .image {
-        transform: scale(1.1);
     }
 
     .text {

@@ -1,425 +1,201 @@
 ---
 // @ts-nocheck
 import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/gacha.json';
-const TREKKER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
-const DISC_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
 
 const data = await fetch(DATA_URL).then((res) => res.json());
-const trekkerData = await fetch(TREKKER_URL).then((res) => res.json());
-const discData = await fetch(DISC_URL).then((res) => res.json());
-
-const formatShortTime = (time: string) =>
-    new Date(time).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-const normalizeRarity = (value) => {
-    if (typeof value === 'number') return value;
-    if (typeof value === 'string') {
-        const map = { SSR: 5, SR: 4, R: 3 };
-        return map[value] ?? 0;
-    }
-    return 0;
-};
-
-const rarityClass = (entry) => {
-    const rarity = normalizeRarity(entry.star ?? entry.rarity ?? entry.rank ?? 0);
-    return rarity ? `mini-${rarity}` : '';
-};
-
-const attachDetails = (entry) => {
-    const isTrekker = entry.id < 10000;
-    const source = isTrekker ? trekkerData : discData;
-    const details = source?.[String(entry.id)] || {};
-
-    return {
-        ...entry,
-        element: entry.element ?? details.element ?? 'None',
-        star: normalizeRarity(entry.star ?? details.star ?? details.rarity ?? details.rank),
-        rarity: normalizeRarity(entry.rarity ?? details.rarity ?? details.rank ?? details.star),
-    };
-};
-
-const now = new Date();
-const banners = Object.entries(data)
-    .map(([id, banner]) => {
-        const start = new Date(banner.startTime);
-        const end = new Date(banner.endTime);
-
-        let status = 'ONGOING';
-        if (now < start) status = 'UPCOMING';
-        if (now > end) status = 'ENDED';
-
-        return {
-            ...banner,
-            id,
-            status,
-            startLabel: formatShortTime(banner.startTime),
-            endLabel: formatShortTime(banner.endTime),
-            rateUp5Star: banner.rateUp5Star.map(attachDetails),
-            rateUp4Star: banner.rateUp4Star.map(attachDetails),
-        };
-    })
-    .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
-
-const sections = [
-    { title: 'ONGOING', filter: (banner) => banner.status === 'ONGOING' || banner.status === 'UPCOMING' },
-    { title: 'ENDED', filter: (banner) => banner.status === 'ENDED' },
-];
 ---
 
 <Layout title="Banner | stelladb">
-    {sections.map((section) => {
-        const list = banners.filter(section.filter);
+    <div class="banner-grid">
+        {
+            Object.entries(data)
+                .sort((a, b) => new Date(b[1].startTime) - new Date(a[1].startTime))
+                .map(([id, banner]) => (
+                    <section class="banner" data-json={JSON.stringify(data[id])}>
+                        <div class="banner-header">
+                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles_en/icon/gacha/tab_gacha_${id}.png`} alt={banner.name} title={banner.name} width="192" height="96" />
+                            <div class="banner-info">
+                                <div class="banner-title">
+                                    <div class="banner-status"> </div>
+                                    <h2>{banner.name}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-time">
+                            <span class="absolute-time"> </span> • <span class="relative-time"> </span>
+                        </div>
+                        <div class="rate-up">
+                            {banner.rateUp5Star.map((cod) => {
+                                const isCharacter = banner.type === 'character';
 
-        return (
-            <section class="banner-section" data-section-type={section.title.toLowerCase()} style={list.length === 0 ? 'display: none;' : ''}>
-                <div class="section-title">{section.title}</div>
-                <div class="banner-list">
-                    {list.map((banner) => (
-                        <article class={`banner-card status-${banner.status.toLowerCase()}`} data-banner-id={banner.id}>
-                            <div class="card-top">
-                                <img
-                                    src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles_en/icon/gacha/tab_gacha_${banner.id}.png`}
-                                    alt={banner.name}
-                                    title={banner.name}
-                                    width="192"
-                                    height="96"
-                                    loading="lazy"
-                                />
-                                <div class="title-block">
-                                    <div class="title-row">
-                    <h2>{banner.name}</h2>
-                                        <span class={`status-pill status-${banner.status.toLowerCase()}`}>{banner.status}</span>
-                                    </div>
-                                    <p class="time-strip">
-                                        <span
-                                            class="time-summary"
-                                            data-start={banner.startTime}
-                                            data-end={banner.endTime}
-                                            data-start-label={banner.startLabel}
-                                            data-end-label={banner.endLabel}
+                                return (
+                                    <div title={cod.name}>
+                                        <Card
+                                            href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`}
+                                            star={5}
+                                            image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/${isCharacter ? `head/head_${cod.id}02_XL.png` : `outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.png`}`}
+                                            inset={isCharacter ? -12 : 0}
+                                            corner={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN//stelladb/refs/heads/main/public/${cod.element}.png`}
+                                            cornerSize={36}
                                         />
-                                    </p>
-                                </div>
-                            </div>
+                                    </div>
+                                );
+                            })}
+                            {banner.rateUp4Star.map((cod) => {
+                                const isCharacter = banner.type === 'character';
 
-                            <div class="banner-grid">
-                                <div class="grid-item">
-                                    <p class="meta-label">Rate-up 5★</p>
-                                    <p class="meta-value">
-                                        {banner.rateUp5Star.map((entry, i) => (
-                                            <>
-                                                {i > 0 ? ', ' : ''}
-                                                <span class="rateup-chip">
-                                                    <span class={`mini-card ${rarityClass(entry)}`}>
-                                                        <span class="mini-icon" style={`background-image: url(/${entry.element || 'None'}.png);`} />
-                                                    </span>
-                                                    <a href={`/${entry.id < 10000 ? 'trekker' : 'disc'}/${entry.id}`}>{entry.name}</a>
-                                                </span>
-                                            </>
-                                        ))}
-                                    </p>
-                                </div>
-                                <div class="grid-item">
-                                    <p class="meta-label">Rate-up 4★</p>
-                                    <p class="meta-value">
-                                        {banner.rateUp4Star.map((entry, i) => (
-                                            <>
-                                                {i > 0 ? ', ' : ''}
-                                                <span class="rateup-chip">
-                                                    <span class={`mini-card ${rarityClass(entry)}`}>
-                                                        <span class="mini-icon" style={`background-image: url(/${entry.element || 'None'}.png);`} />
-                                                    </span>
-                                                    <a href={`/${entry.id < 10000 ? 'trekker' : 'disc'}/${entry.id}`}>{entry.name}</a>
-                                                </span>
-                                            </>
-                                        ))}
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    ))}
-                </div>
-            </section>
-                    );
-    })}
+                                return (
+                                    <div title={cod.name}>
+                                        <Card
+                                            href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`}
+                                            star={4}
+                                            image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/${isCharacter ? `head/head_${cod.id}02_XL.png` : `outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.png`}`}
+                                            inset={isCharacter ? -12 : 0}
+                                            corner={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN//stelladb/refs/heads/main/public/${cod.element}.png`}
+                                            cornerSize={36}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+                ))
+        }
+    </div>
 </Layout>
 
 <script>
     // @ts-nocheck
-    const dateOptions = { month: 'short', day: 'numeric' };
+    document.querySelectorAll('.banner').forEach((banner) => {
+        const data = JSON.parse(banner.dataset.json);
+        const startTime = new Date(data.startTime);
+        const endTime = new Date(data.endTime);
 
-    updateTimeSummaries();
-    setInterval(updateTimeSummaries, 1000);
+        const absoluteTime = banner.querySelector('.absolute-time');
 
-    function formatCompactRelative(diff) {
-        const abs = Math.abs(diff);
-        const seconds = Math.round(abs / 1000);
-        const minutes = Math.round(abs / (60 * 1000));
-        const hours = Math.round(abs / (60 * 60 * 1000));
-        const days = Math.round(abs / (24 * 60 * 60 * 1000));
+        const absOption = { year: 'numeric', month: 'short', day: 'numeric' };
+        absoluteTime.textContent = `${startTime.toLocaleString('en-US', absOption)} → ${endTime.toLocaleString('en-US', absOption)}`;
+    });
 
-        if (seconds < 60) return `${seconds}s`;
-        if (minutes < 60) return `${minutes}m`;
-        if (hours < 48) return `${hours}h`;
-        return `${days}d`;
+    updateStatusAndRelativeTimes();
+    setInterval(updateStatusAndRelativeTimes, 1000);
+
+    function updateStatusAndRelativeTimes() {
+        document.querySelectorAll('.banner').forEach((banner) => {
+            const data = JSON.parse(banner.dataset.json);
+            const now = new Date();
+            const startTime = new Date(data.startTime);
+            const endTime = new Date(data.endTime);
+
+            const bannerStatus = banner.querySelector('.banner-status');
+            const relativeTime = banner.querySelector('.relative-time');
+
+            if (now < startTime) {
+                bannerStatus.textContent = 'Upcoming';
+                bannerStatus.classList.add('upcoming');
+                relativeTime.textContent = `Starts ${formatRelativeTime(startTime)}`;
+            } else if (now >= startTime && now <= endTime) {
+                bannerStatus.textContent = 'Ongoing';
+                bannerStatus.classList.add('ongoing');
+                relativeTime.textContent = `Ends ${formatRelativeTime(endTime)}`;
+            } else {
+                bannerStatus.textContent = 'Ended';
+                bannerStatus.classList.add('ended');
+                relativeTime.textContent = `Ended ${formatRelativeTime(endTime)}`;
+            }
+        });
     }
 
-    function updateTimeSummaries() {
+    function formatRelativeTime(time) {
         const now = new Date();
+        const diff = time - now;
+        const absDiff = Math.abs(diff);
 
-        document.querySelectorAll('.time-summary').forEach((node) => {
-            const start = new Date(node.dataset.start);
-            const end = new Date(node.dataset.end);
-            // Use pre-calculated labels from data attributes to preserve hour and minute information
-            const startLabel = node.dataset.startLabel || start.toLocaleString('en-US', dateOptions);
-            const endLabel = node.dataset.endLabel || end.toLocaleString('en-US', dateOptions);
-
-            const untilStart = start - now;
-            const untilEnd = end - now;
-
-            // Compute status dynamically based on current time
-            let status = 'ongoing';
-            if (now < start) status = 'upcoming';
-            if (now > end) status = 'ended';
-
-            // Update CSS classes on banner card and status pill to match runtime status
-            const bannerCard = node.closest('.banner-card');
-            const statusPill = bannerCard?.querySelector('.status-pill');
-            
-            if (bannerCard) {
-                // Remove old status class and add new one
-                bannerCard.classList.remove('status-upcoming', 'status-ongoing', 'status-ended');
-                bannerCard.classList.add(`status-${status}`);
-                
-                // Determine which section this banner should be in based on current status
-                let targetSectionType = 'ongoing';
-                if (status === 'ended') targetSectionType = 'ended';
-                
-                // Get current section and target section
-                const currentSection = bannerCard.closest('.banner-section');
-                const targetSection = document.querySelector(`.banner-section[data-section-type="${targetSectionType}"]`);
-                const targetList = targetSection?.querySelector('.banner-list');
-                
-                // Move banner to correct section if status changed and sections exist
-                if (currentSection && targetSection && currentSection !== targetSection && targetList) {
-                    // Only move if not already in the correct section
-                    const currentSectionType = currentSection.dataset.sectionType;
-                    if (currentSectionType !== targetSectionType) {
-                        targetList.appendChild(bannerCard);
-                    }
-                }
-            }
-            
-            if (statusPill) {
-                // Update status pill class and text
-                statusPill.classList.remove('status-upcoming', 'status-ongoing', 'status-ended');
-                statusPill.classList.add(`status-${status}`);
-                statusPill.textContent = status.toUpperCase();
-            }
-
-            if (status === 'upcoming') {
-                node.textContent = `Starts in ${formatCompactRelative(untilStart)}`;
-                return;
-            }
-
-            if (status === 'ongoing') {
-                node.textContent = `Started ${startLabel} • Ends in ${formatCompactRelative(untilEnd)}`;
-                return;
-            }
-
-            node.textContent = `Ended ${formatCompactRelative(now - end)} ago`;
-        });
-        
-        // Update section visibility based on whether they have banners
-        document.querySelectorAll('.banner-section').forEach((section) => {
-            const list = section.querySelector('.banner-list');
-            const hasBanners = list && list.children.length > 0;
-            section.style.display = hasBanners ? '' : 'none';
-        });
+        let relativeTime;
+        if (absDiff < 60 * 1000) {
+            relativeTime = `${Math.round(absDiff / 1000)} second${Math.round(absDiff / 1000) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 60 * 60 * 1000) {
+            relativeTime = `${Math.round(absDiff / (60 * 1000))} minute${Math.round(absDiff / (60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 24 * 60 * 60 * 1000) {
+            relativeTime = `${Math.round(absDiff / (60 * 60 * 1000))} hour${Math.round(absDiff / (60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else {
+            relativeTime = `${Math.round(absDiff / (24 * 60 * 60 * 1000))} day${Math.round(absDiff / (24 * 60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        }
+        return relativeTime;
     }
 </script>
 
 <style>
-    .banner-section {
-        margin: 1.5rem 0 2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .section-title {
-        letter-spacing: 0.08em;
-        font-weight: 700;
-        color: var(--muted);
-        font-size: 0.9rem;
-    }
-
-    .banner-list {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .banner-card {
-        border: 1px solid #222;
-        border-radius: 14px;
-        background: #111;
-        padding: 1.25rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .banner-card + .banner-card {
-        border-top: 1px solid #1a1a1a;
-    }
-
-    .card-top {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .title-block {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        min-width: 0;
-    }
-
-    .title-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-    }
-
-    h2 {
-        margin: 0;
-        font-size: 1.6rem;
-        line-height: 1.2;
-    }
-
-    .status-pill {
-        border-radius: 999px;
-        padding: 0.25rem 0.7rem;
-        font-size: 0.8rem;
-        letter-spacing: 0.04em;
-        color: var(--text);
-        background: #1b1b1b;
-        border: none;
-    }
-
-    .status-ongoing .status-pill {
-        background: linear-gradient(120deg, #193422, #122413);
-        color: #c8ffd6;
-    }
-
-    .status-ended .status-pill {
-        background: #1a1a1a;
-        color: var(--muted);
-    }
-
-    .status-upcoming .status-pill {
-        background: linear-gradient(120deg, #1f2c44, #16243a);
-        color: #d6e6ff;
-    }
-
-    .time-strip {
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-        margin: 0;
-        color: var(--muted);
-    }
-
     .banner-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 0.75rem 1.25rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
     }
 
-    .grid-item {
-        border-top: 1px solid #1c1c1c;
-        padding-top: 0.65rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-    }
-
-    .meta-label {
-        margin: 0;
-        font-size: 0.9rem;
-        color: var(--muted);
-        letter-spacing: 0.02em;
-    }
-
-    .meta-value {
-        margin: 0;
-        font-size: 1.05rem;
-        line-height: 1.5;
-    }
-
-    .rateup-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-    }
-
-    .mini-card {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 7px;
-        padding: 2px;
-        background: #0f0f0f;
-        box-sizing: border-box;
-        border: 1px solid #1c1c1c;
-    }
-
-    .mini-card .mini-icon {
-        width: 100%;
-        height: 100%;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        filter: drop-shadow(0 0 0 transparent);
-    }
-
-    /* Reused Trekker rarity visuals (From Card.astro) */
-    .mini-5 {
-        background: linear-gradient(135deg, #d8e, #7ff);
-    }
-
-    .mini-4 {
-        background: linear-gradient(135deg, #fd5, #efc);
-    }
-
-    .mini-3 {
-        background: linear-gradient(135deg, #8ce, #dff);
-    }
-
-    a {
-        color: var(--text);
-    }
-
-    a:hover {
-        color: var(--accent);
-    }
-
-    @media (max-width: 720px) {
+    @media (width < 800px) {
         .banner-grid {
             grid-template-columns: 1fr;
         }
+    }
+    .banner-header {
+        display: flex;
+        align-items: center;
+    }
 
-        .card-top {
-            flex-direction: column;
-            align-items: flex-start;
-        }
+    .banner-title {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .banner-status {
+        width: fit-content;
+        border-radius: 727px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        background: #111;
+        text-transform: uppercase;
+    }
+
+    .upcoming {
+        background: #124;
+        color: #def;
+    }
+
+    .ongoing {
+        background: #132;
+        color: #cfd;
+    }
+
+    .ended {
+        background: #333;
+        color: var(--muted);
+    }
+
+    .banner-time {
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+
+    .rate-up {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 72px);
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin: 0;
+    }
+
+    p {
+        margin: 0;
     }
 </style>

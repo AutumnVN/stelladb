@@ -128,11 +128,15 @@ if (!raid) {
 
         .header {
             display: flex;
+            position: sticky;
+            top: var(--nav-height);
             align-items: center;
+            backdrop-filter: blur(5px);
             margin: 0 auto;
+            background: var(--bg1a);
             padding: 0 1rem;
             max-width: 1000px;
-            height: 64px;
+            height: var(--nav-height);
         }
 
         h1 {
@@ -157,8 +161,8 @@ if (!raid) {
             }
 
             .left {
-                width: 100%;
                 display: flex;
+                width: 100%;
             }
         }
 
@@ -169,7 +173,7 @@ if (!raid) {
 
         .slider-container {
             position: sticky;
-            top: var(--nav-height);
+            top: calc(var(--nav-height) * 2);
             backdrop-filter: blur(5px);
             background: var(--bg1a);
             padding: 1rem;

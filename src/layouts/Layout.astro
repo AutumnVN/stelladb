@@ -6,6 +6,8 @@ export interface Props {
 }
 
 const { title, description = 'a lazy stella sora database', image = 'https://stelladb.pages.dev/nazuna.png' } = Astro.props;
+
+const buildTime = new Date().toISOString();
 ---
 
 <!doctype html>
@@ -57,7 +59,7 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
         </main>
 
         <footer>
-            <p>read if cute • <a href="https://github.com/AutumnVN/stelladb">source code</a></p>
+            <p>last build <span class="build-time" data-time={buildTime}></span> • <a href="https://github.com/AutumnVN/stelladb">source code</a></p>
         </footer>
     </body>
 </html>
@@ -92,6 +94,36 @@ const { title, description = 'a lazy stella sora database', image = 'https://ste
             if (d.open) d.open = false;
         });
     });
+
+    const buildTimeEl = document.querySelector('.build-time');
+    const buildTime = new Date(buildTimeEl.dataset.time);
+
+    buildTimeEl.textContent = formatRelativeTime(buildTime);
+    setInterval(() => {
+        buildTimeEl.textContent = formatRelativeTime(buildTime);
+    }, 1000);
+
+    function formatRelativeTime(time) {
+        const now = new Date();
+        const diff = time - now;
+        const absDiff = Math.abs(diff);
+
+        let relativeTime;
+        if (absDiff < 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / 1000)} second${Math.floor(absDiff / 1000) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 60 * 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / (60 * 1000))} minute${Math.floor(absDiff / (60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 24 * 60 * 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / (60 * 60 * 1000))} hour${Math.floor(absDiff / (60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else {
+            relativeTime = `${Math.floor(absDiff / (24 * 60 * 60 * 1000))} day${Math.floor(absDiff / (24 * 60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        }
+        return relativeTime;
+    }
 </script>
 
 <style is:global>

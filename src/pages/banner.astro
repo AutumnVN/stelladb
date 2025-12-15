@@ -116,16 +116,16 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 
         let relativeTime;
         if (absDiff < 60 * 1000) {
-            relativeTime = `${Math.round(absDiff / 1000)} second${Math.round(absDiff / 1000) !== 1 ? 's' : ''}`;
+            relativeTime = `${Math.floor(absDiff / 1000)} second${Math.floor(absDiff / 1000) !== 1 ? 's' : ''}`;
             relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
         } else if (absDiff < 60 * 60 * 1000) {
-            relativeTime = `${Math.round(absDiff / (60 * 1000))} minute${Math.round(absDiff / (60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = `${Math.floor(absDiff / (60 * 1000))} minute${Math.floor(absDiff / (60 * 1000)) !== 1 ? 's' : ''}`;
             relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
         } else if (absDiff < 24 * 60 * 60 * 1000) {
-            relativeTime = `${Math.round(absDiff / (60 * 60 * 1000))} hour${Math.round(absDiff / (60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = `${Math.floor(absDiff / (60 * 60 * 1000))} hour${Math.floor(absDiff / (60 * 60 * 1000)) !== 1 ? 's' : ''}`;
             relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
         } else {
-            relativeTime = `${Math.round(absDiff / (24 * 60 * 60 * 1000))} day${Math.round(absDiff / (24 * 60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = `${Math.floor(absDiff / (24 * 60 * 60 * 1000))} day${Math.floor(absDiff / (24 * 60 * 60 * 1000)) !== 1 ? 's' : ''}`;
             relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
         }
         return relativeTime;

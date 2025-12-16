@@ -15,11 +15,24 @@ interface Props {
 }
 
 const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, cornerSize = 48, charClass, attackType } = Astro.props;
+
+const isImageExisting = await urlExists(image, imageFallback);
+
+async function urlExists(url: string, fallback?: string) {
+    if (!fallback) return true;
+
+    try {
+        const response = await fetch(url, { method: 'HEAD' });
+        return response.ok;
+    } catch {
+        return false;
+    }
+}
 ---
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
     <a href={href} class="card">
-        <div class="image" style={`background-image: url(${image})${imageFallback ? `, url(${imageFallback})` : ''}; inset: ${inset}px`}></div>
+        <div class="image" style={`background-image: url(${isImageExisting ? image : imageFallback}); inset: ${inset}px`}></div>
         {
             name && (
                 <div class="text">

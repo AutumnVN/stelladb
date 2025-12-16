@@ -40,9 +40,24 @@ const emoji = {
 if (!char) {
     throw Astro.redirect('/404', 302);
 }
+
+const image = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}02_XL.png`;
+const imageFallback = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}01_XL.png`;
+const isImageExisting = await urlExists(image, imageFallback);
+
+async function urlExists(url: string, fallback?: string) {
+    if (!fallback) return true;
+
+    try {
+        const response = await fetch(url, { method: 'HEAD' });
+        return response.ok;
+    } catch {
+        return false;
+    }
+}
 ---
 
-<Layout title={`${char.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}02_XL.png`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
+<Layout title={`${char.name} | stelladb`} image={isImageExisting ? image : imageFallback} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
     <div class="character-page" data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <div class="header">
             <h1>{char.name}</h1>
@@ -59,7 +74,7 @@ if (!char) {
 
         <div class="content">
             <div class="left">
-                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}02_XL.png`} alt={char.name} title={char.name} width="256" height="340" onerror=`this.onerror=null;this.src='https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}01_XL.png'` />
+                <img src={isImageExisting ? image : imageFallback} alt={char.name} title={char.name} width="256" height="340" />
                 <div class="info">
                     <p>
                         {`${char.star}⭐`}<br />

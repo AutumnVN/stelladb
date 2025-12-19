@@ -175,6 +175,7 @@ async function urlExists(url: string, fallback?: string) {
                                 </p>
                             )
                         }
+                        {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="skill">
@@ -200,6 +201,7 @@ async function urlExists(url: string, fallback?: string) {
                                 </p>
                             )
                         }
+                        {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="support-skill">
@@ -225,6 +227,7 @@ async function urlExists(url: string, fallback?: string) {
                                 </p>
                             )
                         }
+                        {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="ultimate">
@@ -251,6 +254,7 @@ async function urlExists(url: string, fallback?: string) {
                                 </p>
                             )
                         }
+                        {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     {
@@ -308,7 +312,7 @@ async function urlExists(url: string, fallback?: string) {
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.effectData.length ? null : (
-                                        <p>
+                                        <p class="small">
                                             Effect data:{' '}
                                             {pot.effectData.map((data) => (
                                                 <>
@@ -318,6 +322,7 @@ async function urlExists(url: string, fallback?: string) {
                                             ))}
                                         </p>
                                     )}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -348,7 +353,7 @@ async function urlExists(url: string, fallback?: string) {
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.effectData.length ? null : (
-                                        <p>
+                                        <p class="small">
                                             Effect data:{' '}
                                             {pot.effectData.map((data) => (
                                                 <>
@@ -358,6 +363,7 @@ async function urlExists(url: string, fallback?: string) {
                                             ))}
                                         </p>
                                     )}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -388,7 +394,7 @@ async function urlExists(url: string, fallback?: string) {
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.effectData.length ? null : (
-                                        <p>
+                                        <p class="small">
                                             Effect data:{' '}
                                             {pot.effectData.map((data) => (
                                                 <>
@@ -398,6 +404,7 @@ async function urlExists(url: string, fallback?: string) {
                                             ))}
                                         </p>
                                     )}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -416,7 +423,7 @@ async function urlExists(url: string, fallback?: string) {
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.effectData.length ? null : (
-                                        <p>
+                                        <p class="small">
                                             Effect data:{' '}
                                             {pot.effectData.map((data) => (
                                                 <>
@@ -426,6 +433,7 @@ async function urlExists(url: string, fallback?: string) {
                                             ))}
                                         </p>
                                     )}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -456,7 +464,7 @@ async function urlExists(url: string, fallback?: string) {
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.effectData.length ? null : (
-                                        <p>
+                                        <p class="small">
                                             Effect data:{' '}
                                             {pot.effectData.map((data) => (
                                                 <>
@@ -466,6 +474,7 @@ async function urlExists(url: string, fallback?: string) {
                                             ))}
                                         </p>
                                     )}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -499,6 +508,7 @@ async function urlExists(url: string, fallback?: string) {
                                         ))}
                                     </p>
                                 )}
+                                {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                             </div>
                         ))
                     }
@@ -944,6 +954,12 @@ async function urlExists(url: string, fallback?: string) {
             margin: 0;
             color: var(--muted);
             font-size: 0.9rem;
+        }
+
+        .small img {
+            vertical-align: middle;
+            object-fit: cover;
+            object-position: center;
         }
 
         h2 {

@@ -159,6 +159,7 @@ if (!disc) {
                                 </p>
                             )
                         }
+                        {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
                 </section>
 
@@ -192,6 +193,7 @@ if (!disc) {
                                         ))}
                                     </p>
                                 )}
+                                {!disc.secondarySkill1.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill1.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 <div class="item-image" />
                                 <p class="requirements">
                                     {Object.entries(disc.secondarySkill1.requirements[0]).map(([note, amount]) => (
@@ -224,6 +226,7 @@ if (!disc) {
                                             ))}
                                         </p>
                                     )}
+                                    {!disc.secondarySkill2.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill2.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                     <div class="item-image" />
                                     <p class="requirements">
                                         {Object.entries(disc.secondarySkill2.requirements[0]).map(([note, amount]) => (
@@ -628,6 +631,12 @@ if (!disc) {
             margin: 0;
             color: var(--muted);
             font-size: 0.9rem;
+        }
+
+        .small img {
+            vertical-align: middle;
+            object-fit: cover;
+            object-position: center;
         }
 
         h2 {

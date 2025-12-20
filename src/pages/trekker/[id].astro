@@ -76,6 +76,15 @@ async function urlExists(url: string, fallback?: string) {
             <div class="left">
                 <img src={isImageExisting ? image : imageFallback} alt={char.name} title={char.name} width="256" height="340" onerror="this.style.display='none'" />
                 <div class="info">
+                    {
+                        char.name.startsWith('ID_') && (
+                            <p>
+                                unreleased character have material data means they are coming soon <br />
+                                their kit are unfinished and can be changed a lot on release <br />
+                                do not blindly trust it yet <br />
+                            </p>
+                        )
+                    }
                     <p>
                         {`${char.star}⭐`}<br />
                         {char.element}{emoji[char.element]}<br />

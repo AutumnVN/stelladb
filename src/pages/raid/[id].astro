@@ -51,6 +51,7 @@ if (!raid) {
                 <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${raid.icon}.png`} alt={raid.name} title={raid.name} width="256" height="256" />
                 <div class="info">
                     <p>
+                        {`Type: ${raid.type}`}<br />
                         {`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
                         {`Resist: ${raid.resistTo}${emoji[raid.resistTo]}`}<br />
                     </p>

@@ -51,6 +51,7 @@ if (!blitz) {
                 <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} alt={blitz.name} title={blitz.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
                 <div class="info">
                     <p>
+                        {`Type: ${blitz.type}`}<br />
                         {`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
                         {`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`}<br />
                     </p>

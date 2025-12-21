@@ -25,7 +25,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, ground]) => (
                 <div class="card-item" data-id={id} data-name={ground.name} data-weakto={ground.weakTo.join(', ')} data-resistto={ground.resistTo}>
-                    <Card href={`/ground/${id}`} name={ground.name} desc={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${ground.resistTo}${emoji[ground.resistTo]}`} star={ground.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${ground.icon}.png`} inset={-30} />
+                    <Card href={`/ground/${id}`} name={ground.name} desc={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${ground.resistTo}${emoji[ground.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${ground.icon}.png`} inset={-30} />
                 </div>
             ))
         }

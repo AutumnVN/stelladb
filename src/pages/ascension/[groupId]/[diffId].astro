@@ -1,0 +1,50 @@
+---
+// @ts-nocheck
+import Layout from '../../../layouts/Layout.astro';
+
+import Card from '../../../components/Card.astro';
+import SearchableGrid from '../../../components/SearchableGrid.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/ascension.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).flatMap((groupId) =>
+        Object.keys(data[groupId].diff).map((diffId) => ({
+            params: { groupId, diffId },
+        })),
+    );
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/ascension.json';
+
+const { params, request } = Astro;
+const groupId = params.groupId;
+const diffId = params.diffId;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const group = data[groupId];
+const diff = group.diff[diffId];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title={`${group.name} Difficulty ${diff.diff} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${diff.icon}.png`} description={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`}>
+    <SearchableGrid placeholder={`Search ${group.name} Difficulty ${diff.diff} monsters by id, name, or element...`} noResultsText="No ascension monster found.">
+        {
+            Object.entries(diff.monster).map(([id, monster]) => (
+                <div class="card-item" data-id={id} data-name={monster.name} data-weakto={monster.weakTo.join(', ')} data-resistto={monster.resistTo}>
+                    <Card href={`/ascension/${groupId}/${diffId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

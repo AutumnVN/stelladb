@@ -1,0 +1,33 @@
+---
+// @ts-nocheck
+import Layout from '../layouts/Layout.astro';
+
+import Card from '../components/Card.astro';
+import SearchableGrid from '../components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/ascension.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title="Ascension | stelladb">
+    <SearchableGrid placeholder="Search ascension groups by id, name, or element..." noResultsText="No ascension group found.">
+        {
+            Object.entries(data).map(([id, group]) => (
+                <div class="card-item" data-id={id} data-name={group.name} data-weakto={group.weakTo.join(', ')}>
+                    <Card href={`/ascension/${id}`} name={group.name} desc={`Weak: ${group.weakTo.map((e) => e + emoji[e]).join(', ')}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${group.icon}.png`} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

@@ -12,9 +12,10 @@ interface Props {
     cornerSize?: number;
     charClass?: string;
     attackType?: string;
+    position?: string;
 }
 
-const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, cornerSize = 48, charClass, attackType } = Astro.props;
+const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, cornerSize = 48, charClass, attackType, position = 'top' } = Astro.props;
 
 const isImageExisting = await urlExists(image, imageFallback);
 
@@ -32,7 +33,7 @@ async function urlExists(url: string, fallback?: string) {
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
     <a href={href} class="card">
-        <div class="image" style={`background-image: url(${isImageExisting ? image : imageFallback}); inset: ${inset}px`}></div>
+        <div class="image" style={`background-image: url(${isImageExisting ? image : imageFallback}); inset: ${inset}px; background-position: ${position};`}></div>
         {
             name && (
                 <div class="text">
@@ -43,12 +44,14 @@ async function urlExists(url: string, fallback?: string) {
             )
         }
         {
-            charClass && attackType && (
+            charClass && (
                 <div class={`char-info ${charClass.toLowerCase()}`}>
                     <div class="char-class">{charClass}</div>
-                    <div class="attack-type">
-                        <img src={`/${attackType}.png`} width="16" height="16" alt={attackType} />
-                    </div>
+                    {attackType && (
+                        <div class="attack-type">
+                            <img src={`/${attackType}.png`} width="16" height="16" alt={attackType} />
+                        </div>
+                    )}
                 </div>
             )
         }
@@ -147,8 +150,25 @@ async function urlExists(url: string, fallback?: string) {
     .support {
         background: #4ca;
     }
+
+    .overlord {
+        background: #f45;
+    }
+
+    .sentinel {
+        background: #f83;
+    }
+
+    .elite {
+        background: #fb3;
+    }
+
     .char-info .char-class {
         padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    }
+
+    .char-info:not(:has(.attack-type)) .char-class {
+        padding-right: 0.5rem;
     }
 
     .char-info .attack-type {

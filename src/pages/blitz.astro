@@ -28,7 +28,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, blitz]) => (
                 <div class={`card-item ${currentSeason?.LevelGroup?.includes(+id) ? 'current' : ''}`} data-id={id} data-name={blitz.name} data-weakto={blitz.weakTo.join(', ')} data-resistto={blitz.resistTo}>
-                    <Card href={`/blitz/${id}`} name={blitz.name} desc={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`} star={blitz.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} inset={-30} />
+                    <Card href={`/blitz/${id}`} name={blitz.name} desc={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} inset={-30} />
                 </div>
             ))
         }

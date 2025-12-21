@@ -129,7 +129,7 @@ async function urlExists(url: string, fallback?: string) {
                             Resilience Break Efficiency: {char.stat[97].resilienceBreakEfficiency}<br />
                             VUL Exploit: {char.stat[97].vul}<br />
                         </p>
-                        <p>other stats doesnt change, dont care</p>
+                        <p class="small">other stats doesnt change, dont care</p>
                     </div>
 
                     <div class="upgrade-cost">
@@ -190,9 +190,11 @@ async function urlExists(url: string, fallback?: string) {
                     <div class="skill">
                         <div class="skill-header">
                             <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.skill.icon}.png`} alt={char.skill.name} title={char.skill.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <h2>Skill: {char.skill.name}</h2>
+                            <div>
+                                <h2>Skill: {char.skill.name}</h2>
+                                <div>Cooldown: {char.skill.cooldown}</div>
+                            </div>
                         </div>
-                        <h3>Cooldown: {char.skill.cooldown}</h3>
                         <p>{char.skill.desc}</p>
                         {!char.skill.damageType.length ? null : <p class="small">Damage: {char.skill.damageType.join(', ')}</p>}
                         {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
@@ -216,9 +218,11 @@ async function urlExists(url: string, fallback?: string) {
                     <div class="support-skill">
                         <div class="skill-header">
                             <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.supportSkill.icon}.png`} alt={char.supportSkill.name} title={char.supportSkill.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <h2>Support skill: {char.supportSkill.name}</h2>
+                            <div>
+                                <h2>Support skill: {char.supportSkill.name}</h2>
+                                <div>Cooldown: {char.supportSkill.cooldown}</div>
+                            </div>
                         </div>
-                        <h3>Cooldown: {char.supportSkill.cooldown}</h3>
                         <p>{char.supportSkill.desc}</p>
                         {!char.supportSkill.damageType.length ? null : <p class="small">Damage: {char.supportSkill.damageType.join(', ')}</p>}
                         {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
@@ -242,10 +246,11 @@ async function urlExists(url: string, fallback?: string) {
                     <div class="ultimate">
                         <div class="skill-header">
                             <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.ultimate.icon}.png`} alt={char.ultimate.name} title={char.ultimate.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <h2>Ultimate: {char.ultimate.name}</h2>
+                            <div>
+                                <h2>Ultimate: {char.ultimate.name}</h2>
+                                <div>Cooldown: {char.ultimate.cooldown} • Energy: {char.ultimate.energy}</div>
+                            </div>
                         </div>
-                        <h3>Cooldown: {char.ultimate.cooldown}</h3>
-                        <h3>Energy: {char.ultimate.energy}</h3>
                         <p>{char.ultimate.desc}</p>
                         {!char.ultimate.damageType.length ? null : <p class="small">Damage: {char.ultimate.damageType.join(', ')}</p>}
                         {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
@@ -495,16 +500,7 @@ async function urlExists(url: string, fallback?: string) {
                         char.talent.map((talent) => (
                             <div class="talent">
                                 <h2>{talent.name}</h2>
-                                <p>
-                                    {talent.boost.map((b) => {
-                                        return (
-                                            <>
-                                                {b.desc}
-                                                <br />
-                                            </>
-                                        );
-                                    })}
-                                </p>
+                                <p>{talent.boost[0].desc}</p>
                                 {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
                                 {!talent.boost[0].effectData.length ? null : (
                                     <p>
@@ -520,6 +516,36 @@ async function urlExists(url: string, fallback?: string) {
                                 {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                             </div>
                         ))
+                    }
+
+                    <div class="talent-bonus-stat">
+                        <h2>Bonus stats for each activated talent</h2>
+                        <p>
+                            {
+                                char.talent[0].boost.slice(1).map((boost) => (
+                                    <>
+                                        {boost.desc}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+
+                    {
+                        itemData[`${id}0`] && (
+                            <div class="soul-key">
+                                <h2>Soul key flavor text</h2>
+                                <p>
+                                    {itemData[`${id}0`].literary.split('\u000b').map((line) => (
+                                        <>
+                                            {line}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            </div>
+                        )
                     }
                 </section>
 
@@ -556,7 +582,7 @@ async function urlExists(url: string, fallback?: string) {
                 </section>
 
                 <section id="dates" class="tab-panel" hidden>
-                    <p>
+                    <p class="small">
                         first choice just do whatever<br />
                         special memory doesnt always happen, keep gambling<br />
                     </p>
@@ -788,29 +814,44 @@ async function urlExists(url: string, fallback?: string) {
 
         talentElements.forEach((e, i) => {
             const talent = char.talent[i];
-            let result = '';
+            const params = talent.boost[0].params;
+            let desc = talent.boost[0].desc;
 
-            talent.boost.forEach((b, i) => {
-                if ([6, 7, 8, 9, 10].includes(i)) return;
-
-                let desc = b.desc;
-
-                b.params.forEach((param, index) => {
-                    if ([1, 2, 3, 4, 5].includes(i)) {
-                        if (param.includes('%')) {
-                            param = parseFloat(param) * 2 + '%';
-                        } else {
-                            param = parseFloat(param) * 2;
-                        }
-                    }
-                    desc = desc.replaceAll(`&Param${index + 1}&`, param);
-                });
-
-                result += `${format(desc)}<br />`;
+            params.forEach((param, index) => {
+                desc = desc.replaceAll(`&Param${index + 1}&`, param);
             });
 
-            e.innerHTML = result;
+            e.innerHTML = format(desc);
         });
+
+        const talentBonusStat = document.querySelector('.talent-bonus-stat p');
+
+        let bonusStatResult = '';
+
+        char.talent[0].boost.slice(1).forEach((boost, i) => {
+            if ([6, 7, 8, 9, 10].includes(i + 1)) return;
+
+            let desc = boost.desc;
+
+            boost.params.forEach((param, index) => {
+                if ([1, 2, 3, 4, 5].includes(i + 1)) {
+                    if (param.includes('%')) {
+                        param = parseFloat(param) * 2 + '%';
+                    } else {
+                        param = parseFloat(param) * 2;
+                    }
+                }
+                desc = desc
+                    .replaceAll(`&Param${index + 1}&`, param)
+                    .replaceAll('Increases ', '')
+                    .replaceAll('Base ', '')
+                    .replaceAll('by ', '+');
+            });
+
+            bonusStatResult += `${format(desc)}<br />`;
+        });
+
+        talentBonusStat.innerHTML = bonusStatResult;
 
         const loveGiftItemImage = document.querySelector('.love-gift .item-image');
         const hateGiftItemImage = document.querySelector('.hate-gift .item-image');
@@ -919,8 +960,8 @@ async function urlExists(url: string, fallback?: string) {
             margin-left: 1rem;
         }
 
-        .skill-header ~ h3 {
-            margin-left: 1rem;
+        .skill-header h2 {
+            margin: 0;
         }
 
         .cumulative {

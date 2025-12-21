@@ -353,9 +353,9 @@ if (!disc) {
             if (upgrade1 >= 7) upgrade1 = 7;
 
             let totals = {};
-            if (cumulativeUpgrade.checked && upgrade1 >= 1) {
+            if (cumulativeUpgrade.checked) {
                 if (convertToTier1Upgrade.checked) {
-                    for (let i = 1; i <= upgrade1; i++) {
+                    for (let i = 0; i <= upgrade1; i++) {
                         Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
                             const itemInfo = Object.values(itemData).find((it) => it.name === item);
                             if (itemInfo.type === 'DiscPromote') {
@@ -373,7 +373,7 @@ if (!disc) {
                         });
                     }
                 } else {
-                    for (let i = 1; i <= upgrade1; i++) {
+                    for (let i = 0; i <= upgrade1; i++) {
                         Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
                             totals[item] = (totals[item] || 0) + amount;
                         });

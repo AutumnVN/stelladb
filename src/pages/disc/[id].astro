@@ -114,6 +114,7 @@ if (!disc) {
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
                         <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
+                        <label class="convert-to-tier-1"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
@@ -319,6 +320,7 @@ if (!disc) {
         const upgradeCost = document.querySelector('.upgrade-cost p');
         const upgradeCostItemImage = document.querySelector('.upgrade-cost .item-image');
         const cumulativeUpgrade = document.querySelector('#cumulative-upgrade');
+        const convertToTier1Upgrade = document.querySelector('#convert-to-tier-1-upgrade');
 
         let upgrade1 = 0;
         let level = 1;
@@ -328,6 +330,7 @@ if (!disc) {
         levelInput.addEventListener('input', onDetailsInput);
         dupe1Input.addEventListener('input', onDetailsInput);
         cumulativeUpgrade.addEventListener('change', onDetailsInput);
+        convertToTier1Upgrade.addEventListener('change', onDetailsInput);
         onDetailsInput();
 
         function onDetailsInput() {
@@ -351,15 +354,53 @@ if (!disc) {
 
             let totals = {};
             if (cumulativeUpgrade.checked && upgrade1 >= 1) {
-                for (let i = 1; i <= upgrade1; i++) {
-                    Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
+                if (convertToTier1Upgrade.checked) {
+                    for (let i = 1; i <= upgrade1; i++) {
+                        Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
+                            const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                            if (itemInfo.type === 'DiscPromote') {
+                                const tier1Item = Object.values(itemData).find((it) => it.type === 'DiscPromote' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                                if (itemInfo.rarity === 'R') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                                } else if (itemInfo.rarity === 'SR') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                                } else {
+                                    totals[item] = (totals[item] || 0) + amount;
+                                }
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        });
+                    }
+                } else {
+                    for (let i = 1; i <= upgrade1; i++) {
+                        Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                }
+            } else {
+                if (convertToTier1Upgrade.checked) {
+                    Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
+                        const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                        if (itemInfo.type === 'DiscPromote') {
+                            const tier1Item = Object.values(itemData).find((it) => it.type === 'DiscPromote' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                            if (itemInfo.rarity === 'R') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                            } else if (itemInfo.rarity === 'SR') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        } else {
+                            totals[item] = (totals[item] || 0) + amount;
+                        }
+                    });
+                } else {
+                    Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
                         totals[item] = (totals[item] || 0) + amount;
                     });
                 }
-            } else {
-                Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
-                    totals[item] = (totals[item] || 0) + amount;
-                });
             }
 
             const sorted = sortByItemId(totals);
@@ -609,14 +650,14 @@ if (!disc) {
             height: 64px;
         }
 
-        .cumulative {
-            display: inline-flex;
+        label {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
             margin-left: 1rem;
         }
 
-        .cumulative input {
+        label input {
             width: 1rem;
             height: 1rem;
             accent-color: var(--accent);

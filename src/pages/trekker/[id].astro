@@ -135,6 +135,7 @@ async function urlExists(url: string, fallback?: string) {
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
                         <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
+                        <label class="convert-to-tier-1"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
@@ -285,6 +286,7 @@ async function urlExists(url: string, fallback?: string) {
                     <div class="skill-upgrade-cost">
                         <h2>Next skill upgrade cost</h2>
                         <label class="cumulative"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
+                        <label class="convert-to-tier-1"><input type="checkbox" id="convert-to-tier-1-skill" /> Convert to Tier 1</label>
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
@@ -649,6 +651,7 @@ async function urlExists(url: string, fallback?: string) {
         const upgradeCost = document.querySelector('.upgrade-cost p');
         const upgradeCostItemImage = document.querySelector('.upgrade-cost .item-image');
         const cumulativeUpgrade = document.querySelector('#cumulative-upgrade');
+        const convertToTier1Upgrade = document.querySelector('#convert-to-tier-1-upgrade');
 
         let upgrade1;
         let level;
@@ -656,6 +659,7 @@ async function urlExists(url: string, fallback?: string) {
         upgrade1Input.addEventListener('input', onDetailsInput);
         levelInput.addEventListener('input', onDetailsInput);
         cumulativeUpgrade.addEventListener('change', onDetailsInput);
+        convertToTier1Upgrade.addEventListener('change', onDetailsInput);
         onDetailsInput();
 
         function onDetailsInput() {
@@ -680,15 +684,53 @@ async function urlExists(url: string, fallback?: string) {
 
             let totals = {};
             if (cumulativeUpgrade.checked && upgrade1 >= 1) {
-                for (let i = 1; i <= upgrade1; i++) {
-                    Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                if (convertToTier1Upgrade.checked) {
+                    for (let i = 1; i <= upgrade1; i++) {
+                        Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                            const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                            if (itemInfo.type === 'CharacterLimitBreak') {
+                                const tier1Item = Object.values(itemData).find((it) => it.type === 'CharacterLimitBreak' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                                if (itemInfo.rarity === 'R') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                                } else if (itemInfo.rarity === 'SR') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                                } else {
+                                    totals[item] = (totals[item] || 0) + amount;
+                                }
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        });
+                    }
+                } else {
+                    for (let i = 1; i <= upgrade1; i++) {
+                        Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                }
+            } else {
+                if (convertToTier1Upgrade.checked) {
+                    Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
+                        const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                        if (itemInfo.type === 'CharacterLimitBreak') {
+                            const tier1Item = Object.values(itemData).find((it) => it.type === 'CharacterLimitBreak' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                            if (itemInfo.rarity === 'R') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                            } else if (itemInfo.rarity === 'SR') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        } else {
+                            totals[item] = (totals[item] || 0) + amount;
+                        }
+                    });
+                } else {
+                    Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
                         totals[item] = (totals[item] || 0) + amount;
                     });
                 }
-            } else {
-                Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
-                    totals[item] = (totals[item] || 0) + amount;
-                });
             }
 
             const sorted = sortByItemId(totals);
@@ -719,6 +761,7 @@ async function urlExists(url: string, fallback?: string) {
         const skillUpgradeCost = document.querySelector('.skill-upgrade-cost p');
         const skillUpgradeItemImage = document.querySelector('.skill-upgrade-cost .item-image');
         const cumulativeSkill = document.querySelector('#cumulative-skill');
+        const convertToTier1Skill = document.querySelector('#convert-to-tier-1-skill');
 
         let upgrade2;
         let skillLevel;
@@ -726,6 +769,7 @@ async function urlExists(url: string, fallback?: string) {
         upgrade2Input.addEventListener('input', onSkillsInput);
         skillLevel1Input.addEventListener('input', onSkillsInput);
         cumulativeSkill.addEventListener('change', onSkillsInput);
+        convertToTier1Skill.addEventListener('change', onSkillsInput);
         onSkillsInput();
 
         function onSkillsInput() {
@@ -745,15 +789,53 @@ async function urlExists(url: string, fallback?: string) {
             if (skillLevel >= 9) skillLevel = 9;
             let totals = {};
             if (cumulativeSkill.checked) {
-                for (let i = 0; i <= skillLevel - 1; i++) {
-                    Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                if (convertToTier1Skill.checked) {
+                    for (let i = 0; i <= skillLevel - 1; i++) {
+                        Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                            const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                            if (itemInfo.type === 'SkillStrengthen') {
+                                const tier1Item = Object.values(itemData).find((it) => it.type === 'SkillStrengthen' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                                if (itemInfo.rarity === 'R') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                                } else if (itemInfo.rarity === 'SR') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                                } else {
+                                    totals[item] = (totals[item] || 0) + amount;
+                                }
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        });
+                    }
+                } else {
+                    for (let i = 0; i <= skillLevel - 1; i++) {
+                        Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                }
+            } else {
+                if (convertToTier1Skill.checked) {
+                    Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
+                        const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                        if (itemInfo.type === 'SkillStrengthen') {
+                            const tier1Item = Object.values(itemData).find((it) => it.type === 'SkillStrengthen' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                            if (itemInfo.rarity === 'R') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                            } else if (itemInfo.rarity === 'SR') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        } else {
+                            totals[item] = (totals[item] || 0) + amount;
+                        }
+                    });
+                } else {
+                    Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
                         totals[item] = (totals[item] || 0) + amount;
                     });
                 }
-            } else {
-                Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
-                    totals[item] = (totals[item] || 0) + amount;
-                });
             }
 
             const sorted = sortByItemId(totals);
@@ -964,14 +1046,14 @@ async function urlExists(url: string, fallback?: string) {
             margin: 0;
         }
 
-        .cumulative {
-            display: inline-flex;
+        label {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
             margin-left: 1rem;
         }
 
-        .cumulative input {
+        label input {
             width: 1rem;
             height: 1rem;
             accent-color: var(--accent);

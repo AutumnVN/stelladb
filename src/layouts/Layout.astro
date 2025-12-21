@@ -251,6 +251,11 @@ const buildTime = new Date().toISOString();
         list-style: none;
     }
 
+    .navlinks summary::marker,
+    .navlinks summary::-webkit-details-marker {
+        display: none;
+    }
+
     .navlinks summary:hover,
     .navlinks summary:focus-visible {
         color: var(--text);

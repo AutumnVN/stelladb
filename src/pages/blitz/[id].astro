@@ -35,7 +35,7 @@ if (!blitz) {
 }
 ---
 
-<Layout title={`${blitz.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`}>
+<Layout title={`${blitz.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${blitz.icon}.png`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}, Lv45 HP: ${blitz.stat[44].HP.toLocaleString()}`}>
     <div class="blitz-page" data-json={JSON.stringify(blitz)}>
         <div class="header">
             <h1>{blitz.name}</h1>

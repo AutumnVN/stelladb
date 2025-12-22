@@ -17,7 +17,9 @@ interface Props {
 
 const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, cornerSize = 48, charClass, attackType, position = 'top' } = Astro.props;
 
-const isImageExisting = await urlExists(image, imageFallback);
+const CHECK_IMAGE_FALLBACK = false;
+
+const isImageExisting = CHECK_IMAGE_FALLBACK ? await urlExists(image, imageFallback) : true;
 
 async function urlExists(url: string, fallback?: string) {
     if (!fallback) return true;

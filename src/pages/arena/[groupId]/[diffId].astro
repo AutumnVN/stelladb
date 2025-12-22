@@ -1,0 +1,58 @@
+---
+// @ts-nocheck
+import Layout from '../../../layouts/Layout.astro';
+
+import Card from '../../../components/Card.astro';
+import SearchableGrid from '../../../components/SearchableGrid.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).flatMap((groupId) =>
+        Object.keys(data[groupId].diff).map((diffId) => ({
+            params: { groupId, diffId },
+        })),
+    );
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
+
+const { params, request } = Astro;
+const groupId = params.groupId;
+const diffId = params.diffId;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const group = data[groupId];
+const diff = group.diff[diffId];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title={`${diff.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} description={`Weak: ${group.weakTo}${emoji[group.weakTo]}`}>
+    <SearchableGrid placeholder={`Search ${diff.name} floors by id, name, or element...`} noResultsText="No arena floor found.">
+        {
+            Object.entries(diff.floor).map(([id, floor]) => (
+                <div class="card-item" data-id={id} data-name={floor.name} data-weakto={floor.monster[0].weakTo.join(', ')} data-resistto={floor.monster[0].resistTo}>
+                    <Card
+                        href={`/arena/${groupId}/${diffId}/${id}`}
+                        name={floor.name}
+                        desc={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}`}
+                        desc2={`Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`}
+                        image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${floor.monster[0].icon}.png`}
+                        inset={-30}
+                        charClass={floor.monster[0].type !== 'Normal' && floor.monster[0].type}
+                    />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

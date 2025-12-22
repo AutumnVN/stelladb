@@ -1,0 +1,84 @@
+---
+// @ts-nocheck
+import Layout from '../../../../layouts/Layout.astro';
+
+import Card from '../../../../components/Card.astro';
+import SearchableGrid from '../../../../components/SearchableGrid.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).flatMap((groupId) =>
+        Object.keys(data[groupId].diff).flatMap((diffId) =>
+            Object.keys(data[groupId].diff[diffId].floor).map((floorId) => ({
+                params: { groupId, diffId, floorId },
+            })),
+        ),
+    );
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
+
+const { params, request } = Astro;
+const groupId = params.groupId;
+const diffId = params.diffId;
+const floorId = params.floorId;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const group = data[groupId];
+const diff = group.diff[diffId];
+const floor = diff.floor[floorId];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title={`${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${floor.monster[0].icon}.png`} description={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`}>
+    <SearchableGrid placeholder={`Search ${diff.name} monsters by id, name, or element...`} noResultsText="No arena monster found.">
+        {
+            Object.entries(floor.monster).map(([id, monster]) => (
+                <div class="card-item" data-id={id} data-name={monster.name} data-weakto={monster.weakTo.join(', ')} data-resistto={monster.resistTo}>
+                    <Card href={`/arena/${groupId}/${diffId}/${floorId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+
+    <div class="mechanic">
+        <h2>Mechanic</h2>
+        {
+            floor.mechanic.map((mechanic) => (
+                <>
+                    <h3>{mechanic.name}</h3>
+                    <p>{mechanic.desc}</p>
+                </>
+            ))
+        }
+    </div>
+</Layout>
+
+<style>
+    div[class] > p {
+        margin-left: 1rem;
+    }
+
+    h2 {
+        margin: 1rem 0;
+    }
+
+    h3 {
+        margin: 0.75rem 0;
+    }
+
+    p {
+        margin: 0.25rem 0;
+    }
+</style>

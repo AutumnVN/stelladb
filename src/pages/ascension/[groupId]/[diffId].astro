@@ -37,8 +37,8 @@ const emoji = {
 };
 ---
 
-<Layout title={`${group.name} Difficulty ${diff.diff} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${diff.icon}.png`} description={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`}>
-    <SearchableGrid placeholder={`Search ${group.name} Difficulty ${diff.diff} monsters by id, name, or element...`} noResultsText="No ascension monster found.">
+<Layout title={`${diff.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${diff.icon}.png`} description={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`}>
+    <SearchableGrid placeholder={`Search ${diff.name} monsters by id, name, or element...`} noResultsText="No ascension monster found.">
         {
             Object.entries(diff.monster).map(([id, monster]) => (
                 <div class="card-item" data-id={id} data-name={monster.name} data-weakto={monster.weakTo.join(', ')} data-resistto={monster.resistTo}>

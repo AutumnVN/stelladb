@@ -1,0 +1,46 @@
+---
+// @ts-nocheck
+import Layout from '../../layouts/Layout.astro';
+
+import Card from '../../components/Card.astro';
+import SearchableGrid from '../../components/SearchableGrid.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((groupId) => ({
+        params: { groupId },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
+
+const { params, request } = Astro;
+const groupId = params.groupId;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const group = data[groupId];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title={`${group.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} description={`Weak: ${group.weakTo}${emoji[group.weakTo]}`}>
+    <SearchableGrid placeholder={`Search ${group.name} difficulties by id, name, or element...`} noResultsText="No arena difficulty found.">
+        {
+            Object.entries(group.diff).map(([id, diff]) => (
+                <div class="card-item" data-id={id} data-name={diff.name} data-weakto={diff.weakTo}>
+                    <Card href={`/arena/${groupId}/${id}`} name={diff.name} desc={`Weak: ${group.weakTo}${emoji[group.weakTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

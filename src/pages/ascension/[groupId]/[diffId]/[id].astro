@@ -41,7 +41,7 @@ const emoji = {
 };
 ---
 
-<Layout title={`${monster.name} | ${group.name} Difficulty ${diff.diff} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.hp.toLocaleString()}`}>
+<Layout title={`${monster.name} | ${group.name} Difficulty ${diff.diff} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString()}`}>
     <div class="monster-page">
         <div class="header">
             <h1>{monster.name} | {group.name} Difficulty {diff.diff}</h1>

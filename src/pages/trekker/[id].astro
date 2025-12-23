@@ -134,8 +134,8 @@ async function urlExists(url: string, fallback?: string) {
 
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
-                        <label class="cumulative"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
-                        <label class="convert-to-tier-1"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
+                        <label class="cumulative checkbox"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
+                        <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
@@ -285,8 +285,8 @@ async function urlExists(url: string, fallback?: string) {
 
                     <div class="skill-upgrade-cost">
                         <h2>Next skill upgrade cost</h2>
-                        <label class="cumulative"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
-                        <label class="convert-to-tier-1"><input type="checkbox" id="convert-to-tier-1-skill" /> Convert to Tier 1</label>
+                        <label class="cumulative checkbox"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
+                        <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-skill" /> Convert to Tier 1</label>
                         <div class="item-image"></div>
                         <p>
                             Max upgrade reached<br />
@@ -1025,6 +1025,7 @@ async function urlExists(url: string, fallback?: string) {
 
         .slider label {
             width: 13ch;
+            margin: 0;
         }
 
         .slider input[type='range'] {
@@ -1050,7 +1051,6 @@ async function urlExists(url: string, fallback?: string) {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-left: 1rem;
         }
 
         label input {
@@ -1078,6 +1078,7 @@ async function urlExists(url: string, fallback?: string) {
         }
 
         div[class] > p,
+        div[class] > .checkbox,
         div[class] > .item-image {
             margin-left: 1rem;
         }

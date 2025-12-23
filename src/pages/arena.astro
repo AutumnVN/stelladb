@@ -25,7 +25,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, group]) => (
                 <div class="card-item" data-id={id} data-name={group.name} data-weakto={group.weakTo}>
-                    <Card href={`/arena/${id}`} name={group.name} desc={`Weak: ${group.weakTo}${emoji[group.weakTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} />
+                    <Card href={`/arena/${id}`} name={group.name} desc={`Weak: ${group.weakTo}${emoji[group.weakTo]}`} desc2={group.openDayDesc} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} />
                 </div>
             ))
         }

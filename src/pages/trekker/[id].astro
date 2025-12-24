@@ -504,6 +504,7 @@ async function urlExists(url: string, fallback?: string) {
                                 <h2>{talent.name}</h2>
                                 <p>{talent.boost[0].desc}</p>
                                 {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
+                                {!talent.boost[0].addAttrType.length ? null : <p class="small">AddAttr: {talent.boost[0].addAttrType.join(', ')}</p>}
                                 {!talent.boost[0].effectData.length ? null : (
                                     <p>
                                         Effect data:{' '}

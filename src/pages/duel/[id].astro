@@ -1,0 +1,210 @@
+---
+// @ts-nocheck
+import Layout from '../../layouts/Layout.astro';
+import Tabs from '../../components/Tabs.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/duel.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/duel.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const duel = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!duel) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={`${duel.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${duel.icon}.png`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString()}`}>
+    <div class="duel-page" data-json={JSON.stringify(duel)}>
+        <div class="header">
+            <h1>{duel.name}</h1>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${duel.icon}.png`} alt={duel.name} title={duel.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
+                <div class="info">
+                    <p>
+                        {`Type: ${duel.type}`}<br />
+                        {`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                        {`Resist: ${duel.resistTo}${emoji[duel.resistTo]}`}<br />
+                    </p>
+                </div>
+            </div>
+
+            <div class="right">
+                <section id="stats" class="tab-panel">
+                    <div class="slider-container">
+                        <div class="slider difficulty">
+                            <label class="difficulty-output">Difficulty: 100</label>
+                            <input type="range" id="difficulty" min="0" max={duel.diff.length - 1} value="100" />
+                        </div>
+                    </div>
+
+                    <div class="stats">
+                        <h2>Stats</h2>
+                        <p>
+                            {
+                                Object.entries(duel.stat).map(([stat, value]) => (
+                                    <>
+                                        {stat}: {(value + (typeof value === 'number' ? duel.diff[100][stat] || 0 : '')).toLocaleString()}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const duel = JSON.parse(document.querySelector('.duel-page').dataset.json);
+
+        const difficultyInput = document.querySelector('#difficulty');
+        const difficultyOutput = document.querySelector('.difficulty-output');
+        const stats = document.querySelector('.stats p');
+
+        let difficulty = 100;
+
+        difficultyInput.addEventListener('input', ondifficultyInput);
+        ondifficultyInput();
+
+        function ondifficultyInput() {
+            difficulty = +difficultyInput.value;
+            difficultyOutput.textContent = `Difficulty: ${difficulty}`;
+
+            stats.innerHTML = `${Object.entries(duel.stat)
+                .map(([stat, value]) => `${stat}: ${(value + (typeof value === 'number' ? duel.diff[difficulty][stat] || 0 : '')).toLocaleString()}<br />`)
+                .join('')}`;
+        }
+
+        const mechanicDesc = document.querySelectorAll('.mechanic p');
+        mechanicDesc.forEach((desc) => {
+            desc.innerHTML = desc.textContent.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+        });
+    </script>
+
+    <style>
+        .duel-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            position: sticky;
+            top: var(--nav-height);
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin: 0 auto;
+            background: var(--bg1a);
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: var(--nav-height);
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 256px;
+        }
+
+        @media (width < 800px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .left {
+                display: flex;
+                width: 100%;
+            }
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: calc(var(--nav-height) * 2);
+            backdrop-filter: blur(5px);
+            background: var(--bg1a);
+            padding: 1rem;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider label {
+            width: 13ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .mechanic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        div[class] > p,
+        div[class] > .item-image {
+            margin-left: 1rem;
+        }
+
+        h2 {
+            margin: 1rem 0;
+        }
+
+        h3 {
+            margin: 0.75rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

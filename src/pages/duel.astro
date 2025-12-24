@@ -1,0 +1,43 @@
+---
+// @ts-nocheck
+import Layout from '../layouts/Layout.astro';
+
+import Card from '../components/Card.astro';
+import SearchableGrid from '../components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/duel.json';
+const TRAVELERDUELCHALLENGECONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/TravelerDuelChallengeControl.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const scoreBossControl = await fetch(TRAVELERDUELCHALLENGECONTROL_URL).then((res) => res.json());
+const currentSeason = Object.values(scoreBossControl).filter((season) => Date.now() >= new Date(season.OpenTime) && Date.now() <= new Date(season.EndTime))[0];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title="Summit Show | stelladb">
+    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
+        {
+            Object.entries(data).map(([id, duel]) => (
+                <div class={`card-item ${currentSeason?.BossLevelId === +id ? 'current' : ''}`} data-id={id} data-name={duel.name} data-weakto={duel.weakTo.join(', ')} data-resistto={duel.resistTo}>
+                    <Card href={`/duel/${id}`} name={duel.name} desc={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${duel.resistTo}${emoji[duel.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${duel.icon}.png`} inset={-30} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>
+
+<style>
+    .current {
+        border: var(--accent) 5px solid;
+        border-radius: 5px;
+    }
+</style>

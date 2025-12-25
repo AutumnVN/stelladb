@@ -33,14 +33,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 
                                 return (
                                     <div title={cod.name}>
-                                        <Card
-                                            href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`}
-                                            star={5}
-                                            image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/${isCharacter ? `head/head_${cod.id}02_XL.png` : `outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.png`}`}
-                                            inset={isCharacter ? -12 : 0}
-                                            corner={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN//stelladb/refs/heads/main/public/${cod.element}.png`}
-                                            cornerSize={36}
-                                        />
+                                        <Card href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`} star={5} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/${isCharacter ? `head/head_${cod.id}02_XL.png` : `outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.png`}`} inset={isCharacter ? -12 : 0} corner={`/${cod.element}.avif`} cornerSize={36} />
                                     </div>
                                 );
                             })}
@@ -49,14 +42,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 
                                 return (
                                     <div title={cod.name}>
-                                        <Card
-                                            href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`}
-                                            star={4}
-                                            image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/${isCharacter ? `head/head_${cod.id}02_XL.png` : `outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.png`}`}
-                                            inset={isCharacter ? -12 : 0}
-                                            corner={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN//stelladb/refs/heads/main/public/${cod.element}.png`}
-                                            cornerSize={36}
-                                        />
+                                        <Card href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`} star={4} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/${isCharacter ? `head/head_${cod.id}02_XL.png` : `outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.png`}`} inset={isCharacter ? -12 : 0} corner={`/${cod.element}.avif`} cornerSize={36} />
                                     </div>
                                 );
                             })}

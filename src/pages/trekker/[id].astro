@@ -318,7 +318,7 @@ async function urlExists(url: string, fallback?: string) {
                     {
                         char.potential.mainCore.map((pot) => (
                             <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${pot.rarity}.png') center/cover no-repeat;`}>
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                     <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
@@ -347,7 +347,7 @@ async function urlExists(url: string, fallback?: string) {
                     {
                         char.potential.mainNormal.map((pot) => (
                             <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${pot.rarity}.png') center/cover no-repeat;`}>
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                     <svg width="96" height="96" viewBox="0 0 96 96">
                                         <title>{pot.name}</title>
 
@@ -388,7 +388,7 @@ async function urlExists(url: string, fallback?: string) {
                     {
                         char.potential.common.map((pot) => (
                             <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${pot.rarity}.png') center/cover no-repeat;`}>
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                     <svg width="96" height="96" viewBox="0 0 96 96">
                                         <title>{pot.name}</title>
 
@@ -429,7 +429,7 @@ async function urlExists(url: string, fallback?: string) {
                     {
                         char.potential.supportCore.map((pot) => (
                             <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${pot.rarity}.png') center/cover no-repeat;`}>
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                     <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
@@ -458,7 +458,7 @@ async function urlExists(url: string, fallback?: string) {
                     {
                         char.potential.supportNormal.map((pot) => (
                             <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${pot.rarity}.png') center/cover no-repeat;`}>
+                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                     <svg width="96" height="96" viewBox="0 0 96 96">
                                         <title>{pot.name}</title>
 
@@ -638,7 +638,7 @@ async function urlExists(url: string, fallback?: string) {
             const item = Object.values(itemData).find((i) => i.name === itemName);
             const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${item.id}.png`;
             return `
-                <div style="background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${item.rarity}.png') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
+                <div style="background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
                     <img src="${imageUrl}" alt="${itemName}" title="${itemName}" width="52" height="52" />
                 </div>
             `;

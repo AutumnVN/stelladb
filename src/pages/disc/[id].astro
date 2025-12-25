@@ -304,7 +304,7 @@ if (!disc) {
             const item = Object.values(itemData).find((i) => i.name === itemName);
             const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${item.id}.png`;
             return `
-                <div style="background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/stelladb/refs/heads/main/public/${item.rarity}.png') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
+                <div style="background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
                     <img src="${imageUrl}" alt="${itemName}" title="${itemName}" width="52" height="52" />
                 </div>
             `;

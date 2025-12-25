@@ -25,7 +25,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, disc]) => (
                 <div class="card-item" data-id={id} data-name={disc.name} data-element={disc.element} data-tag={disc.tag.join(' ')} data-skill={`${disc.mainSkill.name} ${disc.secondarySkill1?.name || ''} ${disc.secondarySkill1?.name || ''}`}>
-                    <Card href={`/disc/${id}`} name={disc.name} star={disc.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.png`} corner={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN//stelladb/refs/heads/main/public/${disc.element}.png`} />
+                    <Card href={`/disc/${id}`} name={disc.name} star={disc.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.png`} corner={`/${disc.element}.avif`} />
                 </div>
             ))
         }

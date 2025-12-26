@@ -39,6 +39,10 @@ const emoji = {
     Umbra: '🌙',
     None: '⬜',
 };
+
+if (!group || !diff || !floor) {
+    throw Astro.redirect('/404');
+}
 ---
 
 <Layout title={`${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${floor.monster[0].icon}.png`} description={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`}>

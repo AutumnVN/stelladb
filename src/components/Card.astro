@@ -6,7 +6,6 @@ interface Props {
     desc2?: string;
     star?: number;
     image: string;
-    imageFallback?: string;
     inset?: number;
     corner?: string;
     cornerSize?: number;
@@ -15,27 +14,12 @@ interface Props {
     position?: string;
 }
 
-const { href, name, desc, desc2, star, image, imageFallback, inset = 0, corner, cornerSize = 48, charClass, attackType, position = 'top' } = Astro.props;
-
-const CHECK_IMAGE_FALLBACK = false;
-
-const isImageExisting = CHECK_IMAGE_FALLBACK ? await urlExists(image, imageFallback) : true;
-
-async function urlExists(url: string, fallback?: string) {
-    if (!fallback) return true;
-
-    try {
-        const response = await fetch(url, { method: 'HEAD' });
-        return response.ok;
-    } catch {
-        return false;
-    }
-}
+const { href, name, desc, desc2, star, image, inset = 0, corner, cornerSize = 48, charClass, attackType, position = 'top' } = Astro.props;
 ---
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
     <a href={href} class="card">
-        <div class="image" style={`background-image: url(${isImageExisting ? image : imageFallback}); inset: ${inset}px; background-position: ${position};`}></div>
+        <div class="image" style={`background-image: url(${image}); inset: ${inset}px; background-position: ${position};`}></div>
         {
             name && (
                 <div class="text">

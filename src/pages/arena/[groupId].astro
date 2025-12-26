@@ -31,6 +31,10 @@ const emoji = {
     Umbra: '🌙',
     None: '⬜',
 };
+
+if (!group) {
+    throw Astro.redirect('/404');
+}
 ---
 
 <Layout title={`${group.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} description={`Weak: ${group.weakTo}${emoji[group.weakTo]}, ${group.openDayDesc}`}>

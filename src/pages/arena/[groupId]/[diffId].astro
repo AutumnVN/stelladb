@@ -41,20 +41,12 @@ if (!group || !diff) {
 }
 ---
 
-<Layout title={`${diff.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/image/uibg/${group.icon}.png`} description={`Weak: ${group.weakTo}${emoji[group.weakTo]}`}>
+<Layout title={`${diff.name} | stelladb`} image={`https://stelladb.pages.dev/${group.icon}.avif`} description={`Weak: ${group.weakTo}${emoji[group.weakTo]}`}>
     <SearchableGrid placeholder={`Search ${diff.name} floors by id, name, or element...`} noResultsText="No arena floor found.">
         {
             Object.entries(diff.floor).map(([id, floor]) => (
                 <div class="card-item" data-id={id} data-name={floor.name} data-weakto={floor.monster[0].weakTo.join(', ')} data-resistto={floor.monster[0].resistTo}>
-                    <Card
-                        href={`/arena/${groupId}/${diffId}/${id}`}
-                        name={floor.name}
-                        desc={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}`}
-                        desc2={`Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`}
-                        image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${floor.monster[0].icon}.png`}
-                        inset={-30}
-                        charClass={floor.monster[0].type !== 'Normal' && floor.monster[0].type}
-                    />
+                    <Card href={`/arena/${groupId}/${diffId}/${id}`} name={floor.name} desc={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`} image={`/${floor.monster[0].icon}.avif`} inset={-30} charClass={floor.monster[0].type !== 'Normal' && floor.monster[0].type} />
                 </div>
             ))
         }

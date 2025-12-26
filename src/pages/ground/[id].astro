@@ -35,7 +35,7 @@ if (!ground) {
 }
 ---
 
-<Layout title={`${ground.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${ground.icon}.png`} description={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${ground.resistTo}${emoji[ground.resistTo]}, Last diff HP: ${ground.diff[ground.diff.length - 1].stat.HP.toLocaleString()}`}>
+<Layout title={`${ground.name} | stelladb`} image={`https://stelladb.pages.dev/${ground.icon}.avif`} description={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${ground.resistTo}${emoji[ground.resistTo]}, Last diff HP: ${ground.diff[ground.diff.length - 1].stat.HP.toLocaleString()}`}>
     <div class="ground-page" data-json={JSON.stringify(ground)}>
         <div class="header">
             <h1>{ground.name}</h1>
@@ -48,7 +48,7 @@ if (!ground) {
 
         <div class="content">
             <div class="left">
-                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${ground.icon}.png`} alt={ground.name} title={ground.name} width="256" height="256" />
+                <img src={`/${ground.icon}.avif`} alt={ground.name} title={ground.name} width="256" height="256" />
                 <div class="info">
                     <p>
                         {`Type: ${ground.type}`}<br />
@@ -74,6 +74,8 @@ if (!ground) {
                                 Object.entries(ground.diff[0].stat).map(([stat, value]) => (
                                     <>
                                         {stat}: {value.toLocaleString()}
+                                        {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                        {value === 727 ? ' when you see it' : ''}
                                         <br />
                                     </>
                                 ))
@@ -87,7 +89,7 @@ if (!ground) {
                         ground.mechanic.map((mechanic) => (
                             <div class="mechanic">
                                 <div class="mechanic-header">
-                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monsterskill/regionaffix/${mechanic.icon}.png`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
+                                    <img src={`/${mechanic.icon}.avif`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
                                     <h3>{mechanic.name}</h3>
                                 </div>
                                 <p>{mechanic.desc}</p>
@@ -117,7 +119,7 @@ if (!ground) {
 
             difficultyOutput.innerHTML = `Difficulty: ${difficulty + 1}`;
             stats.innerHTML = `${Object.entries(ground.diff[difficulty].stat)
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}<br />`)
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                 .join('')}`;
         }
     </script>

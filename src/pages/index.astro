@@ -5,14 +5,12 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="stelladb">
     <div class="center">
         <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
-        <p>
-            dear tyrant,<br />
-            merry christmas :)
-        </p>
-        <img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/imageavg/avgcg/story_event_02_005.png" width="493" height="350" />
+        <p>bottom text</p>
     </div>
 
-    <a class="nazuna" href="/trekker/156"></a>
+    <a class="nazuna" href="/trekker/156">
+        <img src="/head_15601_Q.avif" alt="Nazuna" title="Nazuna" width="192" height="192" />
+    </a>
 </Layout>
 
 <style>
@@ -35,12 +33,8 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .nazuna {
-        background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_15601_Q.png') center/cover no-repeat;
         position: absolute;
-        display: block;
         right: 0;
-        bottom: 0;
-        width: 256px;
-        height: 256px;
+        bottom: var(--nav-height);
     }
 </style>

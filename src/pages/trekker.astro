@@ -39,7 +39,7 @@ const emoji = {
                         .map((pot) => pot.name)
                         .join(' ')}
                 >
-                    <Card href={`/trekker/${id}`} name={char.name} star={char.star} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/head/head_${id}02_XL.png`} inset={-12} corner={`/${char.element}.avif`} charClass={char.class} attackType={char.attackType} />
+                    <Card href={`/trekker/${id}`} name={char.name} star={char.star} image={`/head_${id}02_XL.avif`} inset={-12} element={char.element} charClass={char.class} attackType={char.attackType} />
                 </div>
             ))
         }

@@ -7,14 +7,14 @@ interface Props {
     star?: number;
     image: string;
     inset?: number;
-    corner?: string;
-    cornerSize?: number;
+    element?: string;
+    elementSize?: number;
     charClass?: string;
     attackType?: string;
     position?: string;
 }
 
-const { href, name, desc, desc2, star, image, inset = 0, corner, cornerSize = 48, charClass, attackType, position = 'top' } = Astro.props;
+const { href, name, desc, desc2, star, image, inset = 0, element, elementSize = 48, charClass, attackType, position = 'top' } = Astro.props;
 ---
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
@@ -42,7 +42,7 @@ const { href, name, desc, desc2, star, image, inset = 0, corner, cornerSize = 48
             )
         }
     </a>
-    {corner && <img class="corner" src={corner} width={cornerSize} height={cornerSize} />}
+    {element && <img class="element" src={`/${element}.avif`} width={elementSize} height={elementSize} alt={element} />}
 </div>
 
 <style>
@@ -174,7 +174,7 @@ const { href, name, desc, desc2, star, image, inset = 0, corner, cornerSize = 48
         color: var(--muted);
     }
 
-    .corner {
+    .element {
         position: absolute;
         top: -4px;
         left: -4px;

@@ -35,7 +35,7 @@ if (!duel) {
 }
 ---
 
-<Layout title={`${duel.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${duel.icon}.png`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString()}`}>
+<Layout title={`${duel.name} | stelladb`} image={`https://stelladb.pages.dev/${duel.icon}.avif`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString()}`}>
     <div class="duel-page" data-json={JSON.stringify(duel)}>
         <div class="header">
             <h1>{duel.name}</h1>
@@ -43,7 +43,7 @@ if (!duel) {
 
         <div class="content">
             <div class="left">
-                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${duel.icon}.png`} alt={duel.name} title={duel.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
+                <img src={`/${duel.icon}.avif`} alt={duel.name} title={duel.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
                 <div class="info">
                     <p>
                         {`Type: ${duel.type}`}<br />

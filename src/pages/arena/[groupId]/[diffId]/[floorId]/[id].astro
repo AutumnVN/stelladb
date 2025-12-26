@@ -49,7 +49,7 @@ if (!group || !diff || !floor || !monster) {
 }
 ---
 
-<Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString()}`}>
+<Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://stelladb.pages.dev/${monster.icon}.avif`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString()}`}>
     <div class="monster-page">
         <div class="header">
             <h1>{monster.name} | {diff.name} {floor.name}</h1>
@@ -57,7 +57,7 @@ if (!group || !diff || !floor || !monster) {
 
         <div class="content">
             <div class="left">
-                <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} alt={monster.name} title={monster.name} width="256" height="256" />
+                <img src={`/${monster.icon}.avif`} alt={monster.name} title={monster.name} width="256" height="256" />
                 <div class="info">
                     <p>
                         {`Type: ${monster.type}`}<br />
@@ -74,6 +74,8 @@ if (!group || !diff || !floor || !monster) {
                         Object.entries(monster.stat).map(([stat, value]) => (
                             <>
                                 {stat}: {value.toLocaleString()}
+                                {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                {value === 727 ? ' when you see it' : ''}
                                 <br />
                             </>
                         ))

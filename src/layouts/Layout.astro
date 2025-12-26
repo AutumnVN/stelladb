@@ -5,7 +5,7 @@ export interface Props {
     image?: string;
 }
 
-const { title, description = 'a lazy stella sora database', image = 'https://stelladb.pages.dev/nazuna.png' } = Astro.props;
+const { title, description = 'a lazy stella sora database', image = 'https://stelladb.pages.dev/DatingSPCG_156302.avif' } = Astro.props;
 
 const buildTime = new Date().toISOString();
 ---
@@ -16,7 +16,6 @@ const buildTime = new Date().toISOString();
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=0.5" />
         <link rel="preload" href="/font.woff2" as="font" type="font/woff2" crossorigin />
-        <link rel="preconnect" href="https://chino.is-a.dev" crossorigin />
         <meta name="google-site-verification" content="QnPzHT-3k8oi0acqMvSozJjSGyAgimpbAop5WpEQ_Oc" />
         <title>{title}</title>
         <meta name="description" content={description} />
@@ -140,6 +139,7 @@ const buildTime = new Date().toISOString();
         --accent: #6f9;
         --word: #69e;
         --nav-height: 64px;
+        color-scheme: only dark;
     }
 
     html,
@@ -147,6 +147,7 @@ const buildTime = new Date().toISOString();
         margin: 0;
         min-height: 100%;
         scrollbar-gutter: stable;
+        touch-action: manipulation;
     }
 
     body {

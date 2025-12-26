@@ -41,12 +41,12 @@ if (!group || !diff) {
 }
 ---
 
-<Layout title={`${diff.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${diff.icon}.png`} description={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`}>
+<Layout title={`${diff.name} | stelladb`} image={`https://stelladb.pages.dev/${diff.icon}.avif`} description={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`}>
     <SearchableGrid placeholder={`Search ${diff.name} monsters by id, name, or element...`} noResultsText="No ascension monster found.">
         {
             Object.entries(diff.monster).map(([id, monster]) => (
                 <div class="card-item" data-id={id} data-name={monster.name} data-weakto={monster.weakTo.join(', ')} data-resistto={monster.resistTo}>
-                    <Card href={`/ascension/${groupId}/${diffId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
+                    <Card href={`/ascension/${groupId}/${diffId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`/${monster.icon}.avif`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
                 </div>
             ))
         }

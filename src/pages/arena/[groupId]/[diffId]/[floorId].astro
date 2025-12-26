@@ -45,12 +45,12 @@ if (!group || !diff || !floor) {
 }
 ---
 
-<Layout title={`${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${floor.monster[0].icon}.png`} description={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`}>
+<Layout title={`${diff.name} ${floor.name} | stelladb`} image={`https://stelladb.pages.dev/${floor.monster[0].icon}.avif`} description={`Weak: ${floor.monster[0].weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${floor.monster[0].resistTo}${emoji[floor.monster[0].resistTo]}`}>
     <SearchableGrid placeholder={`Search ${diff.name} monsters by id, name, or element...`} noResultsText="No arena monster found.">
         {
             Object.entries(floor.monster).map(([id, monster]) => (
                 <div class="card-item" data-id={id} data-name={monster.name} data-weakto={monster.weakTo.join(', ')} data-resistto={monster.resistTo}>
-                    <Card href={`/arena/${groupId}/${diffId}/${floorId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/monster/${monster.icon}.png`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
+                    <Card href={`/arena/${groupId}/${diffId}/${floorId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`/${monster.icon}.avif`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
                 </div>
             ))
         }

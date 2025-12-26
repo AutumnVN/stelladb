@@ -25,7 +25,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, group]) => (
                 <div class="card-item" data-id={id} data-name={group.name} data-weakto={group.weakTo.join(', ')}>
-                    <Card href={`/ascension/${id}`} name={group.name} desc={`Weak: ${group.weakTo.map((e) => e + emoji[e]).join(', ')}`} image={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/mapchallenge/${group.icon}.png`} />
+                    <Card href={`/ascension/${id}`} name={group.name} desc={`Weak: ${group.weakTo.map((e) => e + emoji[e]).join(', ')}`} image={`/${group.icon}.avif`} />
                 </div>
             ))
         }

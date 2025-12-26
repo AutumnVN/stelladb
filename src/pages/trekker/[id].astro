@@ -42,7 +42,7 @@ if (!char) {
 }
 ---
 
-<Layout title={`${char.name} | stelladb`} image={image} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
+<Layout title={`${char.name} | stelladb`} image={`/head_${id}02_XL.avif`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
     <div class="character-page" data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <div class="header">
             <h1>{char.name}</h1>
@@ -59,7 +59,7 @@ if (!char) {
 
         <div class="content">
             <div class="left">
-                <img src={image} alt={char.name} title={char.name} width="256" height="340" onerror="this.style.display='none'" />
+                <img src={`/head_${id}02_XL.avif`} alt={char.name} title={char.name} width="256" height="340" onerror="this.style.display='none'" />
                 <div class="info">
                     {
                         char.name.startsWith('ID_') && (
@@ -150,7 +150,7 @@ if (!char) {
 
                     <div class="normal-attack">
                         <div class="skill-header">
-                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.normalAtk.icon}.png`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" onerror="this.style.display='none'" />
+                            <img src={`/${char.normalAtk.icon}.avif`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" onerror="this.style.display='none'" />
                             <h2>Normal attack: {char.normalAtk.name}</h2>
                         </div>
                         <p>{char.normalAtk.desc}</p>
@@ -170,12 +170,12 @@ if (!char) {
                                 </p>
                             )
                         }
-                        {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                        {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="skill">
                         <div class="skill-header">
-                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.skill.icon}.png`} alt={char.skill.name} title={char.skill.name} width="64" height="64" onerror="this.style.display='none'" />
+                            <img src={`/${char.skill.icon}.avif`} alt={char.skill.name} title={char.skill.name} width="64" height="64" onerror="this.style.display='none'" />
                             <div>
                                 <h2>Skill: {char.skill.name}</h2>
                                 <div>Cooldown: {char.skill.cooldown}</div>
@@ -198,12 +198,12 @@ if (!char) {
                                 </p>
                             )
                         }
-                        {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                        {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="support-skill">
                         <div class="skill-header">
-                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.supportSkill.icon}.png`} alt={char.supportSkill.name} title={char.supportSkill.name} width="64" height="64" onerror="this.style.display='none'" />
+                            <img src={`/${char.supportSkill.icon}.avif`} alt={char.supportSkill.name} title={char.supportSkill.name} width="64" height="64" onerror="this.style.display='none'" />
                             <div>
                                 <h2>Support skill: {char.supportSkill.name}</h2>
                                 <div>Cooldown: {char.supportSkill.cooldown}</div>
@@ -226,12 +226,12 @@ if (!char) {
                                 </p>
                             )
                         }
-                        {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                        {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="ultimate">
                         <div class="skill-header">
-                            <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/skill/${char.ultimate.icon}.png`} alt={char.ultimate.name} title={char.ultimate.name} width="64" height="64" onerror="this.style.display='none'" />
+                            <img src={`/${char.ultimate.icon}.avif`} alt={char.ultimate.name} title={char.ultimate.name} width="64" height="64" onerror="this.style.display='none'" />
                             <div>
                                 <h2>Ultimate: {char.ultimate.name}</h2>
                                 <div>Cooldown: {char.ultimate.cooldown} • Energy: {char.ultimate.energy}</div>
@@ -254,7 +254,7 @@ if (!char) {
                                 </p>
                             )
                         }
-                        {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                        {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     {
@@ -304,7 +304,7 @@ if (!char) {
                         char.potential.mainCore.map((pot) => (
                             <div class="potential-wrapper">
                                 <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
+                                    <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
                                     <h3>{pot.name}</h3>
@@ -323,7 +323,7 @@ if (!char) {
                                             ))}
                                         </p>
                                     )}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -338,13 +338,13 @@ if (!char) {
 
                                         <defs>
                                             <mask id={`mask-${pot.corner}`}>
-                                                <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/Potential_${pot.corner}_B.png`} width="96" height="96" />
+                                                <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
                                             </mask>
                                         </defs>
 
-                                        <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} width="96" height="96" onerror="this.style.display='none'" />
+                                        <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
                                         <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
-                                        <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/Potential_${pot.corner}_A.png`} width="96" height="96" />
+                                        <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
                                     </svg>
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
@@ -364,7 +364,7 @@ if (!char) {
                                             ))}
                                         </p>
                                     )}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -379,13 +379,13 @@ if (!char) {
 
                                         <defs>
                                             <mask id={`mask-${pot.corner}`}>
-                                                <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/Potential_${pot.corner}_B.png`} width="96" height="96" />
+                                                <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
                                             </mask>
                                         </defs>
 
-                                        <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} width="96" height="96" onerror="this.style.display='none'" />
+                                        <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
                                         <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
-                                        <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/Potential_${pot.corner}_A.png`} width="96" height="96" />
+                                        <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
                                     </svg>
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
@@ -405,7 +405,7 @@ if (!char) {
                                             ))}
                                         </p>
                                     )}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -415,7 +415,7 @@ if (!char) {
                         char.potential.supportCore.map((pot) => (
                             <div class="potential-wrapper">
                                 <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
+                                    <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
                                     <h3>{pot.name}</h3>
@@ -434,7 +434,7 @@ if (!char) {
                                             ))}
                                         </p>
                                     )}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -449,13 +449,13 @@ if (!char) {
 
                                         <defs>
                                             <mask id={`mask-${pot.corner}`}>
-                                                <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/Potential_${pot.corner}_B.png`} width="96" height="96" />
+                                                <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
                                             </mask>
                                         </defs>
 
-                                        <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/${pot.icon}_A.png`} width="96" height="96" onerror="this.style.display='none'" />
+                                        <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
                                         <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
-                                        <image href={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/potential/Potential_${pot.corner}_A.png`} width="96" height="96" />
+                                        <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
                                     </svg>
                                 </div>
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)}>
@@ -475,7 +475,7 @@ if (!char) {
                                             ))}
                                         </p>
                                     )}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 </div>
                             </div>
                         ))
@@ -501,7 +501,7 @@ if (!char) {
                                         ))}
                                     </p>
                                 )}
-                                {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/buff/${icon}.png`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                             </div>
                         ))
                     }
@@ -610,7 +610,7 @@ if (!char) {
 
                     return `<span class="tooltip word">
                         ${name}
-                        ${word[id].icon ? `<span style="background: url('https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/zzzother/${word[id].icon}.png') center/200% no-repeat;"></span>` : ''}
+                        ${word[id].icon ? `<span style="background: url('/${word[id].icon}.avif') center/200% no-repeat;"></span>` : ''}
                         <div class="tooltip-text">
                             <b>${name}</b><br />
                             <p>${result2}</p>
@@ -621,10 +621,9 @@ if (!char) {
 
         function itemNameToImage(itemName) {
             const item = Object.values(itemData).find((i) => i.name === itemName);
-            const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/item/item_${item.id}.png`;
             return `
                 <div style="background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
-                    <img src="${imageUrl}" alt="${itemName}" title="${itemName}" width="52" height="52" />
+                    <img src="/item_${item.id}.avif" alt="${itemName}" title="${itemName}" width="52" height="52" />
                 </div>
             `;
         }
@@ -930,8 +929,7 @@ if (!char) {
         const dateItemImages = document.querySelectorAll('.date .item-image');
         dateItemImages.forEach((e, i) => {
             const date = char.date[i];
-            const imageUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/Assets/assetbundles/icon/datingeventcg/DatingSPCG_${date.id}.png`;
-            e.innerHTML = `<img src="${imageUrl}" alt="${date.name}" title="${date.name}" width="128" height="128" />`;
+            e.innerHTML = `<img src="/DatingSPCG_${date.id}.avif" alt="${date.name}" title="${date.name}" width="128" height="128" />`;
         });
     </script>
 

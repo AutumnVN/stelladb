@@ -70,13 +70,32 @@ const buildTime = new Date().toISOString();
     // @ts-nocheck
     const tooltips = document.querySelectorAll('.tooltip');
 
-    for (let i = 0; i < tooltips.length; i++) {
-        tooltips[i].addEventListener('mousemove', (e) => {
-            const tooltip = e.target.querySelector('.tooltip-text');
-            tooltip.style.left = e.pageX + tooltip.clientWidth + 16 < document.body.clientWidth ? e.pageX + 16 + 'px' : document.body.clientWidth - tooltip.clientWidth + 'px';
-            tooltip.style.top = e.pageY + tooltip.clientHeight + 16 < document.body.clientHeight ? e.pageY + 16 + 'px' : document.body.clientHeight - tooltip.clientHeight + 'px';
+    let rafPending = false;
+    let lastX = 0;
+    let lastY = 0;
+    let lastEl = null;
+    document.addEventListener('mousemove', (e) => {
+        const el = e.target.closest && e.target.closest('.tooltip');
+        if (!el) return;
+        lastX = e.pageX;
+        lastY = e.pageY;
+        lastEl = el;
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+            rafPending = false;
+            const tooltip = lastEl.querySelector('.tooltip-text');
+            if (!tooltip) return;
+            const tw = tooltip.clientWidth;
+            const th = tooltip.clientHeight;
+            const bw = document.body.clientWidth;
+            const bh = document.body.clientHeight;
+            const left = Math.min(Math.max(8, lastX + 16), bw - tw - 8);
+            const top = Math.min(Math.max(8, lastY + 16), bh - th - 8);
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
         });
-    }
+    });
 
     const navDetails = document.querySelectorAll('.navlinks details');
 

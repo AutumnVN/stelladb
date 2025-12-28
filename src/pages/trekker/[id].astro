@@ -157,20 +157,22 @@ if (!char) {
                         {!char.normalAtk.damageType.length ? null : <p class="small">Damage: {char.normalAtk.damageType.join(', ')}</p>}
                         {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
                         {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
+                        {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                         {
                             !char.normalAtk.effectData.length ? null : (
-                                <p class="small">
-                                    Effect data:{' '}
-                                    {char.normalAtk.effectData.map((data) => (
-                                        <>
-                                            {data}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
+                                <span class="tooltip small">
+                                    hover this for effect data
+                                    <div class="tooltip-text">
+                                        {char.normalAtk.effectData.map((data) => (
+                                            <>
+                                                {data}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </div>
+                                </span>
                             )
                         }
-                        {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="skill">
@@ -185,20 +187,22 @@ if (!char) {
                         {!char.skill.damageType.length ? null : <p class="small">Damage: {char.skill.damageType.join(', ')}</p>}
                         {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
                         {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
+                        {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                         {
                             !char.skill.effectData.length ? null : (
-                                <p class="small">
-                                    Effect data:{' '}
-                                    {char.skill.effectData.map((data) => (
-                                        <>
-                                            {data}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
+                                <span class="tooltip small">
+                                    hover this for effect data
+                                    <div class="tooltip-text">
+                                        {char.skill.effectData.map((data) => (
+                                            <>
+                                                {data}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </div>
+                                </span>
                             )
                         }
-                        {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="support-skill">
@@ -213,20 +217,22 @@ if (!char) {
                         {!char.supportSkill.damageType.length ? null : <p class="small">Damage: {char.supportSkill.damageType.join(', ')}</p>}
                         {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
                         {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
+                        {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                         {
                             !char.supportSkill.effectData.length ? null : (
-                                <p class="small">
-                                    Effect data:{' '}
-                                    {char.supportSkill.effectData.map((data) => (
-                                        <>
-                                            {data}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
+                                <span class="tooltip small">
+                                    hover this for effect data
+                                    <div class="tooltip-text">
+                                        {char.supportSkill.effectData.map((data) => (
+                                            <>
+                                                {data}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </div>
+                                </span>
                             )
                         }
-                        {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     <div class="ultimate">
@@ -241,20 +247,22 @@ if (!char) {
                         {!char.ultimate.damageType.length ? null : <p class="small">Damage: {char.ultimate.damageType.join(', ')}</p>}
                         {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
                         {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
+                        {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                         {
                             !char.ultimate.effectData.length ? null : (
-                                <p class="small">
-                                    Effect data:{' '}
-                                    {char.ultimate.effectData.map((data) => (
-                                        <>
-                                            {data}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
+                                <span class="tooltip small">
+                                    hover this for effect data
+                                    <div class="tooltip-text">
+                                        {char.ultimate.effectData.map((data) => (
+                                            <>
+                                                {data}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </div>
+                                </span>
                             )
                         }
-                        {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
 
                     {
@@ -312,18 +320,20 @@ if (!char) {
                                     {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <p class="small">
-                                            Effect data:{' '}
-                                            {pot.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {pot.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -353,18 +363,20 @@ if (!char) {
                                     {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <p class="small">
-                                            Effect data:{' '}
-                                            {pot.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {pot.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -394,18 +406,20 @@ if (!char) {
                                     {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <p class="small">
-                                            Effect data:{' '}
-                                            {pot.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {pot.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -423,18 +437,20 @@ if (!char) {
                                     {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <p class="small">
-                                            Effect data:{' '}
-                                            {pot.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {pot.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -464,18 +480,20 @@ if (!char) {
                                     {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <p class="small">
-                                            Effect data:{' '}
-                                            {pot.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!pot.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {pot.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
                                 </div>
                             </div>
                         ))
@@ -490,18 +508,20 @@ if (!char) {
                                 <p>{talent.boost[0].desc}</p>
                                 {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
                                 {!talent.boost[0].addAttrType.length ? null : <p class="small">AddAttr: {talent.boost[0].addAttrType.join(', ')}</p>}
-                                {!talent.boost[0].effectData.length ? null : (
-                                    <p>
-                                        Effect data:{' '}
-                                        {talent.boost[0].effectData.map((data) => (
-                                            <>
-                                                {data}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </p>
-                                )}
                                 {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!talent.boost[0].effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {talent.boost[0].effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
                             </div>
                         ))
                     }

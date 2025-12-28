@@ -147,20 +147,22 @@ if (!disc) {
                         </div>
                         <p>{disc.mainSkill.description}</p>
                         {!disc.mainSkill.effectType.length ? null : <p class="small">Effect: {disc.mainSkill.effectType.join(', ')}</p>}
+                        {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                         {
                             !disc.mainSkill.effectData.length ? null : (
-                                <p class="small">
-                                    Effect data:{' '}
-                                    {disc.mainSkill.effectData.map((data) => (
-                                        <>
-                                            {data}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
+                                <span class="tooltip small">
+                                    hover this for effect data
+                                    <div class="tooltip-text">
+                                        {disc.mainSkill.effectData.map((data) => (
+                                            <>
+                                                {data}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </div>
+                                </span>
                             )
                         }
-                        {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                     </div>
                 </section>
 
@@ -183,18 +185,20 @@ if (!disc) {
                                 </div>
                                 <p>{disc.secondarySkill1.description}</p>
                                 {!disc.secondarySkill1.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill1.effectType.join(', ')}</p>}
-                                {!disc.secondarySkill1.effectData.length ? null : (
-                                    <p class="small">
-                                        Effect data:{' '}
-                                        {disc.secondarySkill1.effectData.map((data) => (
-                                            <>
-                                                {data}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </p>
-                                )}
                                 {!disc.secondarySkill1.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill1.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!disc.secondarySkill1.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {disc.secondarySkill1.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
                                 <div class="item-image" />
                                 <p class="requirements">
                                     {Object.entries(disc.secondarySkill1.requirements[0]).map(([note, amount]) => (
@@ -216,18 +220,20 @@ if (!disc) {
                                     </div>
                                     <p>{disc.secondarySkill2.description}</p>
                                     {!disc.secondarySkill2.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill2.effectType.join(', ')}</p>}
-                                    {!disc.secondarySkill2.effectData.length ? null : (
-                                        <p class="small">
-                                            Effect data:{' '}
-                                            {disc.secondarySkill2.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
                                     {!disc.secondarySkill2.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill2.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!disc.secondarySkill2.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {disc.secondarySkill2.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
                                     <div class="item-image" />
                                     <p class="requirements">
                                         {Object.entries(disc.secondarySkill2.requirements[0]).map(([note, amount]) => (
@@ -660,7 +666,8 @@ if (!disc) {
 
         div[class] > p,
         div[class] > .checkbox,
-        div[class] > .item-image {
+        div[class] > .item-image,
+        div[class] > .small {
             margin-left: 1rem;
         }
 

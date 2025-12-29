@@ -5,12 +5,20 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="stelladb">
     <div class="center">
         <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
-        <p>bottom text</p>
+        <p>end of solar year</p>
     </div>
 
-    <a class="nazuna" href="/trekker/156">
-        <img src="/head_15601_Q.avif" alt="Nazuna" title="Nazuna" width="192" height="192" />
-    </a>
+    <div class="petal-bloom">
+        <a href="/trekker/156">
+            <img src="/head_15601_Q.avif" alt="Nazuna" title="Nazuna" width="120" height="200" />
+        </a>
+        <a href="/trekker/134">
+            <img src="/head_13401_Q.avif" alt="Fuyuka" title="Fuyuka" width="120" height="200" />
+        </a>
+        <a href="/trekker/133">
+            <img src="/head_13301_Q.avif" alt="Nazuka" title="Nazuka" width="120" height="200" />
+        </a>
+    </div>
 </Layout>
 
 <style>
@@ -28,13 +36,18 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .center p {
-        margin: 0.5rem;
+        margin: 0;
         font-size: 1.35rem;
     }
 
-    .nazuna {
+    .petal-bloom {
         position: absolute;
         right: 0;
         bottom: var(--nav-height);
+    }
+
+    .petal-bloom img {
+        object-fit: cover;
+        overflow: visible;
     }
 </style>

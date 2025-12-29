@@ -30,7 +30,7 @@ const buildTime = new Date().toISOString();
     </head>
     <body>
         <nav>
-            <a href="/" class="logo"><span style="color: #f66">stella</span><span style="color: #eee">db</span>🎄</a>
+            <a href="/" class="logo">stelladb</a>
             <div class="navlinks">
                 <a href="/trekker">Trekker</a>
                 <a href="/disc">Disc</a>
@@ -172,8 +172,8 @@ const buildTime = new Date().toISOString();
     body {
         background: var(--bg);
         color: var(--text);
-        font-family: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
         line-height: 1.3;
+        font-family: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
     }
 
     a {
@@ -293,11 +293,11 @@ const buildTime = new Date().toISOString();
         top: calc(var(--nav-height) - 1rem);
         right: 0;
         flex-direction: column;
+        box-shadow: 0 12px 28px #0008;
         border-radius: 6px;
         background: var(--bg2);
         padding: 0.25rem 0;
         width: max-content;
-        box-shadow: 0 12px 28px #0008;
     }
 
     .navlinks details[open] a {
@@ -316,8 +316,8 @@ const buildTime = new Date().toISOString();
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: var(--muted);
         height: var(--nav-height);
+        color: var(--muted);
     }
 
     footer p {

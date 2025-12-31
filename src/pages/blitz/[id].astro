@@ -94,6 +94,8 @@ if (!blitz) {
                                     <h3>{mechanic.name}</h3>
                                 </div>
                                 <p>{mechanic.desc}</p>
+                                {!mechanic.effectType?.length ? null : <p class="small">Effect: {mechanic.effectType.join(', ')}</p>}
+                                {!mechanic.buffIcon?.length ? null : <p class="small">Buff: {mechanic.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                             </div>
                         ))
                     }
@@ -126,7 +128,7 @@ if (!blitz) {
                 : 'No stats available';
         }
 
-        const mechanicDesc = document.querySelectorAll('.mechanic p');
+        const mechanicDesc = document.querySelectorAll('.mechanic p:first-of-type');
         mechanicDesc.forEach((desc) => {
             desc.innerHTML = desc.textContent.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
         });
@@ -217,6 +219,18 @@ if (!blitz) {
         div[class] > p,
         div[class] > .item-image {
             margin-left: 1rem;
+        }
+
+        .small {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .small img {
+            vertical-align: middle;
+            object-fit: cover;
+            object-position: center;
         }
 
         h2 {

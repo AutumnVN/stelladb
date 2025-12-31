@@ -6,6 +6,12 @@ import Layout from '../layouts/Layout.astro';
     <div class="center">
         <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
         <p>end of solar year</p>
+        <div class="time-machine">
+            <a href="https://stelladb.pages.dev/">latest</a>
+            <a href="https://398c0756.stelladb.pages.dev/">v1.3</a>
+            <a href="https://b6bb5f31.stelladb.pages.dev/">v1.2</a>
+            <a href="https://5076c69f.stelladb.pages.dev/">v1.1</a>
+        </div>
     </div>
 
     <div class="petal-bloom">
@@ -24,6 +30,7 @@ import Layout from '../layouts/Layout.astro';
 <style>
     .center {
         display: flex;
+        position: relative;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -33,11 +40,25 @@ import Layout from '../layouts/Layout.astro';
     .center h1 {
         margin: 1rem;
         font-size: 3.6rem;
+        text-align: center;
     }
 
     .center p {
         margin: 0;
         font-size: 1.35rem;
+        text-align: center;
+    }
+
+    .time-machine {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        flex-direction: column;
+    }
+
+    .time-machine a {
+        padding: 0.1rem 0.5rem;
     }
 
     .petal-bloom {
@@ -47,7 +68,7 @@ import Layout from '../layouts/Layout.astro';
     }
 
     .petal-bloom img {
-        object-fit: cover;
         overflow: visible;
+        object-fit: cover;
     }
 </style>

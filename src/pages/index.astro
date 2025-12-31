@@ -4,8 +4,11 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="stelladb">
     <div class="center">
-        <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
-        <p>omg nazuna gif sticker</p>
+        <div class="text">
+            <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
+            <p>happy new year</p>
+        </div>
+
         <img src="/" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
 
         <div class="time-machine">
@@ -39,8 +42,12 @@ import Layout from '../layouts/Layout.astro';
         min-height: calc(100dvh - 2 * var(--nav-height));
     }
 
+    .center .text {
+        margin-bottom: 1rem;
+    }
+
     .center h1 {
-        margin: 1rem;
+        margin: 0;
         font-size: 3.6rem;
         text-align: center;
     }

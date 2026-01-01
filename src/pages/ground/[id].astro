@@ -48,7 +48,7 @@ if (!ground) {
 
         <div class="content">
             <div class="left">
-                <img src={`/${ground.icon}.avif`} alt={ground.name} title={ground.name} width="256" height="256" />
+                <img src={`/${ground.icon}.avif`} alt={ground.name} title={ground.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
                     <p>
                         {`Type: ${ground.type}`}<br />

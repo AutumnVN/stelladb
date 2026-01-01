@@ -60,7 +60,7 @@ if (!disc) {
 
         <div class="content">
             <div class="left">
-                <img src={`/outfit_${id.replace(/^.{2}/, '')}.avif`} alt={disc.name} title={disc.name} width="256" height="256" />
+                <img src={`/outfit_${id.replace(/^.{2}/, '')}.avif`} alt={disc.name} title={disc.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
                     <p>
                         {`${disc.star}⭐`}<br />

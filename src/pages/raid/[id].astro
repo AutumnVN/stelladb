@@ -48,7 +48,7 @@ if (!raid) {
 
         <div class="content">
             <div class="left">
-                <img src={`/${raid.icon}.avif`} alt={raid.name} title={raid.name} width="256" height="256" />
+                <img src={`/${raid.icon}.avif`} alt={raid.name} title={raid.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
                     <p>
                         {`Type: ${raid.type}`}<br />

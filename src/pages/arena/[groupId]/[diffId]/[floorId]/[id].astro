@@ -57,7 +57,7 @@ if (!group || !diff || !floor || !monster) {
 
         <div class="content">
             <div class="left">
-                <img src={`/${monster.icon}.avif`} alt={monster.name} title={monster.name} width="256" height="256" />
+                <img src={`/${monster.icon}.avif`} alt={monster.name} title={monster.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
                     <p>
                         {`Type: ${monster.type}`}<br />

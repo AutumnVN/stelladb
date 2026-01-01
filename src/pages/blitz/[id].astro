@@ -48,7 +48,7 @@ if (!blitz) {
 
         <div class="content">
             <div class="left">
-                <img src={`/${blitz.icon}.avif`} alt={blitz.name} title={blitz.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
+                <img src={`/${blitz.icon}.avif`} alt={blitz.name} title={blitz.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
                     <p>
                         {`Type: ${blitz.type}`}<br />

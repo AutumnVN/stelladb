@@ -43,7 +43,7 @@ if (!duel) {
 
         <div class="content">
             <div class="left">
-                <img src={`/${duel.icon}.avif`} alt={duel.name} title={duel.name} width="256" height="256" style="object-position: top; object-fit: cover;" />
+                <img src={`/${duel.icon}.avif`} alt={duel.name} title={duel.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
                     <p>
                         {`Type: ${duel.type}`}<br />

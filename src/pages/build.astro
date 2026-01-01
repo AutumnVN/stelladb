@@ -1,0 +1,59 @@
+---
+const url = 'https://docs.google.com/spreadsheets/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/edit?gid=1930264270#gid=1930264270';
+
+const response = await fetch(url);
+const html = await response.text();
+
+const style = `
+    <style>
+        #docs-chrome,
+        #grid-bottom-bar,
+        #core-js-error-dialog-overlay,
+        .column-headers-background,
+        .row-headers-background {
+            display: none !important;
+        }
+        body {
+            overflow: auto;
+        }
+        [style*='overflow:'][style*='height:'][style*='width:'] {
+            overflow: visible !important;
+            height: auto !important;
+            width: auto !important;
+        }
+    </style>
+`;
+
+const modifiedHtml = html.replace(
+    /<head>(?!<style>)/,
+    `$&${style}
+        <script>
+            (async () => {
+                const url = '${url}';
+                try {
+                    const res = await fetch(url,
+                        {
+                            headers: {
+                                'sec-ch-ua-mobile': '?0'
+                            }
+                        }
+                    });
+                    const html = await res.text();
+                    const modifiedHtml = html.replace(
+                        /<head>(?!<style>)/,
+                        \`$&${style}\`,
+                    );
+                    document.documentElement.innerHTML = modifiedHtml;
+                } catch (e) {
+                    console.error(e);
+                }
+            })();
+        </script>`,
+);
+
+return new Response(modifiedHtml, {
+    headers: {
+        'Content-Type': 'text/html',
+    },
+});
+---

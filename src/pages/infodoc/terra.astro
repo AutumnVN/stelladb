@@ -1,16 +1,20 @@
 ---
-const url = 'https://docs.google.com/spreadsheets/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/edit?gid=2079613873#gid=2079613873';
+const url = 'https://docs.google.com/spreadsheets/u/0/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/htmlview/sheet?headers=false&gid=2079613873';
 
 const response = await fetch(url);
 const html = await response.text();
 
 import { style, nav, clientScript } from '@/scripts/infodoc.js';
 
-const modifiedHtml = html.replace('<div class="grid-table-container">', `${nav}$&`).replace(
-    /<head>(?!<style>)/,
-    `$&${style}
-        ${clientScript(url)}`,
-);
+const modifiedHtml = html
+    .replace(/<meta name="viewport".+?>/, '')
+    .replace(/style="display:none;position:relative;"/, '')
+    .replace(/<link href='\/static.+?>/g, '')
+    .replace(/<style>@import.+?<\/style>/, '')
+    .replace(/target="_blank" rel="noreferrer" href="#\w+?=\d+?"/g, 'href="javascript:void(0);"')
+    .replace(/<img src="https:\/\/lh7-rt\.googleusercontent\.com/g, '<img referrerpolicy="no-referrer" src="https://lh7-rt.googleusercontent.com')
+    .replace(/<div id="\d+?".+?>/, `${nav}$&`)
+    .replace(/<head>/, `$&${clientScript(url)}${style}`);
 
 return new Response(modifiedHtml, {
     headers: {

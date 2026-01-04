@@ -75,10 +75,11 @@ export function clientScript(url) {
                 const modifiedHtml = html
                     .replace(/<meta name="viewport".+?>/, '')
                     .replace(/style="display:none;position:relative;"/, '')
+                    .replace(/pointer-events:none;/g, '')
                     .replace(/<link href='\\/static.+?>/g, '')
                     .replace(/<style>@import.+?<\\/style>/, '')
+                    .replace(/<script.+?<\\/script>/gs, '')
                     .replace(/target="_blank" rel="noreferrer" href="#\\w+?=\\d+?"/g, 'href="javascript:void(0);"')
-                    .replace(/<img src="https:\\/\\/lh7-rt\\.googleusercontent\\.com/g, '<img referrerpolicy="no-referrer" src="https://lh7-rt.googleusercontent.com')
                     .replace(/<div id="\\d+?".+?>/, \`${nav}$&\`)
                     .replace(/<head>/, \`$&${style}\`);
                 document.documentElement.innerHTML = modifiedHtml;

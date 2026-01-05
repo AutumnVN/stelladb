@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync, writeFileSync, createWriteStream, existsSync, unlinkSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -8,17 +9,18 @@ import path from 'path';
 // https://astro.build/config
 export default defineConfig({
     site: 'https://stelladb.pages.dev',
-    integrations: [
-        sitemap(),
-        downloadRemoteImage(['https://lh7-rt.googleusercontent.com/'])
-    ],
+
+    adapter: cloudflare(),
+
+    integrations: [sitemap()],
+
     vite: {
         resolve: {
             alias: {
                 '@': path.resolve('./src')
             }
         }
-    }
+    },
 });
 
 function downloadRemoteImage(urls) {

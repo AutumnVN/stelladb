@@ -53,7 +53,7 @@ export const style = `
 export const nav = `
     <nav>
         <a href="/" style="color: #6f9; font-weight: 700;">stelladb</a>
-        <a href="https://docs.google.com/spreadsheets/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/edit?gid=1265175955#\w+?=1265175955" style="color: #ccf; font-weight: 700;">original infodoc</a>
+        <a href="https://docs.google.com/spreadsheets/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/edit?gid=1265175955#gid?=1265175955" style="color: #ccf; font-weight: 700;">original infodoc</a>
         <a href="/infodoc">build</a>
         <a href="/infodoc/aqua">aqua</a>
         <a href="/infodoc/ignis">ignis</a>

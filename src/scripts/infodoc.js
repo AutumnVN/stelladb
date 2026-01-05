@@ -7,6 +7,10 @@ export const style = `
             display: none !important;
         }
 
+        #sheets-viewport {
+            overflow: unset !important;
+        }
+
         .grid-container {
             overflow: unset !important;
             background: none !important;

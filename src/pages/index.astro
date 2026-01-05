@@ -20,14 +20,14 @@ import Layout from '@/layouts/Layout.astro';
     </div>
 
     <div class="petal-bloom">
-        <a href="/trekker/156">
-            <img src="/head_15601_Q.avif" alt="Nazuna" title="Nazuna" width="120" height="200" />
+        <a href="/trekker/156" title="Nazuna">
+            <img src="/head_15601_Q.avif" alt="Nazuna" title="Nazuna" width="200" height="200" />
         </a>
-        <a href="/trekker/134">
-            <img src="/head_13401_Q.avif" alt="Fuyuka" title="Fuyuka" width="120" height="200" />
+        <a href="/trekker/134" title="Fuyuka">
+            <img src="/head_13401_Q.avif" alt="Fuyuka" title="Fuyuka" width="200" height="200" />
         </a>
-        <a href="/trekker/133">
-            <img src="/head_13301_Q.avif" alt="Nazuka" title="Nazuka" width="120" height="200" />
+        <a href="/trekker/133" title="Nazuka">
+            <img src="/head_13301_Q.avif" alt="Nazuka" title="Nazuka" width="200" height="200" />
         </a>
     </div>
 </Layout>
@@ -71,13 +71,21 @@ import Layout from '@/layouts/Layout.astro';
     }
 
     .petal-bloom {
+        display: flex;
         position: absolute;
         right: 0;
         bottom: var(--nav-height);
+        overflow: hidden;
+    }
+
+    .petal-bloom a {
+        width: 120px;
     }
 
     .petal-bloom img {
-        overflow: visible;
-        object-fit: cover;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
     }
 </style>

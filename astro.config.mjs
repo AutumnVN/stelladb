@@ -10,7 +10,9 @@ import path from 'path';
 export default defineConfig({
     site: 'https://stelladb.pages.dev',
 
-    adapter: cloudflare(),
+    adapter: cloudflare({
+        imageService: 'passthrough',
+    }),
 
     integrations: [sitemap()],
 

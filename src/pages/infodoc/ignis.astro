@@ -21,7 +21,8 @@ const modifiedHtml = html
 
 return new Response(modifiedHtml, {
     headers: {
-        'Content-Type': 'text/html',
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'public, max-age=900',
     },
 });
 ---

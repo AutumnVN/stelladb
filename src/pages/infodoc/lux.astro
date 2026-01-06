@@ -22,7 +22,7 @@ const modifiedHtml = html
 return new Response(modifiedHtml, {
     headers: {
         'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'public, max-age=900',
+        'Cache-Control': 'public, max-age=3600',
     },
 });
 ---

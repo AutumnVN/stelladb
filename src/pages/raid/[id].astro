@@ -76,7 +76,23 @@ if (!raid) {
                         <h2>Stats</h2>
                         <p>
                             {
-                                Object.entries(raid.diff[0].stat).map(([stat, value]) => (
+                                Object.entries(raid.diff[0].stat[0]).map(([stat, value]) => (
+                                    <>
+                                        {stat}: {value.toLocaleString()}
+                                        {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                        {value === 727 ? ' when you see it' : ''}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+
+                    <div class="book-stats">
+                        <h2>Book stats</h2>
+                        <p>
+                            {
+                                Object.entries(raid.diff[0].bookStat).map(([stat, value]) => (
                                     <>
                                         {stat}: {value.toLocaleString()}
                                         {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
@@ -115,6 +131,7 @@ if (!raid) {
         const phaseInput = document.querySelector('#phase');
         const phaseOutput = document.querySelector('.phase-output');
         const stats = document.querySelector('.stats p');
+        const bookStats = document.querySelector('.book-stats p');
 
         let difficulty = 0;
         let phase = 1;
@@ -130,6 +147,9 @@ if (!raid) {
             difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
             phaseOutput.innerHTML = `Phase: ${phase}`;
             stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[phase - 1])
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
+                .join('')}`;
+            bookStats.innerHTML = `${Object.entries(raid.diff[difficulty].bookStat)
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                 .join('')}`;
         }

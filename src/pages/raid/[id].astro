@@ -35,7 +35,7 @@ if (!raid) {
 }
 ---
 
-<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat.HP.toLocaleString()}`}>
+<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0].HP.toLocaleString()}`}>
     <div class="raid-page" data-json={JSON.stringify(raid)}>
         <div class="header">
             <h1>{raid.name}</h1>
@@ -64,6 +64,11 @@ if (!raid) {
                         <div class="slider difficulty">
                             <label class="difficulty-output">Diff: {raid.diff[raid.diff.length - 1].name}</label>
                             <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
+                        </div>
+
+                        <div class="slider phase">
+                            <label class="phase-output">Phase: 1</label>
+                            <input type="range" id="phase" min="1" max="2" value="1" />
                         </div>
                     </div>
 
@@ -107,18 +112,24 @@ if (!raid) {
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
+        const phaseInput = document.querySelector('#phase');
+        const phaseOutput = document.querySelector('.phase-output');
         const stats = document.querySelector('.stats p');
 
         let difficulty = 0;
+        let phase = 1;
 
-        difficultyInput.addEventListener('input', onDifficultyInput);
-        onDifficultyInput();
+        difficultyInput.addEventListener('input', onStatInput);
+        phaseInput.addEventListener('input', onStatInput);
+        onStatInput();
 
-        function onDifficultyInput() {
+        function onStatInput() {
             difficulty = +difficultyInput.value;
+            phase = +phaseInput.value;
 
             difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
-            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat)
+            phaseOutput.innerHTML = `Phase: ${phase}`;
+            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[phase - 1])
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                 .join('')}`;
         }

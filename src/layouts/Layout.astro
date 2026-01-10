@@ -21,16 +21,28 @@ const buildTime = new Date().toISOString();
         <meta name="description" content={description} />
         <meta name="theme-color" content="#66ff99" />
         <link rel="canonical" href={Astro.url.href} />
-        <meta property="og:site_name" content="stelladb.pages.dev" />
-        <meta property="og:image" content={image} />
+        <meta property="og:url" content={Astro.url.href} />
+        <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:url" content={Astro.url.href} />
+        <meta property="og:image" content={image} />
+        <meta property="og:site_name" content="stelladb.pages.dev" />
         <link rel="sitemap" href="/sitemap-index.xml" />
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                '@context': 'http://schema.org',
+                '@type': 'WebPage',
+                name: title,
+                description,
+                image,
+                url: Astro.url.href,
+            })}
+        />
     </head>
     <body>
         <nav>
-            <a href="/" class="logo">stelladb</a>
+            <a href="/"><h1 class="logo">stelladb</h1></a>
             <div class="navlinks">
                 <a href="/trekker">Trekker</a>
                 <a href="/disc">Disc</a>
@@ -252,7 +264,7 @@ const buildTime = new Date().toISOString();
     }
 
     .logo {
-        margin-right: 1rem;
+        margin: 0;
         padding: 0.5rem;
         color: var(--accent);
         font-weight: 700;

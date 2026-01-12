@@ -147,6 +147,7 @@ if (!disc) {
                         </div>
                         <p>{disc.mainSkill.description}</p>
                         {!disc.mainSkill.effectType.length ? null : <p class="small">Effect: {disc.mainSkill.effectType.join(', ')}</p>}
+                        {!disc.mainSkill.addAttrType.length ? null : <p class="small">AddAttr: {disc.mainSkill.addAttrType.join(', ')}</p>}
                         {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                         {
                             !disc.mainSkill.effectData.length ? null : (
@@ -185,6 +186,7 @@ if (!disc) {
                                 </div>
                                 <p>{disc.secondarySkill1.description}</p>
                                 {!disc.secondarySkill1.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill1.effectType.join(', ')}</p>}
+                                {!disc.secondarySkill1.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill1.addAttrType.join(', ')}</p>}
                                 {!disc.secondarySkill1.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill1.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                 {!disc.secondarySkill1.effectData.length ? null : (
                                     <span class="tooltip small">
@@ -220,6 +222,7 @@ if (!disc) {
                                     </div>
                                     <p>{disc.secondarySkill2.description}</p>
                                     {!disc.secondarySkill2.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill2.effectType.join(', ')}</p>}
+                                    {!disc.secondarySkill2.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill2.addAttrType.join(', ')}</p>}
                                     {!disc.secondarySkill2.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill2.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
                                     {!disc.secondarySkill2.effectData.length ? null : (
                                         <span class="tooltip small">

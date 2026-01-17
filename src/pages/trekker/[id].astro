@@ -154,7 +154,19 @@ if (!char) {
                             <h2>Normal attack: {char.normalAtk.name}</h2>
                         </div>
                         <p>{char.normalAtk.desc}</p>
-                        {!char.normalAtk.damageType.length ? null : <p class="small">Damage: {char.normalAtk.damageType.join(', ')}</p>}
+                        {
+                            !char.normalAtk.damageType.length ? null : (
+                                <p class="small">
+                                    Damage:{' '}
+                                    {char.normalAtk.damageType.map((dt) => (
+                                        <>
+                                            {dt}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            )
+                        }
                         {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
                         {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
                         {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -184,7 +196,18 @@ if (!char) {
                             </div>
                         </div>
                         <p>{char.skill.desc}</p>
-                        {!char.skill.damageType.length ? null : <p class="small">Damage: {char.skill.damageType.join(', ')}</p>}
+                        {
+                            !char.skill.damageType.length ? null : (
+                                <p class="small">
+                                    Damage:{' '}
+                                    {char.skill.damageType.map((dt) => (
+                                        <>
+                                            {dt} <br />
+                                        </>
+                                    ))}
+                                </p>
+                            )
+                        }
                         {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
                         {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
                         {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -214,7 +237,19 @@ if (!char) {
                             </div>
                         </div>
                         <p>{char.supportSkill.desc}</p>
-                        {!char.supportSkill.damageType.length ? null : <p class="small">Damage: {char.supportSkill.damageType.join(', ')}</p>}
+                        {
+                            !char.supportSkill.damageType.length ? null : (
+                                <p class="small">
+                                    Damage:{' '}
+                                    {char.supportSkill.damageType.map((dt) => (
+                                        <>
+                                            {dt}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            )
+                        }
                         {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
                         {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
                         {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -244,7 +279,19 @@ if (!char) {
                             </div>
                         </div>
                         <p>{char.ultimate.desc}</p>
-                        {!char.ultimate.damageType.length ? null : <p class="small">Damage: {char.ultimate.damageType.join(', ')}</p>}
+                        {
+                            !char.ultimate.damageType.length ? null : (
+                                <p class="small">
+                                    Damage:{' '}
+                                    {char.ultimate.damageType.map((dt) => (
+                                        <>
+                                            {dt}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            )
+                        }
                         {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
                         {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
                         {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -317,7 +364,17 @@ if (!char) {
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
                                     <h3>{pot.name}</h3>
                                     <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
+                                    {!pot.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {pot.damageType.map((dt) => (
+                                                <>
+                                                    {dt}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </p>
+                                    )}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -360,7 +417,17 @@ if (!char) {
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
                                     <h3>{pot.name}</h3>
                                     <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
+                                    {!pot.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {pot.damageType.map((dt) => (
+                                                <>
+                                                    {dt}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </p>
+                                    )}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -403,7 +470,17 @@ if (!char) {
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
                                     <h3>{pot.name}</h3>
                                     <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
+                                    {!pot.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {pot.damageType.map((dt) => (
+                                                <>
+                                                    {dt}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </p>
+                                    )}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -434,7 +511,17 @@ if (!char) {
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
                                     <h3>{pot.name}</h3>
                                     <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
+                                    {!pot.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {pot.damageType.map((dt) => (
+                                                <>
+                                                    {dt}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </p>
+                                    )}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
@@ -477,7 +564,17 @@ if (!char) {
                                 <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
                                     <h3>{pot.name}</h3>
                                     <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : <p class="small">Damage: {pot.damageType.join(', ')}</p>}
+                                    {!pot.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {pot.damageType.map((dt) => (
+                                                <>
+                                                    {dt}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </p>
+                                    )}
                                     {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                     {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
                                     {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}

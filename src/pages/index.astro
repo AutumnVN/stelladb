@@ -6,11 +6,7 @@ import Layout from '@/layouts/Layout.astro';
     <div class="center">
         <div class="text">
             <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
-            <p>
-                <a href="/trekker/110">firenze</a> /
-                <a href="/disc/214004">disc</a> /
-                <a href="/disc/214043">ev disc</a>
-            </p>
+            <p>day <span class="qol-time" data-time="2025-12-31T10:00:02.000Z"></span> since yostar promised ascension & emblem qol</p>
         </div>
 
         <img src="/" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
@@ -37,6 +33,25 @@ import Layout from '@/layouts/Layout.astro';
     </div>
 </Layout>
 
+<script>
+    // @ts-nocheck
+    const qolTimeEl = document.querySelector('.qol-time');
+    const qolTime = new Date(qolTimeEl.dataset.time);
+
+    qolTimeEl.textContent = formatRelativeDay(qolTime);
+    setInterval(() => {
+        qolTimeEl.textContent = formatRelativeDay(qolTime);
+    }, 1000);
+
+    function formatRelativeDay(time) {
+        const now = new Date();
+        const diffTime = now - time;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        return diffDays;
+    }
+</script>
+
 <style>
     .center {
         display: flex;
@@ -52,13 +67,13 @@ import Layout from '@/layouts/Layout.astro';
     }
 
     .center h1 {
-        margin: 0;
+        margin: 0.25rem 0;
         font-size: 3.6rem;
         text-align: center;
     }
 
     .center p {
-        margin: 0;
+        margin: 0.25rem 0;
         font-size: 1.35rem;
         text-align: center;
     }

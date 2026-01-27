@@ -62,9 +62,9 @@ if (!char) {
                 <img src={`/head_${id}02_XL.avif`} alt={char.name} title={char.name} width="256" height="340" onerror="this.style.display='none'" />
                 <div class="info">
                     {
-                        char.name.startsWith('ID_') && (
+                        /^\d/.test(char.name) && (
                             <p>
-                                unreleased character have material data means they are coming soon <br />
+                                unreleased character <br />
                                 their kit is unfinished and can be changed a lot on release <br />
                                 do not blindly trust it yet <br />
                             </p>
@@ -599,9 +599,11 @@ if (!char) {
 
                 <section id="talents" class="tab-panel" hidden>
                     {
-                        char.talent.map((talent) => (
+                        char.talent.map((talent, index) => (
                             <div class="talent">
-                                <h2>{talent.name}</h2>
+                                <h2>
+                                    {index + 1}. {talent.name}
+                                </h2>
                                 <p>{talent.boost[0].desc}</p>
                                 {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
                                 {!talent.boost[0].addAttrType.length ? null : <p class="small">AddAttr: {talent.boost[0].addAttrType.join(', ')}</p>}

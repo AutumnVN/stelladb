@@ -5,14 +5,19 @@ import Tabs from '@/components/Tabs.astro';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
-    const data = await fetch(DATA_URL).then((res) => res.json());
+    const UNRELEASED_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
 
-    return Object.keys(data).map((id) => ({
+    const data = await fetch(DATA_URL).then((res) => res.json());
+    const unreleased = await fetch(UNRELEASED_URL).then((res) => res.json());
+    const both = Object.assign({}, data, unreleased);
+
+    return Object.keys(both).map((id) => ({
         params: { id },
     }));
 }
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
+const UNRELEASED_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
 const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
 
@@ -20,9 +25,11 @@ const { params, request } = Astro;
 const id = params.id;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
+const unreleased = await fetch(UNRELEASED_URL).then((res) => res.json());
+const both = Object.assign({}, data, unreleased);
 const itemData = await fetch(ITEM_URL).then((res) => res.json());
 const word = await fetch(WORD_URL).then((res) => res.json());
-const char = data[id];
+const char = both[id];
 
 char.tag.shift();
 
@@ -105,7 +112,7 @@ if (!char) {
 
                     <div class="stats">
                         <h2>Stats</h2>
-                        <p>
+                        {char.stat.length && (<p>
                             HP: {char.stat[97].hp.toLocaleString()}<br />
                             ATK: {char.stat[97].atk.toLocaleString()}<br />
                             DEF: {char.stat[97].def.toLocaleString()}<br />
@@ -114,7 +121,7 @@ if (!char) {
                             Resilience Break Efficiency: {char.stat[97].resilienceBreakEfficiency}<br />
                             VUL Exploit: {char.stat[97].vul}<br />
                         </p>
-                        <p class="small">other stats doesnt change, dont care</p>
+                        <p class="small">other stats doesnt change, dont care</p>)}
                     </div>
 
                     <div class="upgrade-cost">
@@ -125,12 +132,13 @@ if (!char) {
                         <p>
                             Max upgrade reached<br />
                             {
-                                Object.entries(char.upgrade[7]).map(([item, amount]) => (
-                                    <>
-                                        {item}: {amount.toLocaleString()}
-                                        <br />
-                                    </>
-                                ))
+                                char.upgrade.length &&
+                                    Object.entries(char.upgrade[7]).map(([item, amount]) => (
+                                        <>
+                                            {item}: {amount.toLocaleString()}
+                                            <br />
+                                        </>
+                                    ))
                             }
                         </p>
                     </div>
@@ -331,12 +339,13 @@ if (!char) {
                         <p>
                             Max upgrade reached<br />
                             {
-                                Object.entries(char.skillUpgrade[8]).map(([item, amount]) => (
-                                    <>
-                                        {item}: {amount.toLocaleString()}
-                                        <br />
-                                    </>
-                                ))
+                                char.skillUpgrade.length &&
+                                    Object.entries(char.skillUpgrade[8]).map(([item, amount]) => (
+                                        <>
+                                            {item}: {amount.toLocaleString()}
+                                            <br />
+                                        </>
+                                    ))
                             }
                         </p>
                     </div>
@@ -356,244 +365,249 @@ if (!char) {
 
                     <h2>Main core</h2>
                     {
-                        char.potential.mainCore.map((pot) => (
-                            <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
-                                </div>
-                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                    <h3>{pot.name}</h3>
-                                    <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : (
-                                        <p class="small">
-                                            Damage:{' '}
-                                            {pot.damageType.map((dt) => (
-                                                <>
-                                                    {dt}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
-                                    {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                    {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <span class="tooltip small">
-                                            hover this for effect data
-                                            <div class="tooltip-text">
-                                                {pot.effectData.map((data) => (
+                        char.potential.mainCore?.length &&
+                            char.potential.mainCore.map((pot) => (
+                                <div class="potential-wrapper">
+                                    <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
+                                        <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
+                                    </div>
+                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                        <h3>{pot.name}</h3>
+                                        <p>{pot.desc}</p>
+                                        {!pot.damageType.length ? null : (
+                                            <p class="small">
+                                                Damage:{' '}
+                                                {pot.damageType.map((dt) => (
                                                     <>
-                                                        {data}
+                                                        {dt}
                                                         <br />
                                                     </>
                                                 ))}
-                                            </div>
-                                        </span>
-                                    )}
+                                            </p>
+                                        )}
+                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                        {!pot.effectData.length ? null : (
+                                            <span class="tooltip small">
+                                                hover this for effect data
+                                                <div class="tooltip-text">
+                                                    {pot.effectData.map((data) => (
+                                                        <>
+                                                            {data}
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
                     }
                     <h2>Main normal</h2>
                     {
-                        char.potential.mainNormal.map((pot) => (
-                            <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <svg width="96" height="96" viewBox="0 0 96 96">
-                                        <title>{pot.name}</title>
+                        char.potential.mainNormal?.length &&
+                            char.potential.mainNormal.map((pot) => (
+                                <div class="potential-wrapper">
+                                    <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
+                                        <svg width="96" height="96" viewBox="0 0 96 96">
+                                            <title>{pot.name}</title>
 
-                                        <defs>
-                                            <mask id={`mask-${pot.corner}`}>
-                                                <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
-                                            </mask>
-                                        </defs>
+                                            <defs>
+                                                <mask id={`mask-${pot.corner}`}>
+                                                    <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
+                                                </mask>
+                                            </defs>
 
-                                        <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
-                                        <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
-                                        <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
-                                    </svg>
-                                </div>
-                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                    <h3>{pot.name}</h3>
-                                    <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : (
-                                        <p class="small">
-                                            Damage:{' '}
-                                            {pot.damageType.map((dt) => (
-                                                <>
-                                                    {dt}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
-                                    {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                    {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <span class="tooltip small">
-                                            hover this for effect data
-                                            <div class="tooltip-text">
-                                                {pot.effectData.map((data) => (
+                                            <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
+                                            <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
+                                            <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
+                                        </svg>
+                                    </div>
+                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                        <h3>{pot.name}</h3>
+                                        <p>{pot.desc}</p>
+                                        {!pot.damageType.length ? null : (
+                                            <p class="small">
+                                                Damage:{' '}
+                                                {pot.damageType.map((dt) => (
                                                     <>
-                                                        {data}
+                                                        {dt}
                                                         <br />
                                                     </>
                                                 ))}
-                                            </div>
-                                        </span>
-                                    )}
+                                            </p>
+                                        )}
+                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                        {!pot.effectData.length ? null : (
+                                            <span class="tooltip small">
+                                                hover this for effect data
+                                                <div class="tooltip-text">
+                                                    {pot.effectData.map((data) => (
+                                                        <>
+                                                            {data}
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
                     }
                     <h2>Common</h2>
                     {
-                        char.potential.common.map((pot) => (
-                            <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <svg width="96" height="96" viewBox="0 0 96 96">
-                                        <title>{pot.name}</title>
+                        char.potential.common?.length &&
+                            char.potential.common.map((pot) => (
+                                <div class="potential-wrapper">
+                                    <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
+                                        <svg width="96" height="96" viewBox="0 0 96 96">
+                                            <title>{pot.name}</title>
 
-                                        <defs>
-                                            <mask id={`mask-${pot.corner}`}>
-                                                <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
-                                            </mask>
-                                        </defs>
+                                            <defs>
+                                                <mask id={`mask-${pot.corner}`}>
+                                                    <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
+                                                </mask>
+                                            </defs>
 
-                                        <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
-                                        <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
-                                        <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
-                                    </svg>
-                                </div>
-                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                    <h3>{pot.name}</h3>
-                                    <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : (
-                                        <p class="small">
-                                            Damage:{' '}
-                                            {pot.damageType.map((dt) => (
-                                                <>
-                                                    {dt}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
-                                    {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                    {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <span class="tooltip small">
-                                            hover this for effect data
-                                            <div class="tooltip-text">
-                                                {pot.effectData.map((data) => (
+                                            <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
+                                            <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
+                                            <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
+                                        </svg>
+                                    </div>
+                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                        <h3>{pot.name}</h3>
+                                        <p>{pot.desc}</p>
+                                        {!pot.damageType.length ? null : (
+                                            <p class="small">
+                                                Damage:{' '}
+                                                {pot.damageType.map((dt) => (
                                                     <>
-                                                        {data}
+                                                        {dt}
                                                         <br />
                                                     </>
                                                 ))}
-                                            </div>
-                                        </span>
-                                    )}
+                                            </p>
+                                        )}
+                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                        {!pot.effectData.length ? null : (
+                                            <span class="tooltip small">
+                                                hover this for effect data
+                                                <div class="tooltip-text">
+                                                    {pot.effectData.map((data) => (
+                                                        <>
+                                                            {data}
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
                     }
                     <h2>Support core</h2>
                     {
-                        char.potential.supportCore.map((pot) => (
-                            <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
-                                </div>
-                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                    <h3>{pot.name}</h3>
-                                    <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : (
-                                        <p class="small">
-                                            Damage:{' '}
-                                            {pot.damageType.map((dt) => (
-                                                <>
-                                                    {dt}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
-                                    {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                    {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <span class="tooltip small">
-                                            hover this for effect data
-                                            <div class="tooltip-text">
-                                                {pot.effectData.map((data) => (
+                        char.potential.supportCore?.length &&
+                            char.potential.supportCore.map((pot) => (
+                                <div class="potential-wrapper">
+                                    <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
+                                        <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
+                                    </div>
+                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                        <h3>{pot.name}</h3>
+                                        <p>{pot.desc}</p>
+                                        {!pot.damageType.length ? null : (
+                                            <p class="small">
+                                                Damage:{' '}
+                                                {pot.damageType.map((dt) => (
                                                     <>
-                                                        {data}
+                                                        {dt}
                                                         <br />
                                                     </>
                                                 ))}
-                                            </div>
-                                        </span>
-                                    )}
+                                            </p>
+                                        )}
+                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                        {!pot.effectData.length ? null : (
+                                            <span class="tooltip small">
+                                                hover this for effect data
+                                                <div class="tooltip-text">
+                                                    {pot.effectData.map((data) => (
+                                                        <>
+                                                            {data}
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
                     }
                     <h2>Support normal</h2>
                     {
-                        char.potential.supportNormal.map((pot) => (
-                            <div class="potential-wrapper">
-                                <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
-                                    <svg width="96" height="96" viewBox="0 0 96 96">
-                                        <title>{pot.name}</title>
+                        char.potential.supportNormal?.length &&
+                            char.potential.supportNormal.map((pot) => (
+                                <div class="potential-wrapper">
+                                    <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
+                                        <svg width="96" height="96" viewBox="0 0 96 96">
+                                            <title>{pot.name}</title>
 
-                                        <defs>
-                                            <mask id={`mask-${pot.corner}`}>
-                                                <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
-                                            </mask>
-                                        </defs>
+                                            <defs>
+                                                <mask id={`mask-${pot.corner}`}>
+                                                    <image href={`/Potential_${pot.corner}_B.avif`} width="96" height="96" />
+                                                </mask>
+                                            </defs>
 
-                                        <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
-                                        <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
-                                        <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
-                                    </svg>
-                                </div>
-                                <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                    <h3>{pot.name}</h3>
-                                    <p>{pot.desc}</p>
-                                    {!pot.damageType.length ? null : (
-                                        <p class="small">
-                                            Damage:{' '}
-                                            {pot.damageType.map((dt) => (
-                                                <>
-                                                    {dt}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </p>
-                                    )}
-                                    {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                    {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                    {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                    {!pot.effectData.length ? null : (
-                                        <span class="tooltip small">
-                                            hover this for effect data
-                                            <div class="tooltip-text">
-                                                {pot.effectData.map((data) => (
+                                            <image href={`/${pot.icon}_A.avif`} width="96" height="96" onerror="this.style.display='none'" />
+                                            <rect width="96" height="96" class={pot.rarity} mask={`url(#mask-${pot.corner})`} />
+                                            <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
+                                        </svg>
+                                    </div>
+                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                        <h3>{pot.name}</h3>
+                                        <p>{pot.desc}</p>
+                                        {!pot.damageType.length ? null : (
+                                            <p class="small">
+                                                Damage:{' '}
+                                                {pot.damageType.map((dt) => (
                                                     <>
-                                                        {data}
+                                                        {dt}
                                                         <br />
                                                     </>
                                                 ))}
-                                            </div>
-                                        </span>
-                                    )}
+                                            </p>
+                                        )}
+                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`/${icon}.avif`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                        {!pot.effectData.length ? null : (
+                                            <span class="tooltip small">
+                                                hover this for effect data
+                                                <div class="tooltip-text">
+                                                    {pot.effectData.map((data) => (
+                                                        <>
+                                                            {data}
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
                     }
                 </section>
 
@@ -775,7 +789,7 @@ if (!char) {
 
             upgrade1Output.innerHTML = `Upgrade: ${upgrade1}`;
             levelOutput.innerHTML = `Level: ${level}`;
-            stats.innerHTML = `
+            if (char.stat.length) stats.innerHTML = `
                 HP: ${char.stat[level + upgrade1 - 1].hp.toLocaleString()}<br />
                 ATK: ${char.stat[level + upgrade1 - 1].atk.toLocaleString()}<br />
                 DEF: ${char.stat[level + upgrade1 - 1].def.toLocaleString()}<br />
@@ -787,10 +801,36 @@ if (!char) {
             if (upgrade1 >= 7) upgrade1 = 7;
 
             let totals = {};
-            if (cumulativeUpgrade.checked) {
-                if (convertToTier1Upgrade.checked) {
-                    for (let i = 0; i <= upgrade1; i++) {
-                        Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+            if (char.upgrade.length) {
+                if (cumulativeUpgrade.checked) {
+                    if (convertToTier1Upgrade.checked) {
+                        for (let i = 0; i <= upgrade1; i++) {
+                            Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                                const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                                if (itemInfo.type === 'CharacterLimitBreak') {
+                                    const tier1Item = Object.values(itemData).find((it) => it.type === 'CharacterLimitBreak' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                                    if (itemInfo.rarity === 'R') {
+                                        totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                                    } else if (itemInfo.rarity === 'SR') {
+                                        totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                                    } else {
+                                        totals[item] = (totals[item] || 0) + amount;
+                                    }
+                                } else {
+                                    totals[item] = (totals[item] || 0) + amount;
+                                }
+                            });
+                        }
+                    } else {
+                        for (let i = 0; i <= upgrade1; i++) {
+                            Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                                totals[item] = (totals[item] || 0) + amount;
+                            });
+                        }
+                    }
+                } else {
+                    if (convertToTier1Upgrade.checked) {
+                        Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
                             const itemInfo = Object.values(itemData).find((it) => it.name === item);
                             if (itemInfo.type === 'CharacterLimitBreak') {
                                 const tier1Item = Object.values(itemData).find((it) => it.type === 'CharacterLimitBreak' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
@@ -805,35 +845,11 @@ if (!char) {
                                 totals[item] = (totals[item] || 0) + amount;
                             }
                         });
-                    }
-                } else {
-                    for (let i = 0; i <= upgrade1; i++) {
-                        Object.entries(char.upgrade[i]).forEach(([item, amount]) => {
+                    } else {
+                        Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
                             totals[item] = (totals[item] || 0) + amount;
                         });
                     }
-                }
-            } else {
-                if (convertToTier1Upgrade.checked) {
-                    Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
-                        const itemInfo = Object.values(itemData).find((it) => it.name === item);
-                        if (itemInfo.type === 'CharacterLimitBreak') {
-                            const tier1Item = Object.values(itemData).find((it) => it.type === 'CharacterLimitBreak' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
-                            if (itemInfo.rarity === 'R') {
-                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
-                            } else if (itemInfo.rarity === 'SR') {
-                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
-                            } else {
-                                totals[item] = (totals[item] || 0) + amount;
-                            }
-                        } else {
-                            totals[item] = (totals[item] || 0) + amount;
-                        }
-                    });
-                } else {
-                    Object.entries(char.upgrade[upgrade1]).forEach(([item, amount]) => {
-                        totals[item] = (totals[item] || 0) + amount;
-                    });
                 }
             }
 
@@ -891,11 +907,38 @@ if (!char) {
             ultimate.innerHTML = replaceSkillParams(char.ultimate.desc, char.ultimate.params, upgrade2, skillLevel);
 
             if (skillLevel >= 9) skillLevel = 9;
+
             let totals = {};
-            if (cumulativeSkill.checked) {
-                if (convertToTier1Skill.checked) {
-                    for (let i = 0; i <= skillLevel - 1; i++) {
-                        Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+            if (char.skillUpgrade.length) {
+                if (cumulativeSkill.checked) {
+                    if (convertToTier1Skill.checked) {
+                        for (let i = 0; i <= skillLevel - 1; i++) {
+                            Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                                const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                                if (itemInfo.type === 'SkillStrengthen') {
+                                    const tier1Item = Object.values(itemData).find((it) => it.type === 'SkillStrengthen' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                                    if (itemInfo.rarity === 'R') {
+                                        totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                                    } else if (itemInfo.rarity === 'SR') {
+                                        totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                                    } else {
+                                        totals[item] = (totals[item] || 0) + amount;
+                                    }
+                                } else {
+                                    totals[item] = (totals[item] || 0) + amount;
+                                }
+                            });
+                        }
+                    } else {
+                        for (let i = 0; i <= skillLevel - 1; i++) {
+                            Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                                totals[item] = (totals[item] || 0) + amount;
+                            });
+                        }
+                    }
+                } else {
+                    if (convertToTier1Skill.checked) {
+                        Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
                             const itemInfo = Object.values(itemData).find((it) => it.name === item);
                             if (itemInfo.type === 'SkillStrengthen') {
                                 const tier1Item = Object.values(itemData).find((it) => it.type === 'SkillStrengthen' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
@@ -910,35 +953,11 @@ if (!char) {
                                 totals[item] = (totals[item] || 0) + amount;
                             }
                         });
-                    }
-                } else {
-                    for (let i = 0; i <= skillLevel - 1; i++) {
-                        Object.entries(char.skillUpgrade[i]).forEach(([item, amount]) => {
+                    } else {
+                        Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
                             totals[item] = (totals[item] || 0) + amount;
                         });
                     }
-                }
-            } else {
-                if (convertToTier1Skill.checked) {
-                    Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
-                        const itemInfo = Object.values(itemData).find((it) => it.name === item);
-                        if (itemInfo.type === 'SkillStrengthen') {
-                            const tier1Item = Object.values(itemData).find((it) => it.type === 'SkillStrengthen' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
-                            if (itemInfo.rarity === 'R') {
-                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
-                            } else if (itemInfo.rarity === 'SR') {
-                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
-                            } else {
-                                totals[item] = (totals[item] || 0) + amount;
-                            }
-                        } else {
-                            totals[item] = (totals[item] || 0) + amount;
-                        }
-                    });
-                } else {
-                    Object.entries(char.skillUpgrade[skillLevel - 1]).forEach(([item, amount]) => {
-                        totals[item] = (totals[item] || 0) + amount;
-                    });
                 }
             }
 

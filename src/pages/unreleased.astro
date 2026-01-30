@@ -1,0 +1,47 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    Melee: '⚔️',
+    Ranged: '🏹',
+};
+---
+
+<Layout title="Trekker | stelladb">
+    <SearchableGrid placeholder="Search trekkers by id, name, element, tag, skill, or potential..." noResultsText="No trekker found.">
+        {
+            Object.entries(data).map(([id, char]) => (
+                <div
+                    class="card-item"
+                    data-id={id}
+                    data-name={char.name}
+                    data-element={char.element}
+                    data-class={char.class}
+                    data-attacktype={char.attackType}
+                    data-tag={char.tag.join(' ')}
+                    data-skill={`${char.normalAtk.name} ${char.skill.name} ${char.supportSkill.name} ${char.ultimate.name}`}
+                    data-potential={Object.values(char.potential)
+                        .flat()
+                        .map((pot) => pot.name)
+                        .join(' ')}
+                >
+                    <Card href={`/trekker/${id}`} name={char.name} star={char.star} image={`/head_${id}02_XL.avif`} inset={-12} element={char.element} charClass={char.class} attackType={char.attackType} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

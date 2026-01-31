@@ -372,7 +372,7 @@ if (!char) {
                                         <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                     </div>
                                     <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                        <h3>{pot.name}</h3>
+                                        <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
@@ -426,7 +426,7 @@ if (!char) {
                                         </svg>
                                     </div>
                                     <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                        <h3>{pot.name}</h3>
+                                        <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
@@ -480,7 +480,7 @@ if (!char) {
                                         </svg>
                                     </div>
                                     <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                        <h3>{pot.name}</h3>
+                                        <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
@@ -522,7 +522,7 @@ if (!char) {
                                         <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                     </div>
                                     <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                        <h3>{pot.name}</h3>
+                                        <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
@@ -576,7 +576,7 @@ if (!char) {
                                         </svg>
                                     </div>
                                     <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
-                                        <h3>{pot.name}</h3>
+                                        <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
                                             <p class="small">

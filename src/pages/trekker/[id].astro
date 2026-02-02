@@ -92,7 +92,7 @@ if (!char) {
                         🎤 {char.jpCv}<br />
                         🎂 {char.birthday}<br />
                     </p>
-                    <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${char.name.replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
+                    <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
                 </div>
             </div>
 

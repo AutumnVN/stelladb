@@ -6,8 +6,12 @@ import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
+const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
+const RAW_CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/Character.json';
 
 const data = await fetch(DATA_URL).then((res) => res.json());
+const characterIdData = await fetch(CHARACTERID_URL).then((res) => res.json());
+const rawCharacterData = await fetch(RAW_CHARACTER_URL).then((res) => res.json());
 
 const emoji = {
     Aqua: '💧',
@@ -44,4 +48,26 @@ const emoji = {
             ))
         }
     </SearchableGrid>
+
+    <div class="no-data">
+        <h2>No Data</h2>
+        <p>
+            {
+                Object.entries(characterIdData)
+                    .filter(([id, name]) => !Object.keys(rawCharacterData).includes(id))
+                    .map(([id, name]) => (
+                        <>
+                            {`${id} ${name}`}
+                            <br />
+                        </>
+                    ))
+            }
+        </p>
+    </div>
 </Layout>
+
+<style>
+    .no-data p {
+        margin-left: 1rem;
+    }
+</style>

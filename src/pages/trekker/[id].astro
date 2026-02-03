@@ -159,7 +159,10 @@ if (!char) {
                     <div class="normal-attack">
                         <div class="skill-header">
                             <img src={`/${char.normalAtk.icon}.avif`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <h2>Normal attack: {char.normalAtk.name}</h2>
+                            <div>
+                                <h2>Normal attack: {char.normalAtk.name}</h2>
+                                <div>Energy Limit: {char.normalAtk.energyLimit}</div>
+                            </div>
                         </div>
                         <p>{char.normalAtk.desc}</p>
                         {
@@ -200,7 +203,7 @@ if (!char) {
                             <img src={`/${char.skill.icon}.avif`} alt={char.skill.name} title={char.skill.name} width="64" height="64" onerror="this.style.display='none'" />
                             <div>
                                 <h2>Skill: {char.skill.name}</h2>
-                                <div>Cooldown: {char.skill.cooldown}</div>
+                                <div>Cooldown: {char.skill.cooldown} • Energy Limit: {char.skill.energyLimit}</div>
                             </div>
                         </div>
                         <p>{char.skill.desc}</p>

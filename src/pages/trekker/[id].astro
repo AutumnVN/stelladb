@@ -733,20 +733,21 @@ if (!char) {
                 .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
                 .replace(/\u000b/g, '<br />')
                 .replace(/##(.*?)#(\d{1,4})#/g, (match, name, id) => {
-                    let result2 = word[id].desc;
+                    const wordName = word[id].name;
+                    let wordDesc = word[id].desc;
 
                     word[id].params.forEach((param, index) => {
-                        result2 = result2.replaceAll(`&Param${index + 1}&`, param);
+                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
                     });
 
-                    result2 = result2.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+                    wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
 
                     return `<span class="tooltip word">
-                        ${name}
+                        ${wordName}
                         ${word[id].icon ? `<span style="background: url('/${word[id].icon}.avif') center/200% no-repeat;"></span>` : ''}
                         <div class="tooltip-text">
-                            <b>${name}</b><br />
-                            <p>${result2}</p>
+                            <b>${wordName}</b><br />
+                            <p>${wordDesc}</p>
                         </div>
                     </span>`;
                 });

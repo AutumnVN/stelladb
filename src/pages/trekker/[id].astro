@@ -31,7 +31,9 @@ const itemData = await fetch(ITEM_URL).then((res) => res.json());
 const word = await fetch(WORD_URL).then((res) => res.json());
 const char = both[id];
 
-char.tag.shift();
+if (char.tag[0] === char.class) {
+    char.tag.shift();
+}
 
 const emoji = {
     Aqua: '💧',

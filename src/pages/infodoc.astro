@@ -4,110 +4,26 @@ import { style, nav } from '@/scripts/infodoc.js';
 
 export const prerender = false;
 
-const { request } = Astro;
+const url = 'https://docs.google.com/spreadsheets/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/preview/sheet?gid=1930264270';
 
-const paramRegex = /^(aqua|ignis|ventus|terra|lux|umbra)(\d)?$/;
+const response = await fetch(url);
+const html = await response.text();
 
-if (request.url.split('?')[1] && paramRegex.test(request.url.split('?')[1])) {
-    const [, element, index] = request.url.split('?')[1].match(paramRegex);
+const modifiedHtml = html
+    .replace(/<meta name="viewport".+?>/, '')
+    .replace(/style="display:none;position:relative;"/, '')
+    .replace(/pointer-events:none;/g, '')
+    .replace(/<link href='\/static.+?>/g, '')
+    .replace(/<style>@import.+?<\/style>/, '')
+    .replace(/<script.+?<\/script>/gs, '')
+    .replace(/target="_blank" rel="noreferrer" href="#\w+?=\d+?"/g, 'href="javascript:void(0);"')
+    .replace(/<div id="\d+?".+?>/, `${nav}$&`)
+    .replace(/<head>/, `$&${style}`);
 
-    const map = {
-        aqua: 0,
-        ignis: 1,
-        ventus: 2,
-        terra: 3,
-        lux: 4,
-        umbra: 5,
-    };
-
-    const viewportWidth = 6760;
-    const viewportHeight = 7819;
-    const width = 1100;
-    const height = 1320;
-    const scrollTop = 250 + 1255 * (index ? Math.max(+index - 1, 0) : 0);
-    const scrollLeft = 30 + 1130 * map[element];
-
-    const url = `https://api.cloudflare.com/client/v4/accounts/b6f7b578d6d67eab7a401326e5c6d933/browser-rendering/screenshot?cacheTTL=86400`;
-
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${Astro.locals.runtime.env.CLOUDFLARE_TOKEN}`,
-        },
-        body: JSON.stringify({
-            url: 'https://stelladb.pages.dev/infodoc',
-            addStyleTag: [
-                {
-                    content: `
-                        tr[style="height: 34px"]:has(+ tr[style="height: 20px"]),
-                        tr[style="height: 20px"],
-                        tr[style="height: 34px"]:has(+ tr[style="height: 44px"]),
-                        tr[style="height: 44px"] {
-                            display: none !important;
-                        }
-                    `,
-                },
-            ],
-            gotoOptions: {
-                waitUntil: 'load',
-            },
-            screenshotOptions: {
-                clip: {
-                    x: scrollLeft,
-                    y: scrollTop,
-                    width: width,
-                    height: height,
-                },
-            },
-            viewport: {
-                width: viewportWidth,
-                height: viewportHeight,
-            },
-        }),
-    });
-
-    if (!response.ok) {
-        const text = await response.text();
-        return new Response(text, {
-            status: response.status,
-            headers: {
-                'Content-Type': 'text/plain',
-                'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-            },
-        });
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-
-    return new Response(arrayBuffer, {
-        headers: {
-            'Content-Type': 'image/png',
-            'Cache-Control': 'public, max-age=3600',
-        },
-    });
-} else {
-    const url = 'https://docs.google.com/spreadsheets/d/1otsS2C1RkXLaFSvp2SMOS-vtRBaEBpZlcgR361_fdAE/preview/sheet?gid=1930264270';
-
-    const response = await fetch(url);
-    const html = await response.text();
-
-    const modifiedHtml = html
-        .replace(/<meta name="viewport".+?>/, '')
-        .replace(/style="display:none;position:relative;"/, '')
-        .replace(/pointer-events:none;/g, '')
-        .replace(/<link href='\/static.+?>/g, '')
-        .replace(/<style>@import.+?<\/style>/, '')
-        .replace(/<script.+?<\/script>/gs, '')
-        .replace(/target="_blank" rel="noreferrer" href="#\w+?=\d+?"/g, 'href="javascript:void(0);"')
-        .replace(/<div id="\d+?".+?>/, `${nav}$&`)
-        .replace(/<head>/, `$&${style}`);
-
-    return new Response(modifiedHtml, {
-        headers: {
-            'Content-Type': 'text/html; charset=utf-8',
-            'Cache-Control': 'public, max-age=3600',
-        },
-    });
-}
+return new Response(modifiedHtml, {
+    headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+    },
+});
 ---

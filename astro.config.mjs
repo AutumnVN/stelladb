@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import { readdirSync, readFileSync, writeFileSync, createWriteStream, existsSync, unlinkSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import puppeteer from 'puppeteer';
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
         imageService: 'passthrough',
     }),
 
-    integrations: [sitemap()],
+    integrations: [sitemap(), generateInfodocScreenshots()],
 
     vite: {
         resolve: {
@@ -28,6 +29,56 @@ export default defineConfig({
         }
     },
 });
+
+function generateInfodocScreenshots() {
+    return {
+        name: 'generate-infodoc-screenshots',
+        hooks: {
+            'astro:build:done': async ({ dir, routes }) => {
+                const distPath = fileURLToPath(dir);
+
+                const map = ['aqua', 'ignis', 'ventus', 'terra', 'lux', 'umbra'];
+
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+
+                await page.goto('https://stelladb.pages.dev/infodoc', { waitUntil: 'networkidle2' });
+                await page.setViewport({ width: 6760, height: 6650 });
+
+                await page.addStyleTag({
+                    content: `
+                        tr[style="height: 34px"]:has(+ tr[style="height: 20px"]),
+                        tr[style="height: 20px"],
+                        tr[style="height: 34px"]:has(+ tr[style="height: 44px"]),
+                        tr[style="height: 44px"] {
+                            display: none !important;
+                        }
+                    `});
+
+                await page.screenshot({
+                    fullPage: true,
+                    path: path.join(distPath, 'infodoc.png'),
+                });
+
+                for (let i = 0; i < map.length; i++) {
+                    for (let j = 1; j <= 5; j++) {
+                        await page.screenshot({
+                            clip: {
+                                x: 30 + 1130 * i,
+                                y: 250 + 1255 * (j - 1),
+                                width: 1100,
+                                height: 1320
+                            },
+                            path: path.join(distPath, `${map[i]}${j}.png`),
+                        });
+                    }
+                }
+
+                await browser.close();
+            }
+        }
+    };
+}
 
 function downloadRemoteImage(urls) {
     return {

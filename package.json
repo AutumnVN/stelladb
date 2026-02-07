@@ -1,17 +1,19 @@
 {
-  "name": "stelladb",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/sitemap": "^3.6.0",
-    "astro": "^5.16.6",
-    "typescript": "^5.9.3"
-  }
+    "name": "stelladb",
+    "type": "module",
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "astro dev",
+        "prebuild": "node node_modules/puppeteer/install.mjs",
+        "build": "astro build",
+        "preview": "astro preview",
+        "astro": "astro"
+    },
+    "dependencies": {
+        "@astrojs/cloudflare": "^12.6.12",
+        "@astrojs/sitemap": "^3.6.0",
+        "astro": "^5.16.6",
+        "puppeteer": "^24.37.2",
+        "typescript": "^5.9.3"
+    }
 }

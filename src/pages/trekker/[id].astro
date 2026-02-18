@@ -376,7 +376,7 @@ if (!char) {
                                     <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                         <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                     </div>
-                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                    <div class="potential" data-potential={JSON.stringify(pot)}>
                                         <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
@@ -430,7 +430,7 @@ if (!char) {
                                             <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
                                         </svg>
                                     </div>
-                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                    <div class="potential" data-potential={JSON.stringify(pot)}>
                                         <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
@@ -484,7 +484,7 @@ if (!char) {
                                             <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
                                         </svg>
                                     </div>
-                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                    <div class="potential" data-potential={JSON.stringify(pot)}>
                                         <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
@@ -526,7 +526,7 @@ if (!char) {
                                     <div class="potential-image" style={`background: url('/${pot.rarity}.avif') center/cover no-repeat;`}>
                                         <img src={`/${pot.icon}_A.avif`} alt={pot.name} title={pot.name} width="96" height="96" onerror="this.style.display='none'" />
                                     </div>
-                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                    <div class="potential" data-potential={JSON.stringify(pot)}>
                                         <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
@@ -580,7 +580,7 @@ if (!char) {
                                             <image href={`/Potential_${pot.corner}_A.avif`} width="96" height="96" />
                                         </svg>
                                     </div>
-                                    <div class="potential" data-desc={JSON.stringify(pot.desc)} data-params={JSON.stringify(pot.params)} data-hiddenparams={JSON.stringify(pot.hiddenParams)}>
+                                    <div class="potential" data-potential={JSON.stringify(pot)}>
                                         <h3>{pot.id % 100}. {pot.name}</h3>
                                         <p>{pot.desc}</p>
                                         {!pot.damageType.length ? null : (
@@ -907,10 +907,10 @@ if (!char) {
 
             upgrade2Output.innerHTML = `Upgrade: ${upgrade2}`;
             skillLevel1Output.innerHTML = `Skill level: ${skillLevel}`;
-            normalAttack.innerHTML = replaceSkillParams(char.normalAtk.desc, char.normalAtk.params, upgrade2, skillLevel);
-            skill.innerHTML = replaceSkillParams(char.skill.desc, char.skill.params, upgrade2, skillLevel);
-            supportSkill.innerHTML = replaceSkillParams(char.supportSkill.desc, char.supportSkill.params, upgrade2, skillLevel);
-            ultimate.innerHTML = replaceSkillParams(char.ultimate.desc, char.ultimate.params, upgrade2, skillLevel);
+            normalAttack.innerHTML = replaceSkillParams(char.normalAtk.desc, char.normalAtk.params, char.normalAtk.paramsTooltips, upgrade2, skillLevel);
+            skill.innerHTML = replaceSkillParams(char.skill.desc, char.skill.params, char.skill.paramsTooltips, upgrade2, skillLevel);
+            supportSkill.innerHTML = replaceSkillParams(char.supportSkill.desc, char.supportSkill.params, char.supportSkill.paramsTooltips, upgrade2, skillLevel);
+            ultimate.innerHTML = replaceSkillParams(char.ultimate.desc, char.ultimate.params, char.ultimate.paramsTooltips, upgrade2, skillLevel);
 
             if (skillLevel >= 9) skillLevel = 9;
 
@@ -974,13 +974,26 @@ if (!char) {
             skillUpgradeItemImage.innerHTML = sorted.map(([itemName]) => itemNameToImage(itemName)).join('');
         }
 
-        function replaceSkillParams(desc, params, upgrade, level) {
+        function replaceSkillParams(desc, params, tooltips, upgrade, level) {
             let result = desc;
 
             params.forEach((paramSet, index) => {
                 const splitted = paramSet.toString().split('/');
                 const paramValue = splitted.length === 13 ? splitted[skillLevel - 1] : splitted.length === 9 ? splitted[upgrade2] : splitted[0];
-                result = result.replaceAll(`&Param${index + 1}&`, paramValue);
+                const tooltip = tooltips[index];
+                const tooltipContent = `
+                    ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
+                    ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
+                    ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
+                    ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
+                `.trim();
+                result = result.replaceAll(`&Param${index + 1}&`, !tooltipContent ? paramValue : `
+                    <span class="tooltip">
+                        ${paramValue}
+                        <span class="tooltip-text">
+                            ${tooltipContent}
+                        </span>
+                    </span>`);
             });
 
             return format(result);
@@ -1006,22 +1019,46 @@ if (!char) {
             potentialLevelOutput.innerHTML = `Potential level: ${potentialLevel}`;
             skillLevel2Output.innerHTML = `Skill level: ${skillLevel2}`;
             potentialElements.forEach((e) => {
-                const desc = JSON.parse(e.dataset.desc);
-                const params = JSON.parse(e.dataset.params);
-                const hiddenParams = JSON.parse(e.dataset.hiddenparams);
+                const pot = JSON.parse(e.dataset.potential);
 
-                let result = desc;
+                let result = pot.desc;
 
-                params.forEach((paramSet, index) => {
+                pot.params.forEach((paramSet, index) => {
                     const splitted = paramSet.toString().split('/');
                     const paramValue = splitted.length === 13 ? splitted[skillLevel2 - 1] : splitted.length === 9 ? splitted[potentialLevel - 1] : splitted[0];
-                    result = result.replaceAll(`&Param${index + 1}&`, paramValue);
+                    const tooltip = pot.paramsTooltips[index];
+                    const tooltipContent = `
+                        ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
+                        ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
+                        ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
+                        ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
+                    `.trim();
+                    result = result.replaceAll(`&Param${index + 1}&`, !tooltipContent ? paramValue : `
+                        <span class="tooltip">
+                            ${paramValue}
+                            <span class="tooltip-text">
+                                ${tooltipContent}
+                            </span>
+                        </span>`);
                 });
 
-                hiddenParams.forEach((paramSet, index) => {
+                pot.hiddenParams.forEach((paramSet, index) => {
                     const splitted = paramSet.toString().split('/');
                     const paramValue = splitted.length === 13 ? splitted[skillLevel2 - 1] : splitted.length === 9 ? splitted[potentialLevel - 1] : splitted[0];
-                    result = result.replaceAll(`&HiddenParam${index + 1}&`, paramValue);
+                    const tooltip = pot.hiddenParamsTooltips[index];
+                    const tooltipContent = `
+                        ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
+                        ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
+                        ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
+                        ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
+                    `.trim();
+                    result = result.replaceAll(`&HiddenParam${index + 1}&`, !tooltipContent ? paramValue : `
+                        <span class="tooltip">
+                            ${paramValue}
+                            <span class="tooltip-text">
+                                ${tooltipContent}
+                            </span>
+                        </span>`);
                 });
 
                 e.querySelector('p').innerHTML = format(result);
@@ -1036,7 +1073,20 @@ if (!char) {
             let desc = talent.boost[0].desc;
 
             params.forEach((param, index) => {
-                desc = desc.replaceAll(`&Param${index + 1}&`, param);
+                const tooltip = talent.boost[0].paramsTooltips[index];
+                const tooltipContent = `
+                    ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
+                    ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
+                    ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
+                    ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
+                `.trim();
+                desc = desc.replaceAll(`&Param${index + 1}&`, !tooltipContent ? param : `
+                    <span class="tooltip">
+                        ${param}
+                        <span class="tooltip-text">
+                            ${tooltipContent}
+                        </span>
+                    </span>`);
             });
 
             e.innerHTML = format(desc);

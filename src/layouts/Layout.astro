@@ -211,10 +211,6 @@ const buildTime = new Date().toISOString();
         font-family: inherit;
     }
 
-    .tooltip {
-        font-weight: 700;
-    }
-
     .tooltip.word {
         color: var(--word);
     }
@@ -235,6 +231,12 @@ const buildTime = new Date().toISOString();
         width: 400px;
         color: var(--text);
         font-weight: 400;
+    }
+
+    .tooltip-text img {
+        vertical-align: middle;
+        object-fit: cover;
+        object-position: center;
     }
 
     .tooltip:hover .tooltip-text {

@@ -35,7 +35,7 @@ if (!blitz) {
 }
 ---
 
-<Layout title={`${blitz.name} | stelladb`} image={`https://stelladb.pages.dev/${blitz.icon}.avif`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}${blitz.stat?.length ? `, Lv45 HP: ${blitz.stat[44].HP.toLocaleString()}` : ''}`}>
+<Layout title={`${blitz.name} | stelladb`} image={`https://stelladb.pages.dev/${blitz.icon}.avif`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}${blitz.stat?.length ? `, Lv45 HP: ${blitz.stat[44].HP.toLocaleString('en-US')}` : ''}`}>
     <div class="blitz-page" data-json={JSON.stringify(blitz)}>
         <div class="header">
             <h1>{blitz.name}</h1>
@@ -74,7 +74,7 @@ if (!blitz) {
                                 blitz.stat?.length &&
                                     Object.entries(blitz.stat[0]).map(([stat, value]) => (
                                         <>
-                                            {stat}: {value.toLocaleString()}
+                                            {stat}: {value.toLocaleString('en-US')}
                                             {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
                                             {value === 727 ? ' when you see it' : ''}
                                             <br />
@@ -123,7 +123,7 @@ if (!blitz) {
 
             stats.innerHTML = blitz.stat?.length
                 ? `${Object.entries(blitz.stat[level - 1])
-                      .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
+                      .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                       .join('')}`
                 : 'No stats available';
         }

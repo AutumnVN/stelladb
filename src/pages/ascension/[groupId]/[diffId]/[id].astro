@@ -45,7 +45,7 @@ if (!group || !diff || !monster) {
 }
 ---
 
-<Layout title={`${monster.name} | ${group.name} Difficulty ${diff.diff} | stelladb`} image={`https://stelladb.pages.dev/${monster.icon}.avif`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString()}`}>
+<Layout title={`${monster.name} | ${group.name} Difficulty ${diff.diff} | stelladb`} image={`https://stelladb.pages.dev/${monster.icon}.avif`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString('en-US')}`}>
     <div class="monster-page">
         <div class="header">
             <h1>{monster.name} | {group.name} Difficulty {diff.diff}</h1>
@@ -69,7 +69,7 @@ if (!group || !diff || !monster) {
                     {
                         Object.entries(monster.stat).map(([stat, value]) => (
                             <>
-                                {stat}: {value.toLocaleString()}
+                                {stat}: {value.toLocaleString('en-US')}
                                 {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
                                 {value === 727 ? ' when you see it' : ''}
                                 <br />

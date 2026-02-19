@@ -35,7 +35,7 @@ if (!raid) {
 }
 ---
 
-<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0].HP.toLocaleString()}`}>
+<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0].HP.toLocaleString('en-US')}`}>
     <div class="raid-page" data-json={JSON.stringify(raid)}>
         <div class="header">
             <h1>{raid.name}</h1>
@@ -78,7 +78,7 @@ if (!raid) {
                             {
                                 Object.entries(raid.diff[0].stat[0]).map(([stat, value]) => (
                                     <>
-                                        {stat}: {value.toLocaleString()}
+                                        {stat}: {value.toLocaleString('en-US')}
                                         {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
                                         {value === 727 ? ' when you see it' : ''}
                                         <br />
@@ -94,7 +94,7 @@ if (!raid) {
                             {
                                 Object.entries(raid.diff[0].bookStat).map(([stat, value]) => (
                                     <>
-                                        {stat}: {value.toLocaleString()}
+                                        {stat}: {value.toLocaleString('en-US')}
                                         {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
                                         {value === 727 ? ' when you see it' : ''}
                                         <br />
@@ -147,10 +147,10 @@ if (!raid) {
             difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
             phaseOutput.innerHTML = `Phase: ${phase}`;
             stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[phase - 1])
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                 .join('')}`;
             bookStats.innerHTML = `${Object.entries(raid.diff[difficulty].bookStat)
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                 .join('')}`;
         }
     </script>

@@ -35,7 +35,7 @@ if (!duel) {
 }
 ---
 
-<Layout title={`${duel.name} | stelladb`} image={`https://stelladb.pages.dev/${duel.icon}.avif`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString()}`}>
+<Layout title={`${duel.name} | stelladb`} image={`https://stelladb.pages.dev/${duel.icon}.avif`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString('en-US')}`}>
     <div class="duel-page" data-json={JSON.stringify(duel)}>
         <div class="header">
             <h1>{duel.name}</h1>
@@ -68,7 +68,7 @@ if (!duel) {
                             {
                                 Object.entries(duel.stat).map(([stat, value]) => (
                                     <>
-                                        {stat}: {(value + (typeof value === 'number' ? duel.diff[100][stat] || 0 : '')).toLocaleString()}
+                                        {stat}: {(value + (typeof value === 'number' ? duel.diff[100][stat] || 0 : '')).toLocaleString('en-US')}
                                         <br />
                                     </>
                                 ))
@@ -98,7 +98,7 @@ if (!duel) {
             difficultyOutput.textContent = `Difficulty: ${difficulty}`;
 
             stats.innerHTML = `${Object.entries(duel.stat)
-                .map(([stat, value]) => `${stat}: ${(value + (typeof value === 'number' ? duel.diff[difficulty][stat] || 0 : '')).toLocaleString()}<br />`)
+                .map(([stat, value]) => `${stat}: ${(value + (typeof value === 'number' ? duel.diff[difficulty][stat] || 0 : '')).toLocaleString('en-US')}<br />`)
                 .join('')}`;
         }
 

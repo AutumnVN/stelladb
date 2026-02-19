@@ -35,7 +35,7 @@ if (!ground) {
 }
 ---
 
-<Layout title={`${ground.name} | stelladb`} image={`https://stelladb.pages.dev/${ground.icon}.avif`} description={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${ground.resistTo}${emoji[ground.resistTo]}, Last diff HP: ${ground.diff[ground.diff.length - 1].stat.HP.toLocaleString()}`}>
+<Layout title={`${ground.name} | stelladb`} image={`https://stelladb.pages.dev/${ground.icon}.avif`} description={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${ground.resistTo}${emoji[ground.resistTo]}, Last diff HP: ${ground.diff[ground.diff.length - 1].stat.HP.toLocaleString('en-US')}`}>
     <div class="ground-page" data-json={JSON.stringify(ground)}>
         <div class="header">
             <h1>{ground.name}</h1>
@@ -73,7 +73,7 @@ if (!ground) {
                             {
                                 Object.entries(ground.diff[0].stat).map(([stat, value]) => (
                                     <>
-                                        {stat}: {value.toLocaleString()}
+                                        {stat}: {value.toLocaleString('en-US')}
                                         {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
                                         {value === 727 ? ' when you see it' : ''}
                                         <br />
@@ -119,7 +119,7 @@ if (!ground) {
 
             difficultyOutput.innerHTML = `Difficulty: ${difficulty + 1}`;
             stats.innerHTML = `${Object.entries(ground.diff[difficulty].stat)
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString()}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
                 .join('')}`;
         }
     </script>

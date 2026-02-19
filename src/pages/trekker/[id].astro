@@ -119,7 +119,7 @@ if (!char) {
                                 char.stat.length &&
                                     Object.entries(char.stat[97]).map(([stat, value]) => (
                                         <>
-                                            {stat}: {value.toLocaleString()}
+                                            {stat}: {value.toLocaleString('en-US')}
                                             <br />
                                         </>
                                     ))
@@ -129,7 +129,7 @@ if (!char) {
                             {
                                 Object.entries(char.fixedStat).map(([stat, value]) => (
                                     <>
-                                        {stat}: {value.toLocaleString()}
+                                        {stat}: {value.toLocaleString('en-US')}
                                         <br />
                                     </>
                                 ))
@@ -148,7 +148,7 @@ if (!char) {
                                 char.upgrade.length &&
                                     Object.entries(char.upgrade[7]).map(([item, amount]) => (
                                         <>
-                                            {item}: {amount.toLocaleString()}
+                                            {item}: {amount.toLocaleString('en-US')}
                                             <br />
                                         </>
                                     ))
@@ -358,7 +358,7 @@ if (!char) {
                                 char.skillUpgrade.length &&
                                     Object.entries(char.skillUpgrade[8]).map(([item, amount]) => (
                                         <>
-                                            {item}: {amount.toLocaleString()}
+                                            {item}: {amount.toLocaleString('en-US')}
                                             <br />
                                         </>
                                     ))
@@ -818,7 +818,7 @@ if (!char) {
             levelOutput.innerHTML = `Level: ${level}`;
             if (char.stat.length) {
                 stats.innerHTML = Object.entries(char.stat[level + upgrade1 - 1])
-                    .map(([stat, value]) => `${stat}: ${value.toLocaleString()}`)
+                    .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}`)
                     .join('<br />');
             }
             if (upgrade1 >= 7) upgrade1 = 7;
@@ -878,7 +878,7 @@ if (!char) {
 
             const sorted = sortByItemId(totals);
 
-            upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+            upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString('en-US')}<br />`).join('');
             if (+upgrade1Input.value > 7) upgradeCost.innerHTML = 'Max upgrade reached<br />' + upgradeCost.innerHTML;
             upgradeCostItemImage.innerHTML = sorted.map(([itemName]) => itemNameToImage(itemName)).join('');
         }
@@ -986,7 +986,7 @@ if (!char) {
 
             const sorted = sortByItemId(totals);
 
-            skillUpgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString()}<br />`).join('');
+            skillUpgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString('en-US')}<br />`).join('');
             if (+skillLevel1Input.value > 9) skillUpgradeCost.innerHTML = 'Max upgrade reached<br />' + skillUpgradeCost.innerHTML;
             skillUpgradeItemImage.innerHTML = sorted.map(([itemName]) => itemNameToImage(itemName)).join('');
         }

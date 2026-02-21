@@ -73,6 +73,14 @@ if (!disc) {
                                 </>
                             ))
                         }
+                        {
+                            disc.char.map((char) => (
+                                <>
+                                    {char}
+                                    <br />
+                                </>
+                            ))
+                        }
                     </p>
                     <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${disc.name.replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
                 </div>

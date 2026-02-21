@@ -24,7 +24,7 @@ const emoji = {
     <SearchableGrid placeholder="Search discs by id, name, element, tag, or skill..." noResultsText="No disc found.">
         {
             Object.entries(data).map(([id, disc]) => (
-                <div class="card-item" data-id={id} data-name={disc.name} data-element={disc.element} data-tag={disc.tag.join(' ')} data-skill={`${disc.mainSkill.name} ${disc.secondarySkill1?.name || ''} ${disc.secondarySkill2?.name || ''}`}>
+                <div class="card-item" data-id={id} data-name={disc.name} data-element={disc.element} data-tag={disc.tag.join(' ')} data-char={disc.char.join(' ')} data-skill={`${disc.mainSkill.name} ${disc.secondarySkill1?.name || ''} ${disc.secondarySkill2?.name || ''}`}>
                     <Card href={`/disc/${id}`} name={disc.name} star={disc.star} image={`/outfit_${id.replace(/^.{2}/, '')}.avif`} element={disc.element} />
                 </div>
             ))

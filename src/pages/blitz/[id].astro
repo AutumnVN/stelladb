@@ -76,7 +76,6 @@ if (!blitz) {
                                         <>
                                             {stat}: {value.toLocaleString('en-US')}
                                             {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
-                                            {value === 727 ? ' when you see it' : ''}
                                             <br />
                                         </>
                                     ))
@@ -123,7 +122,7 @@ if (!blitz) {
 
             stats.innerHTML = blitz.stat?.length
                 ? `${Object.entries(blitz.stat[level - 1])
-                      .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}${value === 727 ? ' when you see it' : ''}<br />`)
+                      .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
                       .join('')}`
                 : 'No stats available';
         }

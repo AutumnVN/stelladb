@@ -87,20 +87,22 @@ if (!raid) {
                         </p>
                     </div>
 
-                    <div class="book-stats">
-                        <h2>Book stats</h2>
-                        <p>
-                            {
-                                Object.entries(raid.diff[0].bookStat).map(([stat, value]) => (
-                                    <>
-                                        {stat}: {value.toLocaleString('en-US')}
-                                        {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
-                                        <br />
-                                    </>
-                                ))
-                            }
-                        </p>
-                    </div>
+                    {
+                        raid.diff[0].bookStat && (
+                            <div class="book-stats">
+                                <h2>Book stats</h2>
+                                <p>
+                                    {Object.entries(raid.diff[0].bookStat).map(([stat, value]) => (
+                                        <>
+                                            {stat}: {value.toLocaleString('en-US')}
+                                            {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            </div>
+                        )
+                    }
                 </section>
 
                 <section id="mechanic" class="tab-panel" hidden>

@@ -1004,18 +1004,7 @@ if (!char) {
                     ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                     ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
                 `.trim();
-                result = result.replaceAll(
-                    `&Param${index + 1}&`,
-                    !tooltipContent
-                        ? paramValue
-                        : `
-                    <span class="tooltip">
-                        ${paramValue}
-                        <span class="tooltip-text">
-                            ${tooltipContent}
-                        </span>
-                    </span>`,
-                );
+                result = result.replaceAll(`&Param${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
             });
 
             return format(result);
@@ -1055,18 +1044,7 @@ if (!char) {
                         ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                         ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
                     `.trim();
-                    result = result.replaceAll(
-                        `&Param${index + 1}&`,
-                        !tooltipContent
-                            ? paramValue
-                            : `
-                        <span class="tooltip">
-                            ${paramValue}
-                            <span class="tooltip-text">
-                                ${tooltipContent}
-                            </span>
-                        </span>`,
-                    );
+                    result = result.replaceAll(`&Param${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
                 });
 
                 pot.hiddenParams.forEach((paramSet, index) => {
@@ -1079,18 +1057,7 @@ if (!char) {
                         ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                         ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
                     `.trim();
-                    result = result.replaceAll(
-                        `&HiddenParam${index + 1}&`,
-                        !tooltipContent
-                            ? paramValue
-                            : `
-                        <span class="tooltip">
-                            ${paramValue}
-                            <span class="tooltip-text">
-                                ${tooltipContent}
-                            </span>
-                        </span>`,
-                    );
+                    result = result.replaceAll(`&HiddenParam${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
                 });
 
                 e.querySelector('p').innerHTML = format(result);
@@ -1112,18 +1079,7 @@ if (!char) {
                     ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                     ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="/${tooltip.buffIcon}.avif" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
                 `.trim();
-                desc = desc.replaceAll(
-                    `&Param${index + 1}&`,
-                    !tooltipContent
-                        ? param
-                        : `
-                    <span class="tooltip">
-                        ${param}
-                        <span class="tooltip-text">
-                            ${tooltipContent}
-                        </span>
-                    </span>`,
-                );
+                desc = desc.replaceAll(`&Param${index + 1}&`, !tooltipContent ? param : `<span class="tooltip">${param}<span class="tooltip-text">${tooltipContent}</span></span>`);
             });
 
             e.innerHTML = format(desc);

@@ -66,10 +66,14 @@ if (!raid) {
                             <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
                         </div>
 
-                        <div class="slider phase">
-                            <label class="phase-output">Phase: 1</label>
-                            <input type="range" id="phase" min="1" max="2" value="1" />
-                        </div>
+                        {
+                            raid.icons && (
+                                <div class="slider boss">
+                                    <label class="boss-output">Boss 1</label>
+                                    <input type="range" id="boss" min="1" max={raid.icons.length} value="1" />
+                                </div>
+                            )
+                        }
                     </div>
 
                     <div class="stats">
@@ -128,30 +132,33 @@ if (!raid) {
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
-        const phaseInput = document.querySelector('#phase');
-        const phaseOutput = document.querySelector('.phase-output');
+        const bossInput = document.querySelector('#boss');
+        const bossOutput = document.querySelector('.boss-output');
         const stats = document.querySelector('.stats p');
         const bookStats = document.querySelector('.book-stats p');
+        const icon = document.querySelector('.left img');
 
         let difficulty = 0;
-        let phase = 1;
+        let boss = 1;
 
         difficultyInput.addEventListener('input', onStatInput);
-        phaseInput.addEventListener('input', onStatInput);
+        if (raid.icons) bossInput.addEventListener('input', onStatInput);
         onStatInput();
 
         function onStatInput() {
             difficulty = +difficultyInput.value;
-            phase = +phaseInput.value;
+            if (raid.icons) boss = +bossInput.value;
 
             difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
-            phaseOutput.innerHTML = `Phase: ${phase}`;
-            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[phase - 1])
+            if (raid.icons) bossOutput.innerHTML = `Boss ${boss}`;
+            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1])
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
                 .join('')}`;
-            bookStats.innerHTML = `${Object.entries(raid.diff[difficulty].bookStat)
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
-                .join('')}`;
+            if (raid.diff[difficulty].bookStat)
+                bookStats.innerHTML = `${Object.entries(raid.diff[difficulty].bookStat)
+                    .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
+                    .join('')}`;
+            if (raid.icons) icon.src = `/${raid.icons[boss - 1]}.avif`;
         }
     </script>
 

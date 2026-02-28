@@ -35,7 +35,7 @@ if (!raid) {
 }
 ---
 
-<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0].HP.toLocaleString('en-US')}`}>
+<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0][0].HP.toLocaleString('en-US')}`}>
     <div class="raid-page" data-json={JSON.stringify(raid)}>
         <div class="header">
             <h1>{raid.name}</h1>
@@ -66,6 +66,11 @@ if (!raid) {
                             <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
                         </div>
 
+                        <div class="slider phase">
+                            <label class="phase-output">Phase: 1</label>
+                            <input type="range" id="phase" min="1" max="2" value="1" />
+                        </div>
+
                         {
                             raid.icons && (
                                 <div class="slider boss">
@@ -80,7 +85,7 @@ if (!raid) {
                         <h2>Stats</h2>
                         <p>
                             {
-                                Object.entries(raid.diff[0].stat[0]).map(([stat, value]) => (
+                                Object.entries(raid.diff[0].stat[0][0]).map(([stat, value]) => (
                                     <>
                                         {stat}: {value.toLocaleString('en-US')}
                                         {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
@@ -132,6 +137,8 @@ if (!raid) {
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
+        const phaseInput = document.querySelector('#phase');
+        const phaseOutput = document.querySelector('.phase-output');
         const bossInput = document.querySelector('#boss');
         const bossOutput = document.querySelector('.boss-output');
         const stats = document.querySelector('.stats p');
@@ -139,19 +146,23 @@ if (!raid) {
         const icon = document.querySelector('.left img');
 
         let difficulty = 0;
+        let phase = 1;
         let boss = 1;
 
         difficultyInput.addEventListener('input', onStatInput);
+        phaseInput.addEventListener('input', onStatInput);
         if (raid.icons) bossInput.addEventListener('input', onStatInput);
         onStatInput();
 
         function onStatInput() {
             difficulty = +difficultyInput.value;
+            phase = +phaseInput.value;
             if (raid.icons) boss = +bossInput.value;
 
             difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
+            phaseOutput.innerHTML = `Phase: ${phase}`;
             if (raid.icons) bossOutput.innerHTML = `Boss ${boss}`;
-            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1])
+            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1][phase - 1])
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
                 .join('')}`;
             if (raid.diff[difficulty].bookStat)

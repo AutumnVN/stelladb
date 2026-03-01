@@ -1106,7 +1106,8 @@ if (!char) {
                     .replaceAll(`&Param${index + 1}&`, param)
                     .replaceAll('Increases ', '')
                     .replaceAll('Base ', '')
-                    .replaceAll('by ', '+');
+                    .replaceAll('by ', '+')
+                    .replace(/\.$/, '');
             });
 
             bonusStatResult += `${format(desc)}<br />`;

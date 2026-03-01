@@ -18,6 +18,7 @@ const modifiedHtml = html
     .replace(/<script.+?<\/script>/gs, '')
     .replace(/target="_blank" rel="noreferrer" href="#\w+?=\d+?"/g, 'href="javascript:void(0);"')
     .replace(/<div id="\d+?".+?>/, `${nav}$&`)
+    .replace(/<img/g, '<img crossorigin="anonymous"')
     .replace(/<head>/, `$&${style}`);
 
 return new Response(modifiedHtml, {

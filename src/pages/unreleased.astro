@@ -28,24 +28,27 @@ const emoji = {
 <Layout title="Trekker | stelladb">
     <SearchableGrid placeholder="Search trekkers by id, name, element, tag, skill, or potential..." noResultsText="No trekker found.">
         {
-            Object.entries(data).map(([id, char]) => (
-                <div
-                    class="card-item"
-                    data-id={id}
-                    data-name={char.name}
-                    data-element={char.element}
-                    data-class={char.class}
-                    data-attacktype={char.attackType}
-                    data-tag={char.tag.join(' ')}
-                    data-skill={`${char.normalAtk.name} ${char.skill.name} ${char.supportSkill.name} ${char.ultimate.name}`}
-                    data-potential={Object.values(char.potential)
-                        .flat()
-                        .map((pot) => pot.name)
-                        .join(' ')}
-                >
-                    <Card href={`/trekker/${id}`} name={char.name} star={char.star} image={`/head_${id}02_XL.avif`} inset={-12} element={char.element} charClass={char.class} attackType={char.attackType} />
-                </div>
-            ))
+            Object.entries(data)
+                .sort(([, a], [, b]) => +!!(b.upgrade.length || b.skillUpgrade.length) - +!!(a.upgrade.length || a.skillUpgrade.length))
+                .map(([id, char]) => (
+                    <div
+                        class="card-item"
+                        data-id={id}
+                        data-name={char.name}
+                        data-element={char.element}
+                        data-class={char.class}
+                        data-attacktype={char.attackType}
+                        data-tag={char.tag.join(' ')}
+                        data-skill={`${char.normalAtk.name} ${char.skill.name} ${char.supportSkill.name} ${char.ultimate.name}`}
+                        data-potential={Object.values(char.potential)
+                            .flat()
+                            .map((pot) => pot.name)
+                            .join(' ')}
+                        data-comingsoon={char.upgrade.length || char.skillUpgrade.length ? 'coming soon' : ''}
+                    >
+                        <Card href={`/trekker/${id}`} name={char.name} star={char.star} image={`/head_${id}02_XL.avif`} inset={-12} element={char.element} charClass={char.class} attackType={char.attackType} />
+                    </div>
+                ))
         }
     </SearchableGrid>
 

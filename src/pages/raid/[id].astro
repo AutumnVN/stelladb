@@ -66,10 +66,14 @@ if (!raid) {
                             <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
                         </div>
 
-                        <div class="slider phase">
-                            <label class="phase-output">Phase: 1</label>
-                            <input type="range" id="phase" min="1" max="2" value="1" />
-                        </div>
+                        {
+                            raid.diff[0].stat[0].length > 1 && (
+                                <div class="slider phase">
+                                    <label class="phase-output">Phase: 1</label>
+                                    <input type="range" id="phase" min="1" max={raid.diff[0].stat[0].length} value="1" />
+                                </div>
+                            )
+                        }
 
                         {
                             raid.icons && (
@@ -150,17 +154,17 @@ if (!raid) {
         let boss = 1;
 
         difficultyInput.addEventListener('input', onStatInput);
-        phaseInput.addEventListener('input', onStatInput);
+        if (raid.diff[0].stat[0].length > 1) phaseInput.addEventListener('input', onStatInput);
         if (raid.icons) bossInput.addEventListener('input', onStatInput);
         onStatInput();
 
         function onStatInput() {
             difficulty = +difficultyInput.value;
-            phase = +phaseInput.value;
+            if (raid.diff[0].stat[0].length > 1) phase = +phaseInput.value;
             if (raid.icons) boss = +bossInput.value;
 
             difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
-            phaseOutput.innerHTML = `Phase: ${phase}`;
+            if (raid.diff[0].stat[0].length > 1) phaseOutput.innerHTML = `Phase: ${phase}`;
             if (raid.icons) bossOutput.innerHTML = `Boss ${boss}`;
             stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1][phase - 1])
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)

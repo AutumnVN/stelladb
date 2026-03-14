@@ -43,7 +43,7 @@ function generateInfodocScreenshots() {
                 const page = await browser.newPage();
 
                 await page.goto('https://stelladb.pages.dev/infodoc', { waitUntil: 'networkidle2' });
-                await page.setViewport({ width: 6760, height: 6650 });
+                await page.setViewport({ width: 6760, height: 7704 });
 
                 await page.addStyleTag({
                     content: `
@@ -61,7 +61,7 @@ function generateInfodocScreenshots() {
                 });
 
                 for (let i = 0; i < map.length; i++) {
-                    for (let j = 1; j <= 5; j++) {
+                    for (let j = 1; j <= 6; j++) {
                         await page.screenshot({
                             clip: {
                                 x: 30 + 1130 * i,

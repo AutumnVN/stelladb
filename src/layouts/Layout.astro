@@ -1,0 +1,351 @@
+---
+export interface Props {
+    title: string;
+    description?: string;
+    image?: string;
+}
+
+const { title, description = 'a lazy stella sora database', image = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/datingeventcg/DatingSPCG_156302.webp' } = Astro.props;
+
+const buildTime = new Date().toISOString();
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=0.5" />
+        <link rel="preload" href="/font.woff2" as="font" type="font/woff2" crossorigin />
+        <meta name="google-site-verification" content="QnPzHT-3k8oi0acqMvSozJjSGyAgimpbAop5WpEQ_Oc" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="theme-color" content="#66ff99" />
+        <link rel="canonical" href={Astro.url.href} />
+        <meta property="og:url" content={Astro.url.href} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+        <meta property="og:site_name" content="stelladb.pages.dev" />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                '@context': 'http://schema.org',
+                '@type': 'WebPage',
+                name: title,
+                description,
+                image,
+                url: Astro.url.href,
+            })}
+        />
+    </head>
+    <body>
+        <nav>
+            <a href="/"><h1 class="logo">stelladb</h1></a>
+            <div class="navlinks">
+                <a href="/trekker">Trekker</a>
+                <a href="/disc">Disc</a>
+                <a href="/banner">Banner</a>
+                <details>
+                    <summary>Monster</summary>
+                    <div>
+                        <a href="/ascension">Ascension</a>
+                        <a href="/arena">Menace Arena</a>
+                        <a href="/ground">Proving Ground</a>
+                        <a href="/blitz">Boss Blitz</a>
+                        <a href="/raid">Finale Echoing</a>
+                        <a href="/duel">Summit Show</a>
+                    </div>
+                </details>
+                <details>
+                    <summary>Other</summary>
+                    <div>
+                        <a href="/emblem">Emblem</a>
+                        <a href="/infodoc">Infodoc</a>
+                        <a href="/unreleased">Unreleased</a>
+                        <a href="https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950" target="_blank">Damage Formula ↗</a>
+                        <a href="https://github.com/users/AutumnVN/projects/2" target="_blank">Known Issues ↗</a>
+                    </div>
+                </details>
+            </div>
+        </nav>
+
+        <main>
+            <slot />
+        </main>
+
+        <footer>
+            <p>
+                last build <span class="build-time" data-time={buildTime}></span>
+                •
+                <a href="https://github.com/AutumnVN/stelladb">website</a>
+                /
+                <a href="https://github.com/AutumnVN/StellaSoraData">data</a>
+                /
+                <a href="https://github.com/AutumnVN/ssassets">image</a>
+            </p>
+        </footer>
+    </body>
+</html>
+
+<script>
+    // @ts-nocheck
+    const tooltips = document.querySelectorAll('.tooltip');
+
+    let rafPending = false;
+    let lastX = 0;
+    let lastY = 0;
+    let lastEl = null;
+    document.addEventListener('mousemove', (e) => {
+        const el = e.target.closest && e.target.closest('.tooltip');
+        if (!el) return;
+        lastX = e.pageX;
+        lastY = e.pageY;
+        lastEl = el;
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+            rafPending = false;
+            const tooltip = lastEl.querySelector('.tooltip-text');
+            if (!tooltip) return;
+            const tw = tooltip.clientWidth;
+            const th = tooltip.clientHeight;
+            const bw = document.body.clientWidth;
+            const bh = document.body.clientHeight;
+            const left = Math.min(Math.max(8, lastX + 16), bw - tw - 8);
+            const top = Math.min(Math.max(8, lastY + 16), bh - th - 8);
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+        });
+    });
+
+    const navDetails = document.querySelectorAll('.navlinks details');
+
+    navDetails.forEach((d) => {
+        d.addEventListener('toggle', () => {
+            if (!d.open) return;
+            navDetails.forEach((other) => {
+                if (other !== d && other.open) other.open = false;
+            });
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (Array.from(navDetails).some((d) => d.contains(e.target))) return;
+
+        navDetails.forEach((d) => {
+            if (d.open) d.open = false;
+        });
+    });
+
+    const buildTimeEl = document.querySelector('.build-time');
+    const buildTime = new Date(buildTimeEl.dataset.time);
+
+    buildTimeEl.textContent = formatRelativeTime(buildTime);
+    setInterval(() => {
+        buildTimeEl.textContent = formatRelativeTime(buildTime);
+    }, 1000);
+
+    function formatRelativeTime(time) {
+        const now = new Date();
+        const diff = time - now;
+        const absDiff = Math.abs(diff);
+
+        let relativeTime;
+        if (absDiff < 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / 1000)} second${Math.floor(absDiff / 1000) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 60 * 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / (60 * 1000))} minute${Math.floor(absDiff / (60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 24 * 60 * 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / (60 * 60 * 1000))} hour${Math.floor(absDiff / (60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else {
+            relativeTime = `${Math.floor(absDiff / (24 * 60 * 60 * 1000))} day${Math.floor(absDiff / (24 * 60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        }
+        return relativeTime;
+    }
+</script>
+
+<style is:global>
+    :root {
+        --bg: #111;
+        --bg1a: #1116;
+        --bg2: #222;
+        --bg2a: #2226;
+        --muted: #bbb;
+        --text: #eee;
+        --accent: #6f9;
+        --word: #69e;
+        --nav-height: 64px;
+        color-scheme: only dark;
+    }
+
+    html,
+    body {
+        margin: 0;
+        min-height: 100%;
+        scrollbar-gutter: stable;
+        touch-action: manipulation;
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.3;
+        font-family: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
+    }
+
+    a {
+        color: var(--muted);
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: var(--text);
+    }
+
+    button {
+        font-family: inherit;
+    }
+
+    .tooltip.word {
+        color: var(--word);
+    }
+
+    .tooltip [style*='background'] {
+        display: inline-block;
+        vertical-align: middle;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .tooltip-text {
+        display: none;
+        position: absolute;
+        border-radius: 6px;
+        background: var(--bg2);
+        padding: 1rem;
+        width: 400px;
+        color: var(--text);
+        font-weight: 400;
+    }
+
+    .tooltip-text img {
+        vertical-align: middle;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .tooltip:hover .tooltip-text {
+        display: block;
+    }
+
+    @font-face {
+        src: url('/font.woff2') format('woff2');
+        font-family: Inter;
+        font-display: swap;
+    }
+</style>
+
+<style>
+    nav {
+        display: flex;
+        position: sticky;
+        top: 0;
+        align-items: center;
+        z-index: 727;
+        backdrop-filter: blur(5px);
+        margin: 0 auto;
+        background: var(--bg1a);
+        padding: 0 1rem;
+        max-width: 1000px;
+        height: var(--nav-height);
+        white-space: nowrap;
+    }
+
+    .logo {
+        margin: 0;
+        padding: 0.5rem;
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+    }
+
+    .navlinks {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-left: auto;
+    }
+
+    .navlinks a {
+        padding: 0.5rem 0.5rem;
+    }
+
+    .navlinks details {
+        position: relative;
+    }
+
+    .navlinks summary {
+        cursor: pointer;
+        padding: 0.5rem;
+        color: var(--muted);
+        list-style: none;
+    }
+
+    .navlinks summary::marker,
+    .navlinks summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .navlinks summary:hover,
+    .navlinks summary:focus-visible {
+        color: var(--text);
+    }
+
+    .navlinks details[open] summary {
+        color: var(--text);
+    }
+
+    .navlinks details[open] div {
+        display: flex;
+        position: absolute;
+        top: calc(var(--nav-height) - 1rem);
+        right: 0;
+        flex-direction: column;
+        box-shadow: 0 12px 28px #0008;
+        border-radius: 6px;
+        background: var(--bg2);
+        padding: 0.25rem 0;
+        width: max-content;
+    }
+
+    .navlinks details[open] a {
+        padding: 0.5rem 0.75rem;
+    }
+
+    main {
+        margin: auto;
+        padding: 0 1rem;
+        max-width: 1000px;
+        min-height: calc(100dvh - 2 * var(--nav-height));
+    }
+
+    footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: var(--nav-height);
+        color: var(--muted);
+    }
+
+    footer p {
+        margin: 0.25rem 0;
+    }
+</style>

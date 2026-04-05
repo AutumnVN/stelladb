@@ -1,0 +1,258 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import Tabs from '@/components/Tabs.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const blitz = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!blitz) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={`${blitz.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}${blitz.stat?.length ? `, Damage Per Score: ${blitz.damagePerScore?.toLocaleString('en-US')}` : ''}`}>
+    <div class="blitz-page" data-json={JSON.stringify(blitz)}>
+        <div class="header">
+            <h1>{blitz.name}</h1>
+
+            <Tabs>
+                <button data-tab="stats" class="tab active">Stats</button>
+                <button data-tab="mechanic" class="tab">Mechanic</button>
+            </Tabs>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} alt={blitz.name} title={blitz.name} width="256" height="256" onerror="this.style.display='none'" />
+                <div class="info">
+                    <p>
+                        {`Type: ${blitz.type}`}<br />
+                        {`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                        {`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`}<br />
+                    </p>
+                </div>
+            </div>
+
+            <div class="right">
+                <section id="stats" class="tab-panel">
+                    <div class="slider-container">
+                        <div class="slider level">
+                            <label class="level-output">Level: 1</label>
+                            <input type="range" id="level" min="1" max={blitz.stat?.length} value="45" />
+                        </div>
+                    </div>
+
+                    <div class="stats">
+                        <h2>Stats</h2>
+                        <p>Damage Per Score: {blitz.damagePerScore?.toLocaleString('en-US')}</p>
+                        <p>
+                            {
+                                blitz.stat?.length &&
+                                    Object.entries(blitz.stat[0]).map(([stat, value]) => (
+                                        <>
+                                            {stat}: {value.toLocaleString('en-US')}
+                                            {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                            <br />
+                                        </>
+                                    ))
+                            }
+                        </p>
+                    </div>
+                </section>
+
+                <section id="mechanic" class="tab-panel" hidden>
+                    {
+                        blitz.mechanic.map((mechanic) => (
+                            <div class="mechanic">
+                                <div class="mechanic-header">
+                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
+                                    <h3>{mechanic.name}</h3>
+                                </div>
+                                <p>{mechanic.desc}</p>
+                                {!mechanic.effectType?.length ? null : <p class="small">Effect: {mechanic.effectType.join(', ')}</p>}
+                                {!mechanic.buffIcon?.length ? null : <p class="small">Buff: {mechanic.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                            </div>
+                        ))
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const blitz = JSON.parse(document.querySelector('.blitz-page').dataset.json);
+
+        const levelInput = document.querySelector('#level');
+        const levelOutput = document.querySelector('.level-output');
+        const stats = document.querySelector('.stats p+p');
+
+        let level = 1;
+
+        levelInput.addEventListener('input', onLevelInput);
+        onLevelInput();
+
+        function onLevelInput() {
+            level = +levelInput.value;
+            levelOutput.textContent = `Level: ${level}`;
+
+            stats.innerHTML = blitz.stat?.length
+                ? `${Object.entries(blitz.stat[level - 1])
+                      .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
+                      .join('')}`
+                : 'No stats available';
+        }
+
+        const mechanicDesc = document.querySelectorAll('.mechanic p:first-of-type');
+        mechanicDesc.forEach((desc) => {
+            desc.innerHTML = desc.textContent.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+        });
+    </script>
+
+    <style>
+        .blitz-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            position: sticky;
+            top: var(--nav-height);
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin: 0 auto;
+            background: var(--bg1a);
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: var(--nav-height);
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 256px;
+        }
+
+        .left img {
+            object-fit: cover;
+            object-position: top;
+        }
+
+        .left img {
+            object-fit: cover;
+            object-position: top;
+        }
+
+        @media (width < 800px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .left {
+                display: flex;
+                width: 100%;
+            }
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: calc(var(--nav-height) * 2);
+            backdrop-filter: blur(5px);
+            background: var(--bg1a);
+            padding: 1rem;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider label {
+            width: 16ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .mechanic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        div[class] > p,
+        div[class] > .item-image {
+            margin-left: 1rem;
+        }
+
+        .small {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .small img {
+            vertical-align: middle;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        h2 {
+            margin: 1rem 0;
+        }
+
+        h3 {
+            margin: 0.75rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

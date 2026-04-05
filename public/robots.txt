@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://stelladb.pages.dev/sitemap-index.xml

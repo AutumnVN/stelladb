@@ -1,0 +1,201 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import Card from '@/components/Card.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/gacha.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+---
+
+<Layout title="Banner | stelladb">
+    <div class="banner-grid">
+        {
+            Object.entries(data)
+                .sort((a, b) => new Date(b[1].startTime) - new Date(a[1].startTime))
+                .map(([id, banner]) => (
+                    <section class="banner" data-json={JSON.stringify(data[id])}>
+                        <div class="banner-header">
+                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en/icon/gacha/tab_gacha_${id}.webp`} alt={banner.name} title={banner.name} width="192" height="96" onerror={`this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en/icon/gacha/tab_gacha_${id}_lang.webp'`} />
+                            <div class="banner-info">
+                                <div class="banner-title">
+                                    <div class="banner-status"> </div>
+                                    <h2>{banner.name}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-time">
+                            <span class="absolute-time"> </span> • <span class="relative-time"> </span>
+                        </div>
+                        <div class="rate-up">
+                            {banner.rateUp5Star.map((cod) => {
+                                const isCharacter = banner.type === 'character';
+
+                                return (
+                                    <div title={cod.name}>
+                                        <Card
+                                            href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`}
+                                            star={5}
+                                            image={`/${isCharacter ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cod.id}02_XL.webp` : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.webp`}`}
+                                            inset={isCharacter ? -12 : 0}
+                                            element={cod.element}
+                                            elementSize={36}
+                                        />
+                                    </div>
+                                );
+                            })}
+                            {banner.rateUp4Star.map((cod) => {
+                                const isCharacter = banner.type === 'character';
+
+                                return (
+                                    <div title={cod.name}>
+                                        <Card
+                                            href={isCharacter ? `/trekker/${cod.id}` : `/disc/${cod.id}`}
+                                            star={4}
+                                            image={`/${isCharacter ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cod.id}02_XL.webp` : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${cod.id.toString().replace(/^.{2}/, '')}.webp`}`}
+                                            inset={isCharacter ? -12 : 0}
+                                            element={cod.element}
+                                            elementSize={36}
+                                        />
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+                ))
+        }
+    </div>
+</Layout>
+
+<script>
+    // @ts-nocheck
+    document.querySelectorAll('.banner').forEach((banner) => {
+        const data = JSON.parse(banner.dataset.json);
+        const startTime = new Date(data.startTime);
+        const endTime = new Date(data.endTime);
+
+        const absoluteTime = banner.querySelector('.absolute-time');
+
+        const absOption = { year: 'numeric', month: 'short', day: 'numeric' };
+        absoluteTime.textContent = `${startTime.toLocaleString('en-US', absOption)} → ${endTime.toLocaleString('en-US', absOption)}`;
+    });
+
+    updateStatusAndRelativeTimes();
+    setInterval(updateStatusAndRelativeTimes, 1000);
+
+    function updateStatusAndRelativeTimes() {
+        document.querySelectorAll('.banner').forEach((banner) => {
+            const data = JSON.parse(banner.dataset.json);
+            const now = new Date();
+            const startTime = new Date(data.startTime);
+            const endTime = new Date(data.endTime);
+
+            const bannerStatus = banner.querySelector('.banner-status');
+            const relativeTime = banner.querySelector('.relative-time');
+
+            if (now < startTime) {
+                bannerStatus.textContent = 'Upcoming';
+                bannerStatus.classList.add('upcoming');
+                relativeTime.textContent = `Starts ${formatRelativeTime(startTime)}`;
+            } else if (now >= startTime && now <= endTime) {
+                bannerStatus.textContent = 'Ongoing';
+                bannerStatus.classList.add('ongoing');
+                relativeTime.textContent = `Ends ${formatRelativeTime(endTime)}`;
+            } else {
+                bannerStatus.textContent = 'Ended';
+                bannerStatus.classList.add('ended');
+                relativeTime.textContent = `Ended ${formatRelativeTime(endTime)}`;
+            }
+        });
+    }
+
+    function formatRelativeTime(time) {
+        const now = new Date();
+        const diff = time - now;
+        const absDiff = Math.abs(diff);
+
+        let relativeTime;
+        if (absDiff < 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / 1000)} second${Math.floor(absDiff / 1000) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 60 * 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / (60 * 1000))} minute${Math.floor(absDiff / (60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else if (absDiff < 24 * 60 * 60 * 1000) {
+            relativeTime = `${Math.floor(absDiff / (60 * 60 * 1000))} hour${Math.floor(absDiff / (60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        } else {
+            relativeTime = `${Math.floor(absDiff / (24 * 60 * 60 * 1000))} day${Math.floor(absDiff / (24 * 60 * 60 * 1000)) !== 1 ? 's' : ''}`;
+            relativeTime = diff < 0 ? `${relativeTime} ago` : `in ${relativeTime}`;
+        }
+        return relativeTime;
+    }
+</script>
+
+<style>
+    .banner-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    @media (width < 800px) {
+        .banner-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .banner-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .banner-title {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .banner-status {
+        border-radius: 727px;
+        background: #111;
+        padding: 0.25rem 0.5rem;
+        width: fit-content;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+    }
+
+    .upcoming {
+        background: #124;
+        color: #def;
+    }
+
+    .ongoing {
+        background: #132;
+        color: #cfd;
+    }
+
+    .ended {
+        background: #333;
+        color: var(--muted);
+    }
+
+    .banner-time {
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+
+    .rate-up {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 72px);
+        gap: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    h2 {
+        margin: 0;
+        font-size: 1.4rem;
+    }
+
+    p {
+        margin: 0;
+    }
+</style>

@@ -1,0 +1,33 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/ground.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title="Proving Ground | stelladb">
+    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
+        {
+            Object.entries(data).map(([id, ground]) => (
+                <div class="card-item" data-id={id} data-name={ground.name} data-weakto={ground.weakTo.join(', ')} data-resistto={ground.resistTo}>
+                    <Card href={`/ground/${id}`} name={ground.name} desc={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${ground.resistTo}${emoji[ground.resistTo]}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${ground.icon}.webp`} inset={-30} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

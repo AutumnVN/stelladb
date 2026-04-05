@@ -1,0 +1,715 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import Tabs from '@/components/Tabs.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
+const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
+const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const itemData = await fetch(ITEM_URL).then((res) => res.json());
+const word = await fetch(WORD_URL).then((res) => res.json());
+const disc = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!disc) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={`${disc.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp`} description={`${disc.star}⭐ ${disc.element}${emoji[disc.element]} ${disc.tag.join(' ')}`}>
+    <div class="disc-page" data-json={JSON.stringify(disc)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
+        <div class="header">
+            <h1>{disc.name}</h1>
+
+            <Tabs>
+                <button data-tab="details" class="tab active">Details</button>
+                <button data-tab="melody" class="tab">Melody</button>
+                {
+                    disc.secondarySkill1 && (
+                        <button data-tab="harmony" class="tab">
+                            Harmony
+                        </button>
+                    )
+                }
+                <button data-tab="note" class="tab">Note</button>
+            </Tabs>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp`} alt={disc.name} title={disc.name} width="256" height="256" onerror="this.style.display='none'" />
+                <div class="info">
+                    <p>
+                        {`${disc.star}⭐`}<br />
+                        {disc.element}{emoji[disc.element]}<br />
+                        {
+                            disc.tag.map((tag) => (
+                                <>
+                                    {tag}
+                                    <br />
+                                </>
+                            ))
+                        }
+                        {
+                            disc.char.map((char) => (
+                                <>
+                                    {char}
+                                    <br />
+                                </>
+                            ))
+                        }
+                    </p>
+                    <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${disc.name.replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
+                </div>
+            </div>
+
+            <div class="right">
+                <section id="details" class="tab-panel">
+                    <div class="slider-container">
+                        <div class="slider upgrade1">
+                            <label class="upgrade1-output">Upgrade: 8</label>
+                            <input type="range" id="upgrade1" min="0" max="8" value="8" />
+                        </div>
+
+                        <div class="slider level">
+                            <label class="level-output">Level: 90</label>
+                            <input type="range" id="level" min="0" max="10" value="10" />
+                        </div>
+
+                        <div class="slider dupe1">
+                            <label class="dupe1-output">Dupe: 1</label>
+                            <input type="range" id="dupe1" min="1" max="6" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="stats">
+                        <h2>Stats</h2>
+                        <p>
+                            {
+                                Object.entries(disc.stat[97]).map(([stat, value]) => (
+                                    <>
+                                        {`${stat}: ${(stat === 'ATK' ? value + disc.dupe[4].ATK : value).toLocaleString('en-US')}`}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+
+                    <div class="upgrade-cost">
+                        <h2>Next upgrade cost</h2>
+                        <label class="cumulative checkbox"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
+                        <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
+                        <div class="item-image"></div>
+                        <p>
+                            Max upgrade reached<br />
+                            {
+                                Object.entries(disc.upgrade[7]).map(([item, amount]) => (
+                                    <>
+                                        {`${item}: ${amount.toLocaleString('en-US')}`}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+
+                <section id="melody" class="tab-panel" hidden>
+                    <div class="slider-container">
+                        <div class="slider dupe2">
+                            <label class="dupe2-output">Dupe: 1</label>
+                            <input type="range" id="dupe2" min="1" max="6" value="1" />
+                        </div>
+                    </div>
+
+                    <div class="melody">
+                        <div class="skill-header">
+                            <div class="skill-image" style={`background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.mainSkill.iconBg}.webp') center/cover no-repeat;`}>
+                                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.mainSkill.icon}.webp`} alt={disc.mainSkill.name} title={disc.mainSkill.name} width="64" height="64" />
+                            </div>
+                            <h2>{disc.mainSkill.name}</h2>
+                        </div>
+                        <p>{disc.mainSkill.description}</p>
+                        {!disc.mainSkill.effectType.length ? null : <p class="small">Effect: {disc.mainSkill.effectType.join(', ')}</p>}
+                        {!disc.mainSkill.addAttrType.length ? null : <p class="small">AddAttr: {disc.mainSkill.addAttrType.join(', ')}</p>}
+                        {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                        {
+                            !disc.mainSkill.effectData.length ? null : (
+                                <span class="tooltip small">
+                                    hover this for effect data
+                                    <div class="tooltip-text">
+                                        {disc.mainSkill.effectData.map((data) => (
+                                            <>
+                                                {data}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </div>
+                                </span>
+                            )
+                        }
+                    </div>
+                </section>
+
+                {
+                    disc.secondarySkill1 && (
+                        <section id="harmony" class="tab-panel" hidden>
+                            <div class="slider-container">
+                                <div class="slider harmony-level">
+                                    <label class="harmony-level-output">Harmony level: 1</label>
+                                    <input type="range" id="harmony-level" min="1" max="5" value="1" />
+                                </div>
+                            </div>
+
+                            <div class="harmony1">
+                                <div class="skill-header">
+                                    <div class="skill-image" style={`background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill1.iconBg}.webp') center/cover no-repeat;`}>
+                                        <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill1.icon}.webp`} alt={disc.secondarySkill1.name} title={disc.secondarySkill1.name} width="64" height="64" />
+                                    </div>
+                                    <h2>{disc.secondarySkill1.name}</h2>
+                                </div>
+                                <p>{disc.secondarySkill1.description}</p>
+                                {!disc.secondarySkill1.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill1.effectType.join(', ')}</p>}
+                                {!disc.secondarySkill1.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill1.addAttrType.join(', ')}</p>}
+                                {!disc.secondarySkill1.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill1.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!disc.secondarySkill1.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {disc.secondarySkill1.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
+                                <div class="item-image" />
+                                <p class="requirements">
+                                    {Object.entries(disc.secondarySkill1.requirements[0]).map(([note, amount]) => (
+                                        <>
+                                            {note}: {amount}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            </div>
+
+                            {disc.secondarySkill2 && (
+                                <div class="harmony2">
+                                    <div class="skill-header">
+                                        <div class="skill-image" style={`background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill2.iconBg}.webp') center/cover no-repeat;`}>
+                                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill2.icon}.webp`} alt={disc.secondarySkill2.name} title={disc.secondarySkill2.name} width="64" height="64" />
+                                        </div>
+                                        <h2>{disc.secondarySkill2.name}</h2>
+                                    </div>
+                                    <p>{disc.secondarySkill2.description}</p>
+                                    {!disc.secondarySkill2.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill2.effectType.join(', ')}</p>}
+                                    {!disc.secondarySkill2.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill2.addAttrType.join(', ')}</p>}
+                                    {!disc.secondarySkill2.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill2.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!disc.secondarySkill2.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {disc.secondarySkill2.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
+                                    <div class="item-image" />
+                                    <p class="requirements">
+                                        {Object.entries(disc.secondarySkill2.requirements[0]).map(([note, amount]) => (
+                                            <>
+                                                {note}: {amount}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </p>
+                                </div>
+                            )}
+                        </section>
+                    )
+                }
+
+                <section id="note" class="tab-panel" hidden>
+                    <div class="slider-container">
+                        <div class="slider upgrade2">
+                            <label class="upgrade2-output">Upgrade: 8</label>
+                            <input type="range" id="upgrade2" min="0" max="8" value="8" />
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <h2>Support Note</h2>
+                        <div class="item-image"></div>
+                        <p>
+                            {
+                                Object.entries(disc.supportNote[0]).map(([note, amount]) => (
+                                    <>
+                                        {note}: {amount}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const disc = JSON.parse(document.querySelector('.disc-page').dataset.json);
+        const itemData = JSON.parse(document.querySelector('.disc-page').dataset.item);
+        const word = JSON.parse(document.querySelector('.disc-page').dataset.word);
+
+        function format(desc) {
+            return desc
+                .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+                .replace(/\u000b/g, '<br />')
+                .replace(/##(.*?)#(\d{1,4})#/g, (match, name, id) => {
+                    const wordName = word[id].name;
+                    let wordDesc = word[id].desc;
+
+                    word[id].params.forEach((param, index) => {
+                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                    });
+
+                    wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+
+                    return `<span class="tooltip word">
+                        ${wordName}
+                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                        <div class="tooltip-text">
+                            <b>${wordName}</b><br />
+                            <p>${wordDesc}</p>
+                        </div>
+                    </span>`;
+                });
+        }
+
+        function itemNameToImage(itemName) {
+            const item = Object.values(itemData).find((i) => i.name === itemName);
+            return `
+                <div style="background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
+                    <img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${item.id}.webp" alt="${itemName}" title="${itemName}" width="52" height="52" />
+                </div>
+            `;
+        }
+
+        const upgrade1Input = document.querySelector('#upgrade1');
+        const upgrade1Output = document.querySelector('.upgrade1-output');
+        const levelInput = document.querySelector('#level');
+        const levelOutput = document.querySelector('.level-output');
+        const dupe1Input = document.querySelector('#dupe1');
+        const dupe1Output = document.querySelector('.dupe1-output');
+        const stats = document.querySelector('.stats p');
+        const upgradeCost = document.querySelector('.upgrade-cost p');
+        const upgradeCostItemImage = document.querySelector('.upgrade-cost .item-image');
+        const cumulativeUpgrade = document.querySelector('#cumulative-upgrade');
+        const convertToTier1Upgrade = document.querySelector('#convert-to-tier-1-upgrade');
+
+        let upgrade1 = 0;
+        let level = 1;
+        let dupe1 = 1;
+
+        upgrade1Input.addEventListener('input', onDetailsInput);
+        levelInput.addEventListener('input', onDetailsInput);
+        dupe1Input.addEventListener('input', onDetailsInput);
+        cumulativeUpgrade.addEventListener('change', onDetailsInput);
+        convertToTier1Upgrade.addEventListener('change', onDetailsInput);
+        onDetailsInput();
+
+        function onDetailsInput() {
+            upgrade1 = +upgrade1Input.value;
+            level = +upgrade1Input.value * 10 + +levelInput.value;
+            dupe1 = +dupe1Input.value;
+
+            if (level < 1) level = 1;
+            if (level > 90) level = 90;
+
+            upgrade1Output.innerHTML = `Upgrade: ${upgrade1}`;
+            levelOutput.innerHTML = `Level: ${level}`;
+            dupe1Output.innerHTML = `Dupe: ${dupe1}`;
+
+            const stat = disc.stat[level + upgrade1 - 1];
+
+            stats.innerHTML = Object.entries(stat)
+                .map(([stat, value]) => `${stat}: ${(stat === 'ATK' && dupe1 > 1 ? value + disc.dupe[dupe1 - 2].ATK : value).toLocaleString('en-US')}`)
+                .join('<br />');
+            if (upgrade1 >= 7) upgrade1 = 7;
+
+            let totals = {};
+            if (cumulativeUpgrade.checked) {
+                if (convertToTier1Upgrade.checked) {
+                    for (let i = 0; i <= upgrade1; i++) {
+                        Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
+                            const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                            if (itemInfo.type === 'DiscPromote') {
+                                const tier1Item = Object.values(itemData).find((it) => it.type === 'DiscPromote' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                                if (itemInfo.rarity === 'R') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                                } else if (itemInfo.rarity === 'SR') {
+                                    totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                                } else {
+                                    totals[item] = (totals[item] || 0) + amount;
+                                }
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        });
+                    }
+                } else {
+                    for (let i = 0; i <= upgrade1; i++) {
+                        Object.entries(disc.upgrade[i]).forEach(([item, amount]) => {
+                            totals[item] = (totals[item] || 0) + amount;
+                        });
+                    }
+                }
+            } else {
+                if (convertToTier1Upgrade.checked) {
+                    Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
+                        const itemInfo = Object.values(itemData).find((it) => it.name === item);
+                        if (itemInfo.type === 'DiscPromote') {
+                            const tier1Item = Object.values(itemData).find((it) => it.type === 'DiscPromote' && it.rarity === 'M' && it.id.toString() === `${itemInfo.id.toString().slice(0, -1)}1`);
+                            if (itemInfo.rarity === 'R') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 3;
+                            } else if (itemInfo.rarity === 'SR') {
+                                totals[tier1Item.name] = (totals[tier1Item.name] || 0) + amount * 9;
+                            } else {
+                                totals[item] = (totals[item] || 0) + amount;
+                            }
+                        } else {
+                            totals[item] = (totals[item] || 0) + amount;
+                        }
+                    });
+                } else {
+                    Object.entries(disc.upgrade[upgrade1]).forEach(([item, amount]) => {
+                        totals[item] = (totals[item] || 0) + amount;
+                    });
+                }
+            }
+
+            const sorted = sortByItemId(totals);
+
+            upgradeCost.innerHTML = sorted.map(([item, amount]) => `${item}: ${amount.toLocaleString('en-US')}<br />`).join('');
+            if (+upgrade1Input.value > 7) upgradeCost.innerHTML = 'Max upgrade reached<br />' + upgradeCost.innerHTML;
+            upgradeCostItemImage.innerHTML = sorted.map(([itemName]) => itemNameToImage(itemName)).join('');
+        }
+
+        function sortByItemId(totals) {
+            return Object.entries(totals).sort((a, b) => {
+                const ida = Object.values(itemData).find((item) => item.name === a[0]).id;
+                const idb = Object.values(itemData).find((item) => item.name === b[0]).id;
+                if (ida === 1) return 1;
+                if (idb === 1) return -1;
+                return ida - idb;
+            });
+        }
+
+        const dupe2Input = document.querySelector('#dupe2');
+        const dupe2Output = document.querySelector('.dupe2-output');
+        const melody = document.querySelector('.melody p');
+
+        let dupe2 = 1;
+
+        dupe2Input.addEventListener('input', onMelodyInput);
+        onMelodyInput();
+
+        function onMelodyInput() {
+            dupe2 = +dupe2Input.value;
+            dupe2Output.innerHTML = `Dupe: ${dupe2}`;
+
+            const desc = disc.mainSkill.desc;
+            const params = disc.mainSkill.params;
+            const splitted = params.split('/')[dupe2 - 1].split(',');
+
+            let result = desc;
+
+            splitted.forEach((param, index) => {
+                result = result.replace(`\{${index + 1}\}`, param);
+            });
+
+            melody.innerHTML = format(result);
+        }
+
+        if (disc.secondarySkill1) {
+            const harmonyLevelInput = document.querySelector('#harmony-level');
+            const harmonyLevelOutput = document.querySelector('.harmony-level-output');
+            const harmony1 = document.querySelector('.harmony1 p');
+            const harmony1Req = document.querySelector('.harmony1 .requirements');
+            const harmony1ItemImage = document.querySelector('.harmony1 .item-image');
+            const harmony2 = document.querySelector('.harmony2 p');
+            const harmony2Req = document.querySelector('.harmony2 .requirements');
+            const harmony2ItemImage = document.querySelector('.harmony2 .item-image');
+
+            let harmonyLevel = 1;
+
+            harmonyLevelInput.addEventListener('input', onHarmonyInput);
+            onHarmonyInput();
+
+            function onHarmonyInput() {
+                harmonyLevel = +harmonyLevelInput.value;
+                harmonyLevelOutput.innerHTML = `Harmony level: ${harmonyLevel}`;
+
+                const skill1 = disc.secondarySkill1;
+                const desc1 = skill1.desc;
+                const params1 = skill1.params;
+                const splitted1 = params1.split('/')[harmonyLevel - 1].split(',');
+
+                let result1 = desc1;
+
+                splitted1.forEach((param, index) => {
+                    result1 = result1.replace(`\{${index + 1}\}`, param);
+                });
+
+                harmony1.innerHTML = format(result1);
+
+                harmony1Req.innerHTML = Object.entries(skill1.requirements[harmonyLevel - 1])
+                    .map(([note, amount]) => `${note}: ${amount}`)
+                    .join('<br />');
+
+                harmony1ItemImage.innerHTML = `
+                    ${Object.entries(skill1.requirements[harmonyLevel - 1])
+                        .map(([note, amount]) => {
+                            const item = Object.values(itemData).find((i) => i.name === note);
+                            return `<img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/note/note_${item.id}_S.webp" alt="${note}" title="${note}" width="64" height="64" />`;
+                        })
+                        .join('')}
+                `;
+
+                if (disc.secondarySkill2) {
+                    const skill2 = disc.secondarySkill2;
+                    const desc2 = skill2.desc;
+                    const params2 = skill2.params;
+                    const splitted2 = params2.split('/')[harmonyLevel - 1].split(',');
+
+                    let result2 = desc2;
+
+                    splitted2.forEach((param, index) => {
+                        result2 = result2.replace(`\{${index + 1}\}`, param);
+                    });
+
+                    harmony2.innerHTML = format(result2);
+
+                    harmony2Req.innerHTML = Object.entries(skill2.requirements[harmonyLevel - 1])
+                        .map(([note, amount]) => `${note}: ${amount}`)
+                        .join('<br />');
+
+                    harmony2ItemImage.innerHTML = `
+                        ${Object.entries(skill2.requirements[harmonyLevel - 1])
+                            .map(([note, amount]) => {
+                                const item = Object.values(itemData).find((i) => i.name === note);
+                                return `<img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/note/note_${item.id}_S.webp" alt="${note}" title="${note}" width="64" height="64" />`;
+                            })
+                            .join('')}
+                    `;
+                }
+            }
+        }
+
+        const upgrade2Input = document.querySelector('#upgrade2');
+        const upgrade2Output = document.querySelector('.upgrade2-output');
+        const note = document.querySelector('.note p');
+        const noteItemImage = document.querySelector('.note .item-image');
+
+        let upgrade2 = 0;
+
+        upgrade2Input.addEventListener('input', onSupportNoteInput);
+        onSupportNoteInput();
+
+        function onSupportNoteInput() {
+            upgrade1 = +upgrade2Input.value;
+            upgrade2Output.innerHTML = `Upgrade: ${upgrade1}`;
+
+            note.innerHTML = Object.entries(disc.supportNote[upgrade1])
+                .map(([note, amount]) => `${note}: ${amount}`)
+                .join('<br />');
+
+            noteItemImage.innerHTML = `
+                ${Object.entries(disc.supportNote[upgrade1])
+                    .map(([note, amount]) => {
+                        const item = Object.values(itemData).find((i) => i.name === note);
+                        return `<img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/note/note_${item.id}_S.webp" alt="${note}" title="${note}" width="64" height="64" />`;
+                    })
+                    .join('')}
+            `;
+        }
+    </script>
+
+    <style>
+        .disc-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            position: sticky;
+            top: var(--nav-height);
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin: 0 auto;
+            background: var(--bg1a);
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: var(--nav-height);
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 256px;
+        }
+
+        .left img {
+            object-fit: cover;
+            object-position: top;
+        }
+
+        @media (width < 800px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .left {
+                display: flex;
+                width: 100%;
+            }
+        }
+
+        .wiki {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: calc(var(--nav-height) * 2);
+            backdrop-filter: blur(5px);
+            background: var(--bg1a);
+            padding: 1rem;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider label {
+            width: 16ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: 1rem;
+        }
+
+        .skill-image {
+            width: 64px;
+            height: 64px;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label input {
+            width: 1rem;
+            height: 1rem;
+            accent-color: var(--accent);
+        }
+
+        div[class] > p,
+        div[class] > .checkbox,
+        div[class] > .item-image,
+        div[class] > .small {
+            margin-left: 1rem;
+        }
+
+        .small {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .small img {
+            vertical-align: middle;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        h2 {
+            margin: 1rem 0;
+        }
+
+        h3 {
+            margin: 0.75rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

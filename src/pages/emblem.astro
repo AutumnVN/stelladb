@@ -1,0 +1,190 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import Tabs from '@/components/Tabs.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/emblem.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+---
+
+<Layout title="Emblem | stelladb">
+    <div class="emblem-page">
+        <div class="header">
+            <h1>
+                Emblem (GOT DELETED IN HOTFIX 11/26)<br />
+            </h1>
+
+            <Tabs>
+                <button data-tab="lv70" class="tab active">Lv70</button>
+                <button data-tab="lv80" class="tab">Lv80</button>
+                <button data-tab="lv90" class="tab">Lv90</button>
+            </Tabs>
+        </div>
+
+        <div class="content">
+            <section id="lv70" class="tab-panel">
+                <p>yes, chance to get pen is rigged</p>
+                <div class="normal-attr">
+                    <h2>Normal Attributes</h2>
+                    <h3>Rarity weight:</h3>
+                    <p>
+                        Green: 40%<br />
+                        Blue: 30%<br />
+                        Gold: 20%<br />
+                        Rainbow: 10%<br />
+                    </p>
+                    {
+                        data.lv70.attrGroup.map((group) => (
+                            <div class="attr-group">
+                                <h3>Group weight: {group.weight}</h3>
+                                {group.attr.map((attr) => (
+                                    <p>{attr}</p>
+                                ))}
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <section id="lv80" class="tab-panel" hidden>
+                <p>yes, chance to get pen is rigged</p>
+                <div class="unique-attr-group">
+                    <h2>Unique Attributes</h2>
+                    <h3>Probablity to get unique attr: {data.lv80.uniqueAttrGroup.uniqueAttrGroupProb}</h3>
+                    <h3>Guarantee count: {data.lv80.uniqueAttrGroup.guaranteeCount}</h3>
+                    <h3>Rarity weight:</h3>
+                    <p>
+                        +1: 50%<br />
+                        +2: 25%<br />
+                        +3: 25%<br />
+                    </p>
+                    <h3>Unique attr num weight:</h3>
+                    <p>
+                        {
+                            Object.entries(data.lv80.uniqueAttrGroup.uniqueAttrNumWeight).map(([num, weight]) => (
+                                <>
+                                    {num} unique attr: {weight}
+                                    <br />
+                                </>
+                            ))
+                        }
+                    </p>
+                    <br />
+                    {data.lv80.uniqueAttrGroup.attr.map((attr) => <p>{attr}</p>)}
+                </div>
+                <div class="normal-attr">
+                    <h2>Normal Attributes</h2>
+                    <h3>Rarity weight:</h3>
+                    <p>
+                        Green: 40%<br />
+                        Blue: 30%<br />
+                        Gold: 20%<br />
+                        Rainbow: 10%<br />
+                    </p>
+                    {
+                        data.lv80.attrGroup.map((group) => (
+                            <div class="attr-group">
+                                <h3>Group weight: {group.weight}</h3>
+                                {group.attr.map((attr) => (
+                                    <p>{attr}</p>
+                                ))}
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <section id="lv90" class="tab-panel" hidden>
+                <p>yes, there is no pen here</p>
+                <div class="unique-attr-group">
+                    <h2>Unique Attributes</h2>
+                    <h3>Probablity to get unique attr: {data.lv90.uniqueAttrGroup.uniqueAttrGroupProb}</h3>
+                    <h3>Guarantee count: {data.lv90.uniqueAttrGroup.guaranteeCount}</h3>
+                    <h3>Rarity weight:</h3>
+                    <p>
+                        +1: 50%<br />
+                        +2: 25%<br />
+                        +3: 25%<br />
+                    </p>
+                    <h3>Unique attr num weight:</h3>
+                    <p>
+                        {
+                            Object.entries(data.lv90.uniqueAttrGroup.uniqueAttrNumWeight).map(([num, weight]) => (
+                                <>
+                                    {num} unique attr: {weight}
+                                    <br />
+                                </>
+                            ))
+                        }
+                    </p>
+                    <br />
+                    {data.lv90.uniqueAttrGroup.attr.map((attr) => <p>{attr}</p>)}
+                </div>
+                <div class="normal-attr">
+                    <h2>Normal Attributes</h2>
+                    <h3>Rarity weight:</h3>
+                    <p>
+                        Green: 40%<br />
+                        Blue: 30%<br />
+                        Gold: 20%<br />
+                        Rainbow: 10%<br />
+                    </p>
+                    {
+                        data.lv90.attrGroup.map((group) => (
+                            <div class="attr-group">
+                                <h3>Group weight: {group.weight}</h3>
+                                {group.attr.map((attr) => (
+                                    <p>{attr}</p>
+                                ))}
+                            </div>
+                        ))
+                    }
+                </div>
+            </section>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .emblem-page {
+        padding: 0 1rem;
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        padding: 0 1rem;
+        max-width: 1000px;
+        height: 64px;
+    }
+
+    h1 {
+        margin: 0 1rem 0 0;
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    .content {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    div[class] > p {
+        margin-left: 1rem;
+    }
+
+    h2 {
+        margin: 1.5rem 0 0.75rem 0;
+    }
+
+    h3 {
+        margin: 1rem 0 0.5rem 0;
+    }
+
+    p {
+        margin: 0.25rem 0;
+    }
+</style>

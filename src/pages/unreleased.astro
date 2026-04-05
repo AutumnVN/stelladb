@@ -1,0 +1,76 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
+const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
+const RAW_CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/Character.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const characterIdData = await fetch(CHARACTERID_URL).then((res) => res.json());
+const rawCharacterData = await fetch(RAW_CHARACTER_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    Melee: '⚔️',
+    Ranged: '🏹',
+};
+---
+
+<Layout title="Trekker | stelladb">
+    <SearchableGrid placeholder="Search trekkers by id, name, element, tag, skill, or potential..." noResultsText="No trekker found.">
+        {
+            Object.entries(data)
+                .sort(([, a], [, b]) => +!!(b.upgrade.length || b.skillUpgrade.length) - +!!(a.upgrade.length || a.skillUpgrade.length))
+                .map(([id, char]) => (
+                    <div
+                        class="card-item"
+                        data-id={id}
+                        data-name={char.name}
+                        data-element={char.element}
+                        data-class={char.class}
+                        data-attacktype={char.attackType}
+                        data-tag={char.tag.join(' ')}
+                        data-skill={`${char.normalAtk.name} ${char.skill.name} ${char.supportSkill.name} ${char.ultimate.name}`}
+                        data-potential={Object.values(char.potential)
+                            .flat()
+                            .map((pot) => pot.name)
+                            .join(' ')}
+                        data-comingsoon={char.upgrade.length || char.skillUpgrade.length ? 'coming soon' : ''}
+                    >
+                        <Card href={`/trekker/${id}`} name={char.name} star={char.star} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} inset={-12} element={char.element} charClass={char.class} attackType={char.attackType} />
+                    </div>
+                ))
+        }
+    </SearchableGrid>
+
+    <div class="no-data">
+        <h2>No Data</h2>
+        <p>
+            {
+                Object.entries(characterIdData)
+                    .filter(([id, name]) => !Object.keys(rawCharacterData).includes(id))
+                    .map(([id, name]) => (
+                        <>
+                            {`${id} ${name}`}
+                            <br />
+                        </>
+                    ))
+            }
+        </p>
+    </div>
+</Layout>
+
+<style>
+    .no-data p {
+        margin-left: 1rem;
+    }
+</style>

@@ -1,0 +1,284 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import Tabs from '@/components/Tabs.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+    }));
+}
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
+
+const { params, request } = Astro;
+const id = params.id;
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+const raid = data[id];
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!raid) {
+    throw Astro.redirect('/404', 302);
+}
+---
+
+<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0][0].HP.toLocaleString('en-US')}`}>
+    <div class="raid-page" data-json={JSON.stringify(raid)}>
+        <div class="header">
+            <h1>{raid.name}</h1>
+
+            <Tabs>
+                <button data-tab="stats" class="tab active">Stats</button>
+                <button data-tab="mechanic" class="tab">Mechanic</button>
+            </Tabs>
+        </div>
+
+        <div class="content">
+            <div class="left">
+                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${raid.icon}.webp`} alt={raid.name} title={raid.name} width="256" height="256" onerror="this.style.display='none'" />
+                <div class="info">
+                    <p>
+                        {`Type: ${raid.type}`}<br />
+                        {`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                        {`Resist: ${raid.resistTo}${emoji[raid.resistTo]}`}<br />
+                    </p>
+                </div>
+            </div>
+
+            <div class="right">
+                <section id="stats" class="tab-panel">
+                    <div class="slider-container">
+                        <div class="slider difficulty">
+                            <label class="difficulty-output">Diff: {raid.diff[raid.diff.length - 1].name}</label>
+                            <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
+                        </div>
+
+                        {
+                            raid.diff[0].stat[0].length > 1 && (
+                                <div class="slider phase">
+                                    <label class="phase-output">Phase: 1</label>
+                                    <input type="range" id="phase" min="1" max={raid.diff[0].stat[0].length} value="1" />
+                                </div>
+                            )
+                        }
+
+                        {
+                            raid.icons && (
+                                <div class="slider boss">
+                                    <label class="boss-output">Boss 1</label>
+                                    <input type="range" id="boss" min="1" max={raid.icons.length} value="1" />
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <div class="stats">
+                        <h2>Stats</h2>
+                        <p>
+                            {
+                                Object.entries(raid.diff[0].stat[0][0]).map(([stat, value]) => (
+                                    <>
+                                        {stat}: {value.toLocaleString('en-US')}
+                                        {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                        <br />
+                                    </>
+                                ))
+                            }
+                        </p>
+                    </div>
+
+                    {
+                        raid.diff[0].bookStat && (
+                            <div class="book-stats">
+                                <h2>Book stats</h2>
+                                <p>
+                                    {Object.entries(raid.diff[0].bookStat).map(([stat, value]) => (
+                                        <>
+                                            {stat}: {value.toLocaleString('en-US')}
+                                            {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                            <br />
+                                        </>
+                                    ))}
+                                </p>
+                            </div>
+                        )
+                    }
+                </section>
+
+                <section id="mechanic" class="tab-panel" hidden>
+                    {
+                        raid.mechanic.map((mechanic) => (
+                            <div class="mechanic">
+                                <div class="mechanic-header">
+                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/jointdrill/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" />
+                                    <h3>{mechanic.name}</h3>
+                                </div>
+                                <p>{mechanic.desc}</p>
+                            </div>
+                        ))
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // @ts-nocheck
+        const raid = JSON.parse(document.querySelector('.raid-page').dataset.json);
+
+        const difficultyInput = document.querySelector('#difficulty');
+        const difficultyOutput = document.querySelector('.difficulty-output');
+        const phaseInput = document.querySelector('#phase');
+        const phaseOutput = document.querySelector('.phase-output');
+        const bossInput = document.querySelector('#boss');
+        const bossOutput = document.querySelector('.boss-output');
+        const stats = document.querySelector('.stats p');
+        const bookStats = document.querySelector('.book-stats p');
+        const icon = document.querySelector('.left img');
+
+        let difficulty = 0;
+        let phase = 1;
+        let boss = 1;
+
+        difficultyInput.addEventListener('input', onStatInput);
+        if (raid.diff[0].stat[0].length > 1) phaseInput.addEventListener('input', onStatInput);
+        if (raid.icons) bossInput.addEventListener('input', onStatInput);
+        onStatInput();
+
+        function onStatInput() {
+            difficulty = +difficultyInput.value;
+            if (raid.diff[0].stat[0].length > 1) phase = +phaseInput.value;
+            if (raid.icons) boss = +bossInput.value;
+
+            difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
+            if (raid.diff[0].stat[0].length > 1) phaseOutput.innerHTML = `Phase: ${phase}`;
+            if (raid.icons) bossOutput.innerHTML = `Boss ${boss}`;
+            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1][phase - 1])
+                .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
+                .join('')}`;
+            if (raid.diff[difficulty].bookStat)
+                bookStats.innerHTML = `${Object.entries(raid.diff[difficulty].bookStat)
+                    .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
+                    .join('')}`;
+            if (raid.icons) icon.src = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${raid.icons[boss - 1]}.webp`;
+        }
+    </script>
+
+    <style>
+        .raid-page {
+            padding: 0 1rem;
+        }
+
+        .header {
+            display: flex;
+            position: sticky;
+            top: var(--nav-height);
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin: 0 auto;
+            background: var(--bg1a);
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: var(--nav-height);
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .left {
+            width: 256px;
+        }
+
+        .left img {
+            object-fit: cover;
+            object-position: top;
+        }
+
+        @media (width < 800px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .left {
+                display: flex;
+                width: 100%;
+            }
+        }
+
+        .right {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: calc(var(--nav-height) * 2);
+            backdrop-filter: blur(5px);
+            background: var(--bg1a);
+            padding: 1rem;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .slider label {
+            width: 16ch;
+        }
+
+        .slider input[type='range'] {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            accent-color: var(--accent);
+        }
+
+        .mechanic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        div[class] > p,
+        div[class] > .item-image {
+            margin-left: 1rem;
+        }
+
+        h2 {
+            margin: 1rem 0;
+        }
+
+        h3 {
+            margin: 0.75rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    </style>
+</Layout>

@@ -1,0 +1,123 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="stelladb">
+    <div class="center">
+        <div class="text">
+            <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
+            <p>day <span class="time" data-time="2025-12-31T10:00:00.000Z"></span> since yostar promised ascension & emblem qol</p>
+            <p>day <span class="time" data-time="2025-10-20T02:00:00.000Z"></span> since launch</p>
+        </div>
+
+        <img src="/" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
+
+        <div class="time-machine">
+            <a href="https://stelladb.pages.dev/">latest</a>
+            <a href="https://5993e144.stelladb.pages.dev/">v1.7</a>
+            <a href="https://d7422ec5.stelladb.pages.dev/">v1.6</a>
+            <a href="https://674e026f.stelladb.pages.dev/">v1.5</a>
+            <a href="https://e0b7d670.stelladb.pages.dev/">v1.4</a>
+            <a href="https://398c0756.stelladb.pages.dev/">v1.3</a>
+            <a href="https://b6bb5f31.stelladb.pages.dev/">v1.2</a>
+            <a href="https://5076c69f.stelladb.pages.dev/">v1.1</a>
+        </div>
+    </div>
+
+    <div class="petal-bloom">
+        <a href="/trekker/156" title="Nazuna">
+            <img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_15601_Q.webp" alt="Nazuna" title="Nazuna" width="200" height="200" />
+        </a>
+        <a href="/trekker/134" title="Fuyuka">
+            <img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_13401_Q.webp" alt="Fuyuka" title="Fuyuka" width="200" height="200" />
+        </a>
+        <a href="/trekker/133" title="Nazuka">
+            <img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_13301_Q.webp" alt="Nazuka" title="Nazuka" width="200" height="200" />
+        </a>
+    </div>
+</Layout>
+
+<script>
+    // @ts-nocheck
+    const timeEls = document.querySelectorAll('.time');
+
+    timeEls.forEach((el) => {
+        const time = new Date(el.dataset.time);
+        el.textContent = formatRelativeDay(time);
+        setInterval(() => {
+            el.textContent = formatRelativeDay(time);
+        }, 1000);
+    });
+
+    function formatRelativeDay(time) {
+        const now = new Date();
+        const diffTime = now - time;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        return diffDays;
+    }
+</script>
+
+<style>
+    .center {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100dvh - 2 * var(--nav-height));
+    }
+
+    .center .text {
+        margin-bottom: 1rem;
+        text-align: center;
+        align-items: center;
+    }
+
+    .center h1 {
+        margin: 0.25rem 0;
+        font-size: 3.6rem;
+    }
+
+    .center p {
+        margin: 0.25rem 0;
+        font-size: 1.35rem;
+    }
+
+    .center img {
+        vertical-align: middle;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .time-machine {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        flex-direction: column;
+    }
+
+    .time-machine a {
+        padding: 0.1rem 0.5rem;
+    }
+
+    .petal-bloom {
+        display: flex;
+        position: absolute;
+        right: 0;
+        bottom: var(--nav-height);
+        overflow: hidden;
+    }
+
+    .petal-bloom a {
+        width: 120px;
+    }
+
+    .petal-bloom img {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+    }
+</style>

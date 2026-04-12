@@ -8,7 +8,7 @@ import Layout from '@/layouts/Layout.astro';
             <h1>a lazy <span style="color: var(--accent)">stella sora</span> database</h1>
         </div>
 
-        <img src="/" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
+        <img src="/" id="nazuna" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
 
         <div class="time-machine">
             <a href="https://stelladb.pages.dev/">latest</a>
@@ -54,6 +54,21 @@ import Layout from '@/layouts/Layout.astro';
 
         return diffDays;
     }
+
+    const audio = new Audio('/fufufu.mp3');
+    let isPlaying = false;
+
+    audio.addEventListener('ended', () => {
+        isPlaying = false;
+        audio.currentTime = 0;
+    });
+
+    document.querySelector('#nazuna').addEventListener('click', () => {
+        if (isPlaying) return;
+        isPlaying = true;
+        audio.currentTime = 0;
+        audio.play();
+    });
 </script>
 
 <style>

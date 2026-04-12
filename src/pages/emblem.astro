@@ -22,18 +22,18 @@ const data = await fetch(DATA_URL).then((res) => res.json());
             </Tabs>
         </div>
 
+        <p>
+            warning will trigger on reforge if:<br />
+            - no lock and have at least 2 rainbow attr<br />
+            - locked but have an unlocked rainbow attr<br />
+            - have an unlocked attr mark with (*)
+        </p>
+
         <div class="content">
             <section id="lv70" class="tab-panel">
                 <p>yes, chance to get pen is rigged</p>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
-                    <h3>Rarity weight:</h3>
-                    <p>
-                        Green: 40%<br />
-                        Blue: 30%<br />
-                        Gold: 20%<br />
-                        Rainbow: 10%<br />
-                    </p>
                     {
                         data.lv70.attrGroup.map((group) => (
                             <div class="attr-group">
@@ -53,12 +53,6 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                     <h2>Unique Attributes</h2>
                     <h3>Probablity to get unique attr: {data.lv80.uniqueAttrGroup.uniqueAttrGroupProb}</h3>
                     <h3>Guarantee count: {data.lv80.uniqueAttrGroup.guaranteeCount}</h3>
-                    <h3>Rarity weight:</h3>
-                    <p>
-                        +1: 50%<br />
-                        +2: 25%<br />
-                        +3: 25%<br />
-                    </p>
                     <h3>Unique attr num weight:</h3>
                     <p>
                         {
@@ -75,13 +69,6 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                 </div>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
-                    <h3>Rarity weight:</h3>
-                    <p>
-                        Green: 40%<br />
-                        Blue: 30%<br />
-                        Gold: 20%<br />
-                        Rainbow: 10%<br />
-                    </p>
                     {
                         data.lv80.attrGroup.map((group) => (
                             <div class="attr-group">
@@ -101,12 +88,6 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                     <h2>Unique Attributes</h2>
                     <h3>Probablity to get unique attr: {data.lv90.uniqueAttrGroup.uniqueAttrGroupProb}</h3>
                     <h3>Guarantee count: {data.lv90.uniqueAttrGroup.guaranteeCount}</h3>
-                    <h3>Rarity weight:</h3>
-                    <p>
-                        +1: 50%<br />
-                        +2: 25%<br />
-                        +3: 25%<br />
-                    </p>
                     <h3>Unique attr num weight:</h3>
                     <p>
                         {
@@ -123,13 +104,6 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                 </div>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
-                    <h3>Rarity weight:</h3>
-                    <p>
-                        Green: 40%<br />
-                        Blue: 30%<br />
-                        Gold: 20%<br />
-                        Rainbow: 10%<br />
-                    </p>
                     {
                         data.lv90.attrGroup.map((group) => (
                             <div class="attr-group">

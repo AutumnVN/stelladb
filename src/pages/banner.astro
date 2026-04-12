@@ -16,7 +16,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                 .map(([id, banner]) => (
                     <section class="banner" data-json={JSON.stringify(data[id])}>
                         <div class="banner-header">
-                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en/icon/gacha/tab_gacha_${id}.webp`} alt={banner.name} title={banner.name} width="192" height="96" onerror={`this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en/icon/gacha/tab_gacha_${id}_lang.webp'`} />
+                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en/icon/gacha/${banner.icon}.webp`} alt={banner.name} title={banner.name} width="192" height="96" />
                             <div class="banner-info">
                                 <div class="banner-title">
                                     <div class="banner-status"> </div>

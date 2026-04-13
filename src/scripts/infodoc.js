@@ -105,8 +105,8 @@ export const nav = `
         <a href="/infodoc">Build</a>
         <a href="/infodoc/aqua">Aqua</a>
         <a href="/infodoc/ignis">Ignis</a>
-        <a href="/infodoc/terra">Terra</a>
         <a href="/infodoc/ventus">Ventus</a>
+        <a href="/infodoc/terra">Terra</a>
         <a href="/infodoc/lux">Lux</a>
         <a href="/infodoc/umbra">Umbra</a>
         <details>

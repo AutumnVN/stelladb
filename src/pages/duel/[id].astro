@@ -39,6 +39,11 @@ if (!duel) {
     <div class="duel-page" data-json={JSON.stringify(duel)}>
         <div class="header">
             <h1>{duel.name}</h1>
+
+            <Tabs>
+                <button data-tab="stats" class="tab active">Stats</button>
+                <button data-tab="mechanic" class="tab">Mechanic</button>
+            </Tabs>
         </div>
 
         <div class="content">
@@ -75,6 +80,26 @@ if (!duel) {
                             }
                         </p>
                     </div>
+                </section>
+
+                <section id="mechanic" class="tab-panel" hidden>
+                    {
+                        duel.mechanic.map((group) => (
+                            <div class="mechanic-group">
+                                {group.map((mechanic) => (
+                                    <div class="mechanic">
+                                        <div class="mechanic-header">
+                                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/ui_activity/_${duel.activityId}/affix/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" onerror="this.style.display='none'" />
+                                            <h3>
+                                                {mechanic.name} ({mechanic.diff})
+                                            </h3>
+                                        </div>
+                                        <p>{mechanic.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        ))
+                    }
                 </section>
             </div>
         </div>
@@ -189,10 +214,14 @@ if (!duel) {
             accent-color: var(--accent);
         }
 
+        .mechanic-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
         .mechanic-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
         }
 
         div[class] > p,

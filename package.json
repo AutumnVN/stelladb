@@ -12,6 +12,7 @@
     "dependencies": {
         "@astrojs/cloudflare": "^12.6.12",
         "@astrojs/sitemap": "^3.7.0",
+        "@resvg/resvg-wasm": "^2.6.2",
         "astro": "^5.17.2",
         "puppeteer": "^24.37.2",
         "typescript": "^5.9.3"

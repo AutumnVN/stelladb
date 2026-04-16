@@ -1,7 +1,9 @@
 {
     "version": 1,
     "include": [
-        "/infodoc/*"
+        "/infodoc/*",
+        "/build/*",
+        "/og/*"
     ],
     "exclude": []
 }

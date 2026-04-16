@@ -169,6 +169,15 @@ if (!char) {
                         </div>
                     </div>
 
+                    <div class="langtabs-wrapper" data-lang="EN">
+                        <nav class="langtabs">
+                            <button class="langtab active" data-lang="EN">EN</button>
+                            <button class="langtab" data-lang="CN">CN</button>
+                            <button class="langtab" data-lang="JP">JP</button>
+                            <button class="langtab" data-lang="KR">KR</button>
+                        </nav>
+                    </div>
+
                     <div class="normal-attack">
                         <div class="skill-header">
                             <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.normalAtk.icon}.webp`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" onerror="this.style.display='none'" />
@@ -377,6 +386,15 @@ if (!char) {
                             <label class="skill-level2-output">Skill level: 1</label>
                             <input type="range" id="skill-level2" min="1" max="13" value="10" />
                         </div>
+                    </div>
+
+                    <div class="langtabs-wrapper" data-lang="EN">
+                        <nav class="langtabs">
+                            <button class="langtab active" data-lang="EN">EN</button>
+                            <button class="langtab" data-lang="CN">CN</button>
+                            <button class="langtab" data-lang="JP">JP</button>
+                            <button class="langtab" data-lang="KR">KR</button>
+                        </nav>
                     </div>
 
                     <h2>Main core</h2>
@@ -851,37 +869,59 @@ if (!char) {
         const upgrade2Output = document.querySelector('.upgrade2-output');
         const skillLevel1Input = document.querySelector('#skill-level1');
         const skillLevel1Output = document.querySelector('.skill-level1-output');
+        const normalAttackName = document.querySelector('.normal-attack h2');
         const normalAttack = document.querySelector('.normal-attack p');
+        const skillName = document.querySelector('.skill h2');
         const skill = document.querySelector('.skill p');
+        const supportSkillName = document.querySelector('.support-skill h2');
         const supportSkill = document.querySelector('.support-skill p');
+        const ultimateName = document.querySelector('.ultimate h2');
         const ultimate = document.querySelector('.ultimate p');
         const skillUpgradeCost = document.querySelector('.skill-upgrade-cost p');
         const skillUpgradeItemImage = document.querySelector('.skill-upgrade-cost .item-image');
         const cumulativeSkill = document.querySelector('#cumulative-skill');
         const convertToTier1Skill = document.querySelector('#convert-to-tier-1-skill');
+        const skillLangInputs = document.querySelector('#skills .langtabs-wrapper');
 
         let upgrade2;
         let skillLevel;
+        let skillLang;
 
         upgrade2Input.addEventListener('input', onSkillsInput);
         skillLevel1Input.addEventListener('input', onSkillsInput);
         cumulativeSkill.addEventListener('change', onSkillsInput);
         convertToTier1Skill.addEventListener('change', onSkillsInput);
+        skillLangInputs.addEventListener('click', (e) => {
+            if (e.target.classList.contains('langtab')) {
+                skillLangInputs.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                skillLangInputs.dataset.lang = e.target.dataset.lang;
+                onSkillsInput();
+            }
+        });
         onSkillsInput();
 
         function onSkillsInput() {
             upgrade2 = +upgrade2Input.value;
             skillLevel = +skillLevel1Input.value;
+            skillLang = skillLangInputs.dataset.lang;
 
             if (skillLevel < 1) skillLevel = 1;
             if (skillLevel > 13) skillLevel = 13;
 
             upgrade2Output.innerHTML = `Upgrade: ${upgrade2}`;
             skillLevel1Output.innerHTML = `Skill level: ${skillLevel}`;
-            normalAttack.innerHTML = replaceSkillParams(char.normalAtk.desc, char.normalAtk.params, char.normalAtk.paramsTooltips, upgrade2, skillLevel);
-            skill.innerHTML = replaceSkillParams(char.skill.desc, char.skill.params, char.skill.paramsTooltips, upgrade2, skillLevel);
-            supportSkill.innerHTML = replaceSkillParams(char.supportSkill.desc, char.supportSkill.params, char.supportSkill.paramsTooltips, upgrade2, skillLevel);
-            ultimate.innerHTML = replaceSkillParams(char.ultimate.desc, char.ultimate.params, char.ultimate.paramsTooltips, upgrade2, skillLevel);
+            const nameLang = `name${skillLang === 'EN' ? '' : skillLang}`;
+            const descLang = `desc${skillLang === 'EN' ? '' : skillLang}`;
+            normalAttackName.innerHTML = `Normal attack: ${char.normalAtk[nameLang]}`;
+            skillName.innerHTML = `Skill: ${char.skill[nameLang]}`;
+            supportSkillName.innerHTML = `Support Skill: ${char.supportSkill[nameLang]}`;
+            ultimateName.innerHTML = `Ultimate: ${char.ultimate[nameLang]}`;
+
+            normalAttack.innerHTML = replaceSkillParams(char.normalAtk[descLang], char.normalAtk.params, char.normalAtk.paramsTooltips, upgrade2, skillLevel);
+            skill.innerHTML = replaceSkillParams(char.skill[descLang], char.skill.params, char.skill.paramsTooltips, upgrade2, skillLevel);
+            supportSkill.innerHTML = replaceSkillParams(char.supportSkill[descLang], char.supportSkill.params, char.supportSkill.paramsTooltips, upgrade2, skillLevel);
+            ultimate.innerHTML = replaceSkillParams(char.ultimate[descLang], char.ultimate.params, char.ultimate.paramsTooltips, upgrade2, skillLevel);
 
             if (skillLevel >= 9) skillLevel = 9;
 
@@ -969,24 +1009,37 @@ if (!char) {
         const skillLevel2Input = document.querySelector('#skill-level2');
         const skillLevel2Output = document.querySelector('.skill-level2-output');
         const potentialElements = document.querySelectorAll('.potential');
+        const potentialLangInputs = document.querySelector('#potentials .langtabs-wrapper');
 
         let potentialLevel;
         let skillLevel2;
+        let potentialLang;
 
         potentialLevelInput.addEventListener('input', onPotentialsInput);
         skillLevel2Input.addEventListener('input', onPotentialsInput);
+        potentialLangInputs.addEventListener('click', (e) => {
+            if (e.target.classList.contains('langtab')) {
+                potentialLangInputs.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                potentialLangInputs.dataset.lang = e.target.dataset.lang;
+                onPotentialsInput();
+            }
+        });
         onPotentialsInput();
 
         function onPotentialsInput() {
             potentialLevel = +potentialLevelInput.value;
             skillLevel2 = +skillLevel2Input.value;
+            potentialLang = potentialLangInputs.dataset.lang;
 
             potentialLevelOutput.innerHTML = `Potential level: ${potentialLevel}`;
             skillLevel2Output.innerHTML = `Skill level: ${skillLevel2}`;
             potentialElements.forEach((e) => {
                 const pot = JSON.parse(e.dataset.potential);
+                const nameLang = `name${potentialLang === 'EN' ? '' : potentialLang}`;
+                const descLang = `desc${potentialLang === 'EN' ? '' : potentialLang}`;
 
-                let result = pot.desc;
+                let result = pot[descLang];
 
                 pot.params.forEach((paramSet, index) => {
                     const splitted = paramSet.toString().split('/');
@@ -1014,6 +1067,7 @@ if (!char) {
                     result = result.replaceAll(`&HiddenParam${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
                 });
 
+                e.querySelector('h3').innerHTML = `${pot.id % 100}. ${pot[nameLang]}`;
                 e.querySelector('p').innerHTML = format(result);
             });
         }
@@ -1049,6 +1103,7 @@ if (!char) {
             let desc = boost.desc;
 
             boost.params.forEach((param, index) => {
+                param = param.toString();
                 if ([1, 2, 3, 4, 5].includes(i + 1)) {
                     if (param.includes('%')) {
                         param = parseFloat(param) * 2 + '%';
@@ -1221,6 +1276,36 @@ if (!char) {
             vertical-align: middle;
             object-fit: cover;
             object-position: center;
+        }
+
+        .langtabs-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 1rem;
+        }
+
+        .langtabs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .langtab {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .langtab:hover {
+            color: var(--text);
+        }
+
+        .langtab.active {
+            color: var(--text);
+            font-weight: 700;
         }
 
         h2 {

@@ -12,7 +12,7 @@
         const tab = e.target.closest('.tab');
         if (!tab) return;
 
-        const container = tab.closest('.astro-tabs');
+        const container = tab.closest('.tabs');
         const localTabs = container ? container.querySelectorAll('.tab') : document.querySelectorAll('.tab');
 
         localTabs.forEach((t) => t.classList.toggle('active', t === tab));

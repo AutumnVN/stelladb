@@ -39,7 +39,7 @@ const emoji = {
                         data-class={char.class}
                         data-attacktype={char.attackType}
                         data-tag={char.tag.join(' ')}
-                        data-skill={`${char.normalAtk.name} ${char.skill.name} ${char.supportSkill.name} ${char.ultimate.name}`}
+                        data-skill={`${char.normalAtk?.name || ''} ${char.skill?.name || ''} ${char.supportSkill?.name || ''} ${char.ultimate?.name || ''}`}
                         data-potential={Object.values(char.potential)
                             .flat()
                             .map((pot) => pot.name)

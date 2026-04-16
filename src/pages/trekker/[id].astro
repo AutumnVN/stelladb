@@ -178,172 +178,178 @@ if (!char) {
                         </nav>
                     </div>
 
-                    <div class="normal-attack">
-                        <div class="skill-header">
-                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.normalAtk.icon}.webp`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <div>
-                                <h2>Normal attack: {char.normalAtk.name}</h2>
-                                <div>Energy Limit: {char.normalAtk.energyLimit}</div>
-                            </div>
-                        </div>
-                        <p>{char.normalAtk.desc}</p>
-                        {
-                            !char.normalAtk.damageType.length ? null : (
-                                <p class="small">
-                                    Damage:{' '}
-                                    {char.normalAtk.damageType.map((dt) => (
-                                        <>
-                                            {dt}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
-                            )
-                        }
-                        {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
-                        {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
-                        {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                        {
-                            !char.normalAtk.effectData.length ? null : (
-                                <span class="tooltip small">
-                                    hover this for effect data
-                                    <div class="tooltip-text">
-                                        {char.normalAtk.effectData.map((data) => (
-                                            <>
-                                                {data}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </div>
-                                </span>
-                            )
-                        }
-                    </div>
+                    {!char.normalAtk && !char.skill && !char.supportSkill && !char.ultimate && <p>No data available</p>}
 
-                    <div class="skill">
-                        <div class="skill-header">
-                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.skill.icon}.webp`} alt={char.skill.name} title={char.skill.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <div>
-                                <h2>Skill: {char.skill.name}</h2>
-                                <div>Cooldown: {char.skill.cooldown} • Energy Limit: {char.skill.energyLimit}</div>
-                            </div>
-                        </div>
-                        <p>{char.skill.desc}</p>
-                        {
-                            !char.skill.damageType.length ? null : (
-                                <p class="small">
-                                    Damage:{' '}
-                                    {char.skill.damageType.map((dt) => (
-                                        <>
-                                            {dt} <br />
-                                        </>
-                                    ))}
-                                </p>
-                            )
-                        }
-                        {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
-                        {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
-                        {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                        {
-                            !char.skill.effectData.length ? null : (
-                                <span class="tooltip small">
-                                    hover this for effect data
-                                    <div class="tooltip-text">
-                                        {char.skill.effectData.map((data) => (
+                    {
+                        char.normalAtk && (
+                            <div class="normal-attack">
+                                <div class="skill-header">
+                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.normalAtk.icon}.webp`} alt={char.normalAtk.name} title={char.normalAtk.name} width="64" height="64" onerror="this.style.display='none'" />
+                                    <div>
+                                        <h2>Normal attack: {char.normalAtk.name}</h2>
+                                        <div>Energy Limit: {char.normalAtk.energyLimit}</div>
+                                    </div>
+                                </div>
+                                <p>{char.normalAtk.desc}</p>
+                                {!char.normalAtk.damageType.length ? null : (
+                                    <p class="small">
+                                        Damage:{' '}
+                                        {char.normalAtk.damageType.map((dt) => (
                                             <>
-                                                {data}
+                                                {dt}
                                                 <br />
                                             </>
                                         ))}
-                                    </div>
-                                </span>
-                            )
-                        }
-                    </div>
+                                    </p>
+                                )}
+                                {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
+                                {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
+                                {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!char.normalAtk.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {char.normalAtk.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
+                            </div>
+                        )
+                    }
 
-                    <div class="support-skill">
-                        <div class="skill-header">
-                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.supportSkill.icon}.webp`} alt={char.supportSkill.name} title={char.supportSkill.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <div>
-                                <h2>Support skill: {char.supportSkill.name}</h2>
-                                <div>Cooldown: {char.supportSkill.cooldown}</div>
-                            </div>
-                        </div>
-                        <p>{char.supportSkill.desc}</p>
-                        {
-                            !char.supportSkill.damageType.length ? null : (
-                                <p class="small">
-                                    Damage:{' '}
-                                    {char.supportSkill.damageType.map((dt) => (
-                                        <>
-                                            {dt}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
-                            )
-                        }
-                        {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
-                        {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
-                        {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                        {
-                            !char.supportSkill.effectData.length ? null : (
-                                <span class="tooltip small">
-                                    hover this for effect data
-                                    <div class="tooltip-text">
-                                        {char.supportSkill.effectData.map((data) => (
+                    {
+                        char.skill && (
+                            <div class="skill">
+                                <div class="skill-header">
+                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.skill.icon}.webp`} alt={char.skill.name} title={char.skill.name} width="64" height="64" onerror="this.style.display='none'" />
+                                    <div>
+                                        <h2>Skill: {char.skill.name}</h2>
+                                        <div>
+                                            Cooldown: {char.skill.cooldown} • Energy Limit: {char.skill.energyLimit}
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>{char.skill.desc}</p>
+                                {!char.skill.damageType.length ? null : (
+                                    <p class="small">
+                                        Damage:{' '}
+                                        {char.skill.damageType.map((dt) => (
                                             <>
-                                                {data}
-                                                <br />
+                                                {dt} <br />
                                             </>
                                         ))}
-                                    </div>
-                                </span>
-                            )
-                        }
-                    </div>
+                                    </p>
+                                )}
+                                {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
+                                {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
+                                {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!char.skill.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {char.skill.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
+                            </div>
+                        )
+                    }
 
-                    <div class="ultimate">
-                        <div class="skill-header">
-                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.ultimate.icon}.webp`} alt={char.ultimate.name} title={char.ultimate.name} width="64" height="64" onerror="this.style.display='none'" />
-                            <div>
-                                <h2>Ultimate: {char.ultimate.name}</h2>
-                                <div>Cooldown: {char.ultimate.cooldown} • Energy: {char.ultimate.energy}</div>
-                            </div>
-                        </div>
-                        <p>{char.ultimate.desc}</p>
-                        {
-                            !char.ultimate.damageType.length ? null : (
-                                <p class="small">
-                                    Damage:{' '}
-                                    {char.ultimate.damageType.map((dt) => (
-                                        <>
-                                            {dt}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
-                            )
-                        }
-                        {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
-                        {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
-                        {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                        {
-                            !char.ultimate.effectData.length ? null : (
-                                <span class="tooltip small">
-                                    hover this for effect data
-                                    <div class="tooltip-text">
-                                        {char.ultimate.effectData.map((data) => (
+                    {
+                        char.supportSkill && (
+                            <div class="support-skill">
+                                <div class="skill-header">
+                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.supportSkill.icon}.webp`} alt={char.supportSkill.name} title={char.supportSkill.name} width="64" height="64" onerror="this.style.display='none'" />
+                                    <div>
+                                        <h2>Support skill: {char.supportSkill.name}</h2>
+                                        <div>Cooldown: {char.supportSkill.cooldown}</div>
+                                    </div>
+                                </div>
+                                <p>{char.supportSkill.desc}</p>
+                                {!char.supportSkill.damageType.length ? null : (
+                                    <p class="small">
+                                        Damage:{' '}
+                                        {char.supportSkill.damageType.map((dt) => (
                                             <>
-                                                {data}
+                                                {dt}
                                                 <br />
                                             </>
                                         ))}
+                                    </p>
+                                )}
+                                {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
+                                {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
+                                {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!char.supportSkill.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {char.supportSkill.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
+                            </div>
+                        )
+                    }
+
+                    {
+                        char.ultimate && (
+                            <div class="ultimate">
+                                <div class="skill-header">
+                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${char.ultimate.icon}.webp`} alt={char.ultimate.name} title={char.ultimate.name} width="64" height="64" onerror="this.style.display='none'" />
+                                    <div>
+                                        <h2>Ultimate: {char.ultimate.name}</h2>
+                                        <div>
+                                            Cooldown: {char.ultimate.cooldown} • Energy: {char.ultimate.energy}
+                                        </div>
                                     </div>
-                                </span>
-                            )
-                        }
-                    </div>
+                                </div>
+                                <p>{char.ultimate.desc}</p>
+                                {!char.ultimate.damageType.length ? null : (
+                                    <p class="small">
+                                        Damage:{' '}
+                                        {char.ultimate.damageType.map((dt) => (
+                                            <>
+                                                {dt}
+                                                <br />
+                                            </>
+                                        ))}
+                                    </p>
+                                )}
+                                {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
+                                {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
+                                {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!char.ultimate.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {char.ultimate.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )}
+                            </div>
+                        )
+                    }
 
                     {
                         char.special && (

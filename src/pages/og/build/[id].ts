@@ -41,8 +41,8 @@ export async function GET({ params, request }) {
     const chars = unpack.slice(0, total);
     const cells = Array.from({ length: total }).map((_, i) => chars[i] || null);
 
-    const imgW = 100;
-    const imgH = 128;
+    const imgW = 120;
+    const imgH = 153;
     const padding = 0;
 
     const maxPots = cells.length ? Math.max(...cells.map((c) => (c && c.Potentials ? c.Potentials.length : 0))) : 0;

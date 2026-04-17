@@ -14,10 +14,12 @@ import Layout from '@/layouts/Layout.astro';
     // @ts-nocheck
     const input = document.querySelector('#search');
     if (input) {
-        input.addEventListener('keypress', (e) => {
+        input.addEventListener('keypress', async (e) => {
             if (e.key === 'Enter') {
-                const val = input.value.trim();
-                if (val) window.location.href = `/build/${val}`;
+                const val = input.value.trim().replace(/\//g, '_');
+                if (val) {
+                    window.location.href = `/build/${val}`;
+                }
             }
         });
     }

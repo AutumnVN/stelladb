@@ -22,30 +22,37 @@ if (!unpack) {
     throw Astro.redirect('/404', 302);
 }
 
-const characterNamesList = unpack.map((c) => characterData[c.CharId].name).join(', ');
-const levelCountSummary = unpack.map((c) => c.Potentials.reduce((s, p) => s + p.Level, 0)).join('/');
-const totalPotentialsLevel = unpack.reduce((acc, c) => acc + c.Potentials.reduce((s, p) => s + p.Level, 0), 0);
-const desc = `${characterNamesList} • ${levelCountSummary} • ${totalPotentialsLevel} total`;
+const isValid = unpack.every((c) => characterData[c.CharId]) && unpack.every((c) => c.Potentials.every((p) => itemData[p.Id]));
+const characterNamesList = isValid ? unpack.map((c) => characterData[c.CharId].name).join(', ') : '';
+const levelCountSummary = isValid ? unpack.map((c) => c.Potentials.reduce((s, p) => s + p.Level, 0)).join('/') : '';
+const totalPotentialsLevel = isValid ? unpack.reduce((acc, c) => acc + c.Potentials.reduce((s, p) => s + p.Level, 0), 0) : 0;
+const desc = isValid ? `${characterNamesList} • ${levelCountSummary} • ${totalPotentialsLevel} total` : 'Build preset id is not valid';
 ---
 
-<Layout title={`${id} | stelladb`} description={desc} bigImage={true} image={`https://stelladb.pages.dev/og/build/${id}`}>
+<Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined}>
     <div class="search-wrap">
         <label for="search" class="visually-hidden">Search</label>
         <input id="search" type="search" placeholder="Build preset id" value={id} autofocus />
     </div>
 
-    <div id="preview">
-        <img src={`/og/build/${id}`} />
-    </div>
+    {
+        isValid && (
+            <div id="preview">
+                <img src={`/og/build/${id}`} />
+            </div>
+        )
+    }
+
+    {!isValid && <div class="no-results">Build preset id is not valid</div>}
 </Layout>
 
 <script>
     // @ts-nocheck
     const input = document.querySelector('#search');
 
-    input.addEventListener('keypress', (e) => {
+    input.addEventListener('keypress', async (e) => {
         if (e.key === 'Enter') {
-            const val = input.value.trim();
+            const val = input.value.trim().replace(/\//g, '_');
             if (val) {
                 window.location.href = `/build/${val}`;
             }
@@ -100,5 +107,12 @@ const desc = `${characterNamesList} • ${levelCountSummary} • ${totalPotentia
         display: flex;
         justify-content: center;
         margin-top: 2rem;
+    }
+
+    .no-results {
+        margin-top: 2rem;
+        color: var(--text);
+        font-size: 1.5rem;
+        text-align: center;
     }
 </style>

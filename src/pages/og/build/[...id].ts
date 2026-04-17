@@ -130,7 +130,7 @@ export async function GET({ params, request }) {
 
             if (!(k < 2 && p.Level === 1)) {
                 const ff = embeddedFontStyle ? "'MiSansLatin-Semibold', sans-serif" : 'sans-serif';
-                svg += `<text x="${px + 12}" y="${py + 14}" style="pointer-events:none; fill:#568; font-size:14px; font-family:${ff};">${p.Level}</text>`;
+                svg += `<text x="${px + 15}" y="${py + 16}" style="pointer-events:none; fill:#568; font-size:16px; font-family:${ff};">${p.Level}</text>`;
             }
         }
     }

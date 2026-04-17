@@ -16,7 +16,7 @@ import Layout from '@/layouts/Layout.astro';
     if (input) {
         input.addEventListener('keypress', async (e) => {
             if (e.key === 'Enter') {
-                const val = input.value.trim().replace(/\//g, '_');
+                const val = input.value.trim();
                 if (val) {
                     window.location.href = `/build/${val}`;
                 }

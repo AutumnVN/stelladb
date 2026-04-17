@@ -11,7 +11,7 @@ const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
 
 const { params, request } = Astro;
-const id = params.id;
+const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 const characterData = await fetch(CHARACTER_URL).then((res) => res.json());
@@ -52,7 +52,7 @@ const desc = isValid ? `${characterNamesList} • ${levelCountSummary} • ${tot
 
     input.addEventListener('keypress', async (e) => {
         if (e.key === 'Enter') {
-            const val = input.value.trim().replace(/\//g, '_');
+            const val = input.value.trim();
             if (val) {
                 window.location.href = `/build/${val}`;
             }

@@ -23,7 +23,7 @@ const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
 
 export async function GET({ params, request }) {
-    const { id } = params;
+    const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
     const wasmPromise = initWasmOnce();
 
     const [charCfg, characterData, itemData] = await Promise.all([

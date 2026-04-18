@@ -146,6 +146,15 @@ if (!disc) {
                         </div>
                     </div>
 
+                    <div class="langtabs-wrapper" data-lang="EN">
+                        <nav class="langtabs">
+                            <button class="langtab active" data-lang="EN">EN</button>
+                            <button class="langtab" data-lang="CN">CN</button>
+                            <button class="langtab" data-lang="JP">JP</button>
+                            <button class="langtab" data-lang="KR">KR</button>
+                        </nav>
+                    </div>
+
                     <div class="melody">
                         <div class="skill-header">
                             <div class="skill-image" style={`background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.mainSkill.iconBg}.webp') center/cover no-repeat;`}>
@@ -183,6 +192,23 @@ if (!disc) {
                                     <label class="harmony-level-output">Harmony level: 1</label>
                                     <input type="range" id="harmony-level" min="1" max="5" value="1" />
                                 </div>
+                            </div>
+
+                            <div class="langtabs-wrapper" data-lang="EN">
+                                <nav class="langtabs">
+                                    <button class="langtab active" data-lang="EN">
+                                        EN
+                                    </button>
+                                    <button class="langtab" data-lang="CN">
+                                        CN
+                                    </button>
+                                    <button class="langtab" data-lang="JP">
+                                        JP
+                                    </button>
+                                    <button class="langtab" data-lang="KR">
+                                        KR
+                                    </button>
+                                </nav>
                             </div>
 
                             <div class="harmony1">
@@ -439,18 +465,32 @@ if (!disc) {
 
         const dupe2Input = document.querySelector('#dupe2');
         const dupe2Output = document.querySelector('.dupe2-output');
+        const melodyName = document.querySelector('.melody h2');
         const melody = document.querySelector('.melody p');
+        const melodyLangInput = document.querySelector('#melody .langtabs-wrapper');
 
         let dupe2 = 1;
+        let melodyLang;
 
         dupe2Input.addEventListener('input', onMelodyInput);
+        melodyLangInput.addEventListener('click', (e) => {
+            if (e.target.classList.contains('langtab')) {
+                melodyLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                melodyLangInput.dataset.lang = e.target.dataset.lang;
+                onMelodyInput();
+            }
+        });
         onMelodyInput();
 
         function onMelodyInput() {
             dupe2 = +dupe2Input.value;
+            melodyLang = melodyLangInput.dataset.lang;
             dupe2Output.innerHTML = `Dupe: ${dupe2}`;
 
-            const desc = disc.mainSkill.desc;
+            const nameLang = `name${melodyLang === 'EN' ? '' : melodyLang}`;
+            const descLang = `desc${melodyLang === 'EN' ? '' : melodyLang}`;
+            const desc = disc.mainSkill[descLang];
             const params = disc.mainSkill.params;
             const splitted = params.split('/')[dupe2 - 1].split(',');
 
@@ -460,30 +500,46 @@ if (!disc) {
                 result = result.replace(`\{${index + 1}\}`, param);
             });
 
+            melodyName.innerHTML = disc.mainSkill[nameLang];
             melody.innerHTML = format(result);
         }
 
         if (disc.secondarySkill1) {
             const harmonyLevelInput = document.querySelector('#harmony-level');
             const harmonyLevelOutput = document.querySelector('.harmony-level-output');
+            const harmony1Name = document.querySelector('.harmony1 h2');
             const harmony1 = document.querySelector('.harmony1 p');
             const harmony1Req = document.querySelector('.harmony1 .requirements');
             const harmony1ItemImage = document.querySelector('.harmony1 .item-image');
+            const harmony2Name = document.querySelector('.harmony2 h2');
             const harmony2 = document.querySelector('.harmony2 p');
             const harmony2Req = document.querySelector('.harmony2 .requirements');
             const harmony2ItemImage = document.querySelector('.harmony2 .item-image');
+            const harmonyLangInput = document.querySelector('#harmony .langtabs-wrapper');
 
             let harmonyLevel = 1;
+            let harmonyLang;
 
             harmonyLevelInput.addEventListener('input', onHarmonyInput);
+            harmonyLangInput.addEventListener('click', (e) => {
+                if (e.target.classList.contains('langtab')) {
+                    harmonyLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    harmonyLangInput.dataset.lang = e.target.dataset.lang;
+                    onHarmonyInput();
+                }
+            });
             onHarmonyInput();
 
             function onHarmonyInput() {
                 harmonyLevel = +harmonyLevelInput.value;
+                harmonyLang = harmonyLangInput.dataset.lang;
                 harmonyLevelOutput.innerHTML = `Harmony level: ${harmonyLevel}`;
 
                 const skill1 = disc.secondarySkill1;
-                const desc1 = skill1.desc;
+                const name1Lang = `name${harmonyLang === 'EN' ? '' : harmonyLang}`;
+                const desc1Lang = `desc${harmonyLang === 'EN' ? '' : harmonyLang}`;
+                const desc1 = skill1[desc1Lang];
                 const params1 = skill1.params;
                 const splitted1 = params1.split('/')[harmonyLevel - 1].split(',');
 
@@ -493,6 +549,7 @@ if (!disc) {
                     result1 = result1.replace(`\{${index + 1}\}`, param);
                 });
 
+                harmony1Name.innerHTML = skill1[name1Lang];
                 harmony1.innerHTML = format(result1);
 
                 harmony1Req.innerHTML = Object.entries(skill1.requirements[harmonyLevel - 1])
@@ -510,7 +567,9 @@ if (!disc) {
 
                 if (disc.secondarySkill2) {
                     const skill2 = disc.secondarySkill2;
-                    const desc2 = skill2.desc;
+                    const name2Lang = `name${harmonyLang === 'EN' ? '' : harmonyLang}`;
+                    const desc2Lang = `desc${harmonyLang === 'EN' ? '' : harmonyLang}`;
+                    const desc2 = skill2[desc2Lang];
                     const params2 = skill2.params;
                     const splitted2 = params2.split('/')[harmonyLevel - 1].split(',');
 
@@ -520,6 +579,7 @@ if (!disc) {
                         result2 = result2.replace(`\{${index + 1}\}`, param);
                     });
 
+                    harmony2Name.innerHTML = skill2[name2Lang];
                     harmony2.innerHTML = format(result2);
 
                     harmony2Req.innerHTML = Object.entries(skill2.requirements[harmonyLevel - 1])
@@ -698,6 +758,36 @@ if (!disc) {
             vertical-align: middle;
             object-fit: cover;
             object-position: center;
+        }
+
+        .langtabs-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 1rem;
+        }
+
+        .langtabs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .langtab {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .langtab:hover {
+            color: var(--text);
+        }
+
+        .langtab.active {
+            color: var(--text);
+            font-weight: 700;
         }
 
         h2 {

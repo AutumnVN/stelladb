@@ -887,7 +887,7 @@ if (!char) {
         const skillUpgradeItemImage = document.querySelector('.skill-upgrade-cost .item-image');
         const cumulativeSkill = document.querySelector('#cumulative-skill');
         const convertToTier1Skill = document.querySelector('#convert-to-tier-1-skill');
-        const skillLangInputs = document.querySelector('#skills .langtabs-wrapper');
+        const skillLangInput = document.querySelector('#skills .langtabs-wrapper');
 
         let upgrade2;
         let skillLevel;
@@ -897,11 +897,11 @@ if (!char) {
         skillLevel1Input.addEventListener('input', onSkillsInput);
         cumulativeSkill.addEventListener('change', onSkillsInput);
         convertToTier1Skill.addEventListener('change', onSkillsInput);
-        skillLangInputs.addEventListener('click', (e) => {
+        skillLangInput.addEventListener('click', (e) => {
             if (e.target.classList.contains('langtab')) {
-                skillLangInputs.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                skillLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
                 e.target.classList.add('active');
-                skillLangInputs.dataset.lang = e.target.dataset.lang;
+                skillLangInput.dataset.lang = e.target.dataset.lang;
                 onSkillsInput();
             }
         });
@@ -910,7 +910,7 @@ if (!char) {
         function onSkillsInput() {
             upgrade2 = +upgrade2Input.value;
             skillLevel = +skillLevel1Input.value;
-            skillLang = skillLangInputs.dataset.lang;
+            skillLang = skillLangInput.dataset.lang;
 
             if (skillLevel < 1) skillLevel = 1;
             if (skillLevel > 13) skillLevel = 13;
@@ -1015,7 +1015,7 @@ if (!char) {
         const skillLevel2Input = document.querySelector('#skill-level2');
         const skillLevel2Output = document.querySelector('.skill-level2-output');
         const potentialElements = document.querySelectorAll('.potential');
-        const potentialLangInputs = document.querySelector('#potentials .langtabs-wrapper');
+        const potentialLangInput = document.querySelector('#potentials .langtabs-wrapper');
 
         let potentialLevel;
         let skillLevel2;
@@ -1023,11 +1023,11 @@ if (!char) {
 
         potentialLevelInput.addEventListener('input', onPotentialsInput);
         skillLevel2Input.addEventListener('input', onPotentialsInput);
-        potentialLangInputs.addEventListener('click', (e) => {
+        potentialLangInput.addEventListener('click', (e) => {
             if (e.target.classList.contains('langtab')) {
-                potentialLangInputs.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                potentialLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
                 e.target.classList.add('active');
-                potentialLangInputs.dataset.lang = e.target.dataset.lang;
+                potentialLangInput.dataset.lang = e.target.dataset.lang;
                 onPotentialsInput();
             }
         });
@@ -1036,7 +1036,7 @@ if (!char) {
         function onPotentialsInput() {
             potentialLevel = +potentialLevelInput.value;
             skillLevel2 = +skillLevel2Input.value;
-            potentialLang = potentialLangInputs.dataset.lang;
+            potentialLang = potentialLangInput.dataset.lang;
 
             potentialLevelOutput.innerHTML = `Potential level: ${potentialLevel}`;
             skillLevel2Output.innerHTML = `Skill level: ${skillLevel2}`;

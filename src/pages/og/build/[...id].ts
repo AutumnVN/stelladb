@@ -40,7 +40,6 @@ export async function GET({ params, request }) {
     const total = cols * rows;
     const chars = unpack.slice(0, total);
     const cells = Array.from({ length: total }).map((_, i) => chars[i] || null);
-
     const imgW = 120;
     const imgH = 153;
     const padding = 0;
@@ -59,9 +58,8 @@ export async function GET({ params, request }) {
         if (!c) continue;
         const char = characterData[c.CharId];
         if (char) imageUrls.add(`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}02_XL.webp`);
-        const potentials = c.Potentials || [];
-        for (let k = 0; k < potentials.length; k++) {
-            const p = potentials[k];
+        const potentials = sortPots(c.Potentials || []);
+        for (const p of potentials) {
             const pot = itemData[p.Id];
             if (pot) imageUrls.add(`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${p.Id}.webp`);
         }
@@ -116,7 +114,7 @@ export async function GET({ params, request }) {
 
         svg += `<rect x="${x0}" y="${y0}" width="${imgW}" height="${imgH}" fill="transparent" />`;
 
-        const potentials = c.Potentials || [];
+        const potentials = sortPots(c.Potentials || []);
         for (let k = 0; k < potentials.length; k++) {
             const p = potentials[k];
             const pot = itemData[p.Id];
@@ -149,4 +147,17 @@ export async function GET({ params, request }) {
             'Cache-Control': 'public, max-age=604800'
         }
     });
+}
+
+function sortPots(pots) {
+    if (!pots || !pots.length) return [];
+    const arr = Array.from(pots);
+    if (arr.length >= 2 && Number(arr[0].Level) === 1 && Number(arr[1].Level) === 1) {
+        const preserved = arr.slice(0, 2);
+        const rest = arr.slice(2);
+        rest.sort((a, b) => (Number(b.Level) || 0) - (Number(a.Level) || 0));
+        return preserved.concat(rest);
+    }
+    arr.sort((a, b) => (Number(b.Level) || 0) - (Number(a.Level) || 0));
+    return arr;
 }

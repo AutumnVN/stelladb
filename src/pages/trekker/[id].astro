@@ -736,7 +736,26 @@ if (!char) {
             return desc
                 .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
                 .replace(/\u000b/g, '<br />')
-                .replace(/##(.*?)#(\d{1,4})#/g, (match, name, id) => {
+                .replace(/##([^#]*?)#(\d{1,4})#/g, (match, name, id) => {
+                    const wordName = word[id].name;
+                    let wordDesc = word[id].desc;
+
+                    word[id].params.forEach((param, index) => {
+                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                    });
+
+                    wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+
+                    return `<span class="tooltip word">
+                        ${wordName}
+                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                        <div class="tooltip-text">
+                            <b>${wordName}</b><br />
+                            <p>${wordDesc}</p>
+                        </div>
+                    </span>`;
+                })
+                .replace(/#(\d{1,4})#([^#]*?)##/g, (match, id, name) => {
                     const wordName = word[id].name;
                     let wordDesc = word[id].desc;
 

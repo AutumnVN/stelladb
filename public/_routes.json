@@ -3,7 +3,8 @@
     "include": [
         "/infodoc/*",
         "/build/*",
-        "/og/*"
+        "/og/*",
+        "/lb/*"
     ],
     "exclude": []
 }

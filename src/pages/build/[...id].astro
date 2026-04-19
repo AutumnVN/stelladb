@@ -19,7 +19,7 @@ const itemData = await fetch(ITEM_URL).then((res) => res.json());
 
 const unpack = unpackPotentialData(id, data);
 if (!unpack) {
-    throw Astro.redirect('/404', 302);
+    throw Astro.redirect('/404');
 }
 
 const isValid = unpack.every((c) => characterData[c.CharId]) && unpack.every((c) => c.Potentials.every((p) => itemData[p.Id]));

@@ -111,7 +111,7 @@ for (let i = 0; i < usageList.length; i++) {
 }
 ---
 
-<Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${data.Rank[0] ? `, #1 ${data.Rank[0].NickName}: ${data.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]].icon}.webp`}>
+<Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${data.Rank[0] ? `, #1 ${data.Rank[0].NickName}: ${data.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
     <div class="leaderboard-page" data-json={JSON.stringify(data)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterData)}>
         <div class="header">
             <h1>{name} Leaderboard</h1>

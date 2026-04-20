@@ -24,7 +24,7 @@ const raidData = await fetch(RAID_URL).then((res) => res.json());
 
                 return (
                     <div class={'card-item'} data-id={id} data-name={name} data-desc={floors.map((f) => floorData[f].name).join(', ')}>
-                        <Card href={`/lb/${id}`} name={name} desc={floors.map((f) => floorData[f].name).join(', ')} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floors[0]].icon}.webp`} inset={-30} />
+                        <Card href={`/lb/${id}`} name={name} desc={floors.map((f) => floorData[f].name).join(', ')} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floors[0]]?.icon}.webp`} inset={-30} />
                     </div>
                 );
             })

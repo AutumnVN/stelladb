@@ -33,39 +33,30 @@ const potentialData = await fetch(POTENTIAL_URL)
     .catch(() => ({}));
 
 function mapTeamPotentials(team) {
-    const teamPots = team.Potentials || team.Potentials || [];
-    const mappedPots = teamPots.map((p) => ({ Id: p.PotentialId ?? p.Id ?? p.nId ?? p.PotentialId, Level: p.Level ?? p.nLevel ?? p.Level ?? 0 }));
-    const chars = team.Chars || [];
+    const teamPots = team.Potentials || [];
+    const mappedPots = teamPots.map((p) => ({ Id: p.PotentialId, Level: p.Level }));
+    const chars = team.Chars;
     const tb = [];
     for (let i = 0; i < 3; i++) {
-        const c = chars[i] || { Id: 0, Level: 0 };
-        tb.push({ CharId: c.Id ?? c.Id ?? 0, Potentials: mappedPots });
+        const c = chars[i];
+        tb.push({ CharId: c.Id, Potentials: mappedPots });
     }
     return tb;
 }
 
-if (data && Array.isArray(data.Rank)) {
+if (data.Rank) {
     for (const entry of data.Rank) {
-        if (!entry || !Array.isArray(entry.Teams)) continue;
         for (const team of entry.Teams) {
-            try {
-                const tb = mapTeamPotentials(team);
-                team.Code = packPotentialData(tb, potentialData) || null;
-            } catch (e) {
-                team.Code = null;
-            }
+            const tb = mapTeamPotentials(team);
+            team.Code = packPotentialData(tb, potentialData);
         }
     }
 }
 
-if (data && data.Self && Array.isArray(data.Self.Teams)) {
+if (data.Self.Teams) {
     for (const team of data.Self.Teams) {
-        try {
-            const tb = mapTeamPotentials(team);
-            team.Code = packPotentialData(tb, potentialData) || null;
-        } catch (e) {
-            team.Code = null;
-        }
+        const tb = mapTeamPotentials(team);
+        team.Code = packPotentialData(tb, potentialData);
     }
 }
 
@@ -77,30 +68,29 @@ const floor = meta[id];
 const charCounts = {};
 const charUsers = {};
 for (const entry of data.Rank) {
-    if (!entry) continue;
     const playerChars = new Set();
     for (const team of entry.Teams) {
-        if (!team) continue;
         for (const c of team.Chars) {
-            const cid = c?.Id;
-            if (!cid && cid !== 0) continue;
-            playerChars.add(Number(cid));
+            playerChars.add(+c.Id);
         }
     }
     for (const cid of playerChars) {
-        charCounts[cid] = (charCounts[cid] || 0) + 1;
-        charUsers[cid] = charUsers[cid] || [];
+        if (!charCounts[cid]) charCounts[cid] = 0;
+        charCounts[cid] += 1;
+        if (!charUsers[cid]) charUsers[cid] = [];
         charUsers[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
     }
 }
-let usageList = Object.keys(charCounts).map((k) => {
-    const idNum = +k;
-    const charInfo = characterData[idNum];
-    const name = charInfo.name;
-    const users = (charUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
-    return { id: idNum, count: charCounts[k], name, users };
-});
-usageList.sort((a, b) => b.count - a.count);
+
+const usageList = Object.keys(charCounts)
+    .map((k) => {
+        const idNum = +k;
+        const charInfo = characterData[idNum];
+        const name = charInfo.name;
+        const users = charUsers[k].map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
+        return { id: idNum, count: charCounts[k], name, users };
+    })
+    .sort((a, b) => b.count - a.count);
 
 let prevCount = null;
 let currentRank = 0;
@@ -108,6 +98,11 @@ for (let i = 0; i < usageList.length; i++) {
     if (usageList[i].count !== prevCount) currentRank = i + 1;
     usageList[i].rank = currentRank;
     prevCount = usageList[i].count;
+}
+function headIconUrl(icon) {
+    const prefix = icon > 100000 || [101, 102].includes(icon) ? 'player' : '';
+    const id = icon === 101 ? 10001 : icon === 102 ? 10101 : icon;
+    return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${prefix}head/${prefix}head_${id}_XXL.webp`;
 }
 ---
 
@@ -138,14 +133,14 @@ for (let i = 0; i < usageList.length; i++) {
                             </div>
 
                             <div class="col player">
-                                <img class="player-head" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${entry.HeadIcon > 100000 || [101, 102].includes(entry.HeadIcon) ? 'player' : ''}head/${entry.HeadIcon > 100000 || [101, 102].includes(entry.HeadIcon) ? 'player' : ''}head_${entry.HeadIcon === 101 ? 10001 : entry.HeadIcon === 102 ? 10101 : entry.HeadIcon}_XXL.webp`} alt={entry.NickName} title={entry.NickName} width="48" height="48" />
+                                <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} title={entry.NickName} width="48" height="48" />
                                 <div class="player-name">{entry.NickName}</div>
                             </div>
 
                             <div class="col score">{entry.Score.toLocaleString('en-US')}</div>
 
                             <div class="col details">
-                                <button class="details-btn" type="button" aria-expanded="false" aria-controls="team-modal" data-id={entry.Id}>
+                                <button class="details-btn" data-id={entry.Id}>
                                     🔍
                                 </button>
                             </div>
@@ -154,43 +149,32 @@ for (let i = 0; i < usageList.length; i++) {
                 }
 
                 {
-                    data.Self ? (
+                    data.Self?.Rank && (
                         <div class="grid-row self-row" data-id={data.Self.Id}>
                             <div class="col rank">
                                 <div class="rank-num">{data.Self.Rank}</div>
                             </div>
 
                             <div class="col player">
-                                <img
-                                    class="player-head"
-                                    src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${data.Self.HeadIcon > 100000 || [101, 102].includes(data.Self.HeadIcon) ? 'player' : ''}head/${data.Self.HeadIcon > 100000 || [101, 102].includes(data.Self.HeadIcon) ? 'player' : ''}head_${data.Self.HeadIcon === 101 ? 10001 : data.Self.HeadIcon === 102 ? 10101 : data.Self.HeadIcon}_XXL.webp`}
-                                    alt={data.Self.NickName}
-                                    title={data.Self.NickName}
-                                    width="48"
-                                    height="48"
-                                />
+                                <img class="player-head" src={headIconUrl(data.Self.HeadIcon)} alt={data.Self.NickName} title={data.Self.NickName} width="48" height="48" />
                                 <div class="player-name">{data.Self.NickName}</div>
                             </div>
 
                             <div class="col score">{data.Self.Score.toLocaleString('en-US')}</div>
 
                             <div class="col details">
-                                <button class="details-btn" type="button" aria-expanded="false" aria-controls="team-modal" data-id={data.Self.Id}>
+                                <button class="details-btn" data-id={data.Self.Id}>
                                     🔍
                                 </button>
                             </div>
                         </div>
-                    ) : (
-                        <div class="grid-row">
-                            <div class="col">No leaderboard data</div>
-                        </div>
                     )
                 }
 
-                <div id="team-modal" class="team-modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
+                <div id="team-modal" class="team-modal hidden">
                     <div class="modal-backdrop" id="team-modal-backdrop"></div>
-                    <div class="modal-panel" role="document">
-                        <button class="modal-close" id="team-modal-close" aria-label="Close">×</button>
+                    <div class="modal-panel">
+                        <button class="modal-close" id="team-modal-close">×</button>
                         <div class="modal-content" id="team-modal-content"></div>
                     </div>
                 </div>
@@ -238,7 +222,6 @@ for (let i = 0; i < usageList.length; i++) {
 <script>
     // @ts-nocheck
     const updateTimeEl = document.querySelector('.update-time');
-    console.log(updateTimeEl.dataset.time);
     const updateTime = new Date(+updateTimeEl.dataset.time);
 
     updateTimeEl.textContent = formatRelativeTime(updateTime);
@@ -268,150 +251,115 @@ for (let i = 0; i < usageList.length; i++) {
         return relativeTime;
     }
 
-    (function () {
-        const pageEl = document.querySelector('.leaderboard-page');
-        if (!pageEl) return;
-        const pageData = pageEl.dataset.json ? JSON.parse(pageEl.dataset.json) : {};
-        const floorMap = pageEl.dataset.floor ? JSON.parse(pageEl.dataset.floor) : {};
-        const charMap = pageEl.dataset.chars ? JSON.parse(pageEl.dataset.chars) : {};
+    const pageEl = document.querySelector('.leaderboard-page');
 
-        const modal = document.getElementById('team-modal');
-        const modalContent = document.getElementById('team-modal-content');
-        const modalClose = document.getElementById('team-modal-close');
-        const modalBackdrop = document.getElementById('team-modal-backdrop');
+    const pageData = JSON.parse(pageEl.dataset.json);
+    const floorMap = JSON.parse(pageEl.dataset.floor);
+    const charMap = JSON.parse(pageEl.dataset.chars);
 
-        function formatNum(n) {
-            return n === undefined || n === null ? '' : Number(n).toLocaleString('en-US');
-        }
+    const modal = document.getElementById('team-modal');
+    const modalContent = document.getElementById('team-modal-content');
+    const modalClose = document.getElementById('team-modal-close');
+    const modalBackdrop = document.getElementById('team-modal-backdrop');
 
-        function findEntryById(id) {
-            const ranks = pageData.Rank || [];
-            const found = ranks.find((e) => String(e.Id) === String(id));
-            if (found) return found;
-            if (pageData.Self && String(pageData.Self.Id) === String(id)) return pageData.Self;
-            return null;
-        }
+    function headIconUrl(icon) {
+        const prefix = icon > 100000 || [101, 102].includes(icon) ? 'player' : '';
+        const id = icon === 101 ? 10001 : icon === 102 ? 10101 : icon;
+        return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${prefix}head/${prefix}head_${id}_XXL.webp`;
+    }
 
-        function headUrl(icon) {
-            const isPlayer = (typeof icon === 'number' && icon > 100000) || [101, 102].includes(icon);
-            const prefix = isPlayer ? 'player' : '';
-            const id = icon === 101 ? 10001 : icon === 102 ? 10101 : icon;
-            return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${prefix}head/${prefix}head_${id}_XXL.webp`;
-        }
+    function openModal(entry) {
+        modalContent.innerHTML = '';
+        const h = document.createElement('div');
+        h.className = 'modal-heading';
 
-        function buildModalFor(entry) {
-            modalContent.innerHTML = '';
-            const h = document.createElement('div');
-            h.className = 'modal-heading';
+        const ph = document.createElement('img');
+        ph.className = 'player-head modal-player-head';
+        const phUrl = headIconUrl(entry.HeadIcon);
+        if (phUrl) ph.src = phUrl;
+        ph.alt = entry.NickName;
+        ph.width = 48;
+        ph.height = 48;
+        h.appendChild(ph);
 
-            const ph = document.createElement('img');
-            ph.className = 'player-head modal-player-head';
-            ph.src = headUrl((entry.HeadIcon ?? entry.HeadIcon === 0) ? entry.HeadIcon : '');
-            ph.alt = entry.NickName || '';
-            ph.width = 48;
-            ph.height = 48;
-            h.appendChild(ph);
+        const titleText = document.createElement('div');
+        titleText.textContent = `${entry.NickName} • Rank: ${entry.Rank}`;
+        h.appendChild(titleText);
 
-            const titleText = document.createElement('div');
-            titleText.textContent = `${entry.NickName || ''}${entry.Rank ? ' — Rank ' + entry.Rank : ''}`;
-            h.appendChild(titleText);
+        modalContent.appendChild(h);
 
-            modalContent.appendChild(h);
+        entry.Teams.sort((a, b) => b.LevelId - a.LevelId).forEach((t, i) => {
+            const teamEl = document.createElement('div');
+            teamEl.className = 'modal-team';
+            const title = document.createElement('div');
+            title.className = 'modal-team-title';
+            const levelName = floorMap[t.LevelId]?.name;
+            title.textContent = `Team ${i + 1}: ${levelName} • ${t.LevelScore.toLocaleString('en-US')}`;
+            teamEl.appendChild(title);
 
-            const teams = entry.Teams || [];
-            if (!teams.length) {
-                const p = document.createElement('div');
-                p.textContent = 'No team data';
-                modalContent.appendChild(p);
-                return;
-            }
+            const charsWrap = document.createElement('div');
+            charsWrap.className = 'modal-chars';
+            t.Chars.forEach((c) => {
+                const charInfo = charMap[c.Id];
+                const charName = charInfo.name;
+                const card = document.createElement('a');
+                card.className = 'modal-char-card';
+                card.href = `/trekker/${c.Id}`;
+                card.title = charName;
 
-            teams.forEach((t, i) => {
-                const teamEl = document.createElement('div');
-                teamEl.className = 'modal-team';
-                const title = document.createElement('div');
-                title.className = 'modal-team-title';
-                const levelName = floorMap && floorMap[t.LevelId] && (floorMap[t.LevelId].name || floorMap[t.LevelId].Name) ? floorMap[t.LevelId].name || floorMap[t.LevelId].Name : `Level ${t.LevelId}`;
-                title.textContent = `Team ${i + 1}: ${levelName} — ${formatNum(t.LevelScore)}`;
-                teamEl.appendChild(title);
+                const img = document.createElement('div');
+                img.className = 'modal-char-image';
+                img.style.backgroundImage = `url(https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.Id}02_XXL.webp)`;
+                card.appendChild(img);
 
-                let charsWrap = null;
-                if (t.Chars && t.Chars.length) {
-                    charsWrap = document.createElement('div');
-                    charsWrap.className = 'modal-chars';
-                    t.Chars.forEach((c) => {
-                        const charName = charMap && charMap[c.Id] && (charMap[c.Id].name || charMap[c.Id].Name) ? charMap[c.Id].name || charMap[c.Id].Name : `#${c.Id}`;
-                        const card = document.createElement('a');
-                        card.className = 'modal-char-card';
-                        card.href = `/trekker/${c.Id}`;
-                        card.title = charName;
+                const label = document.createElement('div');
+                label.className = 'modal-char-label';
+                label.textContent = `${charName} • Lv${c.Level}`;
+                card.appendChild(label);
 
-                        const img = document.createElement('div');
-                        img.className = 'modal-char-image';
-                        img.style.backgroundImage = `url(https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.Id}02_XXL.webp)`;
-                        card.appendChild(img);
-
-                        const label = document.createElement('div');
-                        label.className = 'modal-char-label';
-                        label.textContent = `${charName} (Lv ${c.Level})`;
-                        card.appendChild(label);
-
-                        charsWrap.appendChild(card);
-                    });
-                }
-
-                const teamRow = document.createElement('div');
-                teamRow.className = 'modal-team-row';
-
-                const left = document.createElement('div');
-                left.className = 'modal-team-left';
-                if (charsWrap) left.appendChild(charsWrap);
-                left.style.flex = '1';
-                teamRow.appendChild(left);
-
-                const buildWrap = document.createElement('div');
-                buildWrap.className = 'modal-build-wrap';
-                const buildLink = document.createElement('a');
-                buildLink.className = 'modal-build-link';
-                buildLink.href = t.Code ? `/build/${t.Code}` : '#';
-                buildLink.target = '_blank';
-                buildLink.textContent = t.Code ? 'Open build' : 'No build';
-                buildWrap.appendChild(buildLink);
-                teamRow.appendChild(buildWrap);
-
-                teamEl.appendChild(teamRow);
-
-                modalContent.appendChild(teamEl);
+                charsWrap.appendChild(card);
             });
-        }
 
-        function openModal(entry) {
-            buildModalFor(entry);
-            modal.classList.remove('hidden');
-            modal.setAttribute('aria-hidden', 'false');
-        }
+            const teamRow = document.createElement('div');
+            teamRow.className = 'modal-team-row';
 
-        function closeModal() {
-            modal.classList.add('hidden');
-            modal.setAttribute('aria-hidden', 'true');
-        }
+            const left = document.createElement('div');
+            left.className = 'modal-team-left';
+            left.appendChild(charsWrap);
+            teamRow.appendChild(left);
 
-        document.querySelectorAll('.details-btn').forEach((btn) => {
-            btn.addEventListener('click', (e) => {
-                const id = btn.dataset.id || btn.closest('.grid-row')?.dataset.id;
-                const entry = findEntryById(id);
-                if (!entry) return;
-                openModal(entry);
-                btn.setAttribute('aria-expanded', 'true');
-            });
+            const buildWrap = document.createElement('div');
+            buildWrap.className = 'modal-build-wrap';
+            const buildLink = document.createElement('a');
+            buildLink.className = 'modal-build-link';
+            buildLink.href = `/build/${t.Code}`;
+            buildLink.target = '_blank';
+            buildLink.textContent = 'Open build';
+            buildWrap.appendChild(buildLink);
+            teamRow.appendChild(buildWrap);
+            teamEl.appendChild(teamRow);
+            modalContent.appendChild(teamEl);
         });
+        modal.classList.remove('hidden');
+    }
 
-        modalClose && modalClose.addEventListener('click', closeModal);
-        modalBackdrop && modalBackdrop.addEventListener('click', closeModal);
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+    function closeModal() {
+        modal.classList.add('hidden');
+    }
+
+    document.querySelectorAll('.details-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+            const id = btn.dataset.id;
+            const entry = pageData.Self.Id === id ? pageData.Self : pageData.Rank.find((e) => e.Id === id);
+            openModal(entry);
         });
-    })();
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
 </script>
 
 <style>
@@ -467,7 +415,6 @@ for (let i = 0; i < usageList.length; i++) {
         color: var(--muted);
         text-transform: uppercase;
         font-weight: 600;
-        background: transparent;
     }
 
     .grid-row .rank-num {
@@ -491,9 +438,6 @@ for (let i = 0; i < usageList.length; i++) {
 
     .player-name {
         font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .score {
@@ -501,22 +445,7 @@ for (let i = 0; i < usageList.length; i++) {
         text-align: center;
     }
 
-    .details {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-    }
-
-    .team.small {
-        font-size: 0.85rem;
-        color: var(--muted);
-        display: flex;
-        justify-content: flex-start;
-        gap: 0.5rem;
-    }
-
     .self-row {
-        background: var(--bg1b);
         border-top: 3px solid var(--accent);
         padding: 0.6rem 1rem;
     }
@@ -553,13 +482,10 @@ for (let i = 0; i < usageList.length; i++) {
         padding: 0.6rem 0.6rem;
         border: transparent;
         background: transparent;
-        color: inherit;
         cursor: pointer;
     }
 
     .char-usage {
-        max-width: 1000px;
-        width: 100%;
         margin-top: 1.5rem;
     }
     .char-usage .usage-grid .grid-header,
@@ -587,7 +513,6 @@ for (let i = 0; i < usageList.length; i++) {
         color: var(--muted);
         text-transform: uppercase;
         font-weight: 600;
-        background: transparent;
     }
 
     .char-usage .grid-row .rank-num {
@@ -599,8 +524,6 @@ for (let i = 0; i < usageList.length; i++) {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        text-align: left;
-        justify-content: flex-start;
     }
 
     .char-usage .char-icon {
@@ -620,7 +543,6 @@ for (let i = 0; i < usageList.length; i++) {
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        text-decoration: none;
         color: inherit;
     }
 
@@ -647,7 +569,7 @@ for (let i = 0; i < usageList.length; i++) {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 2000;
+        z-index: 727;
     }
 
     .modal-backdrop {
@@ -665,7 +587,6 @@ for (let i = 0; i < usageList.length; i++) {
         max-height: 80vh;
         overflow: auto;
         padding: 1rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
 
     .modal-close {
@@ -699,15 +620,9 @@ for (let i = 0; i < usageList.length; i++) {
         flex-wrap: wrap;
         flex: 1 1 auto;
     }
-    .modal-char {
-        background: var(--bg2);
-        padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-    }
     .modal-char-card {
         display: inline-block;
         width: 100px;
-        text-decoration: none;
         color: inherit;
         font-size: 0.8rem;
     }
@@ -717,7 +632,6 @@ for (let i = 0; i < usageList.length; i++) {
         background-size: cover;
         border-radius: 8px;
         background-position: top center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
     }
     .modal-char-label {
         font-size: 0.75rem;
@@ -726,13 +640,10 @@ for (let i = 0; i < usageList.length; i++) {
     }
 
     .modal-build-link {
-        display: inline-block;
-        margin-top: 0;
         padding: 0.35rem 0.6rem;
         border-radius: 6px;
         background: var(--bg2);
         border: 1px solid rgba(255, 255, 255, 0.03);
-        text-decoration: none;
         color: inherit;
         font-weight: 600;
     }

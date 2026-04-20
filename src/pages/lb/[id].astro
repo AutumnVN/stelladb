@@ -113,7 +113,7 @@ for (const entry of data.Rank) {
         playerTeams.add(key);
         teamCounts[key] = (teamCounts[key] || 0) + 1;
         teamUsers[key] = teamUsers[key] || [];
-        teamUsers[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids });
+        teamUsers[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
     }
 }
 
@@ -122,12 +122,13 @@ let usageTeamList = Object.keys(teamCounts).map((k) => {
     const mainId = parts[0];
     const support0 = parts[1];
     const support1 = parts[2];
-    const users = (teamUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
+    const users = (teamUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
+    const topUser = users.length ? users.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
     const mainInfo = characterData[mainId];
     const supportInfo0 = characterData[support0];
     const supportInfo1 = characterData[support1];
     const displayName = `${mainInfo.name} • ${supportInfo0.name}, ${supportInfo1.name}`;
-    return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCounts[k], name: displayName, users };
+    return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCounts[k], name: displayName, users, topUser };
 });
 usageTeamList.sort((a, b) => b.count - a.count);
 prevCount = null;
@@ -291,7 +292,14 @@ function headIconUrl(icon) {
                                         <div class="team-name">{item.name}</div>
                                     </div>
 
-                                    <div class="col uses">{item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}</div>
+                                    <div class="col uses">
+                                        {item.count}
+                                        {item.topUser ? (
+                                            <div class="team-top">
+                                                #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
+                                            </div>
+                                        ) : null}
+                                    </div>
                                 </div>
                             ))
                         ) : (
@@ -673,6 +681,13 @@ function headIconUrl(icon) {
         text-align: center;
     }
 
+    .team-usage .team-top {
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 0.25rem;
+    }
+
     @media (max-width: 768px) {
         .char-usage .usage-grid .grid-header,
         .char-usage .usage-grid .grid-row {
@@ -682,6 +697,14 @@ function headIconUrl(icon) {
         .char-usage .grid-row .col.char {
             width: auto !important;
             margin: 0 !important;
+        }
+
+        .team-usage .grid-row .col.team {
+            flex-direction: column;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--muted);
+            gap: 0.25rem;
         }
     }
 </style>

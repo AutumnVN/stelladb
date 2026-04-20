@@ -288,7 +288,7 @@ function headIconUrl(icon) {
 
         modalContent.appendChild(h);
 
-        entry.Teams.sort((a, b) => b.LevelId - a.LevelId).forEach((t, i) => {
+        entry.Teams.sort((a, b) => a.LevelId - b.LevelId).forEach((t, i) => {
             const teamEl = document.createElement('div');
             teamEl.className = 'modal-team';
             const title = document.createElement('div');

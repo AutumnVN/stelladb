@@ -6,8 +6,6 @@
 
 <script>
     // @ts-nocheck
-    const panels = document.querySelectorAll('.tab-panel');
-
     document.addEventListener('click', (e) => {
         const tab = e.target.closest('.tab');
         if (!tab) return;
@@ -17,6 +15,7 @@
 
         localTabs.forEach((t) => t.classList.toggle('active', t === tab));
 
+        const panels = document.querySelectorAll('.tab-panel');
         panels.forEach((p) => {
             p.hidden = p.id !== tab.dataset.tab;
         });

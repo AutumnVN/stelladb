@@ -149,77 +149,85 @@ function headIconUrl(icon) {
     <div class="leaderboard-page" data-json={JSON.stringify(data)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterData)}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
-            <p>
-                {data.Total.toLocaleString('en-US')} players total<br />
-                last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>
-            </p>
+
+            <Tabs>
+                <button class="tab active" data-tab="players">Player</button>
+                <button class="tab" data-tab="char-usage">Trekker</button>
+                <button class="tab" data-tab="team-usage">Team</button>
+            </Tabs>
         </div>
 
         <div class="content">
-            <div class="leaderboard-grid">
-                <div class="grid-header">
-                    <div class="col rank">Rank</div>
-                    <div class="col player">Player</div>
-                    <div class="col score">Score</div>
-                    <div class="col details">Details</div>
-                </div>
+            <div class="players tab-panel" id="players">
+                <p>
+                    {data.Total.toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>
+                </p>
 
-                {
-                    data.Rank.map((entry) => (
-                        <div class="grid-row" data-id={entry.Id}>
-                            <div class="col rank">
-                                <div class="rank-num">{entry.Rank}</div>
+                <div class="leaderboard-grid">
+                    <div class="grid-header">
+                        <div class="col rank">Rank</div>
+                        <div class="col player">Player</div>
+                        <div class="col score">Score</div>
+                        <div class="col details">Details</div>
+                    </div>
+
+                    {
+                        data.Rank.map((entry) => (
+                            <div class="grid-row" data-id={entry.Id}>
+                                <div class="col rank">
+                                    <div class="rank-num">{entry.Rank}</div>
+                                </div>
+
+                                <div class="col player">
+                                    <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} title={entry.NickName} width="48" height="48" />
+                                    <div class="player-name">{entry.NickName}</div>
+                                </div>
+
+                                <div class="col score">{entry.Score.toLocaleString('en-US')}</div>
+
+                                <div class="col details">
+                                    <button class="details-btn" data-id={entry.Id}>
+                                        🔍
+                                    </button>
+                                </div>
                             </div>
+                        ))
+                    }
 
-                            <div class="col player">
-                                <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} title={entry.NickName} width="48" height="48" />
-                                <div class="player-name">{entry.NickName}</div>
+                    {
+                        data.Self?.Rank && (
+                            <div class="grid-row self-row" data-id={data.Self.Id}>
+                                <div class="col rank">
+                                    <div class="rank-num">{data.Self.Rank}</div>
+                                </div>
+
+                                <div class="col player">
+                                    <img class="player-head" src={headIconUrl(data.Self.HeadIcon)} alt={data.Self.NickName} title={data.Self.NickName} width="48" height="48" />
+                                    <div class="player-name">{data.Self.NickName}</div>
+                                </div>
+
+                                <div class="col score">{data.Self.Score.toLocaleString('en-US')}</div>
+
+                                <div class="col details">
+                                    <button class="details-btn" data-id={data.Self.Id}>
+                                        🔍
+                                    </button>
+                                </div>
                             </div>
+                        )
+                    }
 
-                            <div class="col score">{entry.Score.toLocaleString('en-US')}</div>
-
-                            <div class="col details">
-                                <button class="details-btn" data-id={entry.Id}>
-                                    🔍
-                                </button>
-                            </div>
+                    <div id="team-modal" class="team-modal hidden">
+                        <div class="modal-backdrop" id="team-modal-backdrop"></div>
+                        <div class="modal-panel">
+                            <button class="modal-close" id="team-modal-close">×</button>
+                            <div class="modal-content" id="team-modal-content"></div>
                         </div>
-                    ))
-                }
-
-                {
-                    data.Self?.Rank && (
-                        <div class="grid-row self-row" data-id={data.Self.Id}>
-                            <div class="col rank">
-                                <div class="rank-num">{data.Self.Rank}</div>
-                            </div>
-
-                            <div class="col player">
-                                <img class="player-head" src={headIconUrl(data.Self.HeadIcon)} alt={data.Self.NickName} title={data.Self.NickName} width="48" height="48" />
-                                <div class="player-name">{data.Self.NickName}</div>
-                            </div>
-
-                            <div class="col score">{data.Self.Score.toLocaleString('en-US')}</div>
-
-                            <div class="col details">
-                                <button class="details-btn" data-id={data.Self.Id}>
-                                    🔍
-                                </button>
-                            </div>
-                        </div>
-                    )
-                }
-
-                <div id="team-modal" class="team-modal hidden">
-                    <div class="modal-backdrop" id="team-modal-backdrop"></div>
-                    <div class="modal-panel">
-                        <button class="modal-close" id="team-modal-close">×</button>
-                        <div class="modal-content" id="team-modal-content"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="char-usage">
+            <div class="char-usage tab-panel" id="char-usage" hidden>
                 <h2>Trekker usage in top 100</h2>
                 <div class="usage-grid">
                     <div class="grid-header">
@@ -255,7 +263,7 @@ function headIconUrl(icon) {
                 </div>
             </div>
 
-            <div class="team-usage">
+            <div class="team-usage tab-panel" id="team-usage" hidden>
                 <h2>Team usage in top 100</h2>
                 <div class="usage-grid">
                     <div class="grid-header">
@@ -455,12 +463,6 @@ function headIconUrl(icon) {
         height: var(--nav-height);
     }
 
-    .header p {
-        margin-left: auto;
-        color: var(--muted);
-        text-align: right;
-    }
-
     h1 {
         margin: 0 1rem 0 0;
         font-weight: 700;
@@ -471,6 +473,11 @@ function headIconUrl(icon) {
         margin-left: 1rem;
         font-weight: 700;
         font-size: 1.5rem;
+    }
+
+    .content p {
+        margin: 1.58rem 1rem;
+        color: var(--muted);
     }
 
     .leaderboard-grid {
@@ -564,9 +571,6 @@ function headIconUrl(icon) {
         cursor: pointer;
     }
 
-    .char-usage {
-        margin-top: 1.5rem;
-    }
     .char-usage .usage-grid .grid-header,
     .char-usage .usage-grid .grid-row {
         display: grid;

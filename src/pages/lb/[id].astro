@@ -73,13 +73,52 @@ const isBB = id.slice(0, 2) === 'bb';
 const name = isBB ? `Boss Blitz S${id.slice(2)}` : `Finale Echoing S${id.slice(2)}`;
 const floorData = isBB ? blitzData : raidData;
 const floor = meta[id];
+
+const charCounts = {};
+const charUsers = {};
+for (const entry of data.Rank) {
+    if (!entry) continue;
+    const playerChars = new Set();
+    for (const team of entry.Teams) {
+        if (!team) continue;
+        for (const c of team.Chars) {
+            const cid = c?.Id;
+            if (!cid && cid !== 0) continue;
+            playerChars.add(Number(cid));
+        }
+    }
+    for (const cid of playerChars) {
+        charCounts[cid] = (charCounts[cid] || 0) + 1;
+        charUsers[cid] = charUsers[cid] || [];
+        charUsers[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
+    }
+}
+let usageList = Object.keys(charCounts).map((k) => {
+    const idNum = +k;
+    const charInfo = characterData[idNum];
+    const name = charInfo.name;
+    const users = (charUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
+    return { id: idNum, count: charCounts[k], name, users };
+});
+usageList.sort((a, b) => b.count - a.count);
+
+let prevCount = null;
+let currentRank = 0;
+for (let i = 0; i < usageList.length; i++) {
+    if (usageList[i].count !== prevCount) currentRank = i + 1;
+    usageList[i].rank = currentRank;
+    prevCount = usageList[i].count;
+}
 ---
 
 <Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${data.Rank[0] ? `, #1 ${data.Rank[0].NickName}: ${data.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]].icon}.webp`}>
     <div class="leaderboard-page" data-json={JSON.stringify(data)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterData)}>
         <div class="header">
-            <h1>{name} Leaderboard • {data.Total.toLocaleString('en-US')} players total</h1>
-            <p>last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span></p>
+            <h1>{name} Leaderboard</h1>
+            <p>
+                {data.Total.toLocaleString('en-US')} players total<br />
+                last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>
+            </p>
         </div>
 
         <div class="content">
@@ -141,7 +180,11 @@ const floor = meta[id];
                                 </button>
                             </div>
                         </div>
-                    ) : null
+                    ) : (
+                        <div class="grid-row">
+                            <div class="col">No leaderboard data</div>
+                        </div>
+                    )
                 }
 
                 <div id="team-modal" class="team-modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
@@ -150,6 +193,42 @@ const floor = meta[id];
                         <button class="modal-close" id="team-modal-close" aria-label="Close">×</button>
                         <div class="modal-content" id="team-modal-content"></div>
                     </div>
+                </div>
+            </div>
+
+            <div class="char-usage">
+                <h2>Trekker usage in top 100</h2>
+                <div class="usage-grid">
+                    <div class="grid-header">
+                        <div class="col rank">Rank</div>
+                        <div class="col char">Trekker</div>
+                        <div class="col uses">Uses</div>
+                    </div>
+
+                    {
+                        usageList.length ? (
+                            usageList.map((item) => (
+                                <div class="grid-row" data-id={item.id}>
+                                    <div class="col rank">
+                                        <div class="rank-num">{item.rank}</div>
+                                    </div>
+
+                                    <div class="col char">
+                                        <a class="char-link" href={`/trekker/${item.id}`}>
+                                            <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${item.id}02_XL.webp`} alt={item.name} title={item.name} width="48" height="48" />
+                                            <div class="player-name">{item.name}</div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col uses">{item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}</div>
+                                </div>
+                            ))
+                        ) : (
+                            <div class="grid-row">
+                                <div class="col">No usage data</div>
+                            </div>
+                        )
+                    }
                 </div>
             </div>
         </div>
@@ -336,10 +415,6 @@ const floor = meta[id];
 </script>
 
 <style>
-    .blitz-page {
-        padding: 0 1rem;
-    }
-
     .header {
         display: flex;
         position: sticky;
@@ -356,10 +431,17 @@ const floor = meta[id];
     .header p {
         margin-left: auto;
         color: var(--muted);
+        text-align: right;
     }
 
     h1 {
         margin: 0 1rem 0 0;
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        margin-left: 1rem;
         font-weight: 700;
         font-size: 1.5rem;
     }
@@ -473,6 +555,85 @@ const floor = meta[id];
         background: transparent;
         color: inherit;
         cursor: pointer;
+    }
+
+    .char-usage {
+        max-width: 1000px;
+        width: 100%;
+        margin-top: 1.5rem;
+    }
+    .char-usage .usage-grid .grid-header,
+    .char-usage .usage-grid .grid-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 220px;
+        gap: 1rem;
+        align-items: center;
+        padding: 0.6rem 1rem;
+        border-bottom: 1px solid var(--bg2);
+    }
+
+    .char-usage .grid-header .col.char {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .char-usage .grid-row .col.char {
+        width: 430px;
+        margin: 0 auto;
+    }
+
+    .char-usage .grid-header {
+        font-size: 0.8rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        font-weight: 600;
+        background: transparent;
+    }
+
+    .char-usage .grid-row .rank-num {
+        font-weight: 700;
+        font-size: 1.75rem;
+    }
+
+    .char-usage .col.char {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-align: left;
+        justify-content: flex-start;
+    }
+
+    .char-usage .char-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        object-fit: cover;
+        background: var(--bg2);
+    }
+
+    .char-usage .col.uses {
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .char-usage .char-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    @media (max-width: 768px) {
+        .char-usage .usage-grid .grid-header,
+        .char-usage .usage-grid .grid-row {
+            grid-template-columns: 56px 1fr 220px;
+        }
+
+        .char-usage .grid-row .col.char {
+            width: auto !important;
+            margin: 0 !important;
+        }
     }
 </style>
 

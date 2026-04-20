@@ -19,14 +19,12 @@ if (!data) {
 const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
 const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
 const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
-const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
-const DISC_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
+const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
 
 const meta = await fetch(META_URL).then((res) => res.json());
 const blitzData = await fetch(BLITZ_URL).then((res) => res.json());
 const raidData = await fetch(RAID_URL).then((res) => res.json());
-const characterData = await fetch(CHARACTER_URL).then((res) => res.json());
-const discData = await fetch(DISC_URL).then((res) => res.json());
+const characterIdData = await fetch(CHARACTERID_URL).then((res) => res.json());
 const POTENTIAL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/CharPotential.json';
 const potentialData = await fetch(POTENTIAL_URL)
     .then((res) => res.json())
@@ -85,8 +83,7 @@ for (const entry of data.Rank) {
 const usageList = Object.keys(charCounts)
     .map((k) => {
         const idNum = +k;
-        const charInfo = characterData[idNum];
-        const name = charInfo.name;
+        const name = characterIdData[idNum];
         const users = charUsers[k].map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
         return { id: idNum, count: charCounts[k], name, users };
     })
@@ -124,10 +121,10 @@ let usageTeamList = Object.keys(teamCounts).map((k) => {
     const support1 = parts[2];
     const users = (teamUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
     const topUser = users.length ? users.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
-    const mainInfo = characterData[mainId];
-    const supportInfo0 = characterData[support0];
-    const supportInfo1 = characterData[support1];
-    const displayName = `${mainInfo.name} • ${supportInfo0.name}, ${supportInfo1.name}`;
+    const mainName = characterIdData[mainId];
+    const supportName0 = characterIdData[support0];
+    const supportName1 = characterIdData[support1];
+    const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
     return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCounts[k], name: displayName, users, topUser };
 });
 usageTeamList.sort((a, b) => b.count - a.count);
@@ -147,7 +144,7 @@ function headIconUrl(icon) {
 ---
 
 <Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${data.Rank[0] ? `, #1 ${data.Rank[0].NickName}: ${data.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
-    <div class="leaderboard-page" data-json={JSON.stringify(data)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterData)}>
+    <div class="leaderboard-page" data-json={JSON.stringify(data)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
 
@@ -285,7 +282,7 @@ function headIconUrl(icon) {
                                         <div class="team-icons">
                                             {item.members.map((id) => (
                                                 <a class="team-char" href={`/trekker/${id}`}>
-                                                    <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`} alt={characterData[id].name} title={characterData[id].name} width="48" height="48" />
+                                                    <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`} alt={characterIdData[id]} title={characterIdData[id]} width="48" height="48" />
                                                 </a>
                                             ))}
                                         </div>
@@ -395,8 +392,7 @@ function headIconUrl(icon) {
             const charsWrap = document.createElement('div');
             charsWrap.className = 'modal-chars';
             t.Chars.forEach((c) => {
-                const charInfo = charMap[c.Id];
-                const charName = charInfo.name;
+                const charName = charMap[c.Id];
                 const card = document.createElement('a');
                 card.className = 'modal-char-card';
                 card.href = `/trekker/${c.Id}`;

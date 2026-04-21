@@ -9,11 +9,15 @@ export const prerender = false;
 const { params, request } = Astro;
 const id = params.id;
 
+if (/^\w+\d+$/.test(id)) {
+    return Astro.redirect(`/lb/${id}en`);
+}
+
 const DATA_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 if (!data) {
-    throw Astro.redirect('/404');
+    return Astro.redirect('/404');
 }
 
 const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';

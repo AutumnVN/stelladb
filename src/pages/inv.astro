@@ -1,0 +1,278 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+
+export const prerender = false;
+
+const INV_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/inv.json';
+
+const invData = (await fetch(INV_URL).then((res) => res.json())).Items;
+
+function g(id) {
+    return invData.find((item) => item.Tid === id)?.Qty || 0;
+}
+
+function i(id) {
+    return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${id}.webp`;
+}
+
+function f(a) {
+    return a.toFixed(1).endsWith('.0') ? a.toFixed(0) : a.toFixed(1);
+}
+
+function color(a, b = 1) {
+    if (a < b) {
+        return '#f96';
+    } else if (a < b * 2) {
+        return '#ff6';
+    } else {
+        return '#6f9';
+    }
+}
+
+const lv7Cost = 12;
+const charCost = 1930;
+const discCost = 2553;
+const chessCost = 2057;
+const charExpCost = 19440000;
+const skillCost = 3267;
+const emblemCost = 10;
+const discExpCost = 2939980;
+
+const lv7Terra = f((g(20003) + g(21003)) / lv7Cost);
+const lv7Umbra = f((g(20013) + g(21013)) / lv7Cost);
+const lv7Ignis = f((g(20023) + g(21023)) / lv7Cost);
+const lv7Ventus = f((g(20043) + g(21043)) / lv7Cost);
+const lv7Lux = f((g(20053) + g(21053)) / lv7Cost);
+const lv7Aqua = f((g(20063) + g(21063)) / lv7Cost);
+
+const charDancer = f((g(20071) + g(20072) * 3 + g(20073) * 9) / charCost);
+const charDuloos = f((g(20081) + g(20082) * 3 + g(20083) * 9) / charCost);
+const charEmberfly = f((g(20091) + g(20092) * 3 + g(20093) * 9) / charCost);
+const discDancer = f((g(21071) + g(21072) * 3 + g(21073) * 9) / discCost);
+const discDuloos = f((g(21081) + g(21082) * 3 + g(21083) * 9) / discCost);
+const discEmberfly = f((g(21091) + g(21092) * 3 + g(21093) * 9) / discCost);
+
+const charExp = f((g(30001) * 1000 + g(30002) * 5000 + g(30003) * 10000 + g(30004) * 20000) / charExpCost);
+const chessPiece = f(g(32000) / chessCost);
+
+const skillTapping = f((g(32001) + g(32002) * 3 + g(32003) * 9) / skillCost);
+const skillShooter = f((g(32011) + g(32012) * 3 + g(32013) * 9) / skillCost);
+const skillFighting = f((g(32021) + g(32022) * 3 + g(32023) * 9) / skillCost);
+
+const wd40 = g(35000);
+const emblemVoucher = f(g(35001) / emblemCost);
+const emblemPass = f(g(35002) / emblemCost);
+const emblemPoint = f(g(35003) / emblemCost);
+
+const discExp = f((g(50001) * 1000 + g(50002) * 5000 + g(50003) * 10000 + g(50004) * 20000) / discExpCost);
+
+const charChoice = f((g(82001) + g(82002) * 3 + g(82003) * 9) / charCost);
+const discChoice = f((g(82004) + g(82005) * 3 + g(82006) * 9) / discCost);
+const skillChoice = f((g(82007) + g(82008) * 3 + g(82009) * 9) / skillCost);
+const lv7Choice = f(g(82010) / lv7Cost);
+---
+
+<Layout title="AutumnVN's Inventory Summary | stelladb">
+    <h1>AutumnVN's Inventory Summary</h1>
+    <div class="content">
+        <div class="col left">
+            <div class="section trekker">
+                <div class="row">
+                    <img src={i(20071)} />
+                    <p>Trekker Dancer: <span style={{ color: color(charDancer) }}>{charDancer}</span> Lv90</p>
+                </div>
+                <div class="row">
+                    <img src={i(20081)} />
+                    <p>Trekker Duloos: <span style={{ color: color(charDuloos) }}>{charDuloos}</span> Lv90</p>
+                </div>
+                <div class="row">
+                    <img src={i(20091)} />
+                    <p>Trekker Emberfly: <span style={{ color: color(charEmberfly) }}>{charEmberfly}</span> Lv90</p>
+                </div>
+                <div class="row">
+                    <img src={i(82001)} />
+                    <p>Trekker Choice Box: <span style={{ color: color(charChoice) }}>{charChoice}</span> Lv90</p>
+                </div>
+                <div class="row">
+                    <img src={i(30001)} />
+                    <p>Trekker EXP: <span style={{ color: color(charExp) }}>{charExp}</span> Lv90</p>
+                </div>
+            </div>
+
+            <div class="section disc">
+                <div class="row">
+                    <img src={i(21071)} />
+                    <p>Disc Dancer: <span style={{ color: color(discDancer) }}>{discDancer}</span> Lv80</p>
+                </div>
+                <div class="row">
+                    <img src={i(21081)} />
+                    <p>Disc Duloos: <span style={{ color: color(discDuloos) }}>{discDuloos}</span> Lv80</p>
+                </div>
+                <div class="row">
+                    <img src={i(21091)} />
+                    <p>Disc Emberfly: <span style={{ color: color(discEmberfly) }}>{discEmberfly}</span> Lv80</p>
+                </div>
+                <div class="row">
+                    <img src={i(82004)} />
+                    <p>Disc Choice Box: <span style={{ color: color(discChoice) }}>{discChoice}</span> Lv80</p>
+                </div>
+                <div class="row">
+                    <img src={i(50001)} />
+                    <p>Disc EXP: <span style={{ color: color(discExp) }}>{discExp}</span> Lv80</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col middle">
+            <div class="section skills">
+                <div class="row">
+                    <img src={i(32001)} />
+                    <p>Tapping: <span style={{ color: color(skillTapping) }}>{skillTapping}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(32011)} />
+                    <p>Shooter: <span style={{ color: color(skillShooter) }}>{skillShooter}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(32021)} />
+                    <p>Fighting: <span style={{ color: color(skillFighting) }}>{skillFighting}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(82007)} />
+                    <p>Skill Choice Box: <span style={{ color: color(skillChoice) }}>{skillChoice}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(32000)} />
+                    <p>Chess Piece: <span style={{ color: color(chessPiece) }}>{chessPiece}</span> Lv10</p>
+                </div>
+            </div>
+
+            <div class="section emblem">
+                <div class="row">
+                    <img src={i(35001)} />
+                    <p>Emblem Voucher: <span style={{ color: color(emblemVoucher, 100) }}>{emblemVoucher}</span> reforge</p>
+                </div>
+                <div class="row">
+                    <img src={i(35002)} />
+                    <p>Emblem Pass: <span style={{ color: color(emblemPass, 100) }}>{emblemPass}</span> reforge</p>
+                </div>
+                <div class="row">
+                    <img src={i(35003)} />
+                    <p>Emblem Point: <span style={{ color: color(emblemPoint, 100) }}>{emblemPoint}</span> reforge</p>
+                </div>
+                <div class="row">
+                    <img src={i(35000)} />
+                    <p>WD-40: <span style={{ color: color(wd40, 50) }}>{wd40}</span> reforge</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col right">
+            <div class="section lv7">
+                <div class="row">
+                    <img src={i(20063)} />
+                    <p>Skill Lv7 Aqua: <span style={{ color: color(lv7Aqua) }}>{lv7Aqua}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(20023)} />
+                    <p>Skill Lv7 Ignis: <span style={{ color: color(lv7Ignis) }}>{lv7Ignis}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(20003)} />
+                    <p>Skill Lv7 Terra: <span style={{ color: color(lv7Terra) }}>{lv7Terra}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(20043)} />
+                    <p>Skill Lv7 Ventus: <span style={{ color: color(lv7Ventus) }}>{lv7Ventus}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(20053)} />
+                    <p>Skill Lv7 Lux: <span style={{ color: color(lv7Lux) }}>{lv7Lux}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(20013)} />
+                    <p>Skill Lv7 Umbra: <span style={{ color: color(lv7Umbra) }}>{lv7Umbra}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(82010)} />
+                    <p>Skill Lv7 Choice Box: <span style={{ color: color(lv7Choice) }}>{lv7Choice}</span> Lv10</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script>
+    // @ts-nocheck
+    const timeEls = document.querySelectorAll('.time');
+
+    timeEls.forEach((el) => {
+        const time = new Date(el.dataset.time);
+        el.textContent = formatRelativeDay(time);
+        setInterval(() => {
+            el.textContent = formatRelativeDay(time);
+        }, 1000);
+    });
+
+    function formatRelativeDay(time) {
+        const now = new Date();
+        const diffTime = now - time;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        return diffDays;
+    }
+</script>
+
+<style>
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0.5rem;
+    }
+
+    .content {
+        margin-top: 1rem;
+        max-width: 1000px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+    }
+
+    p {
+        color: var(--muted);
+    }
+
+    .col {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.15rem 0;
+        border-bottom: 1px solid var(--bg2);
+    }
+
+    .row img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 4px;
+        background: var(--bg2);
+    }
+
+    @media (width < 900px) {
+        .content {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (width < 600px) {
+        .content {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

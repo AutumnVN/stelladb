@@ -4,7 +4,8 @@
         "/infodoc/*",
         "/build/*",
         "/og/*",
-        "/lb/*"
+        "/lb/*",
+        "/inv"
     ],
     "exclude": []
 }

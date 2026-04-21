@@ -399,11 +399,19 @@ function headIconUrl(icon) {
         entry.Teams.sort((a, b) => a.LevelId - b.LevelId).forEach((t, i) => {
             const teamEl = document.createElement('div');
             teamEl.className = 'modal-team';
+
+            const teamHeader = document.createElement('div');
+            teamHeader.className = 'modal-team-header';
+
             const title = document.createElement('div');
             title.className = 'modal-team-title';
             const levelName = floorMap[t.LevelId]?.name;
-            title.textContent = `Team ${i + 1}: ${levelName} • ${t.LevelScore.toLocaleString('en-US')}`;
-            teamEl.appendChild(title);
+            let titleStr = `Team ${i + 1}: ${levelName} • ${t.LevelScore.toLocaleString('en-US')}`;
+            if (t.BuildScore != null) titleStr += ` • Record Rating: ${t.BuildScore}`;
+            title.textContent = titleStr;
+            teamHeader.appendChild(title);
+
+            teamEl.appendChild(teamHeader);
 
             const charsWrap = document.createElement('div');
             charsWrap.className = 'modal-chars';
@@ -427,23 +435,136 @@ function headIconUrl(icon) {
                 charsWrap.appendChild(card);
             });
 
+            let discsWrap = null;
+            if (t.Discs) {
+                discsWrap = document.createElement('div');
+                discsWrap.className = 'modal-discs';
+                const discsList = document.createElement('div');
+                discsList.className = 'modal-discs-list';
+                t.Discs.forEach((d) => {
+                    const discLink = document.createElement('a');
+                    discLink.className = 'modal-disc';
+                    discLink.href = `/disc/${d}`;
+                    discLink.title = d;
+                    const discImg = document.createElement('img');
+                    discImg.className = 'modal-disc-image';
+                    const discIdStr = String(d);
+                    const discAssetId = discIdStr.length > 2 ? discIdStr.slice(2) : discIdStr;
+                    discImg.src = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${discAssetId}.webp`;
+                    discImg.alt = String(d);
+                    discImg.width = 48;
+                    discImg.height = 48;
+                    discLink.appendChild(discImg);
+                    discsList.appendChild(discLink);
+                });
+                discsWrap.appendChild(discsList);
+            }
+
+            let notesWrap = null;
+            if (t.Notes) {
+                notesWrap = document.createElement('div');
+                notesWrap.className = 'modal-notes';
+                const notesList = document.createElement('div');
+                notesList.className = 'modal-notes-list';
+                t.Notes.forEach((n) => {
+                    const noteLink = document.createElement('a');
+                    noteLink.className = 'modal-note';
+                    noteLink.href = `/note/${n.Tid}`;
+                    noteLink.title = `${n.Tid}`;
+
+                    const noteImg = document.createElement('img');
+                    noteImg.className = 'modal-note-image';
+                    noteImg.src = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/note/note_${n.Tid}_S.webp`;
+                    noteImg.alt = String(n.Tid);
+                    noteImg.width = 36;
+                    noteImg.height = 36;
+                    noteLink.appendChild(noteImg);
+
+                    const qty = document.createElement('div');
+                    qty.className = 'modal-note-qty';
+                    qty.textContent = `x${n.Qty}`;
+                    noteLink.appendChild(qty);
+
+                    notesList.appendChild(noteLink);
+                });
+                notesWrap.appendChild(notesList);
+            }
+
+            let secWrap = null;
+            if (t.Discs) {
+                secWrap = document.createElement('div');
+                secWrap.className = 'modal-active-secondaries';
+
+                const discPrefixes = t.Discs.slice(0, 3).map((d) => {
+                    const ds = String(d);
+                    return ds.slice(2);
+                });
+                const secList = document.createElement('div');
+                secList.className = 'modal-active-secondaries-list';
+                const rows = 2;
+                const cols = 3;
+                const activeIds = t.ActiveSecondaryIds?.map(String) || [];
+                const perColMatches = [];
+                for (let c = 0; c < cols; c++) {
+                    const prefix = discPrefixes[c];
+                    perColMatches[c] = activeIds.filter((s) => s.startsWith(prefix));
+                }
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const matches = perColMatches[c];
+                        const matchedId = matches[r];
+                        const sEl = document.createElement('div');
+                        sEl.className = 'modal-secondary-id';
+                        if (matchedId) {
+                            const last = matchedId.slice(-1);
+                            const numEmojis = { '1': '1️⃣', '2': '2️⃣', '3': '3️⃣', '4': '4️⃣', '5': '5️⃣' };
+                            sEl.textContent = numEmojis[last] || '✅';
+                            const prefix = discPrefixes[c];
+                            sEl.title = `${prefix} harmony ${r + 1}`;
+                        } else {
+                            sEl.textContent = '❌';
+                            const prefix = discPrefixes[c];
+                            sEl.title = `${prefix} harmony ${r + 1}`;
+                        }
+                        secList.appendChild(sEl);
+                    }
+                }
+                secWrap.appendChild(secList);
+            }
+
             const teamRow = document.createElement('div');
             teamRow.className = 'modal-team-row';
 
             const left = document.createElement('div');
             left.className = 'modal-team-left';
-            left.appendChild(charsWrap);
+
+            const charsRow = document.createElement('div');
+            charsRow.className = 'modal-chars-row';
+            charsRow.appendChild(charsWrap);
+
+            const buildWrapTop = document.createElement('div');
+            buildWrapTop.className = 'modal-build-wrap';
+            const buildLinkTop = document.createElement('a');
+            buildLinkTop.className = 'modal-build-link';
+            buildLinkTop.href = `/build/${t.Code}`;
+            buildLinkTop.target = '_blank';
+            buildLinkTop.textContent = 'Open build';
+            buildWrapTop.appendChild(buildLinkTop);
+
+            charsRow.appendChild(buildWrapTop);
+            left.appendChild(charsRow);
+
+            if (discsWrap) {
+                const discsSecRow = document.createElement('div');
+                discsSecRow.className = 'modal-discs-and-secondaries';
+                discsSecRow.appendChild(discsWrap);
+                if (secWrap) discsSecRow.appendChild(secWrap);
+                left.appendChild(discsSecRow);
+            }
+            if (notesWrap) left.appendChild(notesWrap);
             teamRow.appendChild(left);
 
-            const buildWrap = document.createElement('div');
-            buildWrap.className = 'modal-build-wrap';
-            const buildLink = document.createElement('a');
-            buildLink.className = 'modal-build-link';
-            buildLink.href = `/build/${t.Code}`;
-            buildLink.target = '_blank';
-            buildLink.textContent = 'Open build';
-            buildWrap.appendChild(buildLink);
-            teamRow.appendChild(buildWrap);
             teamEl.appendChild(teamRow);
             modalContent.appendChild(teamEl);
         });
@@ -750,7 +871,7 @@ function headIconUrl(icon) {
     .modal-backdrop {
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.75);
+        background: rgba(0, 0, 0, 0.8);
     }
 
     .modal-panel {
@@ -785,6 +906,24 @@ function headIconUrl(icon) {
     .modal-team {
         margin-bottom: 0.6rem;
     }
+    .modal-team-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    .modal-chars-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .modal-discs-and-secondaries {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-start;
+        margin-top: 0.25rem;
+    }
     .modal-team-title {
         font-weight: 600;
         margin-bottom: 0.25rem;
@@ -793,7 +932,6 @@ function headIconUrl(icon) {
         display: flex;
         gap: 0.5rem;
         flex-wrap: wrap;
-        flex: 1 1 auto;
     }
     .modal-char-card {
         display: inline-block;
@@ -836,6 +974,7 @@ function headIconUrl(icon) {
         display: flex;
         align-items: center;
         justify-content: center;
+        align-self: center;
     }
 
     .modal-player-head {
@@ -845,5 +984,89 @@ function headIconUrl(icon) {
         margin-right: 0.5rem;
         object-fit: cover;
         vertical-align: middle;
+    }
+    .modal-discs,
+    .modal-notes,
+    .modal-active-secondaries {
+        margin-top: 0.4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .modal-discs-list {
+        display: grid;
+        grid-template-columns: repeat(3, 48px);
+        grid-template-rows: repeat(2, 48px);
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .modal-notes-list {
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .modal-active-secondaries-list {
+        display: grid;
+        grid-template-columns: repeat(3, 48px);
+        grid-template-rows: repeat(2, 48px);
+        gap: 0.5rem;
+        justify-content: start;
+        align-items: center;
+    }
+
+    .modal-disc {
+        display: inline-block;
+        width: 48px;
+        height: 48px;
+        line-height: 0;
+    }
+
+    .modal-disc img,
+    .modal-disc-image {
+        display: block;
+        width: 48px;
+        height: 48px;
+        border-radius: 4px;
+        object-fit: cover;
+        background: var(--bg2);
+    }
+
+    .modal-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.15rem 0.25rem;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .modal-note-image {
+        width: 36px;
+        height: 36px;
+        border-radius: 6px;
+        object-fit: cover;
+        background: var(--bg2);
+    }
+
+    .modal-note-qty {
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+
+    .modal-secondary-id {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--muted);
+        background: var(--bg2);
+        border-radius: 4px;
     }
 </style>

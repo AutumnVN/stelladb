@@ -6,10 +6,11 @@ export const prerender = false;
 
 const INV_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/inv.json';
 
-const invData = (await fetch(INV_URL).then((res) => res.json())).Items;
+const invData = await fetch(INV_URL).then((res) => res.json());
+const mergedInvData = [...invData.Items, ...invData.Res];
 
 function g(id) {
-    return invData.find((item) => item.Tid === id)?.Qty || 0;
+    return mergedInvData.find((item) => item.Tid === id)?.Qty || 0;
 }
 
 function i(id) {
@@ -30,6 +31,8 @@ function color(a, b = 1) {
     }
 }
 
+const dorraCost = 8780700;
+const sparkCost = 120;
 const lv7Cost = 12;
 const charCost = 1930;
 const discCost = 2553;
@@ -39,12 +42,22 @@ const skillCost = 3267;
 const emblemCost = 10;
 const discExpCost = 2939980;
 
-const lv7Terra = f((g(20003) + g(21003)) / lv7Cost);
-const lv7Umbra = f((g(20013) + g(21013)) / lv7Cost);
-const lv7Ignis = f((g(20023) + g(21023)) / lv7Cost);
-const lv7Ventus = f((g(20043) + g(21043)) / lv7Cost);
-const lv7Lux = f((g(20053) + g(21053)) / lv7Cost);
-const lv7Aqua = f((g(20063) + g(21063)) / lv7Cost);
+const dorra = f(g(1) / dorraCost);
+const pull = f((g(2) / 300 + g(502)) / sparkCost);
+
+const lv7TerraMin = f(Math.min((g(20003) / 1.5 + g(21003)) / lv7Cost, (g(20003) + g(21003) / 1.5) / lv7Cost));
+const lv7UmbraMin = f(Math.min((g(20013) / 1.5 + g(21013)) / lv7Cost, (g(20013) + g(21013) / 1.5) / lv7Cost));
+const lv7IgnisMin = f(Math.min((g(20023) / 1.5 + g(21023)) / lv7Cost, (g(20023) + g(21023) / 1.5) / lv7Cost));
+const lv7VentusMin = f(Math.min((g(20043) / 1.5 + g(21043)) / lv7Cost, (g(20043) + g(21043) / 1.5) / lv7Cost));
+const lv7LuxMin = f(Math.min((g(20053) / 1.5 + g(21053)) / lv7Cost, (g(20053) + g(21053) / 1.5) / lv7Cost));
+const lv7AquaMin = f(Math.min((g(20063) / 1.5 + g(21063)) / lv7Cost, (g(20063) + g(21063) / 1.5) / lv7Cost));
+
+const lv7Terra = f(Math.max((g(20003) / 1.5 + g(21003)) / lv7Cost, (g(20003) + g(21003) / 1.5) / lv7Cost));
+const lv7Umbra = f(Math.max((g(20013) / 1.5 + g(21013)) / lv7Cost, (g(20013) + g(21013) / 1.5) / lv7Cost));
+const lv7Ignis = f(Math.max((g(20023) / 1.5 + g(21023)) / lv7Cost, (g(20023) + g(21023) / 1.5) / lv7Cost));
+const lv7Ventus = f(Math.max((g(20043) / 1.5 + g(21043)) / lv7Cost, (g(20043) + g(21043) / 1.5) / lv7Cost));
+const lv7Lux = f(Math.max((g(20053) / 1.5 + g(21053)) / lv7Cost, (g(20053) + g(21053) / 1.5) / lv7Cost));
+const lv7Aqua = f(Math.max((g(20063) / 1.5 + g(21063)) / lv7Cost, (g(20063) + g(21063) / 1.5) / lv7Cost));
 
 const charDancer = f((g(20071) + g(20072) * 3 + g(20073) * 9) / charCost);
 const charDuloos = f((g(20081) + g(20082) * 3 + g(20083) * 9) / charCost);
@@ -146,6 +159,10 @@ const lv7Choice = f(g(82010) / lv7Cost);
                     <img src={i(32000)} />
                     <p>Chess Piece: <span style={{ color: color(chessPiece) }}>{chessPiece}</span> Lv10</p>
                 </div>
+                <div class="row">
+                    <img src={i(1)} />
+                    <p>Dorra: <span style={{ color: color(dorra) }}>{dorra}</span> Lv10</p>
+                </div>
             </div>
 
             <div class="section emblem">
@@ -172,31 +189,35 @@ const lv7Choice = f(g(82010) / lv7Cost);
             <div class="section lv7">
                 <div class="row">
                     <img src={i(20063)} />
-                    <p>Skill Lv7 Aqua: <span style={{ color: color(lv7Aqua) }}>{lv7Aqua}</span> Lv10</p>
+                    <p>Skill Lv7 Aqua: <span style={{ color: color(lv7AquaMin) }}>{lv7AquaMin}</span> - <span style={{ color: color(lv7Aqua) }}>{lv7Aqua}</span> Lv10</p>
                 </div>
                 <div class="row">
                     <img src={i(20023)} />
-                    <p>Skill Lv7 Ignis: <span style={{ color: color(lv7Ignis) }}>{lv7Ignis}</span> Lv10</p>
+                    <p>Skill Lv7 Ignis: <span style={{ color: color(lv7IgnisMin) }}>{lv7IgnisMin}</span> - <span style={{ color: color(lv7Ignis) }}>{lv7Ignis}</span> Lv10</p>
                 </div>
                 <div class="row">
                     <img src={i(20003)} />
-                    <p>Skill Lv7 Terra: <span style={{ color: color(lv7Terra) }}>{lv7Terra}</span> Lv10</p>
+                    <p>Skill Lv7 Terra: <span style={{ color: color(lv7TerraMin) }}>{lv7TerraMin}</span> - <span style={{ color: color(lv7Terra) }}>{lv7Terra}</span> Lv10</p>
                 </div>
                 <div class="row">
                     <img src={i(20043)} />
-                    <p>Skill Lv7 Ventus: <span style={{ color: color(lv7Ventus) }}>{lv7Ventus}</span> Lv10</p>
+                    <p>Skill Lv7 Ventus: <span style={{ color: color(lv7VentusMin) }}>{lv7VentusMin}</span> - <span style={{ color: color(lv7Ventus) }}>{lv7Ventus}</span> Lv10</p>
                 </div>
                 <div class="row">
                     <img src={i(20053)} />
-                    <p>Skill Lv7 Lux: <span style={{ color: color(lv7Lux) }}>{lv7Lux}</span> Lv10</p>
+                    <p>Skill Lv7 Lux: <span style={{ color: color(lv7LuxMin) }}>{lv7LuxMin}</span> - <span style={{ color: color(lv7Lux) }}>{lv7Lux}</span> Lv10</p>
                 </div>
                 <div class="row">
                     <img src={i(20013)} />
-                    <p>Skill Lv7 Umbra: <span style={{ color: color(lv7Umbra) }}>{lv7Umbra}</span> Lv10</p>
+                    <p>Skill Lv7 Umbra: <span style={{ color: color(lv7UmbraMin) }}>{lv7UmbraMin}</span> - <span style={{ color: color(lv7Umbra) }}>{lv7Umbra}</span> Lv10</p>
                 </div>
                 <div class="row">
                     <img src={i(82010)} />
                     <p>Skill Lv7 Choice Box: <span style={{ color: color(lv7Choice) }}>{lv7Choice}</span> Lv10</p>
+                </div>
+                <div class="row">
+                    <img src={i(2)} />
+                    <p>Pull: <span style={{ color: color(pull) }}>{pull}</span> spark</p>
                 </div>
             </div>
         </div>

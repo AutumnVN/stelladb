@@ -59,7 +59,8 @@ if (data.Self.Teams) {
 }
 
 const isBB = id.slice(0, 2) === 'bb';
-const name = isBB ? `Boss Blitz S${id.slice(2)}` : `Finale Echoing S${id.slice(2)}`;
+const region = id.slice(-2);
+const name = isBB ? `Boss Blitz S${id.slice(2, -2)} ${region.toUpperCase()}` : `Finale Echoing S${id.slice(2, -2)} ${region.toUpperCase()}`;
 const floorData = isBB ? blitzData : raidData;
 const floor = meta[id];
 

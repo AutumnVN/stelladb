@@ -467,10 +467,9 @@ function headIconUrl(icon) {
                 const notesList = document.createElement('div');
                 notesList.className = 'modal-notes-list';
                 t.Notes.forEach((n) => {
-                    const noteLink = document.createElement('a');
-                    noteLink.className = 'modal-note';
-                    noteLink.href = `/note/${n.Tid}`;
-                    noteLink.title = `${n.Tid}`;
+                    const note = document.createElement('div');
+                    note.className = 'modal-note';
+                    note.title = `${n.Tid}`;
 
                     const noteImg = document.createElement('img');
                     noteImg.className = 'modal-note-image';
@@ -478,14 +477,14 @@ function headIconUrl(icon) {
                     noteImg.alt = String(n.Tid);
                     noteImg.width = 36;
                     noteImg.height = 36;
-                    noteLink.appendChild(noteImg);
+                    note.appendChild(noteImg);
 
                     const qty = document.createElement('div');
                     qty.className = 'modal-note-qty';
                     qty.textContent = `x${n.Qty}`;
-                    noteLink.appendChild(qty);
+                    note.appendChild(qty);
 
-                    notesList.appendChild(noteLink);
+                    notesList.appendChild(note);
                 });
                 notesWrap.appendChild(notesList);
             }

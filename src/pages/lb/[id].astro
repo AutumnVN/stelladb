@@ -162,9 +162,16 @@ function headIconUrl(icon) {
 
         <div class="content">
             <div class="players tab-panel" id="players">
-                <p>
-                    {data.Total.toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>
-                </p>
+                <div class="leaderboard-header">
+                    <p>
+                        {data.Total.toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>
+                    </p>
+                    <p class="rank-cutoff">
+                        10%: #{Math.floor(data.Total / 10)}<br />
+                        20%: #{Math.floor(data.Total / 5)}<br />
+                        50%: #{Math.floor(data.Total / 2)}
+                    </p>
+                </div>
 
                 <div class="leaderboard-grid">
                     <div class="grid-header">
@@ -231,7 +238,9 @@ function headIconUrl(icon) {
             </div>
 
             <div class="char-usage tab-panel" id="char-usage" hidden>
-                <h2>Trekker usage in top 100</h2>
+                <div class="leaderboard-header">
+                    <h2>Trekker usage in top 100</h2>
+                </div>
                 <div class="usage-grid">
                     <div class="grid-header">
                         <div class="col rank">Rank</div>
@@ -267,7 +276,9 @@ function headIconUrl(icon) {
             </div>
 
             <div class="team-usage tab-panel" id="team-usage" hidden>
-                <h2>Team usage in top 100</h2>
+                <div class="leaderboard-header">
+                    <h2>Team usage in top 100</h2>
+                </div>
                 <div class="usage-grid">
                     <div class="grid-header">
                         <div class="col rank">Rank</div>
@@ -484,8 +495,21 @@ function headIconUrl(icon) {
         font-size: 1.5rem;
     }
 
-    .content p {
-        margin: 1.58rem 1rem;
+    .leaderboard-header {
+        margin: 0.5rem 1rem;
+        height: 72px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .rank-cutoff {
+        margin-left: auto;
+        text-align: right;
+        min-width: 120px;
+    }
+
+    .leaderboard-header p {
         color: var(--muted);
     }
 

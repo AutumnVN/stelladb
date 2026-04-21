@@ -24,11 +24,13 @@ const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/
 const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
 const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
 const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
+const STARTOWERBUILDRANK_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/StarTowerBuildRank.json';
 
 const meta = await fetch(META_URL).then((res) => res.json());
 const blitzData = await fetch(BLITZ_URL).then((res) => res.json());
 const raidData = await fetch(RAID_URL).then((res) => res.json());
 const characterIdData = await fetch(CHARACTERID_URL).then((res) => res.json());
+const starTowerBuildRankData = await fetch(STARTOWERBUILDRANK_URL).then((res) => res.json());
 const POTENTIAL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/CharPotential.json';
 const potentialData = await fetch(POTENTIAL_URL)
     .then((res) => res.json())
@@ -46,11 +48,22 @@ function mapTeamPotentials(team) {
     return tb;
 }
 
+function computeRecordRank(buildScore, rankData) {
+    let best = null;
+    Object.keys(rankData).forEach((k) => {
+        const cfg = rankData[k];
+        const min = cfg.MinGrade || 0;
+        if (buildScore >= min) best = k;
+    });
+    return best;
+}
+
 if (data.Rank) {
     for (const entry of data.Rank) {
         for (const team of entry.Teams) {
             const tb = mapTeamPotentials(team);
             team.Code = packPotentialData(tb, potentialData);
+            team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
         }
     }
 }
@@ -59,6 +72,7 @@ if (data.Self.Teams) {
     for (const team of data.Self.Teams) {
         const tb = mapTeamPotentials(team);
         team.Code = packPotentialData(tb, potentialData);
+        team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
     }
 }
 
@@ -407,7 +421,7 @@ function headIconUrl(icon) {
             title.className = 'modal-team-title';
             const levelName = floorMap[t.LevelId]?.name;
             let titleStr = `Team ${i + 1}: ${levelName} • ${t.LevelScore.toLocaleString('en-US')}`;
-            if (t.BuildScore != null) titleStr += ` • Record Rating: ${t.BuildScore}`;
+            if (t.BuildScore != null) titleStr += ` • Record: ${t.RecordRank} (${t.BuildScore})`;
             title.textContent = titleStr;
             teamHeader.appendChild(title);
 

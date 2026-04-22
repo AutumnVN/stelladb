@@ -23,7 +23,7 @@ const [data, blitzData, raidData] = await Promise.all([
 ---
 
 <Layout title="Leaderboard | stelladb">
-    <SearchableGrid placeholder="Search bosses by id, name or boss name..." noResultsText="No leaderboard found.">
+    <SearchableGrid placeholder="Search leaderboard by id, name or boss name..." noResultsText="No leaderboard found.">
         {
             Object.entries(data).map(([id, floors]) => {
                 const isBB = id.slice(0, 2) === 'bb';

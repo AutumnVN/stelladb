@@ -87,15 +87,47 @@ const buildTime = new Date().toISOString();
         </main>
 
         <footer>
-            <p>
-                last build <span class="build-time" data-time={buildTime}></span>
-                •
-                <a href="https://github.com/AutumnVN/stelladb">site</a>
-                /
-                <a href="https://github.com/AutumnVN/StellaSoraData">data</a>
-                /
-                <a href="https://github.com/AutumnVN/ssassets">img</a>
-            </p>
+            <div class="footer-left">
+                <div class="discord">
+                    <a href="https://discord.com/users/393694671383166998" target="_blank">
+                        <div class="avatar-wrapper">
+                            <svg width="40" height="40" viewBox="0 0 40 40">
+                                <defs>
+                                    <mask id="mask" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+                                        <rect fill="white" x="0" y="0" width="100%" height="100%"></rect>
+                                        <circle fill="black" cx="0.82" cy="0.82" r="0.22"></circle>
+                                    </mask>
+                                </defs>
+                                <foreignObject width="40" height="40" mask="url(#mask)">
+                                    <div class="avatar"></div>
+                                </foreignObject>
+                            </svg>
+                            <div class="color-dot"></div>
+                        </div>
+                        <div class="meta">
+                            <div class="name-row">
+                                <span class="display-name"></span>
+                                <span class="username"></span>
+                            </div>
+                            <div class="activity-row">
+                                <span class="status"></span>
+                                <span class="activity"></span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <p>
+                    last build <span class="build-time" data-time={buildTime}></span>
+                    <br />
+                    <a href="https://github.com/AutumnVN/stelladb">site</a>
+                    /
+                    <a href="https://github.com/AutumnVN/StellaSoraData">data</a>
+                    /
+                    <a href="https://github.com/AutumnVN/ssassets">img</a>
+                </p>
+            </div>
         </footer>
     </body>
 </html>
@@ -179,6 +211,61 @@ const buildTime = new Date().toISOString();
         }
         return relativeTime;
     }
+
+    (async function () {
+        const LANYARD_USER = '393694671383166998';
+        const lanyard = `https://api.lanyard.rest/v1/users/${LANYARD_USER}`;
+        const root = document.querySelector('.discord');
+        if (!root) return;
+
+        const displayEl = root.querySelector('.display-name');
+        const usernameEl = root.querySelector('.username');
+        const statusEl = root.querySelector('.status');
+        const activityEl = root.querySelector('.activity');
+        const avatarEl = root.querySelector('.avatar');
+        const colorDot = root.querySelector('.color-dot');
+
+        const ACTIVITY_TYPE = ['Playing', 'Streaming to', 'Listening to', 'Watching', 'Custom status', 'Competing in'];
+        const STATUS_COLOR = { online: '#4b8', idle: '#fa1', dnd: '#f44', offline: '#778' };
+
+        function applyData(d) {
+            const u = d.discord_user;
+            if (displayEl) displayEl.textContent = u.display_name || '';
+            if (usernameEl) usernameEl.textContent = u.username;
+
+            let actLabel = '';
+            let actText = '';
+            const a = d.activities.find((a) => a.type !== 4);
+            if (a) {
+                actLabel = ACTIVITY_TYPE[a.type];
+                actText = a?.name;
+            }
+
+            statusEl.textContent = actText ? actLabel : d.discord_status || 'offline';
+            activityEl.textContent = actText;
+            activityEl.title = actText;
+            avatarEl.style.backgroundImage = `url("https://chino.is-a.dev/cdn-cgi/image/format=avif/https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=128")`;
+            colorDot.style.background = STATUS_COLOR[d.discord_status] || STATUS_COLOR.offline;
+        }
+
+        const res = await fetch(lanyard);
+        if (!res.ok) return;
+        const j = await res.json();
+        applyData(j.data);
+        connectSocket();
+
+        function connectSocket() {
+            const ws = new WebSocket('wss://api.lanyard.rest/socket');
+            ws.addEventListener('open', () => ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: LANYARD_USER } })));
+            ws.addEventListener('error', () => ws.close());
+            ws.addEventListener('close', () => setTimeout(connectSocket, 1000));
+            ws.addEventListener('message', ({ data }) => {
+                const { t, d } = JSON.parse(data);
+                if (t !== 'INIT_STATE' && t !== 'PRESENCE_UPDATE') return;
+                applyData(d);
+            });
+        }
+    })();
 </script>
 
 <style is:global>
@@ -348,15 +435,84 @@ const buildTime = new Date().toISOString();
     }
 
     footer {
+        margin: 0 auto;
+        padding: 0 1rem;
+        max-width: 1000px;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
+        justify-content: space-between;
         height: var(--nav-height);
         color: var(--muted);
     }
 
-    footer p {
+    .footer-right p {
         margin: 0.25rem 0;
+        text-align: right;
+    }
+
+    .discord {
+        width: 0;
+    }
+
+    .discord > a {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .discord .avatar-wrapper {
+        position: relative;
+        width: 40px;
+        height: 40px;
+    }
+
+    .discord .avatar {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .discord .name-row {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: max-content;
+        max-width: calc(100vw - 17rem);
+        min-width: 0;
+    }
+
+    .discord .display-name {
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .discord .username {
+        font-weight: 400;
+        color: var(--muted);
+    }
+
+    .discord .activity-row {
+        color: var(--muted);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: max-content;
+        max-width: calc(100vw - 13rem);
+        min-width: 0;
+    }
+
+    .discord .activity {
+        font-weight: 600;
+    }
+
+    .discord .color-dot {
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        width: 0.7em;
+        height: 0.7em;
+        border-radius: 50%;
     }
 </style>

@@ -19,9 +19,17 @@ const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs
 const { params, request } = Astro;
 const id = params.id;
 
-const data = await fetch(DATA_URL).then((res) => res.json());
-const itemData = await fetch(ITEM_URL).then((res) => res.json());
-const word = await fetch(WORD_URL).then((res) => res.json());
+const [data, itemData, word] = await Promise.all([
+    fetch(DATA_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(ITEM_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(WORD_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+]);
 const disc = data[id];
 
 const emoji = {

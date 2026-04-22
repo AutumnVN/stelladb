@@ -9,9 +9,17 @@ const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/
 const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
 const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
 
-const data = await fetch(DATA_URL).then((res) => res.json());
-const blitzData = await fetch(BLITZ_URL).then((res) => res.json());
-const raidData = await fetch(RAID_URL).then((res) => res.json());
+const [data, blitzData, raidData] = await Promise.all([
+    fetch(DATA_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(BLITZ_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(RAID_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+]);
 ---
 
 <Layout title="Leaderboard | stelladb">

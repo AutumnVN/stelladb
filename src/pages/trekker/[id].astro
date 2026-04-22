@@ -7,8 +7,14 @@ export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
     const UNRELEASED_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
 
-    const data = await fetch(DATA_URL).then((res) => res.json());
-    const unreleased = await fetch(UNRELEASED_URL).then((res) => res.json());
+    const [data, unreleased] = await Promise.all([
+        fetch(DATA_URL)
+            .then((r) => r.json())
+            .catch(() => ({})),
+        fetch(UNRELEASED_URL)
+            .then((r) => r.json())
+            .catch(() => ({})),
+    ]);
     const both = Object.assign({}, data, unreleased);
 
     return Object.keys(both).map((id) => ({
@@ -24,11 +30,21 @@ const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs
 const { params, request } = Astro;
 const id = params.id;
 
-const data = await fetch(DATA_URL).then((res) => res.json());
-const unreleased = await fetch(UNRELEASED_URL).then((res) => res.json());
+const [data, unreleased, itemData, word] = await Promise.all([
+    fetch(DATA_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(UNRELEASED_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(ITEM_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(WORD_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+]);
 const both = Object.assign({}, data, unreleased);
-const itemData = await fetch(ITEM_URL).then((res) => res.json());
-const word = await fetch(WORD_URL).then((res) => res.json());
 const char = both[id];
 
 if (char.tag[0] === char.class) {

@@ -14,10 +14,20 @@ const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs
 const { params, request } = Astro;
 const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
 
-const data = await fetch(DATA_URL).then((res) => res.json());
-const characterData = await fetch(CHARACTER_URL).then((res) => res.json());
-const itemData = await fetch(ITEM_URL).then((res) => res.json());
-const word = await fetch(WORD_URL).then((res) => res.json());
+const [data, characterData, itemData, word] = await Promise.all([
+    fetch(DATA_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(CHARACTER_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(ITEM_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(WORD_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+]);
 
 const unpack = unpackPotentialData(id, data);
 if (!unpack) {

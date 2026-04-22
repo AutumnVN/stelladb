@@ -8,8 +8,14 @@ import SearchableGrid from '@/components/SearchableGrid.astro';
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/duel.json';
 const TRAVELERDUELCHALLENGECONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/TravelerDuelChallengeControl.json';
 
-const data = await fetch(DATA_URL).then((res) => res.json());
-const scoreBossControl = await fetch(TRAVELERDUELCHALLENGECONTROL_URL).then((res) => res.json());
+const [data, scoreBossControl] = await Promise.all([
+    fetch(DATA_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(TRAVELERDUELCHALLENGECONTROL_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+]);
 const currentSeason = Object.values(scoreBossControl).filter((season) => Date.now() >= new Date(season.OpenTime) && Date.now() <= new Date(season.EndTime))[0];
 
 const emoji = {

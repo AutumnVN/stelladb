@@ -9,9 +9,17 @@ const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs
 const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
 const RAW_CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/Character.json';
 
-const data = await fetch(DATA_URL).then((res) => res.json());
-const characterIdData = await fetch(CHARACTERID_URL).then((res) => res.json());
-const rawCharacterData = await fetch(RAW_CHARACTER_URL).then((res) => res.json());
+const [data, characterIdData, rawCharacterData] = await Promise.all([
+    fetch(DATA_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(CHARACTERID_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+    fetch(RAW_CHARACTER_URL)
+        .then((r) => r.json())
+        .catch(() => ({})),
+]);
 
 const emoji = {
     Aqua: '💧',

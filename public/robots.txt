@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /inv
+Disallow:
 
 Sitemap: https://stelladb.pages.dev/sitemap-index.xml

@@ -9,6 +9,7 @@ export const prerender = false;
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/CharPotential.json';
 const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
+const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
 
 const { params, request } = Astro;
 const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
@@ -16,6 +17,7 @@ const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
 const data = await fetch(DATA_URL).then((res) => res.json());
 const characterData = await fetch(CHARACTER_URL).then((res) => res.json());
 const itemData = await fetch(ITEM_URL).then((res) => res.json());
+const word = await fetch(WORD_URL).then((res) => res.json());
 
 const unpack = unpackPotentialData(id, data);
 if (!unpack) {
@@ -27,6 +29,181 @@ const characterNamesList = isValid ? unpack.map((c) => characterData[c.CharId].n
 const levelCountSummary = isValid ? unpack.map((c) => c.Potentials.reduce((s, p) => s + p.Level, 0)).join('/') : '';
 const totalPotentialsLevel = isValid ? unpack.reduce((acc, c) => acc + c.Potentials.reduce((s, p) => s + p.Level, 0), 0) : 0;
 const desc = isValid ? `${characterNamesList} • ${levelCountSummary} • ${totalPotentialsLevel} total` : 'Build preset id is not valid';
+
+let html = '';
+if (isValid) {
+    const cols = 1;
+    const rows = 3;
+    const total = cols * rows;
+    const chars = unpack.slice(0, total);
+    const cells = Array.from({ length: total }).map((_, i) => chars[i] || null);
+    const imgW = 120;
+    const imgH = 153;
+    const padding = 0;
+
+    const maxPots = cells.length ? Math.max(...cells.map((c) => (c && c.Potentials ? c.Potentials.length : 0))) : 0;
+    const nImages = 1 + maxPots;
+    const cellW = imgW * nImages + padding * (nImages - 1);
+    const cellH = imgH;
+
+    const svgW = cellW * cols;
+    const svgH = cellH * rows;
+
+    function sortPots(pots) {
+        if (!pots || !pots.length) return [];
+        const arr = Array.from(pots);
+        if (arr.length >= 2 && Number(arr[0].Level) === 1 && Number(arr[1].Level) === 1) {
+            const preserved = arr.slice(0, 2);
+            const rest = arr.slice(2);
+            rest.sort((a, b) => (Number(b.Level) || 0) - (Number(a.Level) || 0));
+            return preserved.concat(rest);
+        }
+        arr.sort((a, b) => (Number(b.Level) || 0) - (Number(a.Level) || 0));
+        return arr;
+    }
+
+    function findPotentialDef(charObj, id) {
+        if (!charObj || !charObj.potential) return null;
+        for (const key of Object.keys(charObj.potential)) {
+            const arr = charObj.potential[key];
+            if (!Array.isArray(arr)) continue;
+            for (const pot of arr) {
+                const pid = pot.id ?? pot.Id ?? pot.Id;
+                if (String(pid) === String(id)) return pot;
+            }
+        }
+        return null;
+    }
+
+    const emoji = {
+        Aqua: '💧',
+        Ignis: '🔥',
+        Terra: '⛰️',
+        Ventus: '🌪️',
+        Lux: '☀️',
+        Umbra: '🌙',
+        Melee: '⚔️',
+        Ranged: '🏹',
+    };
+
+    function format(desc) {
+        return desc
+            .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
+            .replace(/\u000b/g, '<br />')
+            .replace(/##([^#]*?)#(\d{1,4})#/g, (match, name, id) => {
+                const wordName = word[id].name;
+                let wordDesc = word[id].desc;
+
+                word[id].params.forEach((param, index) => {
+                    wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                });
+
+                wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+
+                return `<span class="word">
+                        ${wordName}
+                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                    </span>`;
+            })
+            .replace(/#(\d{1,4})#([^#]*?)##/g, (match, id, name) => {
+                const wordName = word[id].name;
+                let wordDesc = word[id].desc;
+
+                word[id].params.forEach((param, index) => {
+                    wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                });
+
+                wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+
+                return `<span class="word">
+                        ${wordName}
+                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                    </span>`;
+            });
+    }
+
+    html += `<div style="display:inline-block;background:#eee;width:${svgW}px;height:${svgH}px;">`;
+
+    for (let i = 0; i < cells.length; i++) {
+        const c = cells[i];
+        const row = Math.floor(i / cols);
+        const col = i % cols;
+        const x0 = col * cellW;
+        const y0 = row * cellH;
+        if (!c) continue;
+
+        const char = characterData[c.CharId];
+        const charImg = char ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}02_XL.webp` : null;
+
+        const scale = 1.1;
+        const scaledW = Math.round(imgW * scale);
+        const scaledH = Math.round(imgH * scale);
+        const leftOffset = Math.round(-(scaledW - imgW) / 2);
+        const topOffset = Math.round(-(scaledH - imgH) / 2);
+
+        html += `<div style="width:${cellW}px;height:${cellH}px;display:inline-block;vertical-align:top;">`;
+
+        html += `<div style="width:${imgW}px;height:${imgH}px;overflow:hidden;position:relative;display:inline-block;">`;
+        if (charImg) {
+            const alt = char && char.name ? String(char.name).replace(/"/g, '&quot;') : '';
+            html += `<a href="/trekker/${c.CharId}" class="tooltip" target="_blank" rel="noopener noreferrer" style="display:block;width:${imgW}px;height:${imgH}px;">`;
+            html += `<img src="${charImg}" alt="${alt}" style="position:absolute;left:${leftOffset}px;top:${topOffset}px;width:${scaledW}px;height:${scaledH}px;object-fit:cover;display:block;" />`;
+            html += `<div class="tooltip-text" style="position:fixed; z-index:727;">`;
+            html += `<b style="display:block;margin-bottom:6px">${char.name}</b>`;
+            html += `<p style="margin:0">${char.star}⭐<br />${char.element}${emoji[char.element] || ''}<br />${char.class}${emoji[char.attackType] || ''}</p>`;
+            html += `</div>`;
+            html += `</a>`;
+        }
+        html += `</div>`;
+
+        const potentials = sortPots(c.Potentials || []);
+        for (let k = 0; k < potentials.length; k++) {
+            const p = potentials[k];
+            const potDef = findPotentialDef(char, p.Id) || null;
+            const potImg = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${p.Id}.webp`;
+            const potName = potDef && potDef.name ? String(potDef.name).replace(/</g, '&lt;') : itemData[p.Id] && itemData[p.Id].name ? String(itemData[p.Id].name).replace(/</g, '&lt;') : '';
+            if (!potImg) continue;
+
+            html += `<span class="tooltip small" style="display:inline-block;width:${imgW}px;height:${imgH}px;vertical-align:top;margin-left:${padding}px;position:relative;">`;
+            html += `<img src="${potImg}" alt="${potName}" width="${imgW}" height="${imgH}" style="object-fit:cover;display:block;" />`;
+            if (!(k < 2 && p.Level === 1)) {
+                const ff = "'MiSansLatin-Semibold', sans-serif";
+                html += `<div style="position:absolute;left:15px;top:0px;pointer-events:none;color:#568;font-size:16px;font-family:${ff};">${p.Level}</div>`;
+            }
+
+            let potentialDesc = '';
+            const potentialLevel = Number(p.Level) || 1;
+            const skillLevel2 = 10;
+            let result = (potDef && (potDef.desc || potDef.descEN)) || '';
+
+            (potDef?.params || []).forEach((paramSet, index) => {
+                const splitted = String(paramSet).split('/');
+                const paramValue = splitted.length === 13 ? (splitted[skillLevel2 - 1] ?? splitted[0]) : splitted.length === 9 ? (splitted[potentialLevel - 1] ?? splitted[0]) : splitted[0];
+                const tooltip = (potDef?.paramsTooltips || [])[index] || null;
+                result = result.replaceAll(`&Param${index + 1}&`, paramValue);
+            });
+
+            (potDef?.hiddenParams || []).forEach((paramSet, index) => {
+                const splitted = String(paramSet).split('/');
+                const paramValue = splitted.length === 13 ? (splitted[skillLevel2 - 1] ?? splitted[0]) : splitted.length === 9 ? (splitted[potentialLevel - 1] ?? splitted[0]) : splitted[0];
+                const tooltip = (potDef?.hiddenParamsTooltips || [])[index] || null;
+                result = result.replaceAll(`&HiddenParam${index + 1}&`, paramValue);
+            });
+
+            potentialDesc = format(result);
+
+            html += `<div class="tooltip-text" style="position:fixed; z-index: 727;">`;
+            html += `<div style="font-weight:700;margin-bottom:6px">${potName} ${p.Level}</div>`;
+            html += `<div>${potentialDesc}</div>`;
+            html += `</div>`;
+            html += `</span>`;
+        }
+
+        html += `</div>`;
+    }
+
+    html += `</div>`;
+}
 ---
 
 <Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined}>
@@ -35,13 +212,7 @@ const desc = isValid ? `${characterNamesList} • ${levelCountSummary} • ${tot
         <input id="search" type="search" placeholder="Build preset id" value={id} autofocus />
     </div>
 
-    {
-        isValid && (
-            <div id="preview">
-                <img src={`/og/build/${id}`} />
-            </div>
-        )
-    }
+    {isValid && <div id="preview" set:html={html} />}
 
     {!isValid && <div class="no-results">Build preset id is not valid</div>}
 </Layout>
@@ -61,6 +232,13 @@ const desc = isValid ? `${characterNamesList} • ${levelCountSummary} • ${tot
 </script>
 
 <style>
+    @font-face {
+        font-family: 'MiSansLatin-Semibold';
+        src: url('/MiSansLatin-Semibold.woff2') format('woff2');
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+    }
     .search-wrap {
         display: flex;
         position: sticky;

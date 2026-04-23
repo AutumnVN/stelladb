@@ -273,14 +273,6 @@ function headIconUrl(icon) {
                             </div>
                         )
                     }
-
-                    <div id="team-modal" class="team-modal hidden">
-                        <div class="modal-backdrop" id="team-modal-backdrop"></div>
-                        <div class="modal-panel">
-                            <button class="modal-close" id="team-modal-close">×</button>
-                            <div class="modal-content" id="team-modal-content"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -355,9 +347,9 @@ function headIconUrl(icon) {
                                     <div class="col uses">
                                         {item.count}
                                         {item.topUser ? (
-                                            <div class="team-top">
+                                            <button class="team-top" data-id={item.topUser.id}>
                                                 #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
-                                            </div>
+                                            </button>
                                         ) : null}
                                     </div>
                                 </div>
@@ -368,6 +360,14 @@ function headIconUrl(icon) {
                             </div>
                         )
                     }
+                </div>
+            </div>
+
+            <div id="team-modal" class="team-modal hidden">
+                <div class="modal-backdrop" id="team-modal-backdrop"></div>
+                <div class="modal-panel">
+                    <button class="modal-close" id="team-modal-close">×</button>
+                    <div class="modal-content" id="team-modal-content"></div>
                 </div>
             </div>
         </div>
@@ -709,6 +709,20 @@ function headIconUrl(icon) {
         });
     });
 
+    document.querySelectorAll('.team-top').forEach((el) => {
+        el.addEventListener('click', (e) => {
+            const id = el.dataset.id;
+            const entry = pageData.Self && String(pageData.Self.Id) === String(id) ? pageData.Self : pageData.Rank.find((e) => String(e.Id) === String(id));
+            if (entry) openModal(entry);
+        });
+        el.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                el.click();
+            }
+        });
+    });
+
     modalClose.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', closeModal);
     document.addEventListener('keydown', (e) => {
@@ -954,10 +968,18 @@ function headIconUrl(icon) {
     }
 
     .team-usage .team-top {
-        font-weight: 500;
+        font-weight: 400;
         font-size: 0.85rem;
         color: var(--muted);
-        margin-top: 0.25rem;
+        margin: 0.25rem auto;
+        padding: 0;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+        display: block;
+    }
+    .team-usage .team-top:hover {
+        color: var(--text);
     }
 
     @media (width < 800px) {
@@ -973,7 +995,7 @@ function headIconUrl(icon) {
 
         .team-usage .grid-row .col.team {
             flex-direction: column;
-            font-weight: 500;
+            font-weight: 400;
             font-size: 0.85rem;
             color: var(--muted);
             gap: 0.25rem;

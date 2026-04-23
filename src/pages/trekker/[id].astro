@@ -632,6 +632,15 @@ if (!char) {
                 </section>
 
                 <section id="talents" class="tab-panel" hidden>
+                    <div class="langtabs-wrapper" data-lang="EN">
+                        <nav class="langtabs">
+                            <button class="langtab active" data-lang="EN">EN</button>
+                            <button class="langtab" data-lang="CN">CN</button>
+                            <button class="langtab" data-lang="JP">JP</button>
+                            <button class="langtab" data-lang="KR">KR</button>
+                        </nav>
+                    </div>
+
                     {
                         char.talent.map((talent, index) => (
                             <div class="talent">
@@ -1113,26 +1122,47 @@ if (!char) {
             });
         }
 
+        const talentNameElements = document.querySelectorAll('.talent h2');
         const talentElements = document.querySelectorAll('.talent p:first-of-type');
+        const talentLangInput = document.querySelector('#talents .langtabs-wrapper');
 
-        talentElements.forEach((e, i) => {
-            const talent = char.talent[i];
-            const params = talent.boost[0].params;
-            let desc = talent.boost[0].desc;
+        let talentLang;
+        talentLangInput.addEventListener('click', (e) => {
+            if (e.target.classList.contains('langtab')) {
+                talentLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                talentLangInput.dataset.lang = e.target.dataset.lang;
+                onTalentsInput();
+            }
+        });
+        onTalentsInput();
 
-            params.forEach((param, index) => {
-                const tooltip = talent.boost[0].paramsTooltips[index];
-                const tooltipContent = `
+        function onTalentsInput() {
+            talentLang = talentLangInput.dataset.lang;
+
+            talentElements.forEach((e, i) => {
+                const talent = char.talent[i];
+                const params = talent.boost[0].params;
+                const nameLang = `name${talentLang === 'EN' ? '' : talentLang}`;
+                const descLang = `desc${talentLang === 'EN' ? '' : talentLang}`;
+                const name = talent.boost[0][nameLang];
+                let desc = talent.boost[0][descLang];
+
+                params.forEach((param, index) => {
+                    const tooltip = talent.boost[0].paramsTooltips[index];
+                    const tooltipContent = `
                     ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                     ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                     ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                     ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="27" height="36" />`}<br />`}
                 `.trim();
-                desc = desc.replaceAll(`&Param${index + 1}&`, !tooltipContent ? param : `<span class="tooltip">${param}<span class="tooltip-text">${tooltipContent}</span></span>`);
-            });
+                    desc = desc.replaceAll(`&Param${index + 1}&`, !tooltipContent ? param : `<span class="tooltip">${param}<span class="tooltip-text">${tooltipContent}</span></span>`);
+                });
 
-            e.innerHTML = format(desc);
-        });
+                talentNameElements[i].innerHTML = `${i + 1}. ${name}`;
+                talentElements[i].innerHTML = format(desc);
+            });
+        }
 
         const talentBonusStat = document.querySelector('.talent-bonus-stat p');
 

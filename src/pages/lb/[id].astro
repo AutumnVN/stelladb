@@ -252,10 +252,10 @@ function headIconUrl(icon) {
                     }
 
                     {
-                        data.Self?.Rank && (
+                        data.Self && (
                             <div class="grid-row self-row" data-id={data.Self.Id}>
                                 <div class="col rank">
-                                    <div class="rank-num">{data.Self.Rank}</div>
+                                    <div class="rank-num">{data.Self.Rank || '-'}</div>
                                 </div>
 
                                 <div class="col player">
@@ -263,12 +263,14 @@ function headIconUrl(icon) {
                                     <div class="player-name">{data.Self.NickName}</div>
                                 </div>
 
-                                <div class="col score">{data.Self.Score.toLocaleString('en-US')}</div>
+                                <div class="col score">{data.Self.Score?.toLocaleString('en-US') || '-'}</div>
 
                                 <div class="col details">
-                                    <button class="details-btn" data-id={data.Self.Id}>
-                                        🔍
-                                    </button>
+                                    {data.Self.Teams?.length && (
+                                        <button class="details-btn" data-id={data.Self.Id}>
+                                            🔍
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         )

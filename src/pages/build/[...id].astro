@@ -132,7 +132,7 @@ if (isValid) {
             });
     }
 
-    html += `<div style="display:inline-block;background:#eee;width:${svgW}px;height:${svgH}px;">`;
+    html += `<div style="display:inline-block;max-width:100vw;width:${svgW}px;height:${svgH}px;">`;
 
     for (let i = 0; i < cells.length; i++) {
         const c = cells[i];

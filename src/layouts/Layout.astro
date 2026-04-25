@@ -479,7 +479,7 @@ const buildTime = new Date().toISOString();
         overflow: hidden;
         white-space: nowrap;
         width: max-content;
-        max-width: calc(100vw - 17rem);
+        max-width: min(calc(100vw - 17rem), calc(1000px - 17rem));
         min-width: 0;
     }
 
@@ -499,7 +499,7 @@ const buildTime = new Date().toISOString();
         overflow: hidden;
         white-space: nowrap;
         width: max-content;
-        max-width: calc(100vw - 13rem);
+        max-width: min(calc(100vw - 13rem), calc(1000px - 13rem));
         min-width: 0;
     }
 

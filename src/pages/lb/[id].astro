@@ -91,7 +91,8 @@ const isBB = id.slice(0, 2) === 'bb';
 const region = id.slice(-2);
 const name = isBB ? `Boss Blitz S${id.slice(2, -2)} ${region.toUpperCase()}` : `Finale Echoing S${id.slice(2, -2)} ${region.toUpperCase()}`;
 const floorData = isBB ? blitzData : raidData;
-const floor = meta[id];
+const floor = meta[id].floor;
+const removed = meta[id].removed;
 
 const charCounts = {};
 const charUsers = {};
@@ -211,7 +212,7 @@ function headIconUrl(icon) {
             <div class="players tab-panel" id="players">
                 <div class="leaderboard-header">
                     <p>
-                        {data.Total.toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>
+                        {data.Total.toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>{removed.length > 0 ? ` • ${removed.length} removed` : ''}
                     </p>
                     <p class="rank-cutoff">
                         10%: #{Math.floor(data.Total / 10)}<br />

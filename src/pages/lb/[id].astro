@@ -235,8 +235,8 @@ function headIconUrl(icon) {
                                     <div class="rank-num">{entry.Rank}</div>
                                 </div>
 
-                                <div class="col player">
-                                    <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} title={entry.NickName} width="48" height="48" />
+                                <div class="col player" title={entry.Id}>
+                                    <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} width="48" height="48" />
                                     <div class="player-name">{entry.NickName}</div>
                                 </div>
 
@@ -258,8 +258,8 @@ function headIconUrl(icon) {
                                     <div class="rank-num">{data.Self.Rank || '-'}</div>
                                 </div>
 
-                                <div class="col player">
-                                    <img class="player-head" src={headIconUrl(data.Self.HeadIcon)} alt={data.Self.NickName} title={data.Self.NickName} width="48" height="48" />
+                                <div class="col player" title={data.Self.Id}>
+                                    <img class="player-head" src={headIconUrl(data.Self.HeadIcon)} alt={data.Self.NickName} width="48" height="48" />
                                     <div class="player-name">{data.Self.NickName}</div>
                                 </div>
 
@@ -304,7 +304,9 @@ function headIconUrl(icon) {
                                         </a>
                                     </div>
 
-                                    <div class="col uses">{item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}</div>
+                                    <div class="col uses" title={item.count === 1 && item.users && item.users.length === 1 ? item.users[0].id : undefined}>
+                                        {item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}
+                                    </div>
                                 </div>
                             ))
                         ) : (
@@ -349,7 +351,7 @@ function headIconUrl(icon) {
                                     <div class="col uses">
                                         {item.count}
                                         {item.topUser ? (
-                                            <button class="team-top" data-id={item.topUser.id}>
+                                            <button class="team-top" data-id={item.topUser.id} title={item.topUser.id}>
                                                 #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
                                             </button>
                                         ) : null}

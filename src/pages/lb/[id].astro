@@ -106,45 +106,107 @@ for (const rk of regionKeys) {
         }
     }
 
-    const charCounts = {};
-    const charUsers = {};
+    const charCountsAll = {};
+    const charUsersAll = {};
+    const charCountsByFloor = {};
+    const charUsersByFloor = {};
     if (rd.Rank) {
         for (const entry of rd.Rank) {
-            const playerChars = new Set();
+            const perFloorCharSets = {};
             for (const team of entry.Teams || []) {
-                for (const c of team.Chars || []) {
-                    playerChars.add(+c.Id);
+                const fid = String(team.LevelId ?? '');
+                if (!fid) continue;
+                if (!perFloorCharSets[fid]) perFloorCharSets[fid] = new Set();
+                for (const c of team.Chars || []) perFloorCharSets[fid].add(+c.Id);
+            }
+
+            for (const fid of Object.keys(perFloorCharSets)) {
+                if (!charCountsByFloor[fid]) charCountsByFloor[fid] = {};
+                if (!charUsersByFloor[fid]) charUsersByFloor[fid] = {};
+                for (const cid of perFloorCharSets[fid]) {
+                    charCountsByFloor[fid][cid] = (charCountsByFloor[fid][cid] || 0) + 1;
+                    charUsersByFloor[fid][cid] = charUsersByFloor[fid][cid] || [];
+                    charUsersByFloor[fid][cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
                 }
             }
+
+            const playerChars = new Set();
+            for (const team of entry.Teams || []) {
+                for (const c of team.Chars || []) playerChars.add(+c.Id);
+            }
             for (const cid of playerChars) {
-                charCounts[cid] = (charCounts[cid] || 0) + 1;
-                charUsers[cid] = charUsers[cid] || [];
-                charUsers[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
+                charCountsAll[cid] = (charCountsAll[cid] || 0) + 1;
+                charUsersAll[cid] = charUsersAll[cid] || [];
+                charUsersAll[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
             }
         }
     }
 
-    const usageList = Object.keys(charCounts)
+    const usageByFloor = {};
+
+    for (const fid of Object.keys(charCountsByFloor)) {
+        const counts = charCountsByFloor[fid] || {};
+        const users = charUsersByFloor[fid] || {};
+        const list = Object.keys(counts)
+            .map((k) => {
+                const idNum = +k;
+                const name = characterIdData[idNum];
+                const us = (users[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
+                return { id: idNum, count: counts[k], name, users: us };
+            })
+            .sort((a, b) => b.count - a.count);
+        let prevCountLocal = null;
+        let currentRankLocal = 0;
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].count !== prevCountLocal) currentRankLocal = i + 1;
+            list[i].rank = currentRankLocal;
+            prevCountLocal = list[i].count;
+        }
+        usageByFloor[fid] = list;
+    }
+
+    const usageAll = Object.keys(charCountsAll)
         .map((k) => {
             const idNum = +k;
             const name = characterIdData[idNum];
-            const users = (charUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
-            return { id: idNum, count: charCounts[k], name, users };
+            const users = (charUsersAll[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
+            return { id: idNum, count: charCountsAll[k], name, users };
         })
         .sort((a, b) => b.count - a.count);
-
     let prevCountLocal = null;
     let currentRankLocal = 0;
-    for (let i = 0; i < usageList.length; i++) {
-        if (usageList[i].count !== prevCountLocal) currentRankLocal = i + 1;
-        usageList[i].rank = currentRankLocal;
-        prevCountLocal = usageList[i].count;
+    for (let i = 0; i < usageAll.length; i++) {
+        if (usageAll[i].count !== prevCountLocal) currentRankLocal = i + 1;
+        usageAll[i].rank = currentRankLocal;
+        prevCountLocal = usageAll[i].count;
     }
+    usageByFloor['all'] = usageAll;
 
-    const teamCounts = {};
-    const teamUsers = {};
+    const teamCountsAll = {};
+    const teamUsersAll = {};
+    const teamCountsByFloor = {};
+    const teamUsersByFloor = {};
     if (rd.Rank) {
         for (const entry of rd.Rank) {
+            const perFloorTeamSets = {};
+            for (const team of entry.Teams || []) {
+                const fid = String(team.LevelId ?? '');
+                if (!fid) continue;
+                const ids = [(team.Chars[0] || {}).Id, (team.Chars[1] || {}).Id, (team.Chars[2] || {}).Id];
+                const main = ids[0];
+                const support = [ids[1], ids[2]].sort((a, b) => a - b);
+                const key = `${main}-${support[0]}-${support[1]}`;
+                if (!perFloorTeamSets[fid]) perFloorTeamSets[fid] = new Set();
+                if (perFloorTeamSets[fid].has(key)) continue;
+                perFloorTeamSets[fid].add(key);
+
+                if (!teamCountsByFloor[fid]) teamCountsByFloor[fid] = {};
+                if (!teamUsersByFloor[fid]) teamUsersByFloor[fid] = {};
+                teamCountsByFloor[fid][key] = (teamCountsByFloor[fid][key] || 0) + 1;
+                teamUsersByFloor[fid][key] = teamUsersByFloor[fid][key] || [];
+                teamUsersByFloor[fid][key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
+            }
+
             const playerTeams = new Set();
             for (const team of entry.Teams || []) {
                 const ids = [(team.Chars[0] || {}).Id, (team.Chars[1] || {}).Id, (team.Chars[2] || {}).Id];
@@ -153,37 +215,66 @@ for (const rk of regionKeys) {
                 const key = `${main}-${support[0]}-${support[1]}`;
                 if (playerTeams.has(key)) continue;
                 playerTeams.add(key);
-                teamCounts[key] = (teamCounts[key] || 0) + 1;
-                teamUsers[key] = teamUsers[key] || [];
-                teamUsers[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
+                teamCountsAll[key] = (teamCountsAll[key] || 0) + 1;
+                teamUsersAll[key] = teamUsersAll[key] || [];
+                teamUsersAll[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
             }
         }
     }
 
-    const usageTeamList = Object.keys(teamCounts).map((k) => {
+    const usageTeamByFloor = {};
+    for (const fid of Object.keys(teamCountsByFloor)) {
+        const counts = teamCountsByFloor[fid] || {};
+        const users = teamUsersByFloor[fid] || {};
+        const list = Object.keys(counts).map((k) => {
+            const parts = k.split('-').map((n) => Number(n));
+            const mainId = parts[0];
+            const support0 = parts[1];
+            const support1 = parts[2];
+            const us = (users[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
+            const topUser = us.length ? us.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
+            const mainName = characterIdData[mainId];
+            const supportName0 = characterIdData[support0];
+            const supportName1 = characterIdData[support1];
+            const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
+            return { key: k, main: mainId, members: [mainId, support0, support1], count: counts[k], name: displayName, users: us, topUser };
+        });
+        list.sort((a, b) => b.count - a.count);
+        let prev = null;
+        let rank = 0;
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].count !== prev) rank = i + 1;
+            list[i].rank = rank;
+            prev = list[i].count;
+        }
+        usageTeamByFloor[fid] = list;
+    }
+
+    const usageTeamAll = Object.keys(teamCountsAll).map((k) => {
         const parts = k.split('-').map((n) => Number(n));
         const mainId = parts[0];
         const support0 = parts[1];
         const support1 = parts[2];
-        const users = (teamUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
+        const users = (teamUsersAll[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
         const topUser = users.length ? users.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
         const mainName = characterIdData[mainId];
         const supportName0 = characterIdData[support0];
         const supportName1 = characterIdData[support1];
         const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
-        return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCounts[k], name: displayName, users, topUser };
+        return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCountsAll[k], name: displayName, users: users, topUser };
     });
-    usageTeamList.sort((a, b) => b.count - a.count);
-    prevCountLocal = null;
-    currentRankLocal = 0;
-    for (let i = 0; i < usageTeamList.length; i++) {
-        if (usageTeamList[i].count !== prevCountLocal) currentRankLocal = i + 1;
-        usageTeamList[i].rank = currentRankLocal;
-        prevCountLocal = usageTeamList[i].count;
+    usageTeamAll.sort((a, b) => b.count - a.count);
+    let prev = null;
+    let rank = 0;
+    for (let i = 0; i < usageTeamAll.length; i++) {
+        if (usageTeamAll[i].count !== prev) rank = i + 1;
+        usageTeamAll[i].rank = rank;
+        prev = usageTeamAll[i].count;
     }
+    usageTeamByFloor['all'] = usageTeamAll;
 
-    rd.UsageList = usageList;
-    rd.UsageTeamList = usageTeamList;
+    rd.UsageByFloor = usageByFloor;
+    rd.UsageTeamByFloor = usageTeamByFloor;
 
     const neededCharIds = new Set();
     if (rd.Rank) {
@@ -336,6 +427,22 @@ function headIconUrl(icon) {
             <div class="char-usage tab-panel" id="char-usage" hidden>
                 <div class="leaderboard-header">
                     <h2>Trekker usage in top 100</h2>
+                    {
+                        Array.isArray(floor) && floor.length > 1 ? (
+                            <div class="floor-tabs-wrapper">
+                                <nav class="floor-tabs">
+                                    <button class="floor-tab active" data-floor="all">
+                                        All
+                                    </button>
+                                    {floor.map((fid) => (
+                                        <button class="floor-tab" data-floor={String(fid)}>
+                                            {floorData[fid]?.name || fid}
+                                        </button>
+                                    ))}
+                                </nav>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div class="usage-grid">
                     <div class="grid-header">
@@ -347,34 +454,38 @@ function headIconUrl(icon) {
                     {
                         Object.keys(processedRegions).map((rk) => {
                             const rd = processedRegions[rk] || {};
-                            return (
-                                <div class="region-data" data-region={rk} hidden={rk !== defaultRegion}>
-                                    {(rd.UsageList || []).length ? (
-                                        (rd.UsageList || []).map((item) => (
-                                            <div class="grid-row" data-id={item.id}>
-                                                <div class="col rank">
-                                                    <div class="rank-num">{item.rank}</div>
-                                                </div>
+                            const floorKeys = ['all', ...(Array.isArray(floor) ? floor : [])];
+                            return floorKeys.map((fk) => {
+                                const list = (rd.UsageByFloor && rd.UsageByFloor[fk]) || [];
+                                return (
+                                    <div class="region-data" data-region={rk} data-floor={String(fk)} hidden={rk !== defaultRegion || fk !== 'all'}>
+                                        {list.length ? (
+                                            list.map((item) => (
+                                                <div class="grid-row" data-id={item.id}>
+                                                    <div class="col rank">
+                                                        <div class="rank-num">{item.rank}</div>
+                                                    </div>
 
-                                                <div class="col char">
-                                                    <a class="char-link" href={`/trekker/${item.id}`}>
-                                                        <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${item.id}02_XXL.webp`} alt={item.name} title={item.name} width="48" height="48" />
-                                                        <div class="player-name">{item.name}</div>
-                                                    </a>
-                                                </div>
+                                                    <div class="col char">
+                                                        <a class="char-link" href={`/trekker/${item.id}`}>
+                                                            <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${item.id}02_XXL.webp`} alt={item.name} title={item.name} width="48" height="48" />
+                                                            <div class="player-name">{item.name}</div>
+                                                        </a>
+                                                    </div>
 
-                                                <div class="col uses" title={item.count === 1 && item.users && item.users.length === 1 ? item.users[0].id : undefined}>
-                                                    {item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}
+                                                    <div class="col uses" title={item.count === 1 && item.users && item.users.length === 1 ? item.users[0].id : undefined}>
+                                                        {item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}
+                                                    </div>
                                                 </div>
+                                            ))
+                                        ) : (
+                                            <div class="grid-row">
+                                                <div class="col">No usage data</div>
                                             </div>
-                                        ))
-                                    ) : (
-                                        <div class="grid-row">
-                                            <div class="col">No usage data</div>
-                                        </div>
-                                    )}
-                                </div>
-                            );
+                                        )}
+                                    </div>
+                                );
+                            });
                         })
                     }
                 </div>
@@ -383,6 +494,22 @@ function headIconUrl(icon) {
             <div class="team-usage tab-panel" id="team-usage" hidden>
                 <div class="leaderboard-header">
                     <h2>Team usage in top 100</h2>
+                    {
+                        Array.isArray(floor) && floor.length > 1 ? (
+                            <div class="floor-tabs-wrapper">
+                                <nav class="floor-tabs">
+                                    <button class="floor-tab active" data-floor="all">
+                                        All
+                                    </button>
+                                    {floor.map((fid) => (
+                                        <button class="floor-tab" data-floor={String(fid)}>
+                                            {floorData[fid]?.name || fid}
+                                        </button>
+                                    ))}
+                                </nav>
+                            </div>
+                        ) : null
+                    }
                 </div>
                 <div class="usage-grid">
                     <div class="grid-header">
@@ -394,43 +521,47 @@ function headIconUrl(icon) {
                     {
                         Object.keys(processedRegions).map((rk) => {
                             const rd = processedRegions[rk] || {};
-                            return (
-                                <div class="region-data" data-region={rk} hidden={rk !== defaultRegion}>
-                                    {(rd.UsageTeamList || []).length ? (
-                                        (rd.UsageTeamList || []).map((item) => (
-                                            <div class="grid-row" data-key={item.key}>
-                                                <div class="col rank">
-                                                    <div class="rank-num">{item.rank}</div>
-                                                </div>
-
-                                                <div class="col team">
-                                                    <div class="team-icons">
-                                                        {item.members.map((id) => (
-                                                            <a class="team-char" href={`/trekker/${id}`}>
-                                                                <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`} alt={characterIdData[id]} title={characterIdData[id]} width="48" height="48" />
-                                                            </a>
-                                                        ))}
+                            const floorKeys = ['all', ...(Array.isArray(floor) ? floor : [])];
+                            return floorKeys.map((fk) => {
+                                const list = (rd.UsageTeamByFloor && rd.UsageTeamByFloor[fk]) || [];
+                                return (
+                                    <div class="region-data" data-region={rk} data-floor={String(fk)} hidden={rk !== defaultRegion || fk !== 'all'}>
+                                        {list.length ? (
+                                            list.map((item) => (
+                                                <div class="grid-row" data-key={item.key}>
+                                                    <div class="col rank">
+                                                        <div class="rank-num">{item.rank}</div>
                                                     </div>
-                                                    <div class="team-name">{item.name}</div>
-                                                </div>
 
-                                                <div class="col uses">
-                                                    {item.count}
-                                                    {item.topUser ? (
-                                                        <button class="team-top" data-id={item.topUser.id} title={item.topUser.id}>
-                                                            #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
-                                                        </button>
-                                                    ) : null}
+                                                    <div class="col team">
+                                                        <div class="team-icons">
+                                                            {item.members.map((id) => (
+                                                                <a class="team-char" href={`/trekker/${id}`}>
+                                                                    <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`} alt={characterIdData[id]} title={characterIdData[id]} width="48" height="48" />
+                                                                </a>
+                                                            ))}
+                                                        </div>
+                                                        <div class="team-name">{item.name}</div>
+                                                    </div>
+
+                                                    <div class="col uses">
+                                                        {item.count}
+                                                        {item.topUser ? (
+                                                            <button class="team-top" data-id={item.topUser.id} title={item.topUser.id}>
+                                                                #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
+                                                            </button>
+                                                        ) : null}
+                                                    </div>
                                                 </div>
+                                            ))
+                                        ) : (
+                                            <div class="grid-row">
+                                                <div class="col">No team usage data</div>
                                             </div>
-                                        ))
-                                    ) : (
-                                        <div class="grid-row">
-                                            <div class="col">No team usage data</div>
-                                        </div>
-                                    )}
-                                </div>
-                            );
+                                        )}
+                                    </div>
+                                );
+                            });
                         })
                     }
                 </div>
@@ -449,7 +580,7 @@ function headIconUrl(icon) {
 
 <script>
     // @ts-nocheck
-    let currentUpdateTime = new Date(+document.querySelector('.update-time')?.dataset.time);
+    let currentUpdateTime = new Date(+document.querySelector('.update-time')?.dataset.time || Date.now());
 
     function updateDisplayedTime() {
         const el = document.querySelector('.region-data:not([hidden]) .update-time');
@@ -779,9 +910,17 @@ function headIconUrl(icon) {
     }
 
     const regionTabsEls = document.querySelectorAll('.region-tabs .tab');
+    let currentRegion = defaultRegion;
+    const selectedFloor = { 'char-usage': 'all', 'team-usage': 'all' };
+
     function showRegion(r) {
+        currentRegion = r;
         document.querySelectorAll('.region-data').forEach((el) => {
-            el.hidden = el.dataset.region !== r;
+            const elRegion = el.dataset.region;
+            const elFloor = el.dataset.floor || 'all';
+            const panelId = el.closest('.tab-panel')?.id || 'players';
+            const selFloor = selectedFloor[panelId] || 'all';
+            el.hidden = elRegion !== r || selFloor !== elFloor;
         });
         regionTabsEls.forEach((t) => t.classList.toggle('active', t.dataset.tab === r));
         const visibleRegion = document.querySelector('.region-data:not([hidden])');
@@ -794,6 +933,17 @@ function headIconUrl(icon) {
 
     regionTabsEls.forEach((btn) => btn.addEventListener('click', () => showRegion(btn.dataset.tab)));
     showRegion(defaultRegion);
+
+    document.addEventListener('click', (ev) => {
+        const floorBtn = ev.target.closest('.floor-tab');
+        if (!floorBtn) return;
+        const panel = floorBtn.closest('.tab-panel');
+        if (!panel) return;
+        const panelId = panel.id;
+        panel.querySelectorAll('.floor-tab').forEach((b) => b.classList.toggle('active', b === floorBtn));
+        selectedFloor[panelId] = floorBtn.dataset.floor || 'all';
+        showRegion(currentRegion);
+    });
 
     document.addEventListener('click', (ev) => {
         const btn = ev.target.closest('.details-btn, .team-top');
@@ -863,6 +1013,34 @@ function headIconUrl(icon) {
 
     .leaderboard-header p {
         color: var(--muted);
+    }
+
+    .floor-tabs-wrapper {
+        margin-left: auto;
+    }
+
+    .floor-tabs {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .floor-tab {
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        padding: 0.5rem;
+        color: var(--muted);
+        font-size: 1rem;
+    }
+
+    .floor-tab:hover {
+        color: var(--text);
+    }
+
+    .floor-tab.active {
+        color: var(--text);
+        font-weight: 700;
     }
 
     .leaderboard-grid {
@@ -1061,8 +1239,9 @@ function headIconUrl(icon) {
     .team-usage .team-top {
         font-weight: 400;
         font-size: 0.85rem;
+        line-height: 1.1rem;
         color: var(--muted);
-        margin: 0.25rem auto;
+        margin: 0 auto;
         padding: 0;
         cursor: pointer;
         background: transparent;

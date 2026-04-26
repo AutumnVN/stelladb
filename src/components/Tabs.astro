@@ -15,9 +15,14 @@
 
         localTabs.forEach((t) => t.classList.toggle('active', t === tab));
 
+        const targetPanelId = tab.dataset.tab;
+        if (!targetPanelId) return;
+        const targetPanel = document.getElementById(targetPanelId);
+        if (!targetPanel) return;
+
         const panels = document.querySelectorAll('.tab-panel');
         panels.forEach((p) => {
-            p.hidden = p.id !== tab.dataset.tab;
+            p.hidden = p.id !== targetPanelId;
         });
     });
 </script>

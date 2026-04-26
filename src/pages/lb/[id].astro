@@ -8,12 +8,11 @@ export const prerender = false;
 const { params, request } = Astro;
 const id = params.id;
 
-if (/^\w+\d+$/.test(id)) {
-    return Astro.redirect(`/lb/${id}en`);
-}
-
-const DATA_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
-
+const DATA_EN_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}en.json`;
+const DATA_JP_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}jp.json`;
+const DATA_KR_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}kr.json`;
+const DATA_TW_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}tw.json`;
+const DATA_ALL_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}all.json`;
 const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
 const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
 const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
@@ -21,8 +20,20 @@ const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraDa
 const STARTOWERBUILDRANK_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/StarTowerBuildRank.json';
 const POTENTIAL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/CharPotential.json';
 
-const [data, meta, blitzData, raidData, characterIdData, starTowerBuildRankData, potentialData] = await Promise.all([
-    fetch(DATA_URL)
+const [dataEN, dataJP, dataKR, dataTW, dataALL, meta, blitzData, raidData, characterIdData, starTowerBuildRankData, potentialData] = await Promise.all([
+    fetch(DATA_EN_URL)
+        .then((r) => r.json())
+        .catch(() => null),
+    fetch(DATA_JP_URL)
+        .then((r) => r.json())
+        .catch(() => null),
+    fetch(DATA_KR_URL)
+        .then((r) => r.json())
+        .catch(() => null),
+    fetch(DATA_TW_URL)
+        .then((r) => r.json())
+        .catch(() => null),
+    fetch(DATA_ALL_URL)
         .then((r) => r.json())
         .catch(() => null),
     fetch(META_URL)
@@ -45,7 +56,7 @@ const [data, meta, blitzData, raidData, characterIdData, starTowerBuildRankData,
         .catch(() => ({})),
 ]);
 
-if (!data) {
+if (!meta[id]) {
     return Astro.redirect('/404');
 }
 
@@ -71,124 +82,146 @@ function computeRecordRank(buildScore, rankData) {
     return best;
 }
 
-if (data.Rank) {
-    for (const entry of data.Rank) {
-        for (const team of entry.Teams) {
-            const tb = mapTeamPotentials(team);
+const regionKeys = ['en', 'jp', 'kr', 'tw', 'all'];
+const regionMap = { en: dataEN, jp: dataJP, kr: dataKR, tw: dataTW, all: dataALL };
+
+const processedRegions = {};
+const globalNeededCharIds = new Set();
+
+for (const rk of regionKeys) {
+    const rd = regionMap[rk];
+    if (!rd) continue;
+
+    if (rd.Rank) {
+        for (const entry of rd.Rank) {
+            for (const team of entry.Teams || []) {
+                team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
+            }
+        }
+    }
+
+    if (rd.Self?.Teams) {
+        for (const team of rd.Self.Teams) {
             team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
         }
     }
-}
 
-if (data.Self?.Teams) {
-    for (const team of data.Self.Teams) {
-        const tb = mapTeamPotentials(team);
-        team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
-    }
-}
-
-const isBB = /^bb/.test(id);
-const season = id.match(/\d+/)?.[0];
-const region = id.match(/(cn|en|jp|kr|tw|all)$/)?.[1];
-const name = isBB ? `Boss Blitz S${season} ${region.toUpperCase()}` : `Finale Echoing S${season} ${region.toUpperCase()}`;
-const floorData = isBB ? blitzData : raidData;
-const floor = meta[id].floor;
-const removed = meta[id].removed;
-
-const charCounts = {};
-const charUsers = {};
-for (const entry of data.Rank) {
-    const playerChars = new Set();
-    for (const team of entry.Teams) {
-        for (const c of team.Chars) {
-            playerChars.add(+c.Id);
+    const charCounts = {};
+    const charUsers = {};
+    if (rd.Rank) {
+        for (const entry of rd.Rank) {
+            const playerChars = new Set();
+            for (const team of entry.Teams || []) {
+                for (const c of team.Chars || []) {
+                    playerChars.add(+c.Id);
+                }
+            }
+            for (const cid of playerChars) {
+                charCounts[cid] = (charCounts[cid] || 0) + 1;
+                charUsers[cid] = charUsers[cid] || [];
+                charUsers[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
+            }
         }
     }
-    for (const cid of playerChars) {
-        if (!charCounts[cid]) charCounts[cid] = 0;
-        charCounts[cid] += 1;
-        if (!charUsers[cid]) charUsers[cid] = [];
-        charUsers[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
+
+    const usageList = Object.keys(charCounts)
+        .map((k) => {
+            const idNum = +k;
+            const name = characterIdData[idNum];
+            const users = (charUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
+            return { id: idNum, count: charCounts[k], name, users };
+        })
+        .sort((a, b) => b.count - a.count);
+
+    let prevCountLocal = null;
+    let currentRankLocal = 0;
+    for (let i = 0; i < usageList.length; i++) {
+        if (usageList[i].count !== prevCountLocal) currentRankLocal = i + 1;
+        usageList[i].rank = currentRankLocal;
+        prevCountLocal = usageList[i].count;
     }
-}
 
-const usageList = Object.keys(charCounts)
-    .map((k) => {
-        const idNum = +k;
-        const name = characterIdData[idNum];
-        const users = charUsers[k].map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
-        return { id: idNum, count: charCounts[k], name, users };
-    })
-    .sort((a, b) => b.count - a.count);
-
-let prevCount = null;
-let currentRank = 0;
-for (let i = 0; i < usageList.length; i++) {
-    if (usageList[i].count !== prevCount) currentRank = i + 1;
-    usageList[i].rank = currentRank;
-    prevCount = usageList[i].count;
-}
-
-const teamCounts = {};
-const teamUsers = {};
-for (const entry of data.Rank) {
-    const playerTeams = new Set();
-    for (const team of entry.Teams) {
-        const ids = [team.Chars[0].Id, team.Chars[1].Id, team.Chars[2].Id];
-        const main = ids[0];
-        const support = [ids[1], ids[2]].sort((a, b) => a - b);
-        const key = `${main}-${support[0]}-${support[1]}`;
-        if (playerTeams.has(key)) continue;
-        playerTeams.add(key);
-        teamCounts[key] = (teamCounts[key] || 0) + 1;
-        teamUsers[key] = teamUsers[key] || [];
-        teamUsers[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
+    const teamCounts = {};
+    const teamUsers = {};
+    if (rd.Rank) {
+        for (const entry of rd.Rank) {
+            const playerTeams = new Set();
+            for (const team of entry.Teams || []) {
+                const ids = [(team.Chars[0] || {}).Id, (team.Chars[1] || {}).Id, (team.Chars[2] || {}).Id];
+                const main = ids[0];
+                const support = [ids[1], ids[2]].sort((a, b) => a - b);
+                const key = `${main}-${support[0]}-${support[1]}`;
+                if (playerTeams.has(key)) continue;
+                playerTeams.add(key);
+                teamCounts[key] = (teamCounts[key] || 0) + 1;
+                teamUsers[key] = teamUsers[key] || [];
+                teamUsers[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
+            }
+        }
     }
-}
 
-let usageTeamList = Object.keys(teamCounts).map((k) => {
-    const parts = k.split('-').map((n) => Number(n));
-    const mainId = parts[0];
-    const support0 = parts[1];
-    const support1 = parts[2];
-    const users = (teamUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
-    const topUser = users.length ? users.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
-    const mainName = characterIdData[mainId];
-    const supportName0 = characterIdData[support0];
-    const supportName1 = characterIdData[support1];
-    const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
-    return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCounts[k], name: displayName, users, topUser };
-});
-usageTeamList.sort((a, b) => b.count - a.count);
-prevCount = null;
-currentRank = 0;
-for (let i = 0; i < usageTeamList.length; i++) {
-    if (usageTeamList[i].count !== prevCount) currentRank = i + 1;
-    usageTeamList[i].rank = currentRank;
-    prevCount = usageTeamList[i].count;
-}
+    const usageTeamList = Object.keys(teamCounts).map((k) => {
+        const parts = k.split('-').map((n) => Number(n));
+        const mainId = parts[0];
+        const support0 = parts[1];
+        const support1 = parts[2];
+        const users = (teamUsers[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
+        const topUser = users.length ? users.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
+        const mainName = characterIdData[mainId];
+        const supportName0 = characterIdData[support0];
+        const supportName1 = characterIdData[support1];
+        const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
+        return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCounts[k], name: displayName, users, topUser };
+    });
+    usageTeamList.sort((a, b) => b.count - a.count);
+    prevCountLocal = null;
+    currentRankLocal = 0;
+    for (let i = 0; i < usageTeamList.length; i++) {
+        if (usageTeamList[i].count !== prevCountLocal) currentRankLocal = i + 1;
+        usageTeamList[i].rank = currentRankLocal;
+        prevCountLocal = usageTeamList[i].count;
+    }
 
-const neededCharIds = new Set();
-if (data.Rank) {
-    for (const entry of data.Rank) {
-        for (const team of entry.Teams || []) {
+    rd.UsageList = usageList;
+    rd.UsageTeamList = usageTeamList;
+
+    const neededCharIds = new Set();
+    if (rd.Rank) {
+        for (const entry of rd.Rank) {
+            for (const team of entry.Teams || []) {
+                for (const c of team.Chars || []) {
+                    neededCharIds.add(+c.Id);
+                }
+            }
+        }
+    }
+    if (rd.Self?.Teams) {
+        for (const team of rd.Self.Teams) {
             for (const c of team.Chars || []) {
                 neededCharIds.add(+c.Id);
             }
         }
     }
+    for (const n of neededCharIds) globalNeededCharIds.add(n);
+
+    processedRegions[rk] = rd;
 }
-if (data.Self?.Teams) {
-    for (const team of data.Self.Teams) {
-        for (const c of team.Chars || []) {
-            neededCharIds.add(+c.Id);
-        }
-    }
-}
+
 const potentialDataSubset = {};
-for (const id of neededCharIds) {
-    if (potentialData[id]) potentialDataSubset[id] = potentialData[id];
+for (const idNum of globalNeededCharIds) {
+    if (potentialData[idNum]) potentialDataSubset[idNum] = potentialData[idNum];
 }
+
+const defaultRegion = 'en';
+const data = processedRegions[defaultRegion] || {};
+const defaultRemoved = (meta[id].removed && meta[id].removed[defaultRegion]) || [];
+
+const isBB = /^bb/.test(id);
+const season = id.match(/\d+/)?.[0];
+const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
+const floorData = isBB ? blitzData : raidData;
+const floor = meta[id].floor;
+const metaRemoved = meta[id].removed || {};
 
 function headIconUrl(icon) {
     const prefix = icon > 100000 || [101, 102].includes(icon) ? 'player' : '';
@@ -197,87 +230,107 @@ function headIconUrl(icon) {
 }
 ---
 
-<Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${data.Rank[0] ? `, #1 ${data.Rank[0].NickName}: ${data.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
-    <div class="leaderboard-page" data-json={JSON.stringify(data)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)} data-potential={JSON.stringify(potentialDataSubset)}>
+<Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${dataALL.Rank[0] ? `, #1 ${dataALL.Rank[0].NickName}: ${dataALL.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
+    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)} data-potential={JSON.stringify(potentialDataSubset)}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
 
-            <Tabs>
-                <button class="tab active" data-tab="players">Player</button>
-                <button class="tab" data-tab="char-usage">Trekker</button>
-                <button class="tab" data-tab="team-usage">Team</button>
-            </Tabs>
+            <div class="tabs-container">
+                <div class="region-tabs">
+                    <Tabs>
+                        <button class="tab active" data-tab="en">EN</button>
+                        <button class="tab" data-tab="jp">JP</button>
+                        <button class="tab" data-tab="kr">KR</button>
+                        <button class="tab" data-tab="tw">TW</button>
+                        <button class="tab" data-tab="all">ALL</button>
+                    </Tabs>
+                </div>
+
+                <Tabs>
+                    <button class="tab active" data-tab="players">Player</button>
+                    <button class="tab" data-tab="char-usage">Trekker</button>
+                    <button class="tab" data-tab="team-usage">Team</button>
+                </Tabs>
+            </div>
         </div>
 
         <div class="content">
             <div class="players tab-panel" id="players">
-                <div class="leaderboard-header">
-                    <p>
-                        {data.Total.toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={data.LastRefreshTime * 1000}></span>{removed.length > 0 ? ` • ${removed.length} removed` : ''}
-                    </p>
-                    <p class="rank-cutoff">
-                        10%: #{Math.floor(data.Total / 10)}<br />
-                        20%: #{Math.floor(data.Total / 5)}<br />
-                        50%: #{Math.floor(data.Total / 2)}
-                    </p>
-                </div>
-
-                <div class="leaderboard-grid">
-                    <div class="grid-header">
-                        <div class="col rank">Rank</div>
-                        <div class="col player">Player</div>
-                        <div class="col score">Score</div>
-                        <div class="col details">Details</div>
-                    </div>
-
-                    {
-                        data.Rank.map((entry) => (
-                            <div class="grid-row" data-id={entry.Id}>
-                                <div class="col rank">
-                                    <div class="rank-num">{entry.Rank}</div>
+                {
+                    Object.keys(processedRegions).map((rk) => {
+                        const rd = processedRegions[rk] || {};
+                        return (
+                            <div class="region-data" data-region={rk} hidden={rk !== defaultRegion}>
+                                <div class="leaderboard-header">
+                                    <p>
+                                        {(rd.Total || 0).toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={(rd.LastRefreshTime || 0) * 1000} />
+                                        {metaRemoved[rk] && metaRemoved[rk].length ? ` • ${metaRemoved[rk].length} removed` : ''}
+                                    </p>
+                                    <p class="rank-cutoff">
+                                        10%: #{Math.floor((rd.Total || 0) / 10)}
+                                        <br />
+                                        20%: #{Math.floor((rd.Total || 0) / 5)}
+                                        <br />
+                                        50%: #{Math.floor((rd.Total || 0) / 2)}
+                                    </p>
                                 </div>
 
-                                <div class="col player" title={entry.Id}>
-                                    <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} width="48" height="48" />
-                                    <div class="player-name">{entry.NickName}</div>
-                                </div>
+                                <div class="leaderboard-grid">
+                                    <div class="grid-header">
+                                        <div class="col rank">Rank</div>
+                                        <div class="col player">Player</div>
+                                        <div class="col score">Score</div>
+                                        <div class="col details">Details</div>
+                                    </div>
 
-                                <div class="col score">{entry.Score.toLocaleString('en-US')}</div>
+                                    {(rd.Rank || []).map((entry) => (
+                                        <div class="grid-row" data-id={entry.Id}>
+                                            <div class="col rank">
+                                                <div class="rank-num">{entry.Rank}</div>
+                                            </div>
 
-                                <div class="col details">
-                                    <button class="details-btn" data-id={entry.Id}>
-                                        🔍
-                                    </button>
-                                </div>
-                            </div>
-                        ))
-                    }
+                                            <div class="col player" title={entry.Id}>
+                                                <img class="player-head" src={headIconUrl(entry.HeadIcon)} alt={entry.NickName} width="48" height="48" />
+                                                <div class="player-name">{entry.NickName}</div>
+                                            </div>
 
-                    {
-                        data.Self && (
-                            <div class="grid-row self-row" data-id={data.Self.Id}>
-                                <div class="col rank">
-                                    <div class="rank-num">{data.Self.Rank || '-'}</div>
-                                </div>
+                                            <div class="col score">{(entry.Score || 0).toLocaleString('en-US')}</div>
 
-                                <div class="col player" title={data.Self.Id}>
-                                    <img class="player-head" src={headIconUrl(data.Self.HeadIcon)} alt={data.Self.NickName} width="48" height="48" />
-                                    <div class="player-name">{data.Self.NickName}</div>
-                                </div>
+                                            <div class="col details">
+                                                <button class="details-btn" data-id={entry.Id}>
+                                                    🔍
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
 
-                                <div class="col score">{data.Self.Score?.toLocaleString('en-US') || '-'}</div>
+                                    {rd.Self && (
+                                        <div class="grid-row self-row" data-id={rd.Self.Id}>
+                                            <div class="col rank">
+                                                <div class="rank-num">{rd.Self.Rank || '-'}</div>
+                                            </div>
 
-                                <div class="col details">
-                                    {data.Self.Teams?.length && (
-                                        <button class="details-btn" data-id={data.Self.Id}>
-                                            🔍
-                                        </button>
+                                            <div class="col player" title={rd.Self.Id}>
+                                                <img class="player-head" src={headIconUrl(rd.Self.HeadIcon)} alt={rd.Self.NickName} width="48" height="48" />
+                                                <div class="player-name">{rd.Self.NickName}</div>
+                                            </div>
+
+                                            <div class="col score">{rd.Self.Score?.toLocaleString('en-US') || '-'}</div>
+
+                                            <div class="col details">
+                                                {rd.Self.Teams?.length && (
+                                                    <button class="details-btn" data-id={rd.Self.Id}>
+                                                        🔍
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
                             </div>
-                        )
-                    }
-                </div>
+                        );
+                    })
+                }
             </div>
 
             <div class="char-usage tab-panel" id="char-usage" hidden>
@@ -292,30 +345,37 @@ function headIconUrl(icon) {
                     </div>
 
                     {
-                        usageList.length ? (
-                            usageList.map((item) => (
-                                <div class="grid-row" data-id={item.id}>
-                                    <div class="col rank">
-                                        <div class="rank-num">{item.rank}</div>
-                                    </div>
+                        Object.keys(processedRegions).map((rk) => {
+                            const rd = processedRegions[rk] || {};
+                            return (
+                                <div class="region-data" data-region={rk} hidden={rk !== defaultRegion}>
+                                    {(rd.UsageList || []).length ? (
+                                        (rd.UsageList || []).map((item) => (
+                                            <div class="grid-row" data-id={item.id}>
+                                                <div class="col rank">
+                                                    <div class="rank-num">{item.rank}</div>
+                                                </div>
 
-                                    <div class="col char">
-                                        <a class="char-link" href={`/trekker/${item.id}`}>
-                                            <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${item.id}02_XXL.webp`} alt={item.name} title={item.name} width="48" height="48" />
-                                            <div class="player-name">{item.name}</div>
-                                        </a>
-                                    </div>
+                                                <div class="col char">
+                                                    <a class="char-link" href={`/trekker/${item.id}`}>
+                                                        <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${item.id}02_XXL.webp`} alt={item.name} title={item.name} width="48" height="48" />
+                                                        <div class="player-name">{item.name}</div>
+                                                    </a>
+                                                </div>
 
-                                    <div class="col uses" title={item.count === 1 && item.users && item.users.length === 1 ? item.users[0].id : undefined}>
-                                        {item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}
-                                    </div>
+                                                <div class="col uses" title={item.count === 1 && item.users && item.users.length === 1 ? item.users[0].id : undefined}>
+                                                    {item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div class="grid-row">
+                                            <div class="col">No usage data</div>
+                                        </div>
+                                    )}
                                 </div>
-                            ))
-                        ) : (
-                            <div class="grid-row">
-                                <div class="col">No usage data</div>
-                            </div>
-                        )
+                            );
+                        })
                     }
                 </div>
             </div>
@@ -332,39 +392,46 @@ function headIconUrl(icon) {
                     </div>
 
                     {
-                        usageTeamList.length ? (
-                            usageTeamList.map((item) => (
-                                <div class="grid-row" data-key={item.key}>
-                                    <div class="col rank">
-                                        <div class="rank-num">{item.rank}</div>
-                                    </div>
+                        Object.keys(processedRegions).map((rk) => {
+                            const rd = processedRegions[rk] || {};
+                            return (
+                                <div class="region-data" data-region={rk} hidden={rk !== defaultRegion}>
+                                    {(rd.UsageTeamList || []).length ? (
+                                        (rd.UsageTeamList || []).map((item) => (
+                                            <div class="grid-row" data-key={item.key}>
+                                                <div class="col rank">
+                                                    <div class="rank-num">{item.rank}</div>
+                                                </div>
 
-                                    <div class="col team">
-                                        <div class="team-icons">
-                                            {item.members.map((id) => (
-                                                <a class="team-char" href={`/trekker/${id}`}>
-                                                    <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`} alt={characterIdData[id]} title={characterIdData[id]} width="48" height="48" />
-                                                </a>
-                                            ))}
+                                                <div class="col team">
+                                                    <div class="team-icons">
+                                                        {item.members.map((id) => (
+                                                            <a class="team-char" href={`/trekker/${id}`}>
+                                                                <img class="char-icon" src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp`} alt={characterIdData[id]} title={characterIdData[id]} width="48" height="48" />
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                    <div class="team-name">{item.name}</div>
+                                                </div>
+
+                                                <div class="col uses">
+                                                    {item.count}
+                                                    {item.topUser ? (
+                                                        <button class="team-top" data-id={item.topUser.id} title={item.topUser.id}>
+                                                            #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
+                                                        </button>
+                                                    ) : null}
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div class="grid-row">
+                                            <div class="col">No team usage data</div>
                                         </div>
-                                        <div class="team-name">{item.name}</div>
-                                    </div>
-
-                                    <div class="col uses">
-                                        {item.count}
-                                        {item.topUser ? (
-                                            <button class="team-top" data-id={item.topUser.id} title={item.topUser.id}>
-                                                #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
-                                            </button>
-                                        ) : null}
-                                    </div>
+                                    )}
                                 </div>
-                            ))
-                        ) : (
-                            <div class="grid-row">
-                                <div class="col">No team usage data</div>
-                            </div>
-                        )
+                            );
+                        })
                     }
                 </div>
             </div>
@@ -382,13 +449,15 @@ function headIconUrl(icon) {
 
 <script>
     // @ts-nocheck
-    const updateTimeEl = document.querySelector('.update-time');
-    const updateTime = new Date(+updateTimeEl.dataset.time);
+    let currentUpdateTime = new Date(+document.querySelector('.update-time')?.dataset.time);
 
-    updateTimeEl.textContent = formatRelativeTime(updateTime);
-    setInterval(() => {
-        updateTimeEl.textContent = formatRelativeTime(updateTime);
-    }, 1000);
+    function updateDisplayedTime() {
+        const el = document.querySelector('.region-data:not([hidden]) .update-time');
+        if (!el) return;
+        el.textContent = formatRelativeTime(currentUpdateTime);
+    }
+    updateDisplayedTime();
+    setInterval(updateDisplayedTime, 1000);
 
     function formatRelativeTime(time) {
         const now = new Date();
@@ -415,6 +484,8 @@ function headIconUrl(icon) {
     const pageEl = document.querySelector('.leaderboard-page');
 
     const pageData = JSON.parse(pageEl.dataset.json);
+    const defaultRegion = pageEl.dataset.region;
+    const removedMap = JSON.parse(pageEl.dataset.removed);
     const floorMap = JSON.parse(pageEl.dataset.floor);
     const charMap = JSON.parse(pageEl.dataset.chars);
     const potentialMap = JSON.parse(pageEl.dataset.potential);
@@ -707,26 +778,32 @@ function headIconUrl(icon) {
         modal.classList.add('hidden');
     }
 
-    document.querySelectorAll('.details-btn').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            const id = btn.dataset.id;
-            const entry = pageData.Self?.Id === id ? pageData.Self : pageData.Rank.find((e) => e.Id === id);
-            openModal(entry);
+    const regionTabsEls = document.querySelectorAll('.region-tabs .tab');
+    function showRegion(r) {
+        document.querySelectorAll('.region-data').forEach((el) => {
+            el.hidden = el.dataset.region !== r;
         });
-    });
+        regionTabsEls.forEach((t) => t.classList.toggle('active', t.dataset.tab === r));
+        const visibleRegion = document.querySelector('.region-data:not([hidden])');
+        const ut = visibleRegion?.querySelector('.update-time');
+        if (ut) {
+            currentUpdateTime = new Date(+ut.dataset.time || Date.now());
+            updateDisplayedTime();
+        }
+    }
 
-    document.querySelectorAll('.team-top').forEach((el) => {
-        el.addEventListener('click', (e) => {
-            const id = el.dataset.id;
-            const entry = pageData.Self && String(pageData.Self.Id) === String(id) ? pageData.Self : pageData.Rank.find((e) => String(e.Id) === String(id));
-            if (entry) openModal(entry);
-        });
-        el.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                el.click();
-            }
-        });
+    regionTabsEls.forEach((btn) => btn.addEventListener('click', () => showRegion(btn.dataset.tab)));
+    showRegion(defaultRegion);
+
+    document.addEventListener('click', (ev) => {
+        const btn = ev.target.closest('.details-btn, .team-top');
+        if (!btn) return;
+        const regionEl = btn.closest('.region-data');
+        const region = regionEl?.dataset.region || defaultRegion;
+        const rd = pageData[region] || {};
+        const id = btn.dataset.id;
+        const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
+        if (entry) openModal(entry);
     });
 
     modalClose.addEventListener('click', closeModal);
@@ -747,7 +824,7 @@ function headIconUrl(icon) {
         background: var(--bg1a);
         padding: 0 1rem;
         max-width: 1000px;
-        height: var(--nav-height);
+        height: 80px;
     }
 
     h1 {
@@ -760,6 +837,14 @@ function headIconUrl(icon) {
         margin-left: 1rem;
         font-weight: 700;
         font-size: 1.5rem;
+    }
+
+    .tabs-container {
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
     }
 
     .leaderboard-header {

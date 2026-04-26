@@ -26,9 +26,10 @@ const [data, blitzData, raidData] = await Promise.all([
     <SearchableGrid placeholder="Search leaderboard by id, name or boss name..." noResultsText="No leaderboard found.">
         {
             Object.entries(data).map(([id, { floor }]) => {
-                const isBB = id.slice(0, 2) === 'bb';
-                const region = id.slice(-2);
-                const name = isBB ? `Boss Blitz S${id.slice(2, -2)} ${region.toUpperCase()}` : `Finale Echoing S${id.slice(2, -2)} ${region.toUpperCase()}`;
+                const isBB = /^bb/.test(id);
+                const season = id.match(/\d+/)?.[0];
+                const region = id.match(/(cn|en|jp|kr|tw|all)$/)?.[1];
+                const name = isBB ? `Boss Blitz S${season} ${region.toUpperCase()}` : `Finale Echoing S${season} ${region.toUpperCase()}`;
                 const floorData = isBB ? blitzData : raidData;
 
                 return (

@@ -80,16 +80,17 @@ if (data.Rank) {
     }
 }
 
-if (data.Self.Teams) {
+if (data.Self?.Teams) {
     for (const team of data.Self.Teams) {
         const tb = mapTeamPotentials(team);
         team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
     }
 }
 
-const isBB = id.slice(0, 2) === 'bb';
-const region = id.slice(-2);
-const name = isBB ? `Boss Blitz S${id.slice(2, -2)} ${region.toUpperCase()}` : `Finale Echoing S${id.slice(2, -2)} ${region.toUpperCase()}`;
+const isBB = /^bb/.test(id);
+const season = id.match(/\d+/)?.[0];
+const region = id.match(/(cn|en|jp|kr|tw|all)$/)?.[1];
+const name = isBB ? `Boss Blitz S${season} ${region.toUpperCase()}` : `Finale Echoing S${season} ${region.toUpperCase()}`;
 const floorData = isBB ? blitzData : raidData;
 const floor = meta[id].floor;
 const removed = meta[id].removed;
@@ -709,7 +710,7 @@ function headIconUrl(icon) {
     document.querySelectorAll('.details-btn').forEach((btn) => {
         btn.addEventListener('click', (e) => {
             const id = btn.dataset.id;
-            const entry = pageData.Self.Id === id ? pageData.Self : pageData.Rank.find((e) => e.Id === id);
+            const entry = pageData.Self?.Id === id ? pageData.Self : pageData.Rank.find((e) => e.Id === id);
             openModal(entry);
         });
     });

@@ -104,7 +104,22 @@ const allData = processedRegions['all'] || {};
                                 <div class="leaderboard-header">
                                     <p>
                                         {(rd.Total || 0).toLocaleString('en-US')} players total • last updated <span class="update-time" data-time={(rd.LastRefreshTime || 0) * 1000} />
-                                        {metaRemoved[rk] && metaRemoved[rk].length ? ` • ${metaRemoved[rk].length} removed` : ''}
+                                        {metaRemoved[rk] && metaRemoved[rk].length ? (
+                                            <>
+                                                <br />
+                                                <span class="tooltip">
+                                                    {metaRemoved[rk].length} removed by yostar or overwrited their score
+                                                    <span class="tooltip-text">
+                                                        {metaRemoved[rk].map((entry) => (
+                                                            <>
+                                                                {entry}
+                                                                <br />
+                                                            </>
+                                                        ))}
+                                                    </span>
+                                                </span>
+                                            </>
+                                        ) : null}
                                     </p>
                                     <p class="rank-cutoff">
                                         10%: #{Math.floor((rd.Total || 0) / 10)}

@@ -5,14 +5,7 @@ import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 
-export async function getStaticPaths() {
-    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
-    const data = await fetch(DATA_URL).then((res) => res.json());
-
-    return Object.keys(data).map((groupId) => ({
-        params: { groupId },
-    }));
-}
+export const prerender = false;
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/arena.json';
 

@@ -1,4 +1,4 @@
-import { Buffer } from 'node:buffer';
+import { Buffer } from 'buffer';
 
 export function packPotentialData(tbCharPotential, charCfgMap = {}) {
     if (!Array.isArray(tbCharPotential) || tbCharPotential.length !== 3) {

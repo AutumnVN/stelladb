@@ -1,10 +1,12 @@
 {
     "version": 1,
     "include": [
-        "/infodoc/*",
+        "/arena/*",
+        "/ascension/*",
         "/build/*",
-        "/og/*",
+        "/infodoc/*",
         "/lb/*",
+        "/og/*",
         "/autumnvn"
     ],
     "exclude": []

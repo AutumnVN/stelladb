@@ -9,10 +9,10 @@
         "astro": "astro"
     },
     "dependencies": {
-        "@astrojs/cloudflare": "^12.6.12",
-        "@astrojs/sitemap": "^3.7.0",
+        "@astrojs/cloudflare": "^12.6.13",
+        "@astrojs/sitemap": "^3.7.2",
         "@resvg/resvg-wasm": "^2.6.2",
-        "astro": "^5.17.2",
-        "typescript": "^5.9.3"
+        "astro": "^5.18.1",
+        "typescript": "^6.0.3"
     }
 }

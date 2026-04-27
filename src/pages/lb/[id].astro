@@ -8,34 +8,12 @@ export const prerender = false;
 const { params, request } = Astro;
 const id = params.id;
 
-const DATA_EN_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}en.json`;
-const DATA_JP_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}jp.json`;
-const DATA_KR_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}kr.json`;
-const DATA_TW_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}tw.json`;
-const DATA_ALL_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}all.json`;
 const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
 const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
 const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
 const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
-const STARTOWERBUILDRANK_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/StarTowerBuildRank.json';
-const POTENTIAL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/CharPotential.json';
-
-const [dataEN, dataJP, dataKR, dataTW, dataALL, meta, blitzData, raidData, characterIdData, starTowerBuildRankData, potentialData] = await Promise.all([
-    fetch(DATA_EN_URL)
-        .then((r) => r.json())
-        .catch(() => null),
-    fetch(DATA_JP_URL)
-        .then((r) => r.json())
-        .catch(() => null),
-    fetch(DATA_KR_URL)
-        .then((r) => r.json())
-        .catch(() => null),
-    fetch(DATA_TW_URL)
-        .then((r) => r.json())
-        .catch(() => null),
-    fetch(DATA_ALL_URL)
-        .then((r) => r.json())
-        .catch(() => null),
+const PROCESSED_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
+const [meta, blitzData, raidData, characterIdData, processedPrecomputed] = await Promise.all([
     fetch(META_URL)
         .then((r) => r.json())
         .catch(() => ({})),
@@ -48,28 +26,13 @@ const [dataEN, dataJP, dataKR, dataTW, dataALL, meta, blitzData, raidData, chara
     fetch(CHARACTERID_URL)
         .then((r) => r.json())
         .catch(() => ({})),
-    fetch(STARTOWERBUILDRANK_URL)
+    fetch(PROCESSED_URL)
         .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(POTENTIAL_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
+        .catch(() => null),
 ]);
 
 if (!meta[id]) {
     return Astro.redirect('/404');
-}
-
-function mapTeamPotentials(team) {
-    const teamPots = team.Potentials || [];
-    const mappedPots = teamPots.map((p) => ({ Id: p.PotentialId, Level: p.Level }));
-    const chars = team.Chars;
-    const tb = [];
-    for (let i = 0; i < 3; i++) {
-        const c = chars[i];
-        tb.push({ CharId: c.Id, Potentials: mappedPots });
-    }
-    return tb;
 }
 
 function computeRecordRank(buildScore, rankData) {
@@ -82,225 +45,9 @@ function computeRecordRank(buildScore, rankData) {
     return best;
 }
 
-const regionKeys = ['en', 'jp', 'kr', 'tw', 'all'];
-const regionMap = { en: dataEN, jp: dataJP, kr: dataKR, tw: dataTW, all: dataALL };
-
-const processedRegions = {};
-const globalNeededCharIds = new Set();
-
-for (const rk of regionKeys) {
-    const rd = regionMap[rk];
-    if (!rd) continue;
-
-    if (rd.Rank) {
-        for (const entry of rd.Rank) {
-            for (const team of entry.Teams || []) {
-                team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
-            }
-        }
-    }
-
-    if (rd.Self?.Teams) {
-        for (const team of rd.Self.Teams) {
-            team.RecordRank = computeRecordRank(team.BuildScore, starTowerBuildRankData);
-        }
-    }
-
-    const charCountsAll = {};
-    const charUsersAll = {};
-    const charCountsByFloor = {};
-    const charUsersByFloor = {};
-    if (rd.Rank) {
-        for (const entry of rd.Rank) {
-            const perFloorCharSets = {};
-            for (const team of entry.Teams || []) {
-                const fid = String(team.LevelId ?? '');
-                if (!fid) continue;
-                if (!perFloorCharSets[fid]) perFloorCharSets[fid] = new Set();
-                for (const c of team.Chars || []) perFloorCharSets[fid].add(+c.Id);
-            }
-
-            for (const fid of Object.keys(perFloorCharSets)) {
-                if (!charCountsByFloor[fid]) charCountsByFloor[fid] = {};
-                if (!charUsersByFloor[fid]) charUsersByFloor[fid] = {};
-                for (const cid of perFloorCharSets[fid]) {
-                    charCountsByFloor[fid][cid] = (charCountsByFloor[fid][cid] || 0) + 1;
-                    charUsersByFloor[fid][cid] = charUsersByFloor[fid][cid] || [];
-                    charUsersByFloor[fid][cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
-                }
-            }
-
-            const playerChars = new Set();
-            for (const team of entry.Teams || []) {
-                for (const c of team.Chars || []) playerChars.add(+c.Id);
-            }
-            for (const cid of playerChars) {
-                charCountsAll[cid] = (charCountsAll[cid] || 0) + 1;
-                charUsersAll[cid] = charUsersAll[cid] || [];
-                charUsersAll[cid].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank });
-            }
-        }
-    }
-
-    const usageByFloor = {};
-
-    for (const fid of Object.keys(charCountsByFloor)) {
-        const counts = charCountsByFloor[fid] || {};
-        const users = charUsersByFloor[fid] || {};
-        const list = Object.keys(counts)
-            .map((k) => {
-                const idNum = +k;
-                const name = characterIdData[idNum];
-                const us = (users[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
-                return { id: idNum, count: counts[k], name, users: us };
-            })
-            .sort((a, b) => b.count - a.count);
-        let prevCountLocal = null;
-        let currentRankLocal = 0;
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].count !== prevCountLocal) currentRankLocal = i + 1;
-            list[i].rank = currentRankLocal;
-            prevCountLocal = list[i].count;
-        }
-        usageByFloor[fid] = list;
-    }
-
-    const usageAll = Object.keys(charCountsAll)
-        .map((k) => {
-            const idNum = +k;
-            const name = characterIdData[idNum];
-            const users = (charUsersAll[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank }));
-            return { id: idNum, count: charCountsAll[k], name, users };
-        })
-        .sort((a, b) => b.count - a.count);
-    let prevCountLocal = null;
-    let currentRankLocal = 0;
-    for (let i = 0; i < usageAll.length; i++) {
-        if (usageAll[i].count !== prevCountLocal) currentRankLocal = i + 1;
-        usageAll[i].rank = currentRankLocal;
-        prevCountLocal = usageAll[i].count;
-    }
-    usageByFloor['all'] = usageAll;
-
-    const teamCountsAll = {};
-    const teamUsersAll = {};
-    const teamCountsByFloor = {};
-    const teamUsersByFloor = {};
-    if (rd.Rank) {
-        for (const entry of rd.Rank) {
-            const perFloorTeamSets = {};
-            for (const team of entry.Teams || []) {
-                const fid = String(team.LevelId ?? '');
-                if (!fid) continue;
-                const ids = [(team.Chars[0] || {}).Id, (team.Chars[1] || {}).Id, (team.Chars[2] || {}).Id];
-                const main = ids[0];
-                const support = [ids[1], ids[2]].sort((a, b) => a - b);
-                const key = `${main}-${support[0]}-${support[1]}`;
-                if (!perFloorTeamSets[fid]) perFloorTeamSets[fid] = new Set();
-                if (perFloorTeamSets[fid].has(key)) continue;
-                perFloorTeamSets[fid].add(key);
-
-                if (!teamCountsByFloor[fid]) teamCountsByFloor[fid] = {};
-                if (!teamUsersByFloor[fid]) teamUsersByFloor[fid] = {};
-                teamCountsByFloor[fid][key] = (teamCountsByFloor[fid][key] || 0) + 1;
-                teamUsersByFloor[fid][key] = teamUsersByFloor[fid][key] || [];
-                teamUsersByFloor[fid][key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
-            }
-
-            const playerTeams = new Set();
-            for (const team of entry.Teams || []) {
-                const ids = [(team.Chars[0] || {}).Id, (team.Chars[1] || {}).Id, (team.Chars[2] || {}).Id];
-                const main = ids[0];
-                const support = [ids[1], ids[2]].sort((a, b) => a - b);
-                const key = `${main}-${support[0]}-${support[1]}`;
-                if (playerTeams.has(key)) continue;
-                playerTeams.add(key);
-                teamCountsAll[key] = (teamCountsAll[key] || 0) + 1;
-                teamUsersAll[key] = teamUsersAll[key] || [];
-                teamUsersAll[key].push({ id: entry.Id, name: entry.NickName, rank: entry.Rank, chars: ids, teamScore: team.LevelScore ?? 0 });
-            }
-        }
-    }
-
-    const usageTeamByFloor = {};
-    for (const fid of Object.keys(teamCountsByFloor)) {
-        const counts = teamCountsByFloor[fid] || {};
-        const users = teamUsersByFloor[fid] || {};
-        const list = Object.keys(counts).map((k) => {
-            const parts = k.split('-').map((n) => Number(n));
-            const mainId = parts[0];
-            const support0 = parts[1];
-            const support1 = parts[2];
-            const us = (users[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
-            const topUser = us.length ? us.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
-            const mainName = characterIdData[mainId];
-            const supportName0 = characterIdData[support0];
-            const supportName1 = characterIdData[support1];
-            const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
-            return { key: k, main: mainId, members: [mainId, support0, support1], count: counts[k], name: displayName, users: us, topUser };
-        });
-        list.sort((a, b) => b.count - a.count);
-        let prev = null;
-        let rank = 0;
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].count !== prev) rank = i + 1;
-            list[i].rank = rank;
-            prev = list[i].count;
-        }
-        usageTeamByFloor[fid] = list;
-    }
-
-    const usageTeamAll = Object.keys(teamCountsAll).map((k) => {
-        const parts = k.split('-').map((n) => Number(n));
-        const mainId = parts[0];
-        const support0 = parts[1];
-        const support1 = parts[2];
-        const users = (teamUsersAll[k] || []).map((u) => ({ id: u.id, name: u.name, rank: u.rank, teamScore: u.teamScore }));
-        const topUser = users.length ? users.reduce((best, u) => (!best || (u.teamScore || 0) > (best.teamScore || 0) ? u : best), null) : null;
-        const mainName = characterIdData[mainId];
-        const supportName0 = characterIdData[support0];
-        const supportName1 = characterIdData[support1];
-        const displayName = `${mainName} • ${supportName0}, ${supportName1}`;
-        return { key: k, main: mainId, members: [mainId, support0, support1], count: teamCountsAll[k], name: displayName, users: users, topUser };
-    });
-    usageTeamAll.sort((a, b) => b.count - a.count);
-    let prev = null;
-    let rank = 0;
-    for (let i = 0; i < usageTeamAll.length; i++) {
-        if (usageTeamAll[i].count !== prev) rank = i + 1;
-        usageTeamAll[i].rank = rank;
-        prev = usageTeamAll[i].count;
-    }
-    usageTeamByFloor['all'] = usageTeamAll;
-
-    rd.UsageByFloor = usageByFloor;
-    rd.UsageTeamByFloor = usageTeamByFloor;
-
-    const neededCharIds = new Set();
-    if (rd.Rank) {
-        for (const entry of rd.Rank) {
-            for (const team of entry.Teams || []) {
-                for (const c of team.Chars || []) {
-                    neededCharIds.add(+c.Id);
-                }
-            }
-        }
-    }
-    if (rd.Self?.Teams) {
-        for (const team of rd.Self.Teams) {
-            for (const c of team.Chars || []) {
-                neededCharIds.add(+c.Id);
-            }
-        }
-    }
-    for (const n of neededCharIds) globalNeededCharIds.add(n);
-
-    processedRegions[rk] = rd;
-}
-
-const potentialDataSubset = {};
-for (const idNum of globalNeededCharIds) {
-    if (potentialData[idNum]) potentialDataSubset[idNum] = potentialData[idNum];
+const processedRegions = processedPrecomputed.processedRegions;
+if (!processedRegions) {
+    return Astro.redirect('/404');
 }
 
 const defaultRegion = 'en';
@@ -319,10 +66,12 @@ function headIconUrl(icon) {
     const id = icon === 101 ? 10001 : icon === 102 ? 10101 : icon;
     return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${prefix}head/${prefix}head_${id}_XXL.webp`;
 }
+
+const allData = processedRegions['all'] || {};
 ---
 
-<Layout title={`${name} Leaderboard | stelladb`} description={`${data.Total.toLocaleString('en-US')} players total${dataALL.Rank[0] ? `, #1 ${dataALL.Rank[0].NickName}: ${dataALL.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
-    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)} data-potential={JSON.stringify(potentialDataSubset)}>
+<Layout title={`${name} Leaderboard | stelladb`} description={`${(allData.Total || 0).toLocaleString('en-US')} players total${allData.Rank && allData.Rank[0] ? `, #1 ${allData.Rank[0].NickName}: ${allData.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
+    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
 
@@ -619,7 +368,6 @@ function headIconUrl(icon) {
     const removedMap = JSON.parse(pageEl.dataset.removed);
     const floorMap = JSON.parse(pageEl.dataset.floor);
     const charMap = JSON.parse(pageEl.dataset.chars);
-    const potentialMap = JSON.parse(pageEl.dataset.potential);
 
     const modal = document.getElementById('team-modal');
     const modalContent = document.getElementById('team-modal-content');
@@ -630,81 +378,6 @@ function headIconUrl(icon) {
         const prefix = icon > 100000 || [101, 102].includes(icon) ? 'player' : '';
         const id = icon === 101 ? 10001 : icon === 102 ? 10101 : icon;
         return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${prefix}head/${prefix}head_${id}_XXL.webp`;
-    }
-
-    function mapTeamPotentials(team) {
-        const teamPots = team.Potentials || [];
-        const mappedPots = teamPots.map((p) => ({ Id: p.PotentialId, Level: p.Level }));
-        const chars = team.Chars || [];
-        const tb = [];
-        for (let i = 0; i < 3; i++) {
-            const c = chars[i] || { Id: 0 };
-            tb.push({ CharId: c.Id, Potentials: mappedPots });
-        }
-        return tb;
-    }
-
-    function packPotentialData(tbCharPotential, charCfgMap = {}) {
-        if (!Array.isArray(tbCharPotential) || tbCharPotential.length !== 3) return null;
-        const bitBuffer = [];
-        const addBit = (b) => bitBuffer.push(b ? 1 : 0);
-        const writeBits = (value, numBits) => {
-            for (let i = numBits - 1; i >= 0; i--) addBit((value >>> i) & 1);
-        };
-        const toUint32 = (num) => {
-            num = Math.floor(num || 0);
-            if (num < 0) num = 0;
-            if (num > 0xffffffff) num = 0xffffffff;
-            return num >>> 0;
-        };
-        const getLevelFromPotentials = (tbPotential, nId) => {
-            if (!Array.isArray(tbPotential)) return 0;
-            for (const p of tbPotential) {
-                if ((p.nId ?? p.Id ?? p.id) === nId) {
-                    return (p.nLevel ?? p.Level ?? p.level ?? 0) | 0;
-                }
-            }
-            return 0;
-        };
-        const pack_potential = (tbAll, tbPotential, bSpecial) => {
-            for (const nId of tbAll) {
-                const nLevel = getLevelFromPotentials(tbPotential, nId);
-                if (bSpecial) writeBits(nLevel > 0 ? 1 : 0, 1);
-                else writeBits(nLevel, 3);
-            }
-        };
-
-        for (const v of tbCharPotential) {
-            const nCharId = v.nCharId ?? v.CharId ?? v.charId;
-            if (!nCharId || nCharId === 0) return null;
-            writeBits(toUint32(nCharId), 32);
-        }
-
-        tbCharPotential.forEach((v, idx) => {
-            const nCharId = v.nCharId ?? v.CharId ?? v.charId;
-            const potentials = v.tbPotential ?? v.Potentials ?? v.potentials ?? [];
-            const cfg = charCfgMap[nCharId];
-            if (!cfg) return;
-            if (idx === 0) {
-                pack_potential(cfg.MasterSpecificPotentialIds || [], potentials, true);
-                pack_potential(cfg.MasterNormalPotentialIds || [], potentials, false);
-                pack_potential(cfg.CommonPotentialIds || [], potentials, false);
-            } else {
-                pack_potential(cfg.AssistSpecificPotentialIds || [], potentials, true);
-                pack_potential(cfg.AssistNormalPotentialIds || [], potentials, false);
-                pack_potential(cfg.CommonPotentialIds || [], potentials, false);
-            }
-        });
-
-        const bytes = [];
-        for (let i = 0; i < bitBuffer.length; i += 8) {
-            let byte = 0;
-            for (let j = 0; j < 8; j++) byte = (byte << 1) | (bitBuffer[i + j] || 0);
-            bytes.push(byte & 0xff);
-        }
-        let binary = '';
-        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-        return btoa(binary);
     }
 
     function openModal(entry) {
@@ -878,11 +551,14 @@ function headIconUrl(icon) {
             const buildLinkTop = document.createElement('a');
             buildLinkTop.className = 'modal-build-link';
 
-            const tbCharPotential = mapTeamPotentials(t);
-            const buildCode = packPotentialData(tbCharPotential, potentialMap);
-
-            buildLinkTop.href = `/build/${buildCode}`;
-            buildLinkTop.target = '_blank';
+            const buildCode = t.BuildCode || '';
+            if (buildCode) {
+                buildLinkTop.href = `/build/${buildCode}`;
+                buildLinkTop.target = '_blank';
+            } else {
+                buildLinkTop.href = '#';
+                buildLinkTop.removeAttribute('target');
+            }
             buildLinkTop.textContent = 'Open build';
             buildWrapTop.appendChild(buildLinkTop);
 
@@ -945,12 +621,14 @@ function headIconUrl(icon) {
         showRegion(currentRegion);
     });
 
-    document.addEventListener('click', (ev) => {
+    document.addEventListener('click', async (ev) => {
         const btn = ev.target.closest('.details-btn, .team-top');
         if (!btn) return;
         const regionEl = btn.closest('.region-data');
         const region = regionEl?.dataset.region || defaultRegion;
+
         const rd = pageData[region] || {};
+
         const id = btn.dataset.id;
         const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
         if (entry) openModal(entry);

@@ -215,6 +215,7 @@ const buildTime = new Date().toISOString();
     (async function () {
         const LANYARD_USER = '393694671383166998';
         const lanyard = `https://api.lanyard.rest/v1/users/${LANYARD_USER}`;
+        const kvTextEl = document.querySelector('#kv-text');
         const root = document.querySelector('.discord');
         if (!root) return;
 
@@ -227,6 +228,37 @@ const buildTime = new Date().toISOString();
 
         const ACTIVITY_TYPE = ['Playing', 'Streaming to', 'Listening to', 'Watching', 'Custom status', 'Competing in'];
         const STATUS_COLOR = { online: '#4b8', idle: '#fa1', dnd: '#f44', offline: '#778' };
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function markdownToHtml(md) {
+            if (!md) return '';
+            let text = String(md);
+            text = escapeHtml(text);
+
+            text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (m, alt, url) => {
+                const src = escapeHtml(url.trim());
+                const altText = escapeHtml(alt.trim());
+                return `<img src="${src}" alt="${altText}" />`;
+            });
+
+            text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, label, url) => {
+                const href = escapeHtml(url.trim());
+                const lbl = escapeHtml(label.trim());
+                return `<a href="${href}" target="_blank" rel="noopener noreferrer">${lbl}</a>`;
+            });
+
+            text = text.replace(/(^|[\s>])((https?:\/\/)[^\s<]+)/g, (m, pre, url) => {
+                const href = escapeHtml(url);
+                return `${pre}<a href="${href}" target="_blank" rel="noopener noreferrer">${href}</a>`;
+            });
+
+            text = text.replace(/\\n/g, '<br>');
+
+            return text;
+        }
 
         function applyData(d) {
             const u = d.discord_user;
@@ -246,6 +278,9 @@ const buildTime = new Date().toISOString();
             activityEl.title = actText;
             avatarEl.style.backgroundImage = `url("https://chino.is-a.dev/cdn-cgi/image/format=avif/https://cdn.discordapp.com/avatars/${u.id}/${u.avatar}.webp?size=128")`;
             colorDot.style.background = STATUS_COLOR[d.discord_status] || STATUS_COLOR.offline;
+            if (kvTextEl) {
+                kvTextEl.innerHTML = markdownToHtml(d.kv.text);
+            }
         }
 
         const res = await fetch(lanyard);

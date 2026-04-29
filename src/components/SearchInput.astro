@@ -1,0 +1,59 @@
+---
+interface Props {
+    id?: string;
+    placeholder?: string;
+    value?: string;
+    autofocus?: boolean;
+}
+
+const { id = 'search', placeholder = 'Search...', value = '', autofocus = false } = Astro.props as Props;
+---
+
+<div class="search-wrap">
+    <label for={id} class="visually-hidden">Search</label>
+    <input id={id} type="search" placeholder={placeholder} value={value} autofocus={autofocus} />
+</div>
+
+<style>
+    .search-wrap {
+        display: flex;
+        position: sticky;
+        top: var(--nav-height);
+        z-index: 1;
+        background: var(--bg1a);
+    }
+
+    input[type='search'] {
+        flex: 1 1 auto;
+        backdrop-filter: blur(5px);
+        border: var(--muted) 3px solid;
+        border-radius: 6px;
+        background: var(--bg1a);
+        padding: 0.75rem;
+        color: var(--text);
+        accent-color: var(--accent);
+        font-size: 1.25rem;
+    }
+
+    input[type='search']:focus {
+        outline: none;
+        border-color: var(--accent);
+    }
+
+    input[type='search']::-webkit-search-cancel-button {
+        filter: sepia(100%) saturate(900%) hue-rotate(55deg);
+        padding-left: 0.3rem;
+    }
+
+    .visually-hidden {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        margin: -1px;
+        border: 0;
+        padding: 0;
+        white-space: nowrap;
+    }
+</style>

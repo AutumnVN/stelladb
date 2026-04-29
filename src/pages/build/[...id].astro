@@ -2,6 +2,7 @@
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
 import Tabs from '@/components/Tabs.astro';
+import SearchInput from '@/components/SearchInput.astro';
 import { packPotentialData, unpackPotentialData } from '@/scripts/potentialPack.js';
 
 export const prerender = false;
@@ -217,10 +218,7 @@ if (isValid) {
 ---
 
 <Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined}>
-    <div class="search-wrap">
-        <label for="search" class="visually-hidden">Search</label>
-        <input id="search" type="search" placeholder="Build preset id" value={id} autofocus />
-    </div>
+    <SearchInput value={id} placeholder="Build preset id" autofocus={true} />
 
     {isValid && <div id="preview" set:html={html} />}
 
@@ -230,15 +228,16 @@ if (isValid) {
 <script>
     // @ts-nocheck
     const input = document.querySelector('#search');
-
-    input.addEventListener('keypress', async (e) => {
-        if (e.key === 'Enter') {
-            const val = input.value.trim();
-            if (val) {
-                window.location.href = `/build/${val}`;
+    if (input) {
+        input.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter') {
+                const val = input.value.trim();
+                if (val) {
+                    window.location.href = `/build/${val}`;
+                }
             }
-        }
-    });
+        });
+    }
 </script>
 
 <style>
@@ -248,47 +247,6 @@ if (isValid) {
         font-weight: 600;
         font-style: normal;
         font-display: swap;
-    }
-    .search-wrap {
-        display: flex;
-        position: sticky;
-        top: var(--nav-height);
-        z-index: 1;
-        background: var(--bg1a);
-    }
-
-    input[type='search'] {
-        flex: 1 1 auto;
-        backdrop-filter: blur(5px);
-        border: var(--muted) 3px solid;
-        border-radius: 6px;
-        background: var(--bg1a);
-        padding: 0.75rem;
-        color: var(--text);
-        accent-color: var(--accent);
-        font-size: 1.25rem;
-    }
-
-    input[type='search']:focus {
-        outline: none;
-        border-color: var(--accent);
-    }
-
-    input[type='search']::-webkit-search-cancel-button {
-        filter: sepia(100%) saturate(900%) hue-rotate(55deg);
-        padding-left: 0.3rem;
-    }
-
-    .visually-hidden {
-        position: absolute !important;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(1px, 1px, 1px, 1px);
-        margin: -1px;
-        border: 0;
-        padding: 0;
-        white-space: nowrap;
     }
 
     #preview {

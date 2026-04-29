@@ -1,16 +1,14 @@
 ---
 interface Props {
-    id?: string;
     placeholder?: string;
     value?: string;
 }
 
-const { id = 'search', placeholder = 'Search...', value = '' } = Astro.props as Props;
+const { placeholder = 'Search...', value = '' } = Astro.props as Props;
 ---
 
 <div class="search-wrap">
-    <label for={id} class="visually-hidden">Search</label>
-    <input id={id} type="search" placeholder={placeholder} value={value} autofocus />
+    <input id="search" type="search" placeholder={placeholder} value={value} autofocus />
 </div>
 
 <style>
@@ -42,17 +40,5 @@ const { id = 'search', placeholder = 'Search...', value = '' } = Astro.props as 
                 padding-left: 0.3rem;
             }
         }
-    }
-
-    .visually-hidden {
-        position: absolute !important;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(1px, 1px, 1px, 1px);
-        margin: -1px;
-        border: 0;
-        padding: 0;
-        white-space: nowrap;
     }
 </style>

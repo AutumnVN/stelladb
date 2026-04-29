@@ -22,12 +22,9 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 <script>
     // @ts-nocheck
     (function () {
-        const root = document.querySelector('.searchable-grid');
-        if (!root) return;
-
-        const input = root.querySelector('input[type="search"]');
-        const grid = root.querySelector('.grid');
-        const noResults = root.querySelector('.no-results');
+        const input = document.querySelector('#search');
+        const grid = document.querySelector('.grid');
+        const noResults = document.querySelector('.no-results');
 
         const items = () => Array.from(grid.querySelectorAll('.card-item'));
 

@@ -9,7 +9,7 @@ import Layout from '@/layouts/Layout.astro';
             <p id="kv-text"></p>
         </div>
 
-        <img src="/" id="nazuna" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
+        <img src="/" class="nazuna" alt="Nazuna" title="Nazuna" width="320" height="320" onerror="this.src=`/nazuna${Math.ceil(Math.random()*16).toString().padStart(2,'0')}.gif`" />
 
         <div class="time-machine">
             <a href="https://stelladb.pages.dev/">latest</a>
@@ -65,7 +65,7 @@ import Layout from '@/layouts/Layout.astro';
         audio.currentTime = 0;
     });
 
-    document.querySelector('#nazuna').addEventListener('click', () => {
+    document.querySelector('.nazuna').addEventListener('click', () => {
         if (isPlaying) return;
         isPlaying = true;
         audio.currentTime = 0;

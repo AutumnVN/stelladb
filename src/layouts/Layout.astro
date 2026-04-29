@@ -38,6 +38,7 @@ const buildTime = new Date().toISOString();
         }
         <link rel="sitemap" href="/sitemap-index.xml" />
         <script
+            is:inline
             type="application/ld+json"
             set:html={JSON.stringify({
                 '@context': 'http://schema.org',
@@ -141,7 +142,7 @@ const buildTime = new Date().toISOString();
     let lastY = 0;
     let lastEl = null;
     document.addEventListener('mousemove', (e) => {
-        const el = e.target.closest && e.target.closest('.tooltip');
+        const el = e.target.closest('.tooltip');
         if (!el) return;
         lastX = e.pageX;
         lastY = e.pageY;

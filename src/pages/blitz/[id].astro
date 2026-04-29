@@ -50,7 +50,7 @@ if (!blitz) {
             <div class="left">
                 <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} alt={blitz.name} title={blitz.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
-                    <p>
+                    <p class="indent">
                         {`Type: ${blitz.type}`}<br />
                         {`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
                         {`Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}`}<br />
@@ -69,8 +69,8 @@ if (!blitz) {
 
                     <div class="stats">
                         <h2>Stats</h2>
-                        <p>Damage Per Score: {blitz.damagePerScore?.toLocaleString('en-US')}</p>
-                        <p>
+                        <p class="indent">Damage Per Score: {blitz.damagePerScore?.toLocaleString('en-US')}</p>
+                        <p class="indent">
                             {
                                 blitz.stat?.length &&
                                     Object.entries(blitz.stat[0]).map(([stat, value]) => (
@@ -93,9 +93,11 @@ if (!blitz) {
                                     <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" onerror="this.style.display='none'" />
                                     <h3>{mechanic.name}</h3>
                                 </div>
-                                <p>{mechanic.desc}</p>
-                                {!mechanic.effectType?.length ? null : <p class="small">Effect: {mechanic.effectType.join(', ')}</p>}
-                                {!mechanic.buffIcon?.length ? null : <p class="small">Buff: {mechanic.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                <div class="indent">
+                                    <p>{mechanic.desc}</p>
+                                    {!mechanic.effectType?.length ? null : <p class="small">Effect: {mechanic.effectType.join(', ')}</p>}
+                                    {!mechanic.buffIcon?.length ? null : <p class="small">Buff: {mechanic.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                </div>
                             </div>
                         ))
                     }
@@ -137,122 +139,112 @@ if (!blitz) {
     <style>
         .blitz-page {
             padding: 0 1rem;
-        }
 
-        .header {
-            display: flex;
-            position: sticky;
-            top: var(--nav-height);
-            align-items: center;
-            backdrop-filter: blur(5px);
-            margin: 0 auto;
-            background: var(--bg1a);
-            padding: 0 1rem;
-            max-width: 1000px;
-            height: var(--nav-height);
-        }
-
-        h1 {
-            margin: 0 1rem 0 0;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .content {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .left {
-            width: 256px;
-        }
-
-        .left img {
-            object-fit: cover;
-            object-position: top;
-        }
-
-        .left img {
-            object-fit: cover;
-            object-position: top;
-        }
-
-        @media (width < 800px) {
-            .content {
-                flex-direction: column;
-            }
-
-            .left {
+            .header {
                 display: flex;
-                width: 100%;
+                position: sticky;
+                top: var(--nav-height);
+                align-items: center;
+                backdrop-filter: blur(5px);
+                margin: 0 auto;
+                background: var(--bg1a);
+                padding: 0 1rem;
+                max-width: 1000px;
+                height: var(--nav-height);
             }
-        }
 
-        .right {
-            flex: 1;
-            min-width: 0;
-        }
+            h1 {
+                margin: 0 1rem 0 0;
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
 
-        .slider-container {
-            position: sticky;
-            top: calc(var(--nav-height) * 2);
-            backdrop-filter: blur(5px);
-            background: var(--bg1a);
-            padding: 1rem;
-        }
+            .content {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem;
 
-        .slider {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-        }
+                .left {
+                    width: 256px;
 
-        .slider label {
-            width: 16ch;
-        }
+                    img {
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                }
 
-        .slider input[type='range'] {
-            flex: 1;
-            width: 100%;
-            min-width: 0;
-            accent-color: var(--accent);
-        }
+                .right {
+                    flex: 1;
+                    min-width: 0;
+                }
+            }
 
-        .mechanic-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+            @media (width < 800px) {
+                .content {
+                    flex-direction: column;
+                }
 
-        div[class] > p,
-        div[class] > .item-image {
-            margin-left: 1rem;
-        }
+                .left {
+                    display: flex;
+                    width: 100% !important;
+                }
+            }
 
-        .small {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
+            .slider-container {
+                position: sticky;
+                top: calc(var(--nav-height) * 2);
+                backdrop-filter: blur(5px);
+                background: var(--bg1a);
+                padding: 1rem;
+            }
 
-        .small img {
-            vertical-align: middle;
-            object-fit: cover;
-            object-position: center;
-        }
+            .slider {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
 
-        h2 {
-            margin: 1rem 0;
-        }
+                label {
+                    width: 16ch;
+                }
 
-        h3 {
-            margin: 0.75rem 0;
-        }
+                input[type='range'] {
+                    flex: 1;
+                    width: 100%;
+                    min-width: 0;
+                    accent-color: var(--accent);
+                }
+            }
 
-        p {
-            margin: 0.25rem 0;
+            .mechanic-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .small {
+                margin: 0;
+                color: var(--muted);
+                font-size: 0.9rem;
+
+                img {
+                    vertical-align: middle;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
+
+            h2 {
+                margin: 1rem 0;
+            }
+
+            h3 {
+                margin: 0.75rem 0;
+            }
+
+            p {
+                margin: 0.25rem 0;
+            }
         }
     </style>
 </Layout>

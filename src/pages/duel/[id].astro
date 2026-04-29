@@ -50,7 +50,7 @@ if (!duel) {
             <div class="left">
                 <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} alt={duel.name} title={duel.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
-                    <p>
+                    <p class="indent">
                         {`Type: ${duel.type}`}<br />
                         {`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
                         {`Resist: ${duel.resistTo}${emoji[duel.resistTo]}`}<br />
@@ -69,7 +69,7 @@ if (!duel) {
 
                     <div class="stats">
                         <h2>Stats</h2>
-                        <p>
+                        <p class="indent">
                             {
                                 Object.entries(duel.stat).map(([stat, value]) => (
                                     <>
@@ -94,7 +94,7 @@ if (!duel) {
                                                 {mechanic.name} ({mechanic.diff})
                                             </h3>
                                         </div>
-                                        <p>{mechanic.desc}</p>
+                                        <p class="indent">{mechanic.desc}</p>
                                     </div>
                                 ))}
                             </div>
@@ -136,109 +136,104 @@ if (!duel) {
     <style>
         .duel-page {
             padding: 0 1rem;
-        }
 
-        .header {
-            display: flex;
-            position: sticky;
-            top: var(--nav-height);
-            align-items: center;
-            backdrop-filter: blur(5px);
-            margin: 0 auto;
-            background: var(--bg1a);
-            padding: 0 1rem;
-            max-width: 1000px;
-            height: var(--nav-height);
-        }
-
-        h1 {
-            margin: 0 1rem 0 0;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .content {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .left {
-            width: 256px;
-        }
-
-        .left img {
-            object-fit: cover;
-            object-position: top;
-        }
-
-        @media (width < 800px) {
-            .content {
-                flex-direction: column;
-            }
-
-            .left {
+            .header {
                 display: flex;
-                width: 100%;
+                position: sticky;
+                top: var(--nav-height);
+                align-items: center;
+                backdrop-filter: blur(5px);
+                margin: 0 auto;
+                background: var(--bg1a);
+                padding: 0 1rem;
+                max-width: 1000px;
+                height: var(--nav-height);
             }
-        }
 
-        .right {
-            flex: 1;
-            min-width: 0;
-        }
+            h1 {
+                margin: 0 1rem 0 0;
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
 
-        .slider-container {
-            position: sticky;
-            top: calc(var(--nav-height) * 2);
-            backdrop-filter: blur(5px);
-            background: var(--bg1a);
-            padding: 1rem;
-        }
+            .content {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem;
 
-        .slider {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-        }
+                .left {
+                    width: 256px;
 
-        .slider label {
-            width: 16ch;
-        }
+                    img {
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                }
 
-        .slider input[type='range'] {
-            flex: 1;
-            width: 100%;
-            min-width: 0;
-            accent-color: var(--accent);
-        }
+                .right {
+                    flex: 1;
+                    min-width: 0;
+                }
+            }
 
-        .mechanic-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        }
+            @media (width < 800px) {
+                .content {
+                    flex-direction: column;
+                }
 
-        .mechanic-header {
-            display: flex;
-            align-items: center;
-        }
+                .left {
+                    display: flex;
+                    width: 100% !important;
+                }
+            }
 
-        div[class] > p,
-        div[class] > .item-image {
-            margin-left: 1rem;
-        }
+            .slider-container {
+                position: sticky;
+                top: calc(var(--nav-height) * 2);
+                backdrop-filter: blur(5px);
+                background: var(--bg1a);
+                padding: 1rem;
+            }
 
-        h2 {
-            margin: 1rem 0;
-        }
+            .slider {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
 
-        h3 {
-            margin: 0.75rem 0;
-        }
+                label {
+                    width: 16ch;
+                }
 
-        p {
-            margin: 0.25rem 0;
+                input[type='range'] {
+                    flex: 1;
+                    width: 100%;
+                    min-width: 0;
+                    accent-color: var(--accent);
+                }
+            }
+
+            .mechanic-group {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .mechanic-header {
+                display: flex;
+                align-items: center;
+            }
+
+            h2 {
+                margin: 1rem 0;
+            }
+
+            h3 {
+                margin: 0.75rem 0;
+            }
+
+            p {
+                margin: 0.25rem 0;
+            }
         }
     </style>
 </Layout>

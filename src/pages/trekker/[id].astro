@@ -89,14 +89,14 @@ if (!char) {
                 <div class="info">
                     {
                         /^\d/.test(char.name) && (
-                            <p>
+                            <p class="indent">
                                 unreleased character <br />
                                 their kit is unfinished and can be changed a lot on release <br />
                                 do not blindly trust it yet <br />
                             </p>
                         )
                     }
-                    <p>
+                    <p class="indent">
                         {`${char.star}⭐`}<br />
                         {char.element}{emoji[char.element]}<br />
                         {char.class}{emoji[char.attackType]}<br />
@@ -131,46 +131,59 @@ if (!char) {
 
                     <div class="stats">
                         <h2>Stats</h2>
-                        <p>
-                            {
-                                char.stat.length &&
-                                    Object.entries(char.stat[97]).map(([stat, value]) => (
+                        <div class="indent">
+                            <p>
+                                {
+                                    char.stat.length &&
+                                        Object.entries(char.stat[97]).map(([stat, value]) => (
+                                            <>
+                                                {stat}: {value.toLocaleString('en-US')}
+                                                <br />
+                                            </>
+                                        ))
+                                }
+                            </p>
+                            <p>
+                                {
+                                    Object.entries(char.fixedStat).map(([stat, value]) => (
                                         <>
                                             {stat}: {value.toLocaleString('en-US')}
                                             <br />
                                         </>
                                     ))
-                            }
-                        </p>
-                        <p>
-                            {
-                                Object.entries(char.fixedStat).map(([stat, value]) => (
-                                    <>
-                                        {stat}: {value.toLocaleString('en-US')}
-                                        <br />
-                                    </>
-                                ))
-                            }
-                        </p>
+                                }
+                            </p>
+                        </div>
                     </div>
 
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
-                        <label class="cumulative checkbox"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
-                        <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
-                        <div class="item-image"></div>
-                        <p>
-                            Max upgrade reached<br />
-                            {
-                                char.upgrade.length &&
-                                    Object.entries(char.upgrade[7]).map(([item, amount]) => (
-                                        <>
-                                            {item}: {amount.toLocaleString('en-US')}
-                                            <br />
-                                        </>
-                                    ))
-                            }
-                        </p>
+                        <div class="indent">
+                            <label class="cumulative checkbox"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
+                            <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
+                            <div class="item-image">
+                                {
+                                    char.upgrade.length &&
+                                        Object.entries(char.upgrade[7]).map(([itemName]) => (
+                                            <div style={`background: url('/${Object.values(itemData).find((it) => it.name === itemName).rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
+                                                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${Object.values(itemData).find((it) => it.name === itemName).id}.webp`} alt={itemName} title={itemName} width="52" height="52" />
+                                            </div>
+                                        ))
+                                }
+                            </div>
+                            <p>
+                                Max upgrade reached<br />
+                                {
+                                    char.upgrade.length &&
+                                        Object.entries(char.upgrade[7]).map(([item, amount]) => (
+                                            <>
+                                                {item}: {amount.toLocaleString('en-US')}
+                                                <br />
+                                            </>
+                                        ))
+                                }
+                            </p>
+                        </div>
                     </div>
                 </section>
 
@@ -195,7 +208,7 @@ if (!char) {
                         </nav>
                     </div>
 
-                    {!char.normalAtk && !char.skill && !char.supportSkill && !char.ultimate && <p>No data available</p>}
+                    {!char.normalAtk && !char.skill && !char.supportSkill && !char.ultimate && <p class="indent">No data available</p>}
 
                     {
                         char.normalAtk && (
@@ -207,34 +220,36 @@ if (!char) {
                                         <div>Energy Limit: {char.normalAtk.energyLimit}</div>
                                     </div>
                                 </div>
-                                <p>{char.normalAtk.desc}</p>
-                                {!char.normalAtk.damageType.length ? null : (
-                                    <p class="small">
-                                        Damage:{' '}
-                                        {char.normalAtk.damageType.map((dt) => (
-                                            <>
-                                                {dt}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </p>
-                                )}
-                                {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
-                                {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
-                                {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                {!char.normalAtk.effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {char.normalAtk.effectData.map((data) => (
+                                <div class="indent">
+                                    <p>{char.normalAtk.desc}</p>
+                                    {!char.normalAtk.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {char.normalAtk.damageType.map((dt) => (
                                                 <>
-                                                    {data}
+                                                    {dt}
                                                     <br />
                                                 </>
                                             ))}
-                                        </div>
-                                    </span>
-                                )}
+                                        </p>
+                                    )}
+                                    {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
+                                    {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
+                                    {!char.normalAtk.buffIcon.length ? null : <p class="small">Buff: {char.normalAtk.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!char.normalAtk.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {char.normalAtk.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         )
                     }
@@ -251,33 +266,35 @@ if (!char) {
                                         </div>
                                     </div>
                                 </div>
-                                <p>{char.skill.desc}</p>
-                                {!char.skill.damageType.length ? null : (
-                                    <p class="small">
-                                        Damage:{' '}
-                                        {char.skill.damageType.map((dt) => (
-                                            <>
-                                                {dt} <br />
-                                            </>
-                                        ))}
-                                    </p>
-                                )}
-                                {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
-                                {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
-                                {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                {!char.skill.effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {char.skill.effectData.map((data) => (
+                                <div class="indent">
+                                    <p>{char.skill.desc}</p>
+                                    {!char.skill.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {char.skill.damageType.map((dt) => (
                                                 <>
-                                                    {data}
-                                                    <br />
+                                                    {dt} <br />
                                                 </>
                                             ))}
-                                        </div>
-                                    </span>
-                                )}
+                                        </p>
+                                    )}
+                                    {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
+                                    {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
+                                    {!char.skill.buffIcon.length ? null : <p class="small">Buff: {char.skill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!char.skill.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {char.skill.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         )
                     }
@@ -292,34 +309,36 @@ if (!char) {
                                         <div>Cooldown: {char.supportSkill.cooldown}</div>
                                     </div>
                                 </div>
-                                <p>{char.supportSkill.desc}</p>
-                                {!char.supportSkill.damageType.length ? null : (
-                                    <p class="small">
-                                        Damage:{' '}
-                                        {char.supportSkill.damageType.map((dt) => (
-                                            <>
-                                                {dt}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </p>
-                                )}
-                                {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
-                                {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
-                                {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                {!char.supportSkill.effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {char.supportSkill.effectData.map((data) => (
+                                <div class="indent">
+                                    <p>{char.supportSkill.desc}</p>
+                                    {!char.supportSkill.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {char.supportSkill.damageType.map((dt) => (
                                                 <>
-                                                    {data}
+                                                    {dt}
                                                     <br />
                                                 </>
                                             ))}
-                                        </div>
-                                    </span>
-                                )}
+                                        </p>
+                                    )}
+                                    {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
+                                    {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
+                                    {!char.supportSkill.buffIcon.length ? null : <p class="small">Buff: {char.supportSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!char.supportSkill.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {char.supportSkill.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         )
                     }
@@ -336,34 +355,36 @@ if (!char) {
                                         </div>
                                     </div>
                                 </div>
-                                <p>{char.ultimate.desc}</p>
-                                {!char.ultimate.damageType.length ? null : (
-                                    <p class="small">
-                                        Damage:{' '}
-                                        {char.ultimate.damageType.map((dt) => (
-                                            <>
-                                                {dt}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </p>
-                                )}
-                                {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
-                                {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
-                                {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                {!char.ultimate.effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {char.ultimate.effectData.map((data) => (
+                                <div class="indent">
+                                    <p>{char.ultimate.desc}</p>
+                                    {!char.ultimate.damageType.length ? null : (
+                                        <p class="small">
+                                            Damage:{' '}
+                                            {char.ultimate.damageType.map((dt) => (
                                                 <>
-                                                    {data}
+                                                    {dt}
                                                     <br />
                                                 </>
                                             ))}
-                                        </div>
-                                    </span>
-                                )}
+                                        </p>
+                                    )}
+                                    {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
+                                    {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
+                                    {!char.ultimate.buffIcon.length ? null : <p class="small">Buff: {char.ultimate.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!char.ultimate.effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {char.ultimate.effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         )
                     }
@@ -372,30 +393,43 @@ if (!char) {
                         char.special && (
                             <div class="special">
                                 <h2>Special: {char.special.name}</h2>
-                                <p>Type: {char.special.type}</p>
-                                <p>Params: {char.special.params}</p>
-                                <p class="small">Damage: {char.special.damageType}</p>
+                                <div class="indent">
+                                    <p>Type: {char.special.type}</p>
+                                    <p>Params: {char.special.params}</p>
+                                    <p class="small">Damage: {char.special.damageType}</p>
+                                </div>
                             </div>
                         )
                     }
 
                     <div class="skill-upgrade-cost">
                         <h2>Next skill upgrade cost</h2>
-                        <label class="cumulative checkbox"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
-                        <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-skill" /> Convert to Tier 1</label>
-                        <div class="item-image"></div>
-                        <p>
-                            Max upgrade reached<br />
-                            {
-                                char.skillUpgrade.length &&
-                                    Object.entries(char.skillUpgrade[8]).map(([item, amount]) => (
-                                        <>
-                                            {item}: {amount.toLocaleString('en-US')}
-                                            <br />
-                                        </>
-                                    ))
-                            }
-                        </p>
+                        <div class="indent">
+                            <label class="cumulative checkbox"><input type="checkbox" id="cumulative-skill" /> Cumulative</label>
+                            <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-skill" /> Convert to Tier 1</label>
+                            <div class="item-image">
+                                {
+                                    char.skillUpgrade.length &&
+                                        Object.entries(char.skillUpgrade[8]).map(([itemName]) => (
+                                            <div style={`background: url('/${Object.values(itemData).find((it) => it.name === itemName).rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
+                                                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${Object.values(itemData).find((it) => it.name === itemName).id}.webp`} alt={itemName} title={itemName} width="52" height="52" />
+                                            </div>
+                                        ))
+                                }
+                            </div>
+                            <p>
+                                Max upgrade reached<br />
+                                {
+                                    char.skillUpgrade.length &&
+                                        Object.entries(char.skillUpgrade[8]).map(([item, amount]) => (
+                                            <>
+                                                {item}: {amount.toLocaleString('en-US')}
+                                                <br />
+                                            </>
+                                        ))
+                                }
+                            </p>
+                        </div>
                     </div>
                 </section>
 
@@ -430,34 +464,36 @@ if (!char) {
                                         <h3>
                                             {pot.id % 100}. {pot.name}
                                         </h3>
-                                        <p>{pot.desc}</p>
-                                        {!pot.damageType.length ? null : (
-                                            <p class="small">
-                                                Damage:{' '}
-                                                {pot.damageType.map((dt) => (
-                                                    <>
-                                                        {dt}
-                                                        <br />
-                                                    </>
-                                                ))}
-                                            </p>
-                                        )}
-                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                        {!pot.effectData.length ? null : (
-                                            <span class="tooltip small">
-                                                hover this for effect data
-                                                <div class="tooltip-text">
-                                                    {pot.effectData.map((data) => (
+                                        <div class="indent">
+                                            <p>{pot.desc}</p>
+                                            {!pot.damageType.length ? null : (
+                                                <p class="small">
+                                                    Damage:{' '}
+                                                    {pot.damageType.map((dt) => (
                                                         <>
-                                                            {data}
+                                                            {dt}
                                                             <br />
                                                         </>
                                                     ))}
-                                                </div>
-                                            </span>
-                                        )}
+                                                </p>
+                                            )}
+                                            {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                            {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                            {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                            {!pot.effectData.length ? null : (
+                                                <span class="tooltip small">
+                                                    hover this for effect data
+                                                    <div class="tooltip-text">
+                                                        {pot.effectData.map((data) => (
+                                                            <>
+                                                                {data}
+                                                                <br />
+                                                            </>
+                                                        ))}
+                                                    </div>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -472,34 +508,36 @@ if (!char) {
                                         <h3>
                                             {pot.id % 100}. {pot.name}
                                         </h3>
-                                        <p>{pot.desc}</p>
-                                        {!pot.damageType.length ? null : (
-                                            <p class="small">
-                                                Damage:{' '}
-                                                {pot.damageType.map((dt) => (
-                                                    <>
-                                                        {dt}
-                                                        <br />
-                                                    </>
-                                                ))}
-                                            </p>
-                                        )}
-                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                        {!pot.effectData.length ? null : (
-                                            <span class="tooltip small">
-                                                hover this for effect data
-                                                <div class="tooltip-text">
-                                                    {pot.effectData.map((data) => (
+                                        <div class="indent">
+                                            <p>{pot.desc}</p>
+                                            {!pot.damageType.length ? null : (
+                                                <p class="small">
+                                                    Damage:{' '}
+                                                    {pot.damageType.map((dt) => (
                                                         <>
-                                                            {data}
+                                                            {dt}
                                                             <br />
                                                         </>
                                                     ))}
-                                                </div>
-                                            </span>
-                                        )}
+                                                </p>
+                                            )}
+                                            {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                            {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                            {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                            {!pot.effectData.length ? null : (
+                                                <span class="tooltip small">
+                                                    hover this for effect data
+                                                    <div class="tooltip-text">
+                                                        {pot.effectData.map((data) => (
+                                                            <>
+                                                                {data}
+                                                                <br />
+                                                            </>
+                                                        ))}
+                                                    </div>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -514,34 +552,36 @@ if (!char) {
                                         <h3>
                                             {pot.id % 100}. {pot.name}
                                         </h3>
-                                        <p>{pot.desc}</p>
-                                        {!pot.damageType.length ? null : (
-                                            <p class="small">
-                                                Damage:{' '}
-                                                {pot.damageType.map((dt) => (
-                                                    <>
-                                                        {dt}
-                                                        <br />
-                                                    </>
-                                                ))}
-                                            </p>
-                                        )}
-                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                        {!pot.effectData.length ? null : (
-                                            <span class="tooltip small">
-                                                hover this for effect data
-                                                <div class="tooltip-text">
-                                                    {pot.effectData.map((data) => (
+                                        <div class="indent">
+                                            <p>{pot.desc}</p>
+                                            {!pot.damageType.length ? null : (
+                                                <p class="small">
+                                                    Damage:{' '}
+                                                    {pot.damageType.map((dt) => (
                                                         <>
-                                                            {data}
+                                                            {dt}
                                                             <br />
                                                         </>
                                                     ))}
-                                                </div>
-                                            </span>
-                                        )}
+                                                </p>
+                                            )}
+                                            {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                            {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                            {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                            {!pot.effectData.length ? null : (
+                                                <span class="tooltip small">
+                                                    hover this for effect data
+                                                    <div class="tooltip-text">
+                                                        {pot.effectData.map((data) => (
+                                                            <>
+                                                                {data}
+                                                                <br />
+                                                            </>
+                                                        ))}
+                                                    </div>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -556,34 +596,36 @@ if (!char) {
                                         <h3>
                                             {pot.id % 100}. {pot.name}
                                         </h3>
-                                        <p>{pot.desc}</p>
-                                        {!pot.damageType.length ? null : (
-                                            <p class="small">
-                                                Damage:{' '}
-                                                {pot.damageType.map((dt) => (
-                                                    <>
-                                                        {dt}
-                                                        <br />
-                                                    </>
-                                                ))}
-                                            </p>
-                                        )}
-                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                        {!pot.effectData.length ? null : (
-                                            <span class="tooltip small">
-                                                hover this for effect data
-                                                <div class="tooltip-text">
-                                                    {pot.effectData.map((data) => (
+                                        <div class="indent">
+                                            <p>{pot.desc}</p>
+                                            {!pot.damageType.length ? null : (
+                                                <p class="small">
+                                                    Damage:{' '}
+                                                    {pot.damageType.map((dt) => (
                                                         <>
-                                                            {data}
+                                                            {dt}
                                                             <br />
                                                         </>
                                                     ))}
-                                                </div>
-                                            </span>
-                                        )}
+                                                </p>
+                                            )}
+                                            {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                            {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                            {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                            {!pot.effectData.length ? null : (
+                                                <span class="tooltip small">
+                                                    hover this for effect data
+                                                    <div class="tooltip-text">
+                                                        {pot.effectData.map((data) => (
+                                                            <>
+                                                                {data}
+                                                                <br />
+                                                            </>
+                                                        ))}
+                                                    </div>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -598,34 +640,36 @@ if (!char) {
                                         <h3>
                                             {pot.id % 100}. {pot.name}
                                         </h3>
-                                        <p>{pot.desc}</p>
-                                        {!pot.damageType.length ? null : (
-                                            <p class="small">
-                                                Damage:{' '}
-                                                {pot.damageType.map((dt) => (
-                                                    <>
-                                                        {dt}
-                                                        <br />
-                                                    </>
-                                                ))}
-                                            </p>
-                                        )}
-                                        {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
-                                        {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                        {!pot.effectData.length ? null : (
-                                            <span class="tooltip small">
-                                                hover this for effect data
-                                                <div class="tooltip-text">
-                                                    {pot.effectData.map((data) => (
+                                        <div class="indent">
+                                            <p>{pot.desc}</p>
+                                            {!pot.damageType.length ? null : (
+                                                <p class="small">
+                                                    Damage:{' '}
+                                                    {pot.damageType.map((dt) => (
                                                         <>
-                                                            {data}
+                                                            {dt}
                                                             <br />
                                                         </>
                                                     ))}
-                                                </div>
-                                            </span>
-                                        )}
+                                                </p>
+                                            )}
+                                            {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
+                                            {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
+                                            {!pot.buffIcon.length ? null : <p class="small">Buff: {pot.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                            {!pot.effectData.length ? null : (
+                                                <span class="tooltip small">
+                                                    hover this for effect data
+                                                    <div class="tooltip-text">
+                                                        {pot.effectData.map((data) => (
+                                                            <>
+                                                                {data}
+                                                                <br />
+                                                            </>
+                                                        ))}
+                                                    </div>
+                                                </span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))
@@ -648,30 +692,32 @@ if (!char) {
                                 <h2>
                                     {index + 1}. {talent.name}
                                 </h2>
-                                <p>{talent.boost[0].desc}</p>
-                                {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
-                                {!talent.boost[0].addAttrType.length ? null : <p class="small">AddAttr: {talent.boost[0].addAttrType.join(', ')}</p>}
-                                {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                {!talent.boost[0].effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {talent.boost[0].effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </div>
-                                    </span>
-                                )}
+                                <div class="indent">
+                                    <p>{talent.boost[0].desc}</p>
+                                    {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
+                                    {!talent.boost[0].addAttrType.length ? null : <p class="small">AddAttr: {talent.boost[0].addAttrType.join(', ')}</p>}
+                                    {!talent.boost[0].buffIcon.length ? null : <p class="small">Buff: {talent.boost[0].buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!talent.boost[0].effectData.length ? null : (
+                                        <span class="tooltip small">
+                                            hover this for effect data
+                                            <div class="tooltip-text">
+                                                {talent.boost[0].effectData.map((data) => (
+                                                    <>
+                                                        {data}
+                                                        <br />
+                                                    </>
+                                                ))}
+                                            </div>
+                                        </span>
+                                    )}
+                                </div>
                             </div>
                         ))
                     }
 
                     <div class="talent-bonus-stat">
                         <h2>Bonus stats for each activated talent</h2>
-                        <p>
+                        <p class="indent">
                             {
                                 char.talent[0].boost.slice(1).map((boost) => (
                                     <>
@@ -687,7 +733,7 @@ if (!char) {
                         itemData[`${id}0`] && (
                             <div class="soul-key">
                                 <h2>Soul key flavor text</h2>
-                                <p>
+                                <p class="indent">
                                     {itemData[`${id}0`].literary.split('\u000b').map((line) => (
                                         <>
                                             {line}
@@ -703,32 +749,48 @@ if (!char) {
                 <section id="gifts" class="tab-panel" hidden>
                     <div class="love-gift">
                         <h2>Love gift</h2>
-                        <div class="item-image"></div>
-                        <p>
+                        <div class="indent">
                             {
-                                char.loveGift.map((gift) => (
-                                    <>
-                                        {gift}
-                                        <br />
-                                    </>
+                                char.loveGift.map((giftName) => (
+                                    <div style={`background: url('/${Object.values(itemData).find((it) => it.name === giftName).rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
+                                        <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${Object.values(itemData).find((it) => it.name === giftName).id}.webp`} alt={giftName} title={giftName} width="52" height="52" />
+                                    </div>
                                 ))
                             }
-                        </p>
+                            <p>
+                                {
+                                    char.loveGift.map((gift) => (
+                                        <>
+                                            {gift}
+                                            <br />
+                                        </>
+                                    ))
+                                }
+                            </p>
+                        </div>
                     </div>
 
                     <div class="hate-gift">
                         <h2>Hate gift</h2>
-                        <div class="item-image"></div>
-                        <p>
+                        <div class="indent" <div class="item-image">
                             {
-                                char.hateGift.map((gift) => (
-                                    <>
-                                        {gift}
-                                        <br />
-                                    </>
+                                char.hateGift.map((giftName) => (
+                                    <div style={`background: url('/${Object.values(itemData).find((it) => it.name === giftName).rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
+                                        <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${Object.values(itemData).find((it) => it.name === giftName).id}.webp`} alt={giftName} title={giftName} width="52" height="52" />
+                                    </div>
                                 ))
                             }
-                        </p>
+                            <p>
+                                {
+                                    char.hateGift.map((gift) => (
+                                        <>
+                                            {gift}
+                                            <br />
+                                        </>
+                                    ))
+                                }
+                            </p>
+                        </div>
                     </div>
                 </section>
 
@@ -740,10 +802,15 @@ if (!char) {
                     {
                         char.date.map((date) => (
                             <div class="date">
-                                <h2>{date.name}</h2>
-                                <div class="item-image" />
-                                <p>{date.clue}</p>
-                                <p>Choice: {date.secondChoice}</p>
+                                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/datingeventcg/DatingSPCG_${date.id}.webp`} alt={date.name} title={date.name} width="128" height="128" />
+                                <div>
+                                    <h2>{date.name}</h2>
+                                    <p>
+                                        {date.clue.replace(/(Visit the | to unlock)/g, '')}
+                                        <br />
+                                        {date.secondChoice}
+                                    </p>
+                                </div>
                             </div>
                         ))
                     }
@@ -1196,200 +1263,194 @@ if (!char) {
 
         talentBonusStat.innerHTML = bonusStatResult;
 
-        const loveGiftItemImage = document.querySelector('.love-gift .item-image');
-        const hateGiftItemImage = document.querySelector('.hate-gift .item-image');
-
-        loveGiftItemImage.innerHTML = `${char.loveGift.map((gift) => itemNameToImage(gift)).join('')}`;
-        hateGiftItemImage.innerHTML = `${char.hateGift.map((gift) => itemNameToImage(gift)).join('')}`;
-
-        const dateItemImages = document.querySelectorAll('.date .item-image');
-        dateItemImages.forEach((e, i) => {
-            const date = char.date[i];
-            e.innerHTML = `<img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/datingeventcg/DatingSPCG_${date.id}.webp" alt="${date.name}" title="${date.name}" width="128" height="128" />`;
-        });
+        // gift/date images are rendered server-side in the template
     </script>
 
     <style>
         .character-page {
             padding: 0 1rem;
-        }
 
-        .header {
-            display: flex;
-            position: sticky;
-            top: var(--nav-height);
-            align-items: center;
-            backdrop-filter: blur(5px);
-            margin: 0 auto;
-            background: var(--bg1a);
-            padding: 0 1rem;
-            max-width: 1000px;
-            height: var(--nav-height);
-        }
-
-        h1 {
-            margin: 0 1rem 0 0;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .content {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .left {
-            width: 256px;
-        }
-
-        .left img {
-            object-fit: cover;
-            object-position: top;
-        }
-
-        @media (width < 800px) {
-            .content {
-                flex-direction: column;
-            }
-
-            .left {
+            .header {
                 display: flex;
-                width: 100%;
+                position: sticky;
+                top: var(--nav-height);
+                align-items: center;
+                backdrop-filter: blur(5px);
+                margin: 0 auto;
+                background: var(--bg1a);
+                padding: 0 1rem;
+                max-width: 1000px;
+                height: var(--nav-height);
             }
-        }
 
-        .wiki {
-            display: inline-block;
-            margin: 0.5rem;
-            padding: 0.5rem;
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: none;
-        }
+            h1 {
+                margin: 0 1rem 0 0;
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
 
-        .right {
-            flex: 1;
-            min-width: 0;
-        }
+            .content {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem;
 
-        .slider-container {
-            position: sticky;
-            top: calc(var(--nav-height) * 2);
-            backdrop-filter: blur(5px);
-            background: var(--bg1a);
-            padding: 1rem;
-        }
+                .left {
+                    width: 256px;
 
-        .slider {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-        }
+                    img {
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                }
 
-        .slider label {
-            margin: 0;
-            width: 16ch;
-        }
+                .right {
+                    flex: 1;
+                    min-width: 0;
+                }
+            }
 
-        .slider input[type='range'] {
-            flex: 1;
-            width: 100%;
-            min-width: 0;
-            accent-color: var(--accent);
-        }
+            @media (width < 800px) {
+                .content {
+                    flex-direction: column;
+                }
 
-        .skill-header,
-        .potential-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-left: 1rem;
-        }
+                .left {
+                    display: flex;
+                    width: 100% !important;
+                }
+            }
 
-        .skill-header h2 {
-            margin: 0;
-        }
+            .wiki {
+                display: inline-block;
+                margin: 0.5rem;
+                padding: 0.5rem;
+                color: var(--accent);
+                font-weight: 600;
+                text-decoration: none;
+            }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+            .slider-container {
+                position: sticky;
+                top: calc(var(--nav-height) * 2);
+                backdrop-filter: blur(5px);
+                background: var(--bg1a);
+                padding: 1rem;
+            }
 
-        label input {
-            width: 1rem;
-            height: 1rem;
-            accent-color: var(--accent);
-        }
+            .slider {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
 
-        .potential {
-            margin-left: 1rem;
-        }
+                label {
+                    margin: 0;
+                    width: 16ch;
+                }
 
-        .potential-wrapper > img {
-            margin: 10px 0;
-        }
+                input[type='range'] {
+                    flex: 1;
+                    width: 100%;
+                    min-width: 0;
+                    accent-color: var(--accent);
+                }
+            }
 
-        div[class] > p,
-        div[class] > .checkbox,
-        div[class] > .item-image {
-            margin-left: 1rem;
-        }
+            .skill-header,
+            .potential-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
 
-        .small {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
+            .skill-header h2 {
+                margin: 0;
+            }
 
-        .small img {
-            vertical-align: middle;
-            object-fit: cover;
-            object-position: center;
-        }
+            label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
 
-        .langtabs-wrapper {
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 1rem;
-        }
+            label input {
+                width: 1rem;
+                height: 1rem;
+                accent-color: var(--accent);
+            }
 
-        .langtabs {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+            .potential {
+                margin-left: 1rem;
+            }
 
-        .langtab {
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            padding: 0.5rem;
-            color: var(--muted);
-            font-size: 1rem;
-        }
+            .potential-wrapper > img {
+                margin: 10px 0;
+            }
 
-        .langtab:hover {
-            color: var(--text);
-        }
+            .small {
+                margin: 0;
+                color: var(--muted);
+                font-size: 0.9rem;
+            }
 
-        .langtab.active {
-            color: var(--text);
-            font-weight: 700;
-        }
+            .small img {
+                vertical-align: middle;
+                object-fit: cover;
+                object-position: center;
+            }
 
-        h2 {
-            margin: 1rem 0;
-        }
+            .langtabs-wrapper {
+                display: flex;
+                justify-content: flex-end;
+                padding: 0 1rem;
+            }
 
-        h3 {
-            margin: 0.75rem 0;
-        }
+            .langtabs {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
 
-        p {
-            margin: 0.5rem 0;
+            .langtab {
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                padding: 0.5rem;
+                color: var(--muted);
+                font-size: 1rem;
+            }
+
+            .langtab:hover {
+                color: var(--text);
+            }
+
+            .langtab.active {
+                color: var(--text);
+                font-weight: 700;
+            }
+
+            .date {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin: 1rem 0;
+
+                h2 {
+                    margin: 0;
+                }
+            }
+
+            h2 {
+                margin: 1rem 0;
+            }
+
+            h3 {
+                margin: 0.75rem 0;
+            }
+
+            p {
+                margin: 0.5rem 0;
+            }
         }
     </style>
 </Layout>

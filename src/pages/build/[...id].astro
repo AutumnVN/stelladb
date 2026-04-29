@@ -218,7 +218,7 @@ if (isValid) {
 ---
 
 <Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined}>
-    <SearchInput value={id} placeholder="Build preset id" autofocus={true} />
+    <SearchInput value={id} placeholder="Build preset id" />
 
     {isValid && <div id="preview" set:html={html} />}
 
@@ -242,10 +242,10 @@ if (isValid) {
 
 <style>
     @font-face {
-        font-family: 'MiSansLatin-Semibold';
-        src: url('/MiSansLatin-Semibold.woff2') format('woff2');
-        font-weight: 600;
         font-style: normal;
+        font-weight: 600;
+        src: url('/MiSansLatin-Semibold.woff2') format('woff2');
+        font-family: 'MiSansLatin-Semibold';
         font-display: swap;
     }
 

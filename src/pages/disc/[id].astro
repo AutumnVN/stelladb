@@ -70,7 +70,7 @@ if (!disc) {
             <div class="left">
                 <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp`} alt={disc.name} title={disc.name} width="256" height="256" onerror="this.style.display='none'" />
                 <div class="info">
-                    <p>
+                    <p class="indent">
                         {`${disc.star}⭐`}<br />
                         {disc.element}{emoji[disc.element]}<br />
                         {
@@ -115,7 +115,7 @@ if (!disc) {
 
                     <div class="stats">
                         <h2>Stats</h2>
-                        <p>
+                        <p class="indent">
                             {
                                 Object.entries(disc.stat[97]).map(([stat, value]) => (
                                     <>
@@ -129,20 +129,22 @@ if (!disc) {
 
                     <div class="upgrade-cost">
                         <h2>Next upgrade cost</h2>
-                        <label class="cumulative checkbox"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
-                        <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
-                        <div class="item-image"></div>
-                        <p>
-                            Max upgrade reached<br />
-                            {
-                                Object.entries(disc.upgrade[7]).map(([item, amount]) => (
-                                    <>
-                                        {`${item}: ${amount.toLocaleString('en-US')}`}
-                                        <br />
-                                    </>
-                                ))
-                            }
-                        </p>
+                        <div class="indent">
+                            <label class="cumulative checkbox"><input type="checkbox" id="cumulative-upgrade" /> Cumulative</label>
+                            <label class="convert-to-tier-1 checkbox"><input type="checkbox" id="convert-to-tier-1-upgrade" /> Convert to Tier 1</label>
+                            <div class="item-image"></div>
+                            <p>
+                                Max upgrade reached<br />
+                                {
+                                    Object.entries(disc.upgrade[7]).map(([item, amount]) => (
+                                        <>
+                                            {`${item}: ${amount.toLocaleString('en-US')}`}
+                                            <br />
+                                        </>
+                                    ))
+                                }
+                            </p>
+                        </div>
                     </div>
                 </section>
 
@@ -170,25 +172,27 @@ if (!disc) {
                             </div>
                             <h2>{disc.mainSkill.name}</h2>
                         </div>
-                        <p>{disc.mainSkill.description}</p>
-                        {!disc.mainSkill.effectType.length ? null : <p class="small">Effect: {disc.mainSkill.effectType.join(', ')}</p>}
-                        {!disc.mainSkill.addAttrType.length ? null : <p class="small">AddAttr: {disc.mainSkill.addAttrType.join(', ')}</p>}
-                        {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                        {
-                            !disc.mainSkill.effectData.length ? null : (
-                                <span class="tooltip small">
-                                    hover this for effect data
-                                    <div class="tooltip-text">
-                                        {disc.mainSkill.effectData.map((data) => (
-                                            <>
-                                                {data}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </div>
-                                </span>
-                            )
-                        }
+                        <div class="indent">
+                            <p>{disc.mainSkill.description}</p>
+                            {!disc.mainSkill.effectType.length ? null : <p class="small">Effect: {disc.mainSkill.effectType.join(', ')}</p>}
+                            {!disc.mainSkill.addAttrType.length ? null : <p class="small">AddAttr: {disc.mainSkill.addAttrType.join(', ')}</p>}
+                            {!disc.mainSkill.buffIcon.length ? null : <p class="small">Buff: {disc.mainSkill.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                            {
+                                !disc.mainSkill.effectData.length ? null : (
+                                    <span class="tooltip small">
+                                        hover this for effect data
+                                        <div class="tooltip-text">
+                                            {disc.mainSkill.effectData.map((data) => (
+                                                <>
+                                                    {data}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </div>
+                                    </span>
+                                )
+                            }
+                        </div>
                     </div>
                 </section>
 
@@ -226,51 +230,16 @@ if (!disc) {
                                     </div>
                                     <h2>{disc.secondarySkill1.name}</h2>
                                 </div>
-                                <p>{disc.secondarySkill1.description}</p>
-                                {!disc.secondarySkill1.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill1.effectType.join(', ')}</p>}
-                                {!disc.secondarySkill1.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill1.addAttrType.join(', ')}</p>}
-                                {!disc.secondarySkill1.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill1.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                {!disc.secondarySkill1.effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {disc.secondarySkill1.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </div>
-                                    </span>
-                                )}
-                                <div class="item-image" />
-                                <p class="requirements">
-                                    {Object.entries(disc.secondarySkill1.requirements[0]).map(([note, amount]) => (
-                                        <>
-                                            {note}: {amount}
-                                            <br />
-                                        </>
-                                    ))}
-                                </p>
-                            </div>
-
-                            {disc.secondarySkill2 && (
-                                <div class="harmony2">
-                                    <div class="skill-header">
-                                        <div class="skill-image" style={`background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill2.iconBg}.webp') center/cover no-repeat;`}>
-                                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill2.icon}.webp`} alt={disc.secondarySkill2.name} title={disc.secondarySkill2.name} width="64" height="64" onerror="this.style.display='none'" />
-                                        </div>
-                                        <h2>{disc.secondarySkill2.name}</h2>
-                                    </div>
-                                    <p>{disc.secondarySkill2.description}</p>
-                                    {!disc.secondarySkill2.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill2.effectType.join(', ')}</p>}
-                                    {!disc.secondarySkill2.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill2.addAttrType.join(', ')}</p>}
-                                    {!disc.secondarySkill2.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill2.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
-                                    {!disc.secondarySkill2.effectData.length ? null : (
+                                <div class="indent">
+                                    <p>{disc.secondarySkill1.description}</p>
+                                    {!disc.secondarySkill1.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill1.effectType.join(', ')}</p>}
+                                    {!disc.secondarySkill1.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill1.addAttrType.join(', ')}</p>}
+                                    {!disc.secondarySkill1.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill1.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                    {!disc.secondarySkill1.effectData.length ? null : (
                                         <span class="tooltip small">
                                             hover this for effect data
                                             <div class="tooltip-text">
-                                                {disc.secondarySkill2.effectData.map((data) => (
+                                                {disc.secondarySkill1.effectData.map((data) => (
                                                     <>
                                                         {data}
                                                         <br />
@@ -281,13 +250,52 @@ if (!disc) {
                                     )}
                                     <div class="item-image" />
                                     <p class="requirements">
-                                        {Object.entries(disc.secondarySkill2.requirements[0]).map(([note, amount]) => (
+                                        {Object.entries(disc.secondarySkill1.requirements[0]).map(([note, amount]) => (
                                             <>
                                                 {note}: {amount}
                                                 <br />
                                             </>
                                         ))}
                                     </p>
+                                </div>
+                            </div>
+
+                            {disc.secondarySkill2 && (
+                                <div class="harmony2">
+                                    <div class="skill-header">
+                                        <div class="skill-image" style={`background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill2.iconBg}.webp') center/cover no-repeat;`}>
+                                            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/discskill/${disc.secondarySkill2.icon}.webp`} alt={disc.secondarySkill2.name} title={disc.secondarySkill2.name} width="64" height="64" onerror="this.style.display='none'" />
+                                        </div>
+                                        <h2>{disc.secondarySkill2.name}</h2>
+                                    </div>
+                                    <div class="indent">
+                                        <p>{disc.secondarySkill2.description}</p>
+                                        {!disc.secondarySkill2.effectType.length ? null : <p class="small">Effect: {disc.secondarySkill2.effectType.join(', ')}</p>}
+                                        {!disc.secondarySkill2.addAttrType.length ? null : <p class="small">AddAttr: {disc.secondarySkill2.addAttrType.join(', ')}</p>}
+                                        {!disc.secondarySkill2.buffIcon.length ? null : <p class="small">Buff: {disc.secondarySkill2.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="27" height="36" />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                        {!disc.secondarySkill2.effectData.length ? null : (
+                                            <span class="tooltip small">
+                                                hover this for effect data
+                                                <div class="tooltip-text">
+                                                    {disc.secondarySkill2.effectData.map((data) => (
+                                                        <>
+                                                            {data}
+                                                            <br />
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </span>
+                                        )}
+                                        <div class="item-image" />
+                                        <p class="requirements">
+                                            {Object.entries(disc.secondarySkill2.requirements[0]).map(([note, amount]) => (
+                                                <>
+                                                    {note}: {amount}
+                                                    <br />
+                                                </>
+                                            ))}
+                                        </p>
+                                    </div>
                                 </div>
                             )}
                         </section>
@@ -304,17 +312,19 @@ if (!disc) {
 
                     <div class="note">
                         <h2>Support Note</h2>
-                        <div class="item-image"></div>
-                        <p>
-                            {
-                                Object.entries(disc.supportNote[0]).map(([note, amount]) => (
-                                    <>
-                                        {note}: {amount}
-                                        <br />
-                                    </>
-                                ))
-                            }
-                        </p>
+                        <div class="indent">
+                            <div class="item-image"></div>
+                            <p>
+                                {
+                                    Object.entries(disc.supportNote[0]).map(([note, amount]) => (
+                                        <>
+                                            {note}: {amount}
+                                            <br />
+                                        </>
+                                    ))
+                                }
+                            </p>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -657,176 +667,168 @@ if (!disc) {
     <style>
         .disc-page {
             padding: 0 1rem;
-        }
 
-        .header {
-            display: flex;
-            position: sticky;
-            top: var(--nav-height);
-            align-items: center;
-            backdrop-filter: blur(5px);
-            margin: 0 auto;
-            background: var(--bg1a);
-            padding: 0 1rem;
-            max-width: 1000px;
-            height: var(--nav-height);
-        }
-
-        h1 {
-            margin: 0 1rem 0 0;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .content {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-        }
-
-        .left {
-            width: 256px;
-        }
-
-        .left img {
-            object-fit: cover;
-            object-position: top;
-        }
-
-        @media (width < 800px) {
-            .content {
-                flex-direction: column;
-            }
-
-            .left {
+            .header {
                 display: flex;
-                width: 100%;
+                position: sticky;
+                top: var(--nav-height);
+                align-items: center;
+                backdrop-filter: blur(5px);
+                margin: 0 auto;
+                background: var(--bg1a);
+                padding: 0 1rem;
+                max-width: 1000px;
+                height: var(--nav-height);
             }
-        }
 
-        .wiki {
-            display: inline-block;
-            margin: 0.5rem;
-            padding: 0.5rem;
-            color: var(--accent);
-            font-weight: 600;
-            text-decoration: none;
-        }
+            h1 {
+                margin: 0 1rem 0 0;
+                font-weight: 700;
+                font-size: 1.5rem;
+            }
 
-        .right {
-            flex: 1;
-            min-width: 0;
-        }
+            .content {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem;
 
-        .slider-container {
-            position: sticky;
-            top: calc(var(--nav-height) * 2);
-            backdrop-filter: blur(5px);
-            background: var(--bg1a);
-            padding: 1rem;
-        }
+                .left {
+                    width: 256px;
 
-        .slider {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-        }
+                    img {
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                }
 
-        .slider label {
-            width: 16ch;
-        }
+                .right {
+                    flex: 1;
+                    min-width: 0;
+                }
+            }
 
-        .slider input[type='range'] {
-            flex: 1;
-            width: 100%;
-            min-width: 0;
-            accent-color: var(--accent);
-        }
+            @media (width < 800px) {
+                .content {
+                    flex-direction: column;
+                }
 
-        .skill-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-left: 1rem;
-        }
+                .left {
+                    display: flex;
+                    width: 100% !important;
+                }
+            }
 
-        .skill-image {
-            width: 64px;
-            height: 64px;
-        }
+            .wiki {
+                display: inline-block;
+                margin: 0.5rem;
+                padding: 0.5rem;
+                color: var(--accent);
+                font-weight: 600;
+                text-decoration: none;
+            }
 
-        label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+            .slider-container {
+                position: sticky;
+                top: calc(var(--nav-height) * 2);
+                backdrop-filter: blur(5px);
+                background: var(--bg1a);
+                padding: 1rem;
+            }
 
-        label input {
-            width: 1rem;
-            height: 1rem;
-            accent-color: var(--accent);
-        }
+            .slider {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
 
-        div[class] > p,
-        div[class] > .checkbox,
-        div[class] > .item-image,
-        div[class] > .small {
-            margin-left: 1rem;
-        }
+                label {
+                    width: 16ch;
+                }
 
-        .small {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
+                input[type='range'] {
+                    flex: 1;
+                    width: 100%;
+                    min-width: 0;
+                    accent-color: var(--accent);
+                }
+            }
 
-        .small img {
-            vertical-align: middle;
-            object-fit: cover;
-            object-position: center;
-        }
+            .skill-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
 
-        .langtabs-wrapper {
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 1rem;
-        }
+            .skill-image {
+                width: 64px;
+                height: 64px;
+            }
 
-        .langtabs {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+            label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
 
-        .langtab {
-            cursor: pointer;
-            border: none;
-            background: transparent;
-            padding: 0.5rem;
-            color: var(--muted);
-            font-size: 1rem;
-        }
+            label input {
+                width: 1rem;
+                height: 1rem;
+                accent-color: var(--accent);
+            }
 
-        .langtab:hover {
-            color: var(--text);
-        }
+            .small {
+                margin: 0;
+                color: var(--muted);
+                font-size: 0.9rem;
 
-        .langtab.active {
-            color: var(--text);
-            font-weight: 700;
-        }
+                img {
+                    vertical-align: middle;
+                    object-fit: cover;
+                    object-position: center;
+                }
+            }
 
-        h2 {
-            margin: 1rem 0;
-        }
+            .langtabs-wrapper {
+                display: flex;
+                justify-content: flex-end;
+                padding: 0 1rem;
+            }
 
-        h3 {
-            margin: 0.75rem 0;
-        }
+            .langtabs {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
 
-        p {
-            margin: 0.25rem 0;
+            .langtab {
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                padding: 0.5rem;
+                color: var(--muted);
+                font-size: 1rem;
+
+                &:hover {
+                    color: var(--text);
+                }
+
+                &.active {
+                    color: var(--text);
+                    font-weight: 700;
+                }
+            }
+
+            h2 {
+                margin: 1rem 0;
+            }
+
+            h3 {
+                margin: 0.75rem 0;
+            }
+
+            p {
+                margin: 0.25rem 0;
+            }
         }
     </style>
 </Layout>

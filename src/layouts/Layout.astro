@@ -377,6 +377,10 @@ const buildTime = new Date().toISOString();
         display: block;
     }
 
+    .indent {
+        margin-left: 1rem !important;
+    }
+
     @font-face {
         src: url('/font.woff2') format('woff2');
         font-family: Inter;
@@ -470,12 +474,12 @@ const buildTime = new Date().toISOString();
     }
 
     footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin: 0 auto;
         padding: 0 1rem;
         max-width: 1000px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         height: var(--nav-height);
         color: var(--muted);
     }
@@ -497,41 +501,41 @@ const buildTime = new Date().toISOString();
     }
 
     .discord .avatar {
-        width: 100%;
-        height: 100%;
         border-radius: 8px;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
     }
 
     .discord .name-row {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
         width: max-content;
-        max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
         min-width: 0;
+        max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .discord .display-name {
-        font-weight: 600;
         color: var(--text);
+        font-weight: 600;
     }
 
     .discord .username {
-        font-weight: 400;
         color: var(--muted);
+        font-weight: 400;
     }
 
     .discord .activity-row {
+        width: max-content;
+        min-width: 0;
+        max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
+        overflow: hidden;
         color: var(--muted);
         text-overflow: ellipsis;
-        overflow: hidden;
         white-space: nowrap;
-        width: max-content;
-        max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
-        min-width: 0;
     }
 
     .discord .activity {
@@ -542,8 +546,8 @@ const buildTime = new Date().toISOString();
         position: absolute;
         right: 2px;
         bottom: 2px;
+        border-radius: 50%;
         width: 0.7em;
         height: 0.7em;
-        border-radius: 50%;
     }
 </style>

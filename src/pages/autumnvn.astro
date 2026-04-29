@@ -247,53 +247,49 @@ const lv7Choice = f(g(82010) / lv7Cost);
 
 <style>
     h1 {
-        font-size: 1.5rem;
-        font-weight: 700;
         margin: 0 0.5rem;
+        font-weight: 700;
+        font-size: 1.5rem;
     }
 
     .content {
-        margin-top: 1rem;
-        max-width: 1000px;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         gap: 1rem;
+        margin-top: 1rem;
+        max-width: 1000px;
+
+        .col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--bg2);
+            padding: 0.15rem 0;
+
+            img {
+                border-radius: 4px;
+                background: var(--bg2);
+                width: 48px;
+                height: 48px;
+                object-fit: cover;
+            }
+        }
+
+        @media (width < 900px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (width < 600px) {
+            grid-template-columns: 1fr;
+        }
     }
 
     p {
         color: var(--muted);
-    }
-
-    .col {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.15rem 0;
-        border-bottom: 1px solid var(--bg2);
-    }
-
-    .row img {
-        width: 48px;
-        height: 48px;
-        object-fit: cover;
-        border-radius: 4px;
-        background: var(--bg2);
-    }
-
-    @media (width < 900px) {
-        .content {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    @media (width < 600px) {
-        .content {
-            grid-template-columns: 1fr;
-        }
     }
 </style>

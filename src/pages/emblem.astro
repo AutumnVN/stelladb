@@ -22,7 +22,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
             </Tabs>
         </div>
 
-        <p>
+        <p class="indent">
             warning will trigger on reforge if:<br />
             - no lock and have at least 2 rainbow attr<br />
             - locked but have an unlocked rainbow attr<br />
@@ -39,7 +39,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                             <div class="attr-group">
                                 <h3>Group weight: {group.weight}</h3>
                                 {group.attr.map((attr) => (
-                                    <p>{attr}</p>
+                                    <p class="indent">{attr}</p>
                                 ))}
                             </div>
                         ))
@@ -54,7 +54,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                     <h3>Probablity to get unique attr: {data.lv80.uniqueAttrGroup.uniqueAttrGroupProb}</h3>
                     <h3>Guarantee count: {data.lv80.uniqueAttrGroup.guaranteeCount}</h3>
                     <h3>Unique attr num weight:</h3>
-                    <p>
+                    <p class="indent">
                         {
                             Object.entries(data.lv80.uniqueAttrGroup.uniqueAttrNumWeight).map(([num, weight]) => (
                                 <>
@@ -65,7 +65,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                         }
                     </p>
                     <br />
-                    {data.lv80.uniqueAttrGroup.attr.map((attr) => <p>{attr}</p>)}
+                    {data.lv80.uniqueAttrGroup.attr.map((attr) => <p class="indent">{attr}</p>)}
                 </div>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
@@ -74,7 +74,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                             <div class="attr-group">
                                 <h3>Group weight: {group.weight}</h3>
                                 {group.attr.map((attr) => (
-                                    <p>{attr}</p>
+                                    <p class="indent">{attr}</p>
                                 ))}
                             </div>
                         ))
@@ -89,7 +89,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                     <h3>Probablity to get unique attr: {data.lv90.uniqueAttrGroup.uniqueAttrGroupProb}</h3>
                     <h3>Guarantee count: {data.lv90.uniqueAttrGroup.guaranteeCount}</h3>
                     <h3>Unique attr num weight:</h3>
-                    <p>
+                    <p class="indent">
                         {
                             Object.entries(data.lv90.uniqueAttrGroup.uniqueAttrNumWeight).map(([num, weight]) => (
                                 <>
@@ -100,7 +100,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                         }
                     </p>
                     <br />
-                    {data.lv90.uniqueAttrGroup.attr.map((attr) => <p>{attr}</p>)}
+                    {data.lv90.uniqueAttrGroup.attr.map((attr) => <p class="indent">{attr}</p>)}
                 </div>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
@@ -109,7 +109,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                             <div class="attr-group">
                                 <h3>Group weight: {group.weight}</h3>
                                 {group.attr.map((attr) => (
-                                    <p>{attr}</p>
+                                    <p class="indent">{attr}</p>
                                 ))}
                             </div>
                         ))
@@ -123,42 +123,38 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 <style>
     .emblem-page {
         padding: 0 1rem;
-    }
 
-    .header {
-        display: flex;
-        align-items: center;
-        margin: 0 auto;
-        padding: 0 1rem;
-        max-width: 1000px;
-        height: 64px;
-    }
+        .header {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: 64px;
+        }
 
-    h1 {
-        margin: 0 1rem 0 0;
-        font-weight: 700;
-        font-size: 1.5rem;
-    }
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
 
-    .content {
-        display: flex;
-        gap: 1rem;
-        padding: 1rem;
-    }
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+        }
 
-    div[class] > p {
-        margin-left: 1rem;
-    }
+        h2 {
+            margin: 1.5rem 0 0.75rem 0;
+        }
 
-    h2 {
-        margin: 1.5rem 0 0.75rem 0;
-    }
+        h3 {
+            margin: 1rem 0 0.5rem 0;
+        }
 
-    h3 {
-        margin: 1rem 0 0.5rem 0;
-    }
-
-    p {
-        margin: 0.25rem 0;
+        p {
+            margin: 0.25rem 0;
+        }
     }
 </style>

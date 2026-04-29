@@ -49,135 +49,139 @@ const { href, name, desc, desc2, star, image, inset = 0, element, elementSize = 
     .card-border {
         display: block;
         position: relative;
-    }
 
-    .card {
-        display: block;
-        position: relative;
-        background: var(--bg2);
-        padding: 0;
-        aspect-ratio: 1 / 1;
-        overflow: hidden;
-        color: var(--text);
-        text-decoration: none;
-    }
+        .card {
+            display: block;
+            position: relative;
+            background: var(--bg2);
+            padding: 0;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            color: var(--text);
+            text-decoration: none;
 
-    .card-border:not([class*='star']) .card {
-        border-radius: 5px;
-    }
+            h2 {
+                margin: 0;
+                font-size: 1.15rem;
+            }
 
-    .card-border[class*='star'] {
-        mask:
-            linear-gradient(transparent 0 0) content-box,
-            linear-gradient(#000 0 0);
-        mask-composite: exclude;
-        border-radius: 5px;
-        padding: 5px;
-    }
+            p {
+                margin: 0.25rem 0 0 0;
+                color: var(--muted);
+                font-size: 0.8rem;
+            }
+        }
 
-    .star3 {
-        background: linear-gradient(135deg, #8ce, #dff);
-    }
+        &:not([class*='star']) {
+            .card {
+                border-radius: 5px;
+            }
+        }
 
-    .star4 {
-        background: linear-gradient(135deg, #fd5, #efc);
-    }
+        &[class*='star'] {
+            mask:
+                linear-gradient(transparent 0 0) content-box,
+                linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            border-radius: 5px;
+            padding: 5px;
+        }
 
-    .star5 {
-        background: linear-gradient(135deg, #d8e, #7ff);
-    }
+        &.star3 {
+            background: linear-gradient(135deg, #8ce, #dff);
+        }
 
-    .image {
-        position: absolute;
-        inset: 0;
-        background-position: top;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
+        &.star4 {
+            background: linear-gradient(135deg, #fd5, #efc);
+        }
 
-    .text {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        padding: 0.75rem;
-    }
+        &.star5 {
+            background: linear-gradient(135deg, #d8e, #7ff);
+        }
 
-    .text::before {
-        content: '';
-        position: absolute;
-        inset: -10px -10px -6px -10px;
-        background: linear-gradient(180deg, #0000 0%, #0009 35%, #000d 75%, #000f 100%);
-    }
+        .image {
+            position: absolute;
+            inset: 0;
+            background-position: top;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
 
-    .text h2,
-    .text p {
-        position: relative;
-    }
+        .text {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 0.75rem;
 
-    .char-info {
-        display: flex;
-        position: absolute;
-        top: 0;
-        right: 0;
-        align-items: center;
-        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 7% 100%);
-        font-weight: 400;
-    }
+            &::before {
+                position: absolute;
+                inset: -10px -10px -6px -10px;
+                background: linear-gradient(180deg, #0000 0%, #0009 35%, #000d 75%, #000f 100%);
+                content: '';
+            }
 
-    .vanguard {
-        background: #d69;
-    }
+            h2,
+            p {
+                position: relative;
+            }
+        }
 
-    .versatile {
-        background: #78e;
-    }
+        .char-info {
+            display: flex;
+            position: absolute;
+            top: 0;
+            right: 0;
+            align-items: center;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 7% 100%);
+            font-weight: 400;
 
-    .support {
-        background: #4ca;
-    }
+            &.vanguard {
+                background: #d69;
+            }
 
-    .overlord {
-        background: #f45;
-    }
+            &.versatile {
+                background: #78e;
+            }
 
-    .sentinel {
-        background: #f83;
-    }
+            &.support {
+                background: #4ca;
+            }
 
-    .elite {
-        background: #fb3;
-    }
+            &.overlord {
+                background: #f45;
+            }
 
-    .char-info .char-class {
-        padding: 0.25rem 0.25rem 0.25rem 0.75rem;
-    }
+            &.sentinel {
+                background: #f83;
+            }
 
-    .char-info:not(:has(.attack-type)) .char-class {
-        padding-right: 0.5rem;
-    }
+            &.elite {
+                background: #fb3;
+            }
 
-    .char-info .attack-type {
-        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 20% 100%);
-        background: #36a;
-        padding: 0.35rem 0.25rem 0.15rem 0.5rem;
-    }
+            .char-class {
+                padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+            }
 
-    .card h2 {
-        margin: 0;
-        font-size: 1.15rem;
-    }
+            &:not(:has(.attack-type)) {
+                .char-class {
+                    padding-right: 0.5rem;
+                }
+            }
 
-    .card p {
-        margin: 0.25rem 0 0 0;
-        font-size: 0.8rem;
-        color: var(--muted);
-    }
+            .attack-type {
+                clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 20% 100%);
+                background: #36a;
+                padding: 0.35rem 0.25rem 0.15rem 0.5rem;
+            }
+        }
 
-    .element {
-        position: absolute;
-        top: -4px;
-        left: -4px;
-        pointer-events: none;
+        .element {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            pointer-events: none;
+        }
     }
 </style>

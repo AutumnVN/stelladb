@@ -137,65 +137,64 @@ const data = await fetch(DATA_URL).then((res) => res.json());
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 2rem;
-    }
 
-    @media (width < 800px) {
-        .banner-grid {
+        @media (width < 800px) {
             grid-template-columns: 1fr;
         }
-    }
-    .banner-header {
-        display: flex;
-        align-items: center;
-    }
 
-    .banner-title {
-        display: flex;
-        flex-direction: column;
-    }
+        .banner-header {
+            display: flex;
+            align-items: center;
+        }
 
-    .banner-status {
-        border-radius: 727px;
-        background: #111;
-        padding: 0.25rem 0.5rem;
-        width: fit-content;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-    }
+        .banner-title {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .upcoming {
-        background: #124;
-        color: #def;
-    }
+        .banner-status {
+            border-radius: 727px;
+            background: #111;
+            padding: 0.25rem 0.5rem;
+            width: fit-content;
+            font-size: 0.8rem;
+            text-transform: uppercase;
 
-    .ongoing {
-        background: #132;
-        color: #cfd;
-    }
+            &.upcoming {
+                background: #124;
+                color: #def;
+            }
 
-    .ended {
-        background: #333;
-        color: var(--muted);
-    }
+            &.ongoing {
+                background: #132;
+                color: #cfd;
+            }
 
-    .banner-time {
-        color: var(--muted);
-        font-size: 0.9rem;
-    }
+            &.ended {
+                background: #333;
+                color: var(--muted);
+            }
+        }
 
-    .rate-up {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, 72px);
-        gap: 1rem;
-        margin-top: 0.5rem;
-    }
+        .banner-time {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
 
-    h2 {
-        margin: 0;
-        font-size: 1.4rem;
-    }
+        .rate-up {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 72px);
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
 
-    p {
-        margin: 0;
+        h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin: 0;
+        }
     }
 </style>

@@ -22,8 +22,7 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 <script>
     // @ts-nocheck
     (function () {
-        const script = document.currentScript;
-        const root = (script && script.closest && script.closest('.searchable-grid')) || document.querySelector('.searchable-grid');
+        const root = document.querySelector('.searchable-grid');
         if (!root) return;
 
         const input = root.querySelector('input[type="search"]');
@@ -65,17 +64,19 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 </script>
 
 <style>
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-    }
+    .searchable-grid {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
 
-    .no-results {
-        margin-top: 2rem;
-        color: var(--text);
-        font-size: 1.5rem;
-        text-align: center;
+        .no-results {
+            margin-top: 2rem;
+            color: var(--text);
+            font-size: 1.5rem;
+            text-align: center;
+        }
     }
 </style>

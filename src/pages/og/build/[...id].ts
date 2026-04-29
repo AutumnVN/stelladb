@@ -1,7 +1,9 @@
 // @ts-nocheck
-import { unpackPotentialData } from '@/scripts/potentialPack.js';
+
+import { Resvg, initWasm } from '@resvg/resvg-wasm';
+
 import { Buffer } from 'buffer';
-import { initWasm, Resvg } from '@resvg/resvg-wasm';
+import { unpackPotentialData } from '@/scripts/potentialPack.js';
 import wasmModule from '@/scripts/index_bg.wasm?module';
 
 export const prerender = false;

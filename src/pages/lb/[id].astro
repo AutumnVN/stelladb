@@ -159,10 +159,10 @@ const allData = processedRegions['all'] || {};
                                         </div>
                                     ))}
 
-                                    {rd.Self && (
+                                    {rd.Self?.Teams?.length && (
                                         <div class="grid-row self-row" data-id={rd.Self.Id}>
                                             <div class="col rank">
-                                                <div class="rank-num">{rd.Self.Rank || '-'}</div>
+                                                <div class="rank-num">{rd.Self.Rank}</div>
                                             </div>
 
                                             <div class="col player" title={rd.Self.Id}>
@@ -170,14 +170,12 @@ const allData = processedRegions['all'] || {};
                                                 <div class="player-name">{rd.Self.NickName}</div>
                                             </div>
 
-                                            <div class="col score">{rd.Self.Score?.toLocaleString('en-US') || '-'}</div>
+                                            <div class="col score">{rd.Self.Score?.toLocaleString('en-US')}</div>
 
                                             <div class="col details">
-                                                {rd.Self.Teams?.length && (
-                                                    <button class="details-btn" data-id={rd.Self.Id}>
-                                                        🔍
-                                                    </button>
-                                                )}
+                                                <button class="details-btn" data-id={rd.Self.Id}>
+                                                    🔍
+                                                </button>
                                             </div>
                                         </div>
                                     )}

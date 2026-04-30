@@ -28,7 +28,7 @@ const [data, blitzData, raidData] = await Promise.all([
             Object.entries(data).map(([id, data]) => {
                 const isBB = /^bb/.test(id);
                 const season = id.match(/\d+/)?.[0];
-                const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season} ${region.toUpperCase()}`;
+                const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
                 const floorData = isBB ? blitzData : raidData;
 
                 return (

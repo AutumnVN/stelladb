@@ -71,7 +71,7 @@ const allData = processedRegions['all'] || {};
 ---
 
 <Layout title={`${name} Leaderboard | stelladb`} description={`${(allData.Total || 0).toLocaleString('en-US')} players total${allData.Rank && allData.Rank[0] ? `, #1 ${allData.Rank[0].NickName}: ${allData.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
-    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)}>
+    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)} data-isbb={isBB}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
 
@@ -312,7 +312,7 @@ const allData = processedRegions['all'] || {};
                                                         {item.count}
                                                         {item.topUser ? (
                                                             <button class="team-top" data-id={item.topUser.id} title={item.topUser.id}>
-                                                                #{item.topUser.rank} {item.topUser.name}: {item.topUser.teamScore.toLocaleString('en-US')}
+                                                                {`#${item.topUser.rank} ${item.topUser.name}: ${!isBB ? `${(Math.abs(item.topUser.teamScore) / 1000).toLocaleString('en-US')}s` : item.topUser.teamScore.toLocaleString('en-US')}`}
                                                             </button>
                                                         ) : null}
                                                     </div>
@@ -383,6 +383,7 @@ const allData = processedRegions['all'] || {};
     const removedMap = JSON.parse(pageEl.dataset.removed);
     const floorMap = JSON.parse(pageEl.dataset.floor);
     const charMap = JSON.parse(pageEl.dataset.chars);
+    const isBB = pageEl.dataset.isbb === 'true';
 
     const modal = document.getElementById('team-modal');
     const modalContent = document.getElementById('team-modal-content');
@@ -425,8 +426,11 @@ const allData = processedRegions['all'] || {};
             const title = document.createElement('div');
             title.className = 'modal-team-title';
             const levelName = floorMap[t.LevelId]?.name;
-            let titleStr = `Team ${i + 1}: ${levelName} • ${t.LevelScore.toLocaleString('en-US')}`;
-            if (t.BuildScore != null) titleStr += ` • Record: ${t.RecordRank} (${t.BuildScore})`;
+            let titleStr = `Team ${i + 1}: `;
+            if (levelName) titleStr += `${levelName} • `;
+            titleStr += (t.LevelScore || t.Time / 1000).toLocaleString('en-US');
+            if (!isBB) titleStr += 's';
+            if (t.BuildScore) titleStr += ` • Record: ${t.RecordRank} (${t.BuildScore})`;
             title.textContent = titleStr;
             teamHeader.appendChild(title);
 

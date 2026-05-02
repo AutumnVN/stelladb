@@ -220,7 +220,14 @@ if (isValid) {
 <Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined}>
     <SearchInput value={id} placeholder="Build preset id" />
 
-    {isValid && <div class="build-preview" set:html={html} />}
+    {
+        isValid && (
+            <>
+                <p>{desc}</p>
+                <div class="build-preview" set:html={html} />
+            </>
+        )
+    }
 
     {!isValid && <div class="no-results">Build preset id is not valid</div>}
 </Layout>
@@ -252,7 +259,6 @@ if (isValid) {
     .build-preview {
         display: flex;
         justify-content: center;
-        margin-top: 2rem;
     }
 
     .no-results {

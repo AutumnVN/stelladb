@@ -1,25 +1,21 @@
-// @ts-nocheck
-import { defineConfig } from 'astro/config';
+import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'fs';
+
 import cloudflare from '@astrojs/cloudflare';
-import sitemap from '@astrojs/sitemap';
-import { readdirSync, readFileSync, writeFileSync, createWriteStream, existsSync, unlinkSync } from 'fs';
+import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
     site: 'https://stelladb.pages.dev',
-
     build: {
         format: 'file',
     },
-
     adapter: cloudflare({
         imageService: 'passthrough',
     }),
-
-    integrations: [sitemap()],
-
+    integrations: [sitemap(), downloadRemoteImage(['https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'])],
     vite: {
         resolve: {
             alias: {
@@ -70,7 +66,7 @@ function downloadRemoteImage(urls) {
                                 if (downloadedImages.has(imgUrl)) {
                                     localPath = downloadedImages.get(imgUrl);
                                 } else {
-                                    localPath = await downloadImage(imgUrl, distPath);
+                                    localPath = await downloadImage(imgUrl, distPath, url);
                                     if (localPath) downloadedImages.set(imgUrl, localPath);
                                 }
 
@@ -92,7 +88,7 @@ function downloadRemoteImage(urls) {
                                 if (downloadedImages.has(imgUrl)) {
                                     localPath = downloadedImages.get(imgUrl);
                                 } else {
-                                    localPath = await downloadImage(imgUrl, distPath);
+                                    localPath = await downloadImage(imgUrl, distPath, url);
                                     if (localPath) downloadedImages.set(imgUrl, localPath);
                                 }
 
@@ -115,17 +111,39 @@ function downloadRemoteImage(urls) {
     };
 }
 
-async function downloadImage(url, distPath) {
+async function downloadImage(url, distPath, basePrefix) {
     try {
-        const hash = Array.from(url).reduce((hash, char) => 0 | (31 * hash + char.charCodeAt(0)), 0) >>> 0;
-        const headResponse = await fetch(url, { method: 'HEAD' });
-        const contentType = headResponse.headers.get('content-type');
-        let extension = '.png';
+        let contentType = null;
+        try {
+            const headResponse = await fetch(url, { method: 'HEAD' });
+            contentType = headResponse.headers.get('content-type');
+        } catch (e) {
+            contentType = null;
+        }
+
+        let extension = '';
         if (contentType) {
-            const extMatch = contentType.match(/image\/(jpeg|png|gif|webp|svg)/);
+            const extMatch = contentType.match(/image\/(jpeg|png|gif|webp|avif|svg)/);
             if (extMatch) extension = '.' + (extMatch[1] === 'jpeg' ? 'jpg' : extMatch[1]);
         }
-        const localPath = path.join(distPath, `${hash}${extension}`);
+
+        const parsedUrl = new URL(url);
+        let relativePath = '';
+        relativePath = url.slice(basePrefix.length);
+        relativePath = relativePath.split('?')[0].split('#')[0];
+
+        const extFromPath = path.extname(relativePath);
+        if (!extFromPath) {
+            if (extension) relativePath = relativePath + extension;
+            else relativePath = relativePath + '.png';
+        }
+
+        const safeSegments = relativePath.split('/').map(seg => seg.replace(/[^a-zA-Z0-9._-]/g, '_'));
+        const safeRelativePath = safeSegments.join('/');
+        const localPath = path.join(distPath, safeRelativePath);
+
+        const localDir = path.dirname(localPath);
+        if (!existsSync(localDir)) mkdirSync(localDir, { recursive: true });
 
         return new Promise(async resolve => {
             try {
@@ -135,7 +153,7 @@ async function downloadImage(url, distPath) {
                     if (existsSync(localPath)) unlinkSync(localPath);
 
                     const redirectedUrl = new URL(response.headers.get('location'), url).href;
-                    downloadImage(redirectedUrl, distPath).then(resolve);
+                    downloadImage(redirectedUrl, distPath, basePrefix).then(resolve);
                     return;
                 }
 

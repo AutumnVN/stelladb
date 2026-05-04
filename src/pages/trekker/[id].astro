@@ -164,11 +164,15 @@ if (!char) {
                             <div class="item-image">
                                 {
                                     char.upgrade.length &&
-                                        Object.entries(char.upgrade[7]).map(([itemName]) => (
-                                            <div style={`background: url('/${Object.values(itemData).find((it) => it.name === itemName).rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
-                                                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${Object.values(itemData).find((it) => it.name === itemName).id}.webp`} alt={itemName} title={itemName} width="52" height="52" />
-                                            </div>
-                                        ))
+                                        Array.from(new Set(char.upgrade.flatMap((u) => (u ? Object.keys(u) : [])))).map((itemName) => {
+                                            const item = Object.values(itemData).find((it) => it.name === itemName);
+                                            if (!item) return null;
+                                            return (
+                                                <div style={`background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
+                                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${item.id}.webp`} alt={itemName} title={itemName} width="52" height="52" />
+                                                </div>
+                                            );
+                                        })
                                 }
                             </div>
                             <p>
@@ -410,11 +414,15 @@ if (!char) {
                             <div class="item-image">
                                 {
                                     char.skillUpgrade.length &&
-                                        Object.entries(char.skillUpgrade[8]).map(([itemName]) => (
-                                            <div style={`background: url('/${Object.values(itemData).find((it) => it.name === itemName).rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
-                                                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${Object.values(itemData).find((it) => it.name === itemName).id}.webp`} alt={itemName} title={itemName} width="52" height="52" />
-                                            </div>
-                                        ))
+                                        Array.from(new Set(char.skillUpgrade.flatMap((u) => (u ? Object.keys(u) : [])))).map((itemName) => {
+                                            const item = Object.values(itemData).find((it) => it.name === itemName);
+                                            if (!item) return null;
+                                            return (
+                                                <div style={`background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;`}>
+                                                    <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${item.id}.webp`} alt={itemName} title={itemName} width="52" height="52" />
+                                                </div>
+                                            );
+                                        })
                                 }
                             </div>
                             <p>
@@ -841,7 +849,7 @@ if (!char) {
 
                     return `<span class="tooltip word">
                         ${wordName}
-                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                        ${word[id].icon ? `<span class="tooltip-icon"><img src="/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp'"/></span>` : ''}
                         <div class="tooltip-text">
                             <b>${wordName}</b><br />
                             <p>${wordDesc}</p>
@@ -860,7 +868,7 @@ if (!char) {
 
                     return `<span class="tooltip word">
                         ${wordName}
-                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                        ${word[id].icon ? `<span class="tooltip-icon"><img src="/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp'"/></span>` : ''}
                         <div class="tooltip-text">
                             <b>${wordName}</b><br />
                             <p>${wordDesc}</p>
@@ -873,7 +881,7 @@ if (!char) {
             const item = Object.values(itemData).find((i) => i.name === itemName);
             return `
                 <div style="background: url('/${item.rarity}.avif') center/cover no-repeat; width: 52px; height: 52px; display: inline-block; padding: 4px;">
-                    <img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${item.id}.webp" alt="${itemName}" title="${itemName}" width="52" height="52" />
+                    <img src="/assetbundles/icon/item/item_${item.id}.webp" alt="${itemName}" title="${itemName}" width="52" height="52" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/item/item_${item.id}.webp'" />
                 </div>
             `;
         }

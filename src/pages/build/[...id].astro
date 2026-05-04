@@ -113,7 +113,7 @@ if (isValid) {
 
                 return `<span class="word">
                         ${wordName}
-                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                        ${word[id].icon ? `<span class="tooltip-icon"><img src="/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp'"/></span>` : ''}
                     </span>`;
             })
             .replace(/#(\d{1,4})#([^#]*?)##/g, (match, id, name) => {
@@ -128,7 +128,7 @@ if (isValid) {
 
                 return `<span class="word">
                         ${wordName}
-                        ${word[id].icon ? `<span style="background: url('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp') center/200% no-repeat;"></span>` : ''}
+                        ${word[id].icon ? `<span class="tooltip-icon"><img src="/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp'"/></span>` : ''}
                     </span>`;
             });
     }

@@ -9,18 +9,10 @@ const { params, request } = Astro;
 const id = params.id;
 
 const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
-const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
-const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
 const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
 const PROCESSED_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
-const [meta, blitzData, raidData, characterIdData, processedPrecomputed] = await Promise.all([
+const [meta, characterIdData, processedData] = await Promise.all([
     fetch(META_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(BLITZ_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(RAID_URL)
         .then((r) => r.json())
         .catch(() => ({})),
     fetch(CHARACTERID_URL)
@@ -35,17 +27,7 @@ if (!meta[id]) {
     return Astro.redirect('/404');
 }
 
-function computeRecordRank(buildScore, rankData) {
-    let best = null;
-    Object.keys(rankData).forEach((k) => {
-        const cfg = rankData[k];
-        const min = cfg.MinGrade || 0;
-        if (buildScore >= min) best = k;
-    });
-    return best;
-}
-
-const processedRegions = processedPrecomputed.processedRegions;
+const processedRegions = processedData.processedRegions;
 if (!processedRegions) {
     return Astro.redirect('/404');
 }
@@ -57,8 +39,9 @@ const defaultRemoved = (meta[id].removed && meta[id].removed[defaultRegion]) || 
 const isBB = /^bb/.test(id);
 const season = id.match(/\d+/)?.[0];
 const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
-const floorData = isBB ? blitzData : raidData;
 const floor = meta[id].floor;
+const floorMap = floor;
+const firstFloorIcon = Object.values(floor)[0]?.icon;
 const metaRemoved = meta[id].removed || {};
 
 function headIconUrl(icon) {
@@ -70,8 +53,8 @@ function headIconUrl(icon) {
 const allData = processedRegions['all'] || {};
 ---
 
-<Layout title={`${name} Leaderboard | stelladb`} description={`${(allData.Total || 0).toLocaleString('en-US')} players total${allData.Rank && allData.Rank[0] ? `, #1 ${allData.Rank[0].NickName}: ${allData.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[floor[0]]?.icon}.webp`}>
-    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorData)} data-chars={JSON.stringify(characterIdData)} data-isbb={isBB}>
+<Layout title={`${name} Leaderboard | stelladb`} description={`${(allData.Total || 0).toLocaleString('en-US')} players total${allData.Rank && allData.Rank[0] ? `, #1 ${allData.Rank[0].NickName}: ${allData.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstFloorIcon}.webp`}>
+    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorMap)} data-chars={JSON.stringify(characterIdData)} data-isbb={isBB}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
 
@@ -190,15 +173,15 @@ const allData = processedRegions['all'] || {};
                 <div class="leaderboard-header">
                     <h2>Trekker usage in top 100</h2>
                     {
-                        Array.isArray(floor) && floor.length > 1 ? (
+                        Object.keys(floor || {}).length > 1 ? (
                             <div class="floor-tabs-wrapper">
                                 <nav class="floor-tabs">
                                     <button class="floor-tab active" data-floor="all">
                                         All
                                     </button>
-                                    {floor.map((fid) => (
+                                    {Object.entries(floor || {}).map(([fid, f]) => (
                                         <button class="floor-tab" data-floor={String(fid)}>
-                                            {floorData[fid]?.name || fid}
+                                            {f.name}
                                         </button>
                                     ))}
                                 </nav>
@@ -216,7 +199,7 @@ const allData = processedRegions['all'] || {};
                     {
                         Object.keys(processedRegions).map((rk) => {
                             const rd = processedRegions[rk] || {};
-                            const floorKeys = ['all', ...(Array.isArray(floor) ? floor : [])];
+                            const floorKeys = ['all', ...Object.keys(floor || {})];
                             return floorKeys.map((fk) => {
                                 const list = (rd.UsageByFloor && rd.UsageByFloor[fk]) || [];
                                 return (
@@ -257,15 +240,15 @@ const allData = processedRegions['all'] || {};
                 <div class="leaderboard-header">
                     <h2>Team usage in top 100</h2>
                     {
-                        Array.isArray(floor) && floor.length > 1 ? (
+                        Object.keys(floor || {}).length > 1 ? (
                             <div class="floor-tabs-wrapper">
                                 <nav class="floor-tabs">
                                     <button class="floor-tab active" data-floor="all">
                                         All
                                     </button>
-                                    {floor.map((fid) => (
+                                    {Object.entries(floor || {}).map(([fid, f]) => (
                                         <button class="floor-tab" data-floor={String(fid)}>
-                                            {floorData[fid]?.name || fid}
+                                            {f.name}
                                         </button>
                                     ))}
                                 </nav>
@@ -283,7 +266,7 @@ const allData = processedRegions['all'] || {};
                     {
                         Object.keys(processedRegions).map((rk) => {
                             const rd = processedRegions[rk] || {};
-                            const floorKeys = ['all', ...(Array.isArray(floor) ? floor : [])];
+                            const floorKeys = ['all', ...Object.keys(floor || {})];
                             return floorKeys.map((fk) => {
                                 const list = (rd.UsageTeamByFloor && rd.UsageTeamByFloor[fk]) || [];
                                 return (

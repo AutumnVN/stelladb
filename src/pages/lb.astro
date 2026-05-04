@@ -6,20 +6,10 @@ import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
-const BLITZ_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
-const RAID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/raid.json';
 
-const [data, blitzData, raidData] = await Promise.all([
-    fetch(DATA_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(BLITZ_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(RAID_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-]);
+const data = await fetch(DATA_URL)
+    .then((r) => r.json())
+    .catch(() => ({}));
 ---
 
 <Layout title="Leaderboard | stelladb">
@@ -29,11 +19,15 @@ const [data, blitzData, raidData] = await Promise.all([
                 const isBB = /^bb/.test(id);
                 const season = id.match(/\d+/)?.[0];
                 const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
-                const floorData = isBB ? blitzData : raidData;
+                const floors = data.floor;
+                const desc = Object.values(floors)
+                    .map((f) => f.name)
+                    .join(', ');
+                const firstIcon = Object.values(floors)[0]?.icon;
 
                 return (
-                    <div class={'card-item'} data-id={id} data-name={name} data-desc={data.floor.map((f) => floorData[f].name).join(', ')}>
-                        <Card href={`/lb/${id}`} name={name} desc={data.floor.map((f) => floorData[f].name).join(', ')} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${floorData[data.floor[0]]?.icon}.webp`} inset={-30} />
+                    <div class={'card-item'} data-id={id} data-name={name} data-desc={desc}>
+                        <Card href={`/lb/${id}`} name={name} desc={desc} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstIcon}.webp`} inset={-30} />
                     </div>
                 );
             })

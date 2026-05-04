@@ -849,7 +849,7 @@ if (!char) {
 
                     return `<span class="tooltip word">
                         ${wordName}
-                        ${word[id].icon ? `<span class="tooltip-icon"><img src="/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp'"/></span>` : ''}
+                        ${word[id].icon ? `<span class="tooltip-icon"><img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.style.display='none'"/></span>` : ''}
                         <div class="tooltip-text">
                             <b>${wordName}</b><br />
                             <p>${wordDesc}</p>
@@ -868,7 +868,7 @@ if (!char) {
 
                     return `<span class="tooltip word">
                         ${wordName}
-                        ${word[id].icon ? `<span class="tooltip-icon"><img src="/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.src='https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp'"/></span>` : ''}
+                        ${word[id].icon ? `<span class="tooltip-icon"><img src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/zzzother/${word[id].icon}.webp" alt="${wordName}" title="${wordName}" onerror="this.style.display='none'"/></span>` : ''}
                         <div class="tooltip-text">
                             <b>${wordName}</b><br />
                             <p>${wordDesc}</p>
@@ -1270,8 +1270,6 @@ if (!char) {
         });
 
         talentBonusStat.innerHTML = bonusStatResult;
-
-        // gift/date images are rendered server-side in the template
     </script>
 
     <style>

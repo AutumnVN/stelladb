@@ -18,7 +18,11 @@ export default defineConfig({
     }),
     integrations: [
         sitemap(),
-        serviceWorker(),
+        serviceWorker({
+            workbox: {
+                globIgnores: ['**/_routes.json']
+            }
+        }),
         downloadRemoteImage([
             'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'
         ])

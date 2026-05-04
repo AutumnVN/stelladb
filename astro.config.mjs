@@ -112,6 +112,28 @@ function downloadRemoteImage(urls) {
                                     modified = true;
                                 }
                             }
+
+                            const styleUrlRegex = new RegExp(`(url\\(\\s*['"]?)(${url}[^'"\\)\\s]+)(['"]?\\s*\\))`, 'gi');
+                            const styleUrlMatches = [...content.matchAll(styleUrlRegex)];
+
+                            for (const match of styleUrlMatches) {
+                                const [fullMatch, prefix, imgUrl, suffix] = match;
+
+                                let localPath;
+                                if (downloadedImages.has(imgUrl)) {
+                                    localPath = downloadedImages.get(imgUrl);
+                                } else {
+                                    localPath = await downloadImage(imgUrl, distPath, url);
+                                    if (localPath) downloadedImages.set(imgUrl, localPath);
+                                }
+
+                                if (localPath) {
+                                    const relativePath = path.relative(path.dirname(file), localPath).replace(/\\/g, '/');
+                                    const newTag = `${prefix}${relativePath}${suffix}`;
+                                    content = content.replace(fullMatch, newTag);
+                                    modified = true;
+                                }
+                            }
                         }
                         if (modified) {
                             writeFileSync(file, content, 'utf-8');

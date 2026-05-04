@@ -20,7 +20,10 @@ export default defineConfig({
         sitemap(),
         serviceWorker({
             workbox: {
-                globIgnores: ['**/_routes.json']
+                globIgnores: [
+                    '**/_routes.json',
+                    '**/_worker.js/**/*',
+                ]
             }
         }),
         downloadRemoteImage([

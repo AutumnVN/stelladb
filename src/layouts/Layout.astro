@@ -230,6 +230,12 @@ const buildTime = new Date().toISOString();
         const ACTIVITY_TYPE = ['Playing', 'Streaming to', 'Listening to', 'Watching', 'Custom status', 'Competing in'];
         const STATUS_COLOR = { online: '#4b8', idle: '#fa1', dnd: '#f44', offline: '#778' };
 
+        const res = await fetch(lanyard);
+        if (!res.ok) return;
+        const j = await res.json();
+        applyData(j.data);
+        connectSocket();
+
         function escapeHtml(str) {
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
@@ -283,12 +289,6 @@ const buildTime = new Date().toISOString();
                 kvTextEl.innerHTML = markdownToHtml(d.kv.text);
             }
         }
-
-        const res = await fetch(lanyard);
-        if (!res.ok) return;
-        const j = await res.json();
-        applyData(j.data);
-        connectSocket();
 
         function connectSocket() {
             const ws = new WebSocket('wss://api.lanyard.rest/socket');

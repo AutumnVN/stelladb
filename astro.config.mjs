@@ -17,6 +17,9 @@ export default defineConfig({
         imageService: 'passthrough',
     }),
     integrations: [
+        downloadRemoteImage([
+            'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'
+        ]),
         sitemap(),
         serviceWorker({
             workbox: {
@@ -26,9 +29,6 @@ export default defineConfig({
                 ]
             }
         }),
-        downloadRemoteImage([
-            'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'
-        ])
     ],
     vite: {
         resolve: {

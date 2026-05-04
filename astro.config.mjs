@@ -4,6 +4,7 @@ import cloudflare from '@astrojs/cloudflare';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import serviceWorker from 'astrojs-service-worker';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
@@ -15,7 +16,13 @@ export default defineConfig({
     adapter: cloudflare({
         imageService: 'passthrough',
     }),
-    integrations: [sitemap(), downloadRemoteImage(['https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'])],
+    integrations: [
+        sitemap(),
+        serviceWorker(),
+        downloadRemoteImage([
+            'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'
+        ])
+    ],
     vite: {
         resolve: {
             alias: {

@@ -1,8 +1,6 @@
 {
     "version": 1,
     "include": [
-        "/arena/*",
-        "/ascension/*",
         "/build/*",
         "/infodoc/*",
         "/lb/*",

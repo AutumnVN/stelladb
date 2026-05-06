@@ -4,7 +4,6 @@ import cloudflare from '@astrojs/cloudflare';
 import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import serviceWorker from 'astrojs-service-worker';
 import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
@@ -21,14 +20,6 @@ export default defineConfig({
             'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'
         ]),
         sitemap(),
-        serviceWorker({
-            workbox: {
-                globIgnores: [
-                    '**/_routes.json',
-                    '**/_worker.js/**/*',
-                ]
-            }
-        }),
     ],
     vite: {
         resolve: {

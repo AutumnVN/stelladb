@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { Resvg, initWasm } from '@resvg/resvg-wasm';
 
 import { Buffer } from 'buffer';

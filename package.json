@@ -5,14 +5,14 @@
     "scripts": {
         "dev": "astro dev",
         "build": "astro build",
-        "preview": "astro preview",
+        "preview": "pnpm run build && wrangler dev",
         "astro": "astro"
     },
     "dependencies": {
-        "@astrojs/cloudflare": "^12.6.13",
+        "@astrojs/cloudflare": "^13.3.1",
         "@astrojs/sitemap": "^3.7.2",
         "@resvg/resvg-wasm": "^2.6.2",
-        "astro": "^5.18.1",
+        "astro": "^6.2.2",
         "normalize.css": "^8.0.1",
         "postcss-preset-env": "^11.2.1",
         "typescript": "^5.9.3"

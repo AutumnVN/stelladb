@@ -1,5 +1,5 @@
 {
-    "main": "dist/_worker.js/index.js",
+    "main": "@astrojs/cloudflare/entrypoints/server",
     "name": "stelladb",
     "compatibility_date": "2026-04-21",
     "compatibility_flags": [

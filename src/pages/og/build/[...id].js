@@ -2,7 +2,7 @@ import { Resvg, initWasm } from '@resvg/resvg-wasm';
 
 import { Buffer } from 'buffer';
 import { unpackPotentialData } from '@/scripts/potentialPack.js';
-import wasmModule from '@/scripts/index_bg.wasm?module';
+import wasmModule from '@/scripts/resvg.wasm?module';
 
 export const prerender = false;
 

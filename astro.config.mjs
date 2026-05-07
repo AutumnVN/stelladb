@@ -13,7 +13,7 @@ export default defineConfig({
         format: 'file',
     },
     adapter: cloudflare({
-        imageService: 'passthrough',
+        imageService: 'compile',
     }),
     integrations: [
         downloadRemoteImage([

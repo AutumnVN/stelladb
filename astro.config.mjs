@@ -32,6 +32,9 @@ export default defineConfig({
             external: ['buffer']
         }
     },
+    prefetch: {
+        prefetchAll: true
+    }
 });
 
 function downloadRemoteImage(urls) {

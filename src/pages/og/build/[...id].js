@@ -57,11 +57,11 @@ export async function GET({ params, request }) {
         const c = cells[i];
         if (!c) continue;
         const char = characterData[c.CharId];
-        if (char) imageUrls.add(`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}02_XL.webp`);
+        if (char) imageUrls.add(`https://stelladb.pages.dev/assetbundles/icon/head/head_${c.CharId}02_XL.webp`);
         const potentials = sortPots(c.Potentials || []);
         for (const p of potentials) {
             const pot = itemData[p.Id];
-            if (pot) imageUrls.add(`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${p.Id}.webp`);
+            if (pot) imageUrls.add(`https://stelladb.pages.dev/potential/${p.Id}.webp`);
         }
     }
 

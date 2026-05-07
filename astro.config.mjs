@@ -17,7 +17,8 @@ export default defineConfig({
     }),
     integrations: [
         downloadRemoteImage([
-            'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/'
+            'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/',
+            'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/',
         ]),
         sitemap(),
     ],

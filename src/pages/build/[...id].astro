@@ -144,7 +144,7 @@ if (isValid) {
         if (!c) continue;
 
         const char = characterData[c.CharId];
-        const charImg = char ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}02_XL.webp` : null;
+        const charImg = char ? `/assetbundles/icon/head/head_${c.CharId}02_XL.webp` : null;
 
         const scale = 1.1;
         const scaledW = Math.round(imgW * scale);
@@ -171,7 +171,7 @@ if (isValid) {
         for (let k = 0; k < potentials.length; k++) {
             const p = potentials[k];
             const potDef = findPotentialDef(char, p.Id) || null;
-            const potImg = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${p.Id}.webp`;
+            const potImg = `/potential/${p.Id}.webp`;
             const potName = potDef && potDef.name ? String(potDef.name).replace(/</g, '&lt;') : itemData[p.Id] && itemData[p.Id].name ? String(itemData[p.Id].name).replace(/</g, '&lt;') : '';
             if (!potImg) continue;
 

@@ -5,6 +5,8 @@ import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 
+export const prerender = false;
+
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
 
 const data = await fetch(DATA_URL)

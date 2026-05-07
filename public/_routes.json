@@ -1,11 +1,11 @@
 {
     "version": 1,
     "include": [
+        "/autumnvn",
         "/build/*",
         "/infodoc/*",
         "/lb/*",
-        "/og/*",
-        "/autumnvn"
+        "/og/*"
     ],
     "exclude": []
 }

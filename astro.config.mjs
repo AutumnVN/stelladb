@@ -137,6 +137,8 @@ function downloadRemoteImage(urls) {
                         console.error(`Error processing html file ${file}:`, error);
                     }
                 }
+
+                console.log(`Downloaded ${downloadedImages.size} remote images.`);
             }
         }
     };

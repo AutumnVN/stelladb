@@ -12,7 +12,7 @@ const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData
 const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
 const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
 
-const { params, request } = Astro;
+const { params, response } = Astro;
 const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
 
 const [data, characterData, itemData, word] = await Promise.all([
@@ -34,6 +34,8 @@ const unpack = unpackPotentialData(id, data);
 if (!unpack) {
     throw Astro.redirect('/404');
 }
+
+response.headers.set('Cache-Control', 'public, max-age=604800, stale-while-revalidate=604800');
 
 const isValid = unpack.every((c) => characterData[c.CharId]) && unpack.every((c) => c.Potentials.every((p) => itemData[p.Id]));
 const characterNamesList = isValid ? unpack.map((c) => characterData[c.CharId].name).join(', ') : '';

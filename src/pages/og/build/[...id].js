@@ -144,7 +144,7 @@ export async function GET({ params, request }) {
         status: 200,
         headers: {
             'Content-Type': 'image/png',
-            'Cache-Control': 'public, max-age=604800'
+            'Cache-Control': 'public, max-age=604800, stale-while-revalidate=604800',
         }
     });
 }

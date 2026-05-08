@@ -36,7 +36,7 @@ if (!ground) {
 ---
 
 <Layout title={`${ground.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${ground.icon}.webp`} description={`Weak: ${ground.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${ground.resistTo}${emoji[ground.resistTo]}, Last diff HP: ${ground.diff[ground.diff.length - 1].stat.HP.toLocaleString('en-US')}`}>
-    <div class="ground-page" data-json={JSON.stringify(ground)}>
+    <div class="page" data-json={JSON.stringify(ground)}>
         <div class="header">
             <h1>{ground.name}</h1>
 
@@ -102,7 +102,7 @@ if (!ground) {
 
     <script>
         // @ts-nocheck
-        const ground = JSON.parse(document.querySelector('.ground-page').dataset.json);
+        const ground = JSON.parse(document.querySelector('.page').dataset.json);
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
@@ -124,9 +124,7 @@ if (!ground) {
     </script>
 
     <style>
-        .ground-page {
-            padding: 0 1rem;
-
+        .page {
             .header {
                 display: flex;
                 position: sticky;

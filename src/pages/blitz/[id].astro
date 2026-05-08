@@ -36,7 +36,7 @@ if (!blitz) {
 ---
 
 <Layout title={`${blitz.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} description={`Weak: ${blitz.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${blitz.resistTo}${emoji[blitz.resistTo]}${blitz.stat?.length ? `, Damage Per Score: ${blitz.damagePerScore?.toLocaleString('en-US')}` : ''}`}>
-    <div class="blitz-page" data-json={JSON.stringify(blitz)}>
+    <div class="page" data-json={JSON.stringify(blitz)}>
         <div class="header">
             <h1>{blitz.name}</h1>
 
@@ -108,7 +108,7 @@ if (!blitz) {
 
     <script>
         // @ts-nocheck
-        const blitz = JSON.parse(document.querySelector('.blitz-page').dataset.json);
+        const blitz = JSON.parse(document.querySelector('.page').dataset.json);
 
         const levelInput = document.querySelector('#level');
         const levelOutput = document.querySelector('.level-output');
@@ -137,9 +137,7 @@ if (!blitz) {
     </script>
 
     <style>
-        .blitz-page {
-            padding: 0 1rem;
-
+        .page {
             .header {
                 display: flex;
                 position: sticky;

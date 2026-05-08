@@ -69,7 +69,7 @@ if (!char) {
 ---
 
 <Layout title={`${char.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
-    <div class="character-page" data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
+    <div class="page" data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <div class="header">
             <h1>{char.name}</h1>
 
@@ -829,9 +829,9 @@ if (!char) {
 
     <script>
         // @ts-nocheck
-        const char = JSON.parse(document.querySelector('.character-page').dataset.json);
-        const itemData = JSON.parse(document.querySelector('.character-page').dataset.item);
-        const word = JSON.parse(document.querySelector('.character-page').dataset.word);
+        const char = JSON.parse(document.querySelector('.page').dataset.json);
+        const itemData = JSON.parse(document.querySelector('.page').dataset.item);
+        const word = JSON.parse(document.querySelector('.page').dataset.word);
 
         function format(desc) {
             return desc
@@ -1273,9 +1273,7 @@ if (!char) {
     </script>
 
     <style>
-        .character-page {
-            padding: 0 1rem;
-
+        .page {
             .header {
                 display: flex;
                 position: sticky;

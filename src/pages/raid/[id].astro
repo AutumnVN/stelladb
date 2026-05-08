@@ -36,7 +36,7 @@ if (!raid) {
 ---
 
 <Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0][0].HP.toLocaleString('en-US')}`}>
-    <div class="raid-page" data-json={JSON.stringify(raid)}>
+    <div class="page" data-json={JSON.stringify(raid)}>
         <div class="header">
             <h1>{raid.name}</h1>
 
@@ -137,7 +137,7 @@ if (!raid) {
 
     <script>
         // @ts-nocheck
-        const raid = JSON.parse(document.querySelector('.raid-page').dataset.json);
+        const raid = JSON.parse(document.querySelector('.page').dataset.json);
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
@@ -178,9 +178,7 @@ if (!raid) {
     </script>
 
     <style>
-        .raid-page {
-            padding: 0 1rem;
-
+        .page {
             .header {
                 display: flex;
                 position: sticky;

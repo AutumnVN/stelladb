@@ -54,7 +54,7 @@ const allData = processedRegions['all'] || {};
 ---
 
 <Layout title={`${name} Leaderboard | stelladb`} description={`${(allData.Total || 0).toLocaleString('en-US')} players total${allData.Rank && allData.Rank[0] ? `, #1 ${allData.Rank[0].NickName}: ${allData.Rank[0].Score.toLocaleString('en-US')}` : ''}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstFloorIcon}.webp`}>
-    <div class="leaderboard-page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorMap)} data-chars={JSON.stringify(characterIdData)} data-isbb={isBB}>
+    <div class="page" data-json={JSON.stringify(processedRegions)} data-region={defaultRegion} data-removed={JSON.stringify(metaRemoved)} data-floor={JSON.stringify(floorMap)} data-chars={JSON.stringify(characterIdData)} data-isbb={isBB}>
         <div class="header">
             <h1>{name} Leaderboard</h1>
 
@@ -357,7 +357,7 @@ const allData = processedRegions['all'] || {};
         return relativeTime;
     }
 
-    const pageEl = document.querySelector('.leaderboard-page');
+    const pageEl = document.querySelector('.page');
 
     const pageData = JSON.parse(pageEl.dataset.json);
     const defaultRegion = pageEl.dataset.region;
@@ -642,7 +642,7 @@ const allData = processedRegions['all'] || {};
 </script>
 
 <style>
-    .leaderboard-page {
+    .page {
         .header {
             display: flex;
             position: sticky;

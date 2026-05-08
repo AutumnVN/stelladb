@@ -36,7 +36,7 @@ if (!duel) {
 ---
 
 <Layout title={`${duel.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString('en-US')}`}>
-    <div class="duel-page" data-json={JSON.stringify(duel)}>
+    <div class="page" data-json={JSON.stringify(duel)}>
         <div class="header">
             <h1>{duel.name}</h1>
 
@@ -107,7 +107,7 @@ if (!duel) {
 
     <script>
         // @ts-nocheck
-        const duel = JSON.parse(document.querySelector('.duel-page').dataset.json);
+        const duel = JSON.parse(document.querySelector('.page').dataset.json);
 
         const difficultyInput = document.querySelector('#difficulty');
         const difficultyOutput = document.querySelector('.difficulty-output');
@@ -134,9 +134,7 @@ if (!duel) {
     </script>
 
     <style>
-        .duel-page {
-            padding: 0 1rem;
-
+        .page {
             .header {
                 display: flex;
                 position: sticky;

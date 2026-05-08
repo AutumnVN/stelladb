@@ -50,7 +50,7 @@ if (!group || !diff || !floor || !monster) {
 ---
 
 <Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString('en-US')}`}>
-    <div class="monster-page">
+    <div class="page">
         <div class="header">
             <h1>{monster.name} | {diff.name} {floor.name}</h1>
         </div>
@@ -86,9 +86,7 @@ if (!group || !diff || !floor || !monster) {
 </Layout>
 
 <style>
-    .monster-page {
-        padding: 0 1rem;
-
+    .page {
         .header {
             display: flex;
             position: sticky;

@@ -1,0 +1,192 @@
+---
+const { ...rest } = Astro.props;
+---
+
+<div class="page" {...rest}>
+    <div class="header">
+        <slot name="header" />
+    </div>
+
+    <div class="content">
+        <div class="left">
+            <slot name="left" />
+        </div>
+
+        <div class="right">
+            <slot name="right" />
+        </div>
+    </div>
+</div>
+
+<style is:global>
+    .page {
+        .header {
+            display: flex;
+            position: sticky;
+            top: var(--nav-height);
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin: 0 auto;
+            background: var(--bg1a);
+            padding: 0 1rem;
+            max-width: 1000px;
+            height: var(--nav-height);
+        }
+
+        h1 {
+            margin: 0 1rem 0 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .content {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+
+            .left {
+                width: 256px;
+
+                img {
+                    object-fit: cover;
+                    object-position: top;
+                }
+            }
+
+            .right {
+                flex: 1;
+                min-width: 0;
+            }
+        }
+
+        @media (width < 800px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .left {
+                display: flex;
+                width: 100% !important;
+            }
+        }
+
+        .wiki {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .slider-container {
+            position: sticky;
+            top: calc(var(--nav-height) * 2);
+            backdrop-filter: blur(5px);
+            background: var(--bg1a);
+            padding: 1rem;
+        }
+
+        .slider {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+
+            label {
+                margin: 0;
+                width: 16ch;
+            }
+
+            input[type='range'] {
+                flex: 1;
+                width: 100%;
+                min-width: 0;
+                accent-color: var(--accent);
+            }
+        }
+
+        label.checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        label.checkbox input {
+            width: 1rem;
+            height: 1rem;
+            accent-color: var(--accent);
+        }
+
+        .mechanic-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .skill-image {
+            width: 64px;
+            height: 64px;
+        }
+
+        .small {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+
+            img {
+                vertical-align: middle;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+
+        .langtabs-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 1rem;
+        }
+
+        .langtabs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .langtab {
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            color: var(--muted);
+            font-size: 1rem;
+
+            &:hover {
+                color: var(--text);
+            }
+
+            &.active {
+                color: var(--text);
+                font-weight: 700;
+            }
+        }
+
+        h2 {
+            margin: 1rem 0;
+        }
+
+        h3 {
+            margin: 0.75rem 0;
+        }
+
+        p {
+            margin: 0.25rem 0;
+        }
+    }
+</style>

@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
+import Page from '@/components/Page.astro';
 
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
@@ -50,24 +51,24 @@ if (!group || !diff || !floor || !monster) {
 ---
 
 <Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString('en-US')}`}>
-    <div class="page">
-        <div class="header">
+    <Page>
+        <Fragment slot="header">
             <h1>{monster.name} | {diff.name} {floor.name}</h1>
-        </div>
+        </Fragment>
 
-        <div class="content">
-            <div class="left">
-                <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} alt={monster.name} title={monster.name} width="256" height="256" onerror="this.style.display='none'" />
-                <div class="info">
-                    <p class="indent">
-                        {`Type: ${monster.type}`}<br />
-                        {`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
-                        {`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`}<br />
-                    </p>
-                </div>
+        <Fragment slot="left">
+            <img src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} alt={monster.name} title={monster.name} width="256" height="256" onerror="this.style.display='none'" />
+            <div class="info">
+                <p class="indent">
+                    {`Type: ${monster.type}`}<br />
+                    {`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                    {`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`}<br />
+                </p>
             </div>
+        </Fragment>
 
-            <div class="right">
+        <Fragment slot="right">
+            <div class="stats">
                 <h2>Stats</h2>
                 <p class="indent">
                     {
@@ -81,99 +82,6 @@ if (!group || !diff || !floor || !monster) {
                     }
                 </p>
             </div>
-        </div>
-    </div>
+        </Fragment>
+    </Page>
 </Layout>
-
-<style>
-    .page {
-        .header {
-            display: flex;
-            position: sticky;
-            top: var(--nav-height);
-            align-items: center;
-            backdrop-filter: blur(5px);
-            margin: 0 auto;
-            background: var(--bg1a);
-            padding: 0 1rem;
-            max-width: 1000px;
-            height: var(--nav-height);
-        }
-
-        h1 {
-            margin: 0 1rem 0 0;
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-
-        .content {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-
-            .left {
-                width: 256px;
-            }
-        }
-
-        @media (width < 800px) {
-            .content {
-                flex-direction: column;
-            }
-
-            .left {
-                display: flex;
-                width: 100%;
-            }
-        }
-
-        .right {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .slider-container {
-            position: sticky;
-            top: calc(var(--nav-height) * 2);
-            backdrop-filter: blur(5px);
-            background: var(--bg1a);
-            padding: 1rem;
-        }
-
-        .slider {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
-
-            label {
-                width: 16ch;
-            }
-
-            input[type='range'] {
-                flex: 1;
-                width: 100%;
-                min-width: 0;
-                accent-color: var(--accent);
-            }
-        }
-
-        .mechanic-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        h2 {
-            margin: 1rem 0;
-        }
-
-        h3 {
-            margin: 0.75rem 0;
-        }
-
-        p {
-            margin: 0.25rem 0;
-        }
-    }
-</style>

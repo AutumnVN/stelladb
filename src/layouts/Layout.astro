@@ -341,58 +341,61 @@ if (import.meta.env.SSR) {
     a {
         color: var(--muted);
         text-decoration: none;
-    }
 
-    a:hover {
-        color: var(--text);
+        &:hover {
+            color: var(--text);
+        }
     }
 
     button {
         font-family: inherit;
     }
 
-    .tooltip.word {
-        color: var(--word);
-    }
+    .tooltip {
+        &.word {
+            color: var(--word);
+        }
 
-    .tooltip-icon {
-        display: inline-block;
-        position: relative;
-        vertical-align: middle;
-        width: 1.25rem;
-        height: 1.25rem;
-        overflow: hidden;
-    }
+        .tooltip-icon {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            width: 1.25rem;
+            height: 1.25rem;
+            overflow: hidden;
 
-    .tooltip-icon > img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 2.5rem;
-        height: 2.5rem;
-    }
+            > img {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
 
-    .tooltip-text {
-        display: none;
-        position: absolute;
-        z-index: 727;
-        border-radius: 6px;
-        background: var(--bg2);
-        padding: 1rem;
-        width: 400px;
-        color: var(--text);
-        font-weight: 400;
-    }
+        .tooltip-text {
+            display: none;
+            position: absolute;
+            z-index: 727;
+            border-radius: 6px;
+            background: var(--bg2);
+            padding: 1rem;
+            width: 400px;
+            color: var(--text);
+            font-weight: 400;
 
-    .tooltip-text img {
-        vertical-align: middle;
-        object-fit: cover;
-        object-position: center;
-    }
-
-    .tooltip:hover .tooltip-text {
-        display: block;
+            img {
+                vertical-align: middle;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+        &:hover {
+            .tooltip-text {
+                display: block;
+            }
+        }
     }
 
     .indent {
@@ -420,68 +423,69 @@ if (import.meta.env.SSR) {
         max-width: 1000px;
         height: var(--nav-height);
         white-space: nowrap;
-    }
+        .logo {
+            margin: 0;
+            padding: 0.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
 
-    .logo {
-        margin: 0;
-        padding: 0.5rem;
-        color: var(--accent);
-        font-weight: 700;
-        font-size: 1.5rem;
-        text-decoration: none;
-    }
+        .navlinks {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
 
-    .navlinks {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-left: auto;
-    }
+            a {
+                padding: 0.5rem 0.5rem;
+            }
 
-    .navlinks a {
-        padding: 0.5rem 0.5rem;
-    }
+            details {
+                position: relative;
 
-    .navlinks details {
-        position: relative;
-    }
+                summary {
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    color: var(--muted);
+                    list-style: none;
 
-    .navlinks summary {
-        cursor: pointer;
-        padding: 0.5rem;
-        color: var(--muted);
-        list-style: none;
-    }
+                    &::marker,
+                    &::-webkit-details-marker {
+                        display: none;
+                    }
 
-    .navlinks summary::marker,
-    .navlinks summary::-webkit-details-marker {
-        display: none;
-    }
+                    &:hover,
+                    &:focus-visible {
+                        color: var(--text);
+                    }
+                }
 
-    .navlinks summary:hover,
-    .navlinks summary:focus-visible {
-        color: var(--text);
-    }
+                &[open] {
+                    summary {
+                        color: var(--text);
+                    }
 
-    .navlinks details[open] summary {
-        color: var(--text);
-    }
+                    div {
+                        display: flex;
+                        position: absolute;
+                        top: calc(var(--nav-height) - 1rem);
+                        right: 0;
+                        flex-direction: column;
+                        box-shadow: 0 12px 28px #0008;
+                        border-radius: 6px;
+                        background: var(--bg2);
+                        padding: 0.25rem 0;
+                        width: max-content;
+                    }
 
-    .navlinks details[open] div {
-        display: flex;
-        position: absolute;
-        top: calc(var(--nav-height) - 1rem);
-        right: 0;
-        flex-direction: column;
-        box-shadow: 0 12px 28px #0008;
-        border-radius: 6px;
-        background: var(--bg2);
-        padding: 0.25rem 0;
-        width: max-content;
-    }
-
-    .navlinks details[open] a {
-        padding: 0.5rem 0.75rem;
+                    a {
+                        padding: 0.5rem 0.75rem;
+                    }
+                }
+            }
+        }
     }
 
     main {
@@ -500,72 +504,75 @@ if (import.meta.env.SSR) {
         max-width: 1000px;
         height: var(--nav-height);
         color: var(--muted);
-    }
+        .footer-right {
+            p {
+                margin: 0.25rem 0;
+                text-align: right;
+            }
+        }
 
-    .footer-right p {
-        margin: 0.25rem 0;
-        text-align: right;
-    }
+        .discord {
+            > a {
+                display: flex;
+                gap: 0.5rem;
+            }
 
-    .discord > a {
-        display: flex;
-        gap: 0.5rem;
-    }
+            .avatar-wrapper {
+                position: relative;
+                width: 40px;
+                height: 40px;
+            }
 
-    .discord .avatar-wrapper {
-        position: relative;
-        width: 40px;
-        height: 40px;
-    }
+            .avatar {
+                border-radius: 8px;
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                width: 100%;
+                height: 100%;
+            }
 
-    .discord .avatar {
-        border-radius: 8px;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        width: 100%;
-        height: 100%;
-    }
+            .name-row {
+                width: max-content;
+                min-width: 0;
+                max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
 
-    .discord .name-row {
-        width: max-content;
-        min-width: 0;
-        max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+            .display-name {
+                color: var(--text);
+                font-weight: 600;
+            }
 
-    .discord .display-name {
-        color: var(--text);
-        font-weight: 600;
-    }
+            .username {
+                color: var(--muted);
+                font-weight: 400;
+            }
 
-    .discord .username {
-        color: var(--muted);
-        font-weight: 400;
-    }
+            .activity-row {
+                width: max-content;
+                min-width: 0;
+                max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
+                overflow: hidden;
+                color: var(--muted);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
 
-    .discord .activity-row {
-        width: max-content;
-        min-width: 0;
-        max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
-        overflow: hidden;
-        color: var(--muted);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+            .activity {
+                font-weight: 600;
+            }
 
-    .discord .activity {
-        font-weight: 600;
-    }
-
-    .discord .color-dot {
-        position: absolute;
-        right: 2px;
-        bottom: 2px;
-        border-radius: 50%;
-        width: 0.7em;
-        height: 0.7em;
+            .color-dot {
+                position: absolute;
+                right: 2px;
+                bottom: 2px;
+                border-radius: 50%;
+                width: 0.7em;
+                height: 0.7em;
+            }
+        }
     }
 </style>

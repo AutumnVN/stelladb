@@ -137,6 +137,7 @@ export function clientScript(url) {
                     .replace(/<style>@import.+?<\\/style>/, '')
                     .replace(/<script.+?<\\/script>/gs, '')
                     .replace(/target="_blank" rel="noreferrer" href="#\\w+?=\\d+?"/g, 'href="javascript:void(0);"')
+                    .replace(/max-width: 49.0px;/g, 'color: #333 !important;')
                     .replace(/<div id="\\d+?".+?>/, \`${nav}$&\`)
                     .replace(/<head>/, \`$&${style}\`);
                 document.documentElement.innerHTML = modifiedHtml;

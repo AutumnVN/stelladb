@@ -1,13 +1,31 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { Image } from 'astro:assets';
+import Search from 'astro-pagefind/components/Search';
 ---
 
-<Layout title="stelladb">
+<Layout title="stelladb" pagefindIgnore={true}>
     <div class="center">
-        <div class="text">
-            <h1>a <a style="color: var(--accent)" href="https://stellasora.global/">stella sora</a> database</h1>
-            <p id="kv-text"></p>
+        <div class="main">
+            <div class="text">
+                <h1>a <a style="color: var(--accent)" href="https://stellasora.global/">stella sora</a> database</h1>
+                <p id="kv-text"></p>
+            </div>
+
+            <Search
+                id="search"
+                className="pagefind-ui"
+                uiOptions={{
+                    autofocus: true,
+                    pageSize: 10,
+                    resetStyles: false,
+                    showImages: true,
+                    translations: {
+                        placeholder: 'Search...',
+                        clear_search: '✖',
+                    },
+                }}
+            />
         </div>
 
         <img class="nazuna" alt="Nazuna" title="Nazuna" width="320" height="320" />
@@ -23,18 +41,6 @@ import { Image } from 'astro:assets';
             <a href="https://b6bb5f31.stelladb.pages.dev/">v1.2</a>
             <a href="https://5076c69f.stelladb.pages.dev/">v1.1</a>
         </div>
-    </div>
-
-    <div class="petal-bloom">
-        <a href="/trekker/156" title="Nazuna">
-            <Image src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_15601_Q.webp" alt="Nazuna" title="Nazuna" width="200" height="200" densities={[1.25]} />
-        </a>
-        <a href="/trekker/134" title="Fuyuka">
-            <Image src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_13401_Q.webp" alt="Fuyuka" title="Fuyuka" width="200" height="200" densities={[1.25]} />
-        </a>
-        <a href="/trekker/133" title="Nazuka">
-            <Image src="https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_13301_Q.webp" alt="Nazuka" title="Nazuka" width="200" height="200" densities={[1.25]} />
-        </a>
     </div>
 </Layout>
 
@@ -79,6 +85,18 @@ import { Image } from 'astro:assets';
             audio.play();
         });
     }
+
+    const searchInput = document.querySelector('.pagefind-ui__search-input');
+
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const firstResult = document.querySelector('.pagefind-ui__result-link');
+
+            if (firstResult) {
+                window.location.href = firstResult.href;
+            }
+        }
+    });
 </script>
 
 <style>
@@ -90,10 +108,15 @@ import { Image } from 'astro:assets';
         align-items: center;
         min-height: calc(100dvh - 2 * var(--nav-height));
 
-        .text {
+        .main {
             align-items: center;
             margin-bottom: 1rem;
+            width: 100%;
             text-align: center;
+
+            #kv-text:not(:empty) {
+                margin-bottom: 1rem;
+            }
         }
 
         h1 {
@@ -122,25 +145,6 @@ import { Image } from 'astro:assets';
 
         a {
             padding: 0.1rem 0.5rem;
-        }
-    }
-
-    .petal-bloom {
-        display: flex;
-        position: absolute;
-        right: 0;
-        bottom: var(--nav-height);
-        overflow: hidden;
-
-        a {
-            width: 120px;
-        }
-
-        img {
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-            pointer-events: none;
         }
     }
 </style>

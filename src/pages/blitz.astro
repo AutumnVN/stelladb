@@ -22,7 +22,7 @@ const emoji = {
 };
 ---
 
-<Layout title="Boss Blitz | stelladb">
+<Layout title="Boss Blitz | stelladb" pagefindIgnore={true}>
     <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
         {
             Object.entries(data).map(([id, blitz]) => (

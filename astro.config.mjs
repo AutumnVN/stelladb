@@ -1,5 +1,6 @@
 import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
+import pagefind from 'astro-pagefind';
 import { defineConfig } from 'astro/config';
 import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'fs';
 import path from 'path';
@@ -16,6 +17,8 @@ export default defineConfig({
     }),
     integrations: [
         sitemap(),
+        pagefind(),
+
     ],
     vite: {
         resolve: {
@@ -24,7 +27,7 @@ export default defineConfig({
             }
         },
         ssr: {
-            external: ['buffer']
+            external: ['buffer', 'path/posix']
         }
     },
     prefetch: true,

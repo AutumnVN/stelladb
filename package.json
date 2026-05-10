@@ -13,6 +13,7 @@
         "@astrojs/sitemap": "^3.7.2",
         "@resvg/resvg-wasm": "^2.6.2",
         "astro": "^5.18.1",
+        "astro-pagefind": "^1.8.6",
         "normalize.css": "^8.0.1",
         "postcss-preset-env": "^11.2.1",
         "sharp": "^0.34.5",

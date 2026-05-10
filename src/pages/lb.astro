@@ -11,7 +11,7 @@ const data = await fetch(DATA_URL)
     .catch(() => ({}));
 ---
 
-<Layout title="Leaderboard | stelladb">
+<Layout title="Leaderboard | stelladb" pagefindIgnore={true}>
     <SearchableGrid placeholder="Search leaderboard by id, name or boss name..." noResultsText="No leaderboard found.">
         {
             Object.entries(data).map(([id, data]) => {

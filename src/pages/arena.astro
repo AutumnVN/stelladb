@@ -19,7 +19,7 @@ const emoji = {
 };
 ---
 
-<Layout title="Arena | stelladb">
+<Layout title="Arena | stelladb" pagefindIgnore={true}>
     <SearchableGrid placeholder="Search arena groups by id, name, or element..." noResultsText="No arena group found.">
         {
             Object.entries(data).map(([id, group]) => (

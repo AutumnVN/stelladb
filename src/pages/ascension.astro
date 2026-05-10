@@ -19,7 +19,7 @@ const emoji = {
 };
 ---
 
-<Layout title="Ascension | stelladb">
+<Layout title="Ascension | stelladb" pagefindIgnore={true}>
     <SearchableGrid placeholder="Search ascension groups by id, name, or element..." noResultsText="No ascension group found.">
         {
             Object.entries(data).map(([id, group]) => (

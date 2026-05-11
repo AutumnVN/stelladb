@@ -18,7 +18,7 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
                     set:html={`
                     <script type="text/pagefind-template">
                         <a class="pf-searchbox-result" id="{{ aria.result_id }}" href="{{ meta.url | default(url) | safeUrl }}" role="option" aria-selected="false" aria-labelledby="{{ aria.title_id }}"{{#if excerpt}} aria-describedby="{{ aria.excerpt_id }}"{{/if}}>
-                            <img class="pf-searchbox-result-image" src="{{ meta.image | default('/favicon.ico') | safeUrl }}" alt="{{ meta.title | default('Untitled') }}" width="40" height="40" loading="lazy" />
+                            <img class="pf-searchbox-result-image" src="{{ meta.image | default('https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/datingeventcg/DatingSPCG_156302.webp') | safeUrl }}" alt="{{ meta.title | default('Untitled') }}" width="64" height="64" loading="lazy" />
                             <div class="pf-searchbox-result-content">
                                 <p class="pf-searchbox-result-title" id="{{ aria.title_id }}">{{ meta.title | default("Untitled") }}</p>
                                 {{#if excerpt}}
@@ -43,7 +43,7 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
         <div class="time-machine">
             <a href="https://stelladb.pages.dev/">latest</a>
             <a href="https://ccf205c4.stelladb.pages.dev/">v1.8</a>
-            <a href="https://5993e144.stelladb.pages.dev/">v1.7</a>
+            <a href="https://5993e16.stelladb.pages.dev/">v1.7</a>
             <a href="https://d7422ec5.stelladb.pages.dev/">v1.6</a>
             <a href="https://674e026f.stelladb.pages.dev/">v1.5</a>
             <a href="https://e0b7d670.stelladb.pages.dev/">v1.4</a>
@@ -104,7 +104,7 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        min-height: calc(100dvh - 2 * var(--nav-height));
+        min-height: calc(100dvh - 2 * var(--nav-height) - 1px);
 
         .main {
             align-items: center;
@@ -163,8 +163,8 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
         --pf-font: Inter, 'Segoe UI', Arial, system-ui, sans-serif;
         --pf-input-height: 3rem;
         --pf-input-font-size: 1.25rem;
-        --pf-searchbox-max-width: 800px;
-        --pf-searchbox-dropdown-max-height: 400px;
+        --pf-searchbox-max-width: 50rem;
+        --pf-searchbox-dropdown-max-height: 25rem;
         display: block;
         margin: 0 auto;
         color-scheme: only dark;
@@ -199,8 +199,8 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
                     .pf-searchbox-result-image {
                         flex-shrink: 0;
                         border-radius: 4px;
-                        width: 44px;
-                        height: 44px;
+                        width: 64px;
+                        height: 64px;
                         object-fit: cover;
                         object-position: top;
                     }
@@ -211,7 +211,9 @@ import PagefindConfig from 'astro-pagefind/components/PagefindConfig.astro';
                         }
 
                         .pf-searchbox-result-excerpt {
+                            max-height: 2.5rem;
                             font-size: 0.9rem;
+                            white-space: normal;
                         }
                     }
                 }

@@ -1,7 +1,113 @@
-/*.html
+/
   Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
   Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
   Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/arena
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/arena/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/ascension
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/ascension/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/banner
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/blitz
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/blitz/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/build
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/disc
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/disc/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/duel
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/duel/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/emblem
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/ground
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/ground/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/lb
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/raid
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/raid/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/trekker
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/trekker/*
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
+/unreleased
+  Link: </font.woff2>; rel=preload; as=font; type=font/woff2; crossorigin
+  Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
+  Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
+  Clear-Site-Data: "cookies", "storage"
 /*.webp
   Cache-Control: public, max-age=604800, stale-while-revalidate=604800
 /*.avif

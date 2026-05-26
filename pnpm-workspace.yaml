@@ -2,3 +2,5 @@ allowBuilds:
   esbuild: true
   sharp: true
   workerd: true
+patchedDependencies:
+  astro@5.18.1: patches/astro@5.18.1.patch

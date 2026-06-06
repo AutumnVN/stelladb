@@ -3,16 +3,16 @@
   Link: <https://chino.is-a.dev>; rel=preconnect; crossorigin
   Link: <https://api.lanyard.rest>; rel=preconnect; crossorigin
 /*.webp
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000
 /*.avif
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000
 /*.gif
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000
 /*.woff2
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000
 /*.mp3
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000
 /*.css
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000
 /*.js
-  Cache-Control: public, max-age=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=31536000, s-maxage=31536000, stale-while-revalidate=31536000

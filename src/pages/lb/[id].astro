@@ -447,17 +447,17 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
             </div>
         </div>
 
-        <div id="all-team-modal" class="team-modal hidden">
+        <div id="all-team-modal" class="team-modal" hidden>
             <div class="modal-backdrop" id="all-team-modal-backdrop"></div>
-            <div class="modal-panel">
+            <div class="modal-wrapper">
                 <button class="modal-close" id="all-team-modal-close">×</button>
                 <div class="modal-content" id="all-team-modal-content"></div>
             </div>
         </div>
 
-        <div id="team-modal" class="team-modal hidden">
+        <div id="team-modal" class="team-modal" hidden>
             <div class="modal-backdrop" id="team-modal-backdrop"></div>
-            <div class="modal-panel">
+            <div class="modal-wrapper">
                 <button class="modal-close" id="team-modal-close">×</button>
                 <div class="modal-content" id="team-modal-content"></div>
             </div>
@@ -619,10 +619,9 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
             .join('');
 
         modalContent.innerHTML = headingHtml + teamsHtml;
-        modal.classList.remove('hidden');
-
         modalClose.addEventListener('click', closeModal);
         modalBackdrop.addEventListener('click', closeModal);
+        modal.hidden = false;
     }
 
     function openAllTeamModal(item, regionData) {
@@ -649,12 +648,91 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
             })
             .join('');
 
+        function modalGrid(obj) {
+            return Object.entries(obj)
+                .map(([id, count]) => {
+                    const prefix = id[0];
+                    id = id.slice(1);
+                    const iconUrl = prefix === 'p' ? `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${id}.webp` : `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.slice(2)}.webp`;
+                    return `
+                        <div class="modal-grid-item">
+                            ${
+                                prefix === 'p'
+                                    ? `<img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="128">`
+                                    : `
+                                    <a href="/disc/${id}" title="${id}">
+                                        <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="100">
+                                    </a>
+                                `
+                            }
+                            <div class="modal-grid-item-count">${count}</div>
+                        </div>
+                    `;
+                })
+                .join('');
+        }
+
         modalContent.innerHTML = `
             <div class="modal-heading">
                 <div>${item.name}</div>
+
+                <div class="modal-tabs-wrapper">
+                    <div class="modal-tabs">
+                        <button class="modal-tab active" data-tab="players">Player</button>
+                        <button class="modal-tab" data-tab="potential">Potential</button>
+                        <button class="modal-tab" data-tab="disc">Disc</button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-team-list">
-                ${rowsHtml}
+
+            <div class="modal-panel" data-panel="players">
+                <div class="modal-team-list">${rowsHtml}</div>
+            </div>
+
+            <div class="modal-panel" data-panel="potential" hidden>
+                <div class="modal-grid-header">
+                    <div>Potential usage</div>
+                    <div class="modal-grid-tabs">
+                        <button class="modal-grid-tab active" data-tab="all">All</button>
+                        <button class="modal-grid-tab" data-tab="high">High (4-6)</button>
+                        <button class="modal-grid-tab" data-tab="low">Low (1-3)</button>
+                    </div>
+                </div>
+
+                <div class="modal-grid-panel" data-panel="all">
+                    <div class="modal-grid">${modalGrid(item.potentialUsage.all)}</div>
+                </div>
+
+                <div class="modal-grid-panel" data-panel="high" hidden>
+                    <div class="modal-grid">${modalGrid(item.potentialUsage.high)}</div>
+                </div>
+
+                <div class="modal-grid-panel" data-panel="low" hidden>
+                    <div class="modal-grid">${modalGrid(item.potentialUsage.low)}</div>
+                </div>
+            </div>
+
+            <div class="modal-panel" data-panel="disc" hidden>
+                <div class="modal-grid-header">
+                    <div>Disc usage</div>
+                    <div class="modal-grid-tabs">
+                        <button class="modal-grid-tab active" data-tab="all">All</button>
+                        <button class="modal-grid-tab" data-tab="main">Main</button>
+                        <button class="modal-grid-tab" data-tab="support">Support</button>
+                    </div>
+                </div>
+
+                <div class="modal-grid-panel" data-panel="all">
+                    <div class="modal-grid">${modalGrid(item.discUsage.all)}</div>
+                </div>
+
+                <div class="modal-grid-panel" data-panel="main" hidden>
+                    <div class="modal-grid">${modalGrid(item.discUsage.main)}</div>
+                </div>
+
+                <div class="modal-grid-panel" data-panel="support" hidden>
+                    <div class="modal-grid">${modalGrid(item.discUsage.support)}</div>
+                </div>
             </div>
         `;
 
@@ -665,8 +743,6 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
             if (e.key === 'Enter') handleTrigger(e);
         });
 
-        modal.classList.remove('hidden');
-
         function handleTrigger(e) {
             const row = e.target.closest('.modal-team-item');
             if (row && row.dataset.entry) {
@@ -676,13 +752,58 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
 
         modalClose.addEventListener('click', closeModal);
         modalBackdrop.addEventListener('click', closeModal);
+        modal.hidden = false;
     }
 
+    document.addEventListener('click', (e) => {
+        const tab = e.target.closest('.modal-tab');
+        if (!tab) return;
+
+        const currentModal = tab.closest('.modal-heading').parentElement;
+        if (!currentModal) return;
+
+        const container = tab.closest('.modal-tabs');
+        if (container) {
+            container.querySelectorAll('.modal-tab').forEach((t) => {
+                t.classList.toggle('active', t === tab);
+            });
+        }
+
+        const targetPanelName = tab.dataset.tab;
+        const panels = currentModal.querySelectorAll('.modal-panel');
+
+        panels.forEach((p) => {
+            p.hidden = p.dataset.panel !== targetPanelName;
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        const tab = e.target.closest('.modal-grid-tab');
+        if (!tab) return;
+
+        const panel = tab.closest('.modal-panel');
+        if (!panel) return;
+
+        const container = tab.closest('.modal-grid-tabs');
+        if (container) {
+            container.querySelectorAll('.modal-grid-tab').forEach((t) => {
+                t.classList.toggle('active', t === tab);
+            });
+        }
+
+        const targetPanelName = tab.dataset.tab;
+        const panels = panel.querySelectorAll('.modal-grid-panel');
+
+        panels.forEach((p) => {
+            p.hidden = p.dataset.panel !== targetPanelName;
+        });
+    });
+
     function closeModal(e) {
-        const modals = document.querySelectorAll('.team-modal:not(.hidden)');
+        const modals = document.querySelectorAll('.team-modal:not([hidden])');
         const modal = modals[modals.length - 1];
         if (modal) {
-            modal.classList.add('hidden');
+            modal.hidden = true;
         }
     }
 
@@ -735,8 +856,8 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
     regionTabsEls.forEach((btn) => btn.addEventListener('click', () => showRegion(btn.dataset.tab)));
     showRegion('en');
 
-    document.addEventListener('click', (ev) => {
-        const floorBtn = ev.target.closest('.floor-tab');
+    document.addEventListener('click', (e) => {
+        const floorBtn = e.target.closest('.floor-tab');
         if (!floorBtn) return;
         const panel = floorBtn.closest('.tab-panel');
         if (!panel) return;
@@ -746,8 +867,8 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
         showRegion(currentRegion);
     });
 
-    document.addEventListener('click', async (ev) => {
-        const btn = ev.target.closest('.score-details, .team-top, .all-score');
+    document.addEventListener('click', async (e) => {
+        const btn = e.target.closest('.score-details, .team-top, .all-score');
         if (!btn) return;
         const regionEl = btn.closest('.region-data');
         const region = regionEl?.dataset.region;
@@ -758,7 +879,7 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
             const row = btn.closest('.grid-row');
             const key = row?.dataset.key;
             const floor = regionEl?.dataset.floor || 'all';
-            const list = (rd.UsageTeamByFloor && rd.UsageTeamByFloor[floor]) || [];
+            const list = (rd.ScoreTeamByFloor && rd.ScoreTeamByFloor[floor]) || [];
             const item = list.find((i) => String(i.key) === String(key));
             if (item) {
                 openAllTeamModal(item, rd);
@@ -1104,8 +1225,8 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
             }
         }
     }
-    .team-modal.hidden {
-        display: none;
+    [hidden] {
+        display: none !important;
     }
     .team-modal {
         display: flex;
@@ -1122,7 +1243,7 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
         background: rgba(0, 0, 0, 0.8);
     }
 
-    .modal-panel {
+    .modal-wrapper {
         position: relative;
         z-index: 2;
         border-radius: 10px;
@@ -1316,6 +1437,96 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
         height: 48px;
         color: var(--muted);
         font-size: 2rem;
+    }
+
+    .modal-tabs-wrapper {
+        margin-right: 2rem;
+        margin-left: auto;
+
+        .modal-tabs {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .modal-tab {
+                border: none;
+                background: transparent;
+                padding: 0.5rem;
+                color: var(--muted);
+                font-size: 1rem;
+
+                &:hover {
+                    color: var(--text);
+                }
+
+                &.active {
+                    color: var(--text);
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .modal-grid-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+
+        .modal-grid-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+
+            .modal-grid-tab {
+                border: none;
+                background: transparent;
+                padding: 0.35rem 0.6rem;
+                color: var(--muted);
+
+                &:hover {
+                    color: var(--text);
+                }
+
+                &.active {
+                    color: var(--text);
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .modal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+
+    .modal-grid-item {
+        display: flex;
+        position: relative;
+        width: 100px;
+
+        .modal-grid-item-icon {
+            border-radius: 8px;
+            width: 100px;
+            object-fit: cover;
+        }
+
+        .modal-grid-item-count {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 727px;
+            background-color: var(--bg);
+            padding: 4px 6px;
+            pointer-events: none;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
     }
 
     .modal-team-list {

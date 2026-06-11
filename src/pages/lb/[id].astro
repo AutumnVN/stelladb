@@ -633,14 +633,7 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
 
         modalContent.innerHTML = '';
 
-        const users = (item.users || []).slice();
-        users.sort((a, b) => {
-            const aScore = Math.abs(a.teamScore || 0);
-            const bScore = Math.abs(b.teamScore || 0);
-            return isBB ? bScore - aScore : aScore - bScore;
-        });
-
-        const rowsHtml = users
+        const rowsHtml = item.users
             .map((u) => {
                 const entry = (regionData.Rank || []).find((e) => String(e.Id) === String(u.id)) || (regionData.Self && String(regionData.Self.Id) === String(u.id) ? regionData.Self : null);
                 const dataEntry = entry ? `data-entry='${JSON.stringify(entry).replace(/'/g, '&apos;')}'` : '';

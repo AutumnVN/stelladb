@@ -15,9 +15,14 @@ const meta = JSON.parse(props.meta);
 const isBB = /^bb/.test(id);
 const season = id.match(/\d+/)?.[0];
 const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
+const floors = meta.floor;
+const desc = Object.values(floors)
+    .map((f) => f.name)
+    .join(', ');
+const firstIcon = Object.values(floors)[0]?.icon;
 ---
 
-<Layout title={`${name} Leaderboard | stelladb`}>
+<Layout title={`${name} Leaderboard | stelladb`} description={desc} image=`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstIcon}.webp`>
     <div class="lb-page" data-meta={JSON.stringify(meta)}></div>
 </Layout>
 

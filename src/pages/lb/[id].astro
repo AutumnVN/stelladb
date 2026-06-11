@@ -658,12 +658,16 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
                         <div class="modal-grid-item">
                             ${
                                 prefix === 'p'
-                                    ? `<img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="128">`
+                                    ? `
+                                        <a href="/trekker/${id.slice(1, 4)}" title="${characterIdData[id.slice(1, 4)]}">
+                                            <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="128">
+                                        </a>
+                                    `
                                     : `
-                                    <a href="/disc/${id}" title="${id}">
-                                        <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="100">
-                                    </a>
-                                `
+                                        <a href="/disc/${id}" title="${id}">
+                                            <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="100">
+                                        </a>
+                                    `
                             }
                             <div class="modal-grid-item-count">${count}</div>
                         </div>

@@ -327,7 +327,7 @@ const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;
                                                     </div>
 
                                                     <div class="col uses">
-                                                        ${item.count}
+                                                        <button class="all-score">${item.count}</button>
                                                         <button class="team-top" data-id="${item.topUser.id}" title="${item.topUser.id}">
                                                             ${`#${item.topUser.rank} ${item.topUser.name}: ${!isBB ? `${(Math.abs(item.topUser.teamScore) / 1000).toLocaleString('en-US')}s` : item.topUser.teamScore.toLocaleString('en-US')}`}
                                                         </button>

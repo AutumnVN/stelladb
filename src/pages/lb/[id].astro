@@ -348,42 +348,12 @@ const allData = region['all'] || {};
                         Object.keys(region).map((rk) => {
                             const rd = region[rk] || {};
                             const floorKeys = ['all', ...Object.keys(floor || {})];
-
                             return floorKeys.map((fk) => {
-                                const rawList = (rd.UsageTeamByFloor && rd.UsageTeamByFloor[fk]) || [];
-
-                                const sortedList = [...rawList].sort((a, b) => {
-                                    const aScore = Math.abs(a.topUser?.teamScore || 0);
-                                    const bScore = Math.abs(b.topUser?.teamScore || 0);
-
-                                    return isBB ? bScore - aScore : aScore - bScore;
-                                });
-
-                                const rankedList = sortedList.map((item, index, arr) => {
-                                    const score = Math.abs(item.topUser?.teamScore || 0);
-
-                                    let rank = 1;
-
-                                    if (index > 0) {
-                                        const prevScore = Math.abs(arr[index - 1].topUser?.teamScore || 0);
-
-                                        if (score === prevScore) {
-                                            rank = arr[index - 1].rank;
-                                        } else {
-                                            rank = index + 1;
-                                        }
-                                    }
-
-                                    return {
-                                        ...item,
-                                        rank,
-                                    };
-                                });
-
+                                const list = (rd.ScoreTeamByFloor && rd.ScoreTeamByFloor[fk]) || [];
                                 return (
                                     <div class="region-data" data-region={rk} data-floor={String(fk)} hidden={rk !== defaultRegion || fk !== 'all'}>
-                                        {rankedList.length ? (
-                                            rankedList.map((item) => (
+                                        {list.length ? (
+                                            list.map((item) => (
                                                 <div class="grid-row" data-key={item.key}>
                                                     <div class="col rank">
                                                         <div class="rank-num">{item.rank}</div>

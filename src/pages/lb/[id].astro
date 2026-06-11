@@ -130,7 +130,6 @@ const allData = region['all'] || {};
                                         <div class="col rank">Rank</div>
                                         <div class="col player">Player</div>
                                         <div class="col score">Score</div>
-                                        <div class="col details">Details</div>
                                     </div>
 
                                     {(rd.Rank || []).map((entry) => (
@@ -144,11 +143,9 @@ const allData = region['all'] || {};
                                                 <div class="player-name">{entry.NickName}</div>
                                             </div>
 
-                                            <div class="col score">{(entry.Score || 0).toLocaleString('en-US')}</div>
-
-                                            <div class="col details">
-                                                <button class="details-btn" data-id={entry.Id}>
-                                                    🔍
+                                            <div class="col score">
+                                                <button class="score-details" data-id={entry.Id}>
+                                                    {(entry.Score || 0).toLocaleString('en-US')}
                                                 </button>
                                             </div>
                                         </div>
@@ -165,11 +162,9 @@ const allData = region['all'] || {};
                                                 <div class="player-name">{rd.Self.NickName}</div>
                                             </div>
 
-                                            <div class="col score">{rd.Self.Score?.toLocaleString('en-US')}</div>
-
-                                            <div class="col details">
-                                                <button class="details-btn" data-id={rd.Self.Id}>
-                                                    🔍
+                                            <div class="col score">
+                                                <button class="score-details" data-id={rd.Self.Id}>
+                                                    {rd.Self.Score?.toLocaleString('en-US')}
                                                 </button>
                                             </div>
                                         </div>
@@ -809,7 +804,7 @@ const allData = region['all'] || {};
     });
 
     document.addEventListener('click', async (ev) => {
-        const btn = ev.target.closest('.details-btn, .team-top, .all-score');
+        const btn = ev.target.closest('.score-details, .team-top, .all-score');
         if (!btn) return;
         const regionEl = btn.closest('.region-data');
         const region = regionEl?.dataset.region || defaultRegion;
@@ -930,7 +925,7 @@ const allData = region['all'] || {};
         .grid-header,
         .grid-row {
             display: grid;
-            grid-template-columns: 100px 1fr 140px 50px;
+            grid-template-columns: 100px 1fr 220px;
             align-items: center;
             gap: 1rem;
             border-bottom: 1px solid var(--bg2);
@@ -980,7 +975,7 @@ const allData = region['all'] || {};
         @media (width < 800px) {
             .grid-header,
             .grid-row {
-                grid-template-columns: 56px 1fr 110px 50px;
+                grid-template-columns: 56px 1fr 220px;
             }
 
             .grid-row .col.player {
@@ -992,10 +987,8 @@ const allData = region['all'] || {};
         .grid-header .col.rank,
         .grid-header .col.player,
         .grid-header .col.score,
-        .grid-header .col.details,
         .grid-row .col.rank,
-        .grid-row .col.score,
-        .grid-row .col.details {
+        .grid-row .col.score {
             justify-content: center;
             text-align: center;
         }
@@ -1005,11 +998,22 @@ const allData = region['all'] || {};
             width: 300px;
         }
 
-        .details-btn {
+        .players button {
+            display: block;
             cursor: pointer;
-            border: transparent;
+            margin: 0 auto;
+            border: none;
             background: transparent;
-            padding: 0.6rem 0.6rem;
+            padding: 0;
+        }
+
+        .players .score-details {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .players .score-details:hover {
+            color: var(--accent);
         }
 
         .char-usage .usage-grid .grid-header,

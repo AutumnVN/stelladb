@@ -23,7 +23,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
 ---
 
 <Layout title={`${name} Leaderboard | stelladb`} description={desc} image=`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstIcon}.webp`>
-    <div class="lb-page" data-meta={JSON.stringify(meta)}>
+    <div class="lb-page">
         <div class="header">
             <h1>{name} Leaderboard</h1>
         </div>
@@ -34,8 +34,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
     // @ts-nocheck
     const id = location.pathname.split('/').filter(Boolean).pop();
     const SEASON_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
+    const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
     const CHARACTER_ID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
-    const [seasonData, characterIdData] = await Promise.all([fetch(SEASON_URL).then((r) => r.json()), fetch(CHARACTER_ID_URL).then((r) => r.json())]);
+    const [seasonData, characterIdData, metaData] = await Promise.all([fetch(SEASON_URL).then((r) => r.json()), fetch(CHARACTER_ID_URL).then((r) => r.json()), fetch(META_URL).then((r) => r.json())]);
     const regionData = seasonData.region;
     const regionTabs = ['en', 'jp', 'kr', 'tw', ...(regionData.cn ? ['cn'] : []), 'all'];
     const regionLabels = {
@@ -47,7 +48,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
         all: 'ALL',
     };
     const pageEl = document.querySelector('.lb-page');
-    const meta = JSON.parse(pageEl.dataset.meta);
+    const meta = metaData[id];
     const isBB = /^bb/.test(id);
     const season = id.match(/\d+/)?.[0];
     const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;

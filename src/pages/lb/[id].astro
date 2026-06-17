@@ -148,9 +148,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
                                             </div>
 
                                             <div class="col score">
-                                                <button class="score-details" data-id="${entry.Id}">
+                                                <span class="score-details" data-id="${entry.Id}">
                                                     ${(entry.Score || 0).toLocaleString('en-US')}
-                                                </button>
+                                                </span>
                                             </div>
                                         </div>
                                     `,
@@ -171,9 +171,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
                                             </div>
 
                                             <div class="col score">
-                                                <button class="score-details" data-id="${rd.Self.Id}">
+                                                <span class="score-details" data-id="${rd.Self.Id}">
                                                     ${rd.Self.Score?.toLocaleString('en-US')}
-                                                </button>
+                                                </span>
                                             </div>
                                         </div>
                                     `
@@ -909,7 +909,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
     });
 
     document.addEventListener('click', async (e) => {
-        const btn = e.target.closest('.score-details, .team-top');
+        const btn = e.target.closest('.team-top');
         const row = e.target.closest('.grid-row');
 
         if (btn) {
@@ -921,6 +921,15 @@ const firstIcon = Object.values(floors)[0]?.icon;
             const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
             if (entry) openModal(entry);
             return;
+        }
+
+        if (row && row.closest('#players')) {
+            const regionEl = row.closest('.region-data');
+            const region = regionEl?.dataset.region;
+            const rd = regionData[region] || {};
+            const id = row.dataset.id;
+            const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
+            if (entry) openModal(entry);
         }
 
         if (row && row.closest('#team-usage, #team-score')) {
@@ -1110,13 +1119,14 @@ const firstIcon = Object.values(floors)[0]?.icon;
             padding: 0;
         }
 
+        .players .grid-row:hover {
+            background: var(--bg2);
+            cursor: pointer;
+        }
+
         .players .score-details {
             color: var(--text);
             font-weight: 700;
-        }
-
-        .players .score-details:hover {
-            color: var(--accent);
         }
 
         .char-usage .usage-grid .grid-header,
@@ -1187,12 +1197,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
             padding: 0.6rem 1rem;
         }
 
-        .team-usage .usage-grid .grid-row {
-            cursor: pointer;
-        }
-
         .team-usage .usage-grid .grid-row:hover {
             background: var(--bg2);
+            cursor: pointer;
         }
 
         .team-usage .grid-header .col.team {

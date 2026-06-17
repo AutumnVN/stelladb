@@ -1181,6 +1181,13 @@ const firstIcon = Object.values(floors)[0]?.icon;
             color: inherit;
         }
 
+        .team-usage .usage-grid .grid-header {
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
         .team-usage .usage-grid .grid-header,
         .team-usage .usage-grid .grid-row {
             display: grid;
@@ -1237,11 +1244,6 @@ const firstIcon = Object.values(floors)[0]?.icon;
             border: none;
             background: transparent;
             padding: 0;
-        }
-
-        .team-usage .score {
-            color: var(--text);
-            font-weight: 700;
         }
 
         .team-usage .team-top {
@@ -1523,9 +1525,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
         justify-content: space-between;
         align-items: center;
         gap: 0.5rem;
+        height: 40px;
         font-weight: 700;
         font-size: 1.1rem;
-        height: 40px;
 
         .modal-grid-tabs {
             display: flex;

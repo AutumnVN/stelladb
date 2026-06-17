@@ -148,9 +148,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
                                             </div>
 
                                             <div class="col score">
-                                                <button class="score-details" data-id="${entry.Id}">
+                                                <span data-id="${entry.Id}">
                                                     ${(entry.Score || 0).toLocaleString('en-US')}
-                                                </button>
+                                                </span>
                                             </div>
                                         </div>
                                     `,
@@ -171,9 +171,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
                                             </div>
 
                                             <div class="col score">
-                                                <button class="score-details" data-id="${rd.Self.Id}">
+                                                <span data-id="${rd.Self.Id}">
                                                     ${rd.Self.Score?.toLocaleString('en-US')}
-                                                </button>
+                                                </span>
                                             </div>
                                         </div>
                                     `
@@ -217,7 +217,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
                     <div class="grid-header">
                         <div class="col rank">Rank</div>
                         <div class="col char">Trekker</div>
-                        <div class="col uses">Uses</div>
+                        <div class="col score">Uses</div>
                     </div>
 
                     ${Object.keys(regionData)
@@ -246,7 +246,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
                                                         </a>
                                                     </div>
 
-                                                    <div class="col uses" ${item.count === 1 && item.users && item.users.length === 1 ? `title="${item.users[0].id}"` : ''}>
+                                                    <div class="col score" ${item.count === 1 && item.users && item.users.length === 1 ? `title="${item.users[0].id}"` : ''}>
                                                         ${item.count === 1 && item.users && item.users.length === 1 ? `#${item.users[0].rank} ${item.users[0].name}` : item.count}
                                                     </div>
                                                 </div>
@@ -299,7 +299,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
                     <div class="grid-header">
                         <div class="col rank">Rank</div>
                         <div class="col team">Team</div>
-                        <div class="col uses">Uses</div>
+                        <div class="col score">Uses</div>
                     </div>
 
                     ${Object.keys(regionData)
@@ -323,21 +323,13 @@ const firstIcon = Object.values(floors)[0]?.icon;
 
                                                     <div class="col team">
                                                         <div class="team-icons">
-                                                            ${item.members
-                                                                .map(
-                                                                    (id) => `
-                                                                <a class="team-char" href="/trekker/${id}">
-                                                                    <img class="char-icon" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp" alt="${characterIdData[id]}" title="${characterIdData[id]}" width="48" height="48" />
-                                                                </a>
-                                                            `,
-                                                                )
-                                                                .join('')}
+                                                            ${item.members.map((id) => `<img class="char-icon" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp" alt="${characterIdData[id]}" title="${characterIdData[id]}" width="48" height="48" />`).join('')}
                                                         </div>
                                                         <div class="team-name">${item.name}</div>
                                                     </div>
 
-                                                    <div class="col uses">
-                                                        <button class="all-score">${item.count}</button>
+                                                    <div class="col score">
+                                                        <span>${item.count}</span>
                                                         <button class="team-top" data-id="${item.topUser.id}" title="${item.topUser.id}">
                                                             ${`#${item.topUser.rank} ${item.topUser.name}: ${!isBB ? `${(Math.abs(item.topUser.teamScore) / 1000).toLocaleString('en-US')}s` : item.topUser.teamScore.toLocaleString('en-US')}`}
                                                         </button>
@@ -416,23 +408,14 @@ const firstIcon = Object.values(floors)[0]?.icon;
 
                                                     <div class="col team">
                                                         <div class="team-icons">
-                                                            ${item.members
-                                                                .map(
-                                                                    (id) => `
-                                                                <a class="team-char" href="/trekker/${id}">
-                                                                    <img class="char-icon" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp" alt="${characterIdData[id]}" title="${characterIdData[id]}" width="48" height="48" />
-                                                                </a>
-                                                            `,
-                                                                )
-                                                                .join('')}
+                                                            ${item.members.map((id) => `<img class="char-icon" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XXL.webp" alt="${characterIdData[id]}" title="${characterIdData[id]}" width="48" height="48" />`).join('')}
                                                         </div>
 
                                                         <div class="team-name">${item.name}</div>
                                                     </div>
 
-                                                    <div class="col uses">
-                                                        <button class="all-score">${!isBB ? `${(Math.abs(item.topUser.teamScore) / 1000).toLocaleString('en-US')}s` : item.topUser.teamScore.toLocaleString('en-US')}</button>
-
+                                                    <div class="col score">
+                                                        <span>${!isBB ? `${(Math.abs(item.topUser.teamScore) / 1000).toLocaleString('en-US')}s` : item.topUser.teamScore.toLocaleString('en-US')}</span>
                                                         <button class="team-top" data-id="${item.topUser.id}" title="${item.topUser.id}">
                                                             ${`#${item.topUser.rank} ${item.topUser.name}`}
                                                         </button>
@@ -658,8 +641,20 @@ const firstIcon = Object.values(floors)[0]?.icon;
             })
             .join('');
 
-        function modalGrid(obj) {
-            return Object.entries(obj)
+        function modalGrid(obj, total) {
+            const entries = Object.entries(obj);
+            if (entries.length && entries[0][0][0] === 'p') {
+                entries.sort((a, b) => {
+                    const aSuffix = parseInt(a[0].slice(5)) || 0;
+                    const bSuffix = parseInt(b[0].slice(5)) || 0;
+                    const aPri = (aSuffix >= 1 && aSuffix <= 4) || (aSuffix >= 21 && aSuffix <= 24);
+                    const bPri = (bSuffix >= 1 && bSuffix <= 4) || (bSuffix >= 21 && bSuffix <= 24);
+                    if (aPri && !bPri) return -1;
+                    if (!aPri && bPri) return 1;
+                    return b[1] - a[1];
+                });
+            }
+            return entries
                 .map(([id, count]) => {
                     const prefix = id[0];
                     id = id.slice(1);
@@ -669,21 +664,34 @@ const firstIcon = Object.values(floors)[0]?.icon;
                             ${
                                 prefix === 'p'
                                     ? `
-                                        <a href="/trekker/${id.slice(1, 4)}" title="${characterIdData[id.slice(1, 4)]}">
-                                            <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="128">
-                                        </a>
+                                        <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="84" height="108">
                                     `
                                     : `
                                         <a href="/disc/${id}" title="${id}">
-                                            <img class="modal-grid-item-icon" src="${iconUrl}" alt="${id}" width="100" height="100">
+                                            <img class="modal-grid-item-icon disc-icon" src="${iconUrl}" alt="${id}" width="110" height="110">
                                         </a>
                                     `
                             }
-                            <div class="modal-grid-item-count">${count}</div>
+                            <div class="modal-grid-item-count">${total ? Math.max(1, Math.round((count / total) * 100)) + '%' : count}${total ? `<span class="modal-grid-item-tooltip">${count}/${total}</span>` : ''}</div>
                         </div>
                     `;
                 })
                 .join('');
+        }
+
+        function getCharIdFromPotentialKey(key) {
+            const id = key.slice(1);
+            return id.slice(1, 4);
+        }
+
+        function filterPotentialsByChar(potentialObj, charId) {
+            const result = {};
+            for (const [key, count] of Object.entries(potentialObj || {})) {
+                if (getCharIdFromPotentialKey(key) === String(charId)) {
+                    result[key] = count;
+                }
+            }
+            return result;
         }
 
         modalContent.innerHTML = `
@@ -704,48 +712,66 @@ const firstIcon = Object.values(floors)[0]?.icon;
             </div>
 
             <div class="modal-panel" data-panel="potential" hidden>
-                <div class="modal-grid-header">
-                    <div>Potential usage</div>
-                    <div class="modal-grid-tabs">
-                        <button class="modal-grid-tab active" data-tab="all">All</button>
-                        <button class="modal-grid-tab" data-tab="high">High (4-6)</button>
-                        <button class="modal-grid-tab" data-tab="low">Low (1-3)</button>
-                    </div>
-                </div>
+                <div class="modal-potential-sections">
+                    ${item.members
+                        .map((charId) => {
+                            const charName = characterIdData[charId];
+                            return `
+                            <div class="modal-potential-section">
+                                <div class="modal-section-top">
+                                    <a class="modal-section-header" href="/trekker/${charId}">
+                                        <img class="char-icon" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${charId}02_XXL.webp" alt="${charName}" width="32" height="32" />
+                                        <span>${charName}</span>
+                                    </a>
+                                    <div class="modal-grid-tabs">
+                                        <button class="modal-grid-tab active" data-tab="all">All</button>
+                                        <button class="modal-grid-tab" data-tab="high">High (4-6)</button>
+                                        <button class="modal-grid-tab" data-tab="low">Low (1-3)</button>
+                                    </div>
+                                </div>
 
-                <div class="modal-grid-panel" data-panel="all">
-                    <div class="modal-grid">${modalGrid(item.potentialUsage.all)}</div>
-                </div>
+                                <div class="modal-grid-panel" data-panel="all">
+                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.all, charId), item.count)}</div>
+                                </div>
 
-                <div class="modal-grid-panel" data-panel="high" hidden>
-                    <div class="modal-grid">${modalGrid(item.potentialUsage.high)}</div>
-                </div>
+                                <div class="modal-grid-panel" data-panel="high" hidden>
+                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.high, charId), item.count)}</div>
+                                </div>
 
-                <div class="modal-grid-panel" data-panel="low" hidden>
-                    <div class="modal-grid">${modalGrid(item.potentialUsage.low)}</div>
+                                <div class="modal-grid-panel" data-panel="low" hidden>
+                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.low, charId), item.count)}</div>
+                                </div>
+                            </div>
+                        `;
+                        })
+                        .join('')}
                 </div>
             </div>
 
             <div class="modal-panel" data-panel="disc" hidden>
                 <div class="modal-grid-header">
-                    <div>Disc usage</div>
+                    <div></div>
                     <div class="modal-grid-tabs">
-                        <button class="modal-grid-tab active" data-tab="all">All</button>
-                        <button class="modal-grid-tab" data-tab="main">Main</button>
-                        <button class="modal-grid-tab" data-tab="support">Support</button>
+                        <button class="modal-grid-tab active" data-tab="split">Main / Support</button>
+                        <button class="modal-grid-tab" data-tab="all">All</button>
                     </div>
                 </div>
 
-                <div class="modal-grid-panel" data-panel="all">
-                    <div class="modal-grid">${modalGrid(item.discUsage.all)}</div>
+                <div class="modal-grid-panel" data-panel="split">
+                    <div class="modal-disc-sections">
+                        <div class="modal-disc-section">
+                            <div class="modal-section-header-disc">Main</div>
+                            <div class="modal-grid">${modalGrid(item.discUsage.main, item.count)}</div>
+                        </div>
+                        <div class="modal-disc-section">
+                            <div class="modal-section-header-disc">Support</div>
+                            <div class="modal-grid">${modalGrid(item.discUsage.support, item.count)}</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="modal-grid-panel" data-panel="main" hidden>
-                    <div class="modal-grid">${modalGrid(item.discUsage.main)}</div>
-                </div>
-
-                <div class="modal-grid-panel" data-panel="support" hidden>
-                    <div class="modal-grid">${modalGrid(item.discUsage.support)}</div>
+                <div class="modal-grid-panel" data-panel="all" hidden>
+                    <div class="modal-grid">${modalGrid(item.discUsage.all, item.count)}</div>
                 </div>
             </div>
         `;
@@ -795,7 +821,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
         const tab = e.target.closest('.modal-grid-tab');
         if (!tab) return;
 
-        const panel = tab.closest('.modal-panel');
+        const panel = tab.closest('.modal-panel, .modal-potential-section');
         if (!panel) return;
 
         const container = tab.closest('.modal-grid-tabs');
@@ -882,15 +908,33 @@ const firstIcon = Object.values(floors)[0]?.icon;
     });
 
     document.addEventListener('click', async (e) => {
-        const btn = e.target.closest('.score-details, .team-top, .all-score');
-        if (!btn) return;
-        const regionEl = btn.closest('.region-data');
-        const region = regionEl?.dataset.region;
+        const btn = e.target.closest('.team-top');
+        const row = e.target.closest('.grid-row');
 
-        const rd = regionData[region] || {};
+        if (btn) {
+            const regionEl = btn.closest('.region-data');
+            const region = regionEl?.dataset.region;
+            const rd = regionData[region] || {};
 
-        if (btn.classList.contains('all-score')) {
-            const row = btn.closest('.grid-row');
+            const id = btn.dataset.id;
+            const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
+            if (entry) openModal(entry);
+            return;
+        }
+
+        if (row && row.closest('#players')) {
+            const regionEl = row.closest('.region-data');
+            const region = regionEl?.dataset.region;
+            const rd = regionData[region] || {};
+            const id = row.dataset.id;
+            const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
+            if (entry) openModal(entry);
+        }
+
+        if (row && row.closest('#team-usage, #team-score')) {
+            const regionEl = row.closest('.region-data');
+            const region = regionEl?.dataset.region;
+            const rd = regionData[region] || {};
             const key = row?.dataset.key;
             const floor = regionEl?.dataset.floor || 'all';
             const list = (rd.ScoreTeamByFloor && rd.ScoreTeamByFloor[floor]) || [];
@@ -898,12 +942,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
             if (item) {
                 openAllTeamModal(item, rd);
             }
-            return;
         }
-
-        const id = btn.dataset.id;
-        const entry = rd.Self && String(rd.Self.Id) === String(id) ? rd.Self : (rd.Rank || []).find((e) => String(e.Id) === String(id));
-        if (entry) openModal(entry);
     });
 </script>
 
@@ -1079,13 +1118,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
             padding: 0;
         }
 
-        .players .score-details {
-            color: var(--text);
-            font-weight: 700;
-        }
-
-        .players .score-details:hover {
-            color: var(--accent);
+        .players .grid-row:hover {
+            cursor: pointer;
+            background: var(--bg2);
         }
 
         .char-usage .usage-grid .grid-header,
@@ -1134,7 +1169,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
             object-fit: cover;
         }
 
-        .char-usage .col.uses {
+        .char-usage .col.score {
             font-weight: 700;
             text-align: center;
         }
@@ -1156,6 +1191,11 @@ const firstIcon = Object.values(floors)[0]?.icon;
             padding: 0.6rem 1rem;
         }
 
+        .team-usage .usage-grid .grid-row:hover {
+            cursor: pointer;
+            background: var(--bg2);
+        }
+
         .team-usage .grid-header .col.team {
             justify-content: center;
             text-align: center;
@@ -1173,7 +1213,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
             gap: 0.25rem;
         }
 
-        .team-usage .team-char img {
+        .team-usage img {
             border-radius: 4px;
             background: var(--bg2);
             width: 48px;
@@ -1185,7 +1225,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
             font-weight: 600;
         }
 
-        .team-usage .col.uses {
+        .team-usage .col.score {
             font-weight: 700;
             text-align: center;
         }
@@ -1199,13 +1239,9 @@ const firstIcon = Object.values(floors)[0]?.icon;
             padding: 0;
         }
 
-        .team-usage .all-score {
+        .team-usage .score {
             color: var(--text);
             font-weight: 700;
-        }
-
-        .team-usage .all-score:hover {
-            color: var(--accent);
         }
 
         .team-usage .team-top {
@@ -1460,9 +1496,10 @@ const firstIcon = Object.values(floors)[0]?.icon;
         .modal-tabs {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.25rem;
 
             .modal-tab {
+                cursor: pointer;
                 border: none;
                 background: transparent;
                 padding: 0.5rem;
@@ -1488,13 +1525,16 @@ const firstIcon = Object.values(floors)[0]?.icon;
         gap: 0.5rem;
         font-weight: 700;
         font-size: 1.1rem;
+        height: 40px;
 
         .modal-grid-tabs {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            padding: 0 0.5rem;
 
             .modal-grid-tab {
+                cursor: pointer;
                 border: none;
                 background: transparent;
                 padding: 0.35rem 0.6rem;
@@ -1515,32 +1555,133 @@ const firstIcon = Object.values(floors)[0]?.icon;
 
     .modal-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 1rem;
-        padding: 1rem 0;
+        grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+        gap: 0.25rem;
+        padding: 0.5rem 0;
     }
 
     .modal-grid-item {
         display: flex;
-        position: relative;
-        width: 100px;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 0.25rem;
+
+        a {
+            display: contents;
+        }
 
         .modal-grid-item-icon {
-            border-radius: 8px;
-            width: 100px;
+            border-radius: 4px;
+            width: 84px;
             object-fit: cover;
         }
 
         .modal-grid-item-count {
-            position: absolute;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 727px;
-            background-color: var(--bg);
-            padding: 4px 6px;
-            pointer-events: none;
-            color: var(--text);
+            position: relative;
+            margin-top: 0.1rem;
+            font-weight: 600;
             font-size: 0.9rem;
+
+            .modal-grid-item-tooltip {
+                position: absolute;
+                bottom: calc(100% + 6px);
+                left: 50%;
+                transform: translateX(-50%);
+                visibility: hidden;
+                opacity: 0;
+                z-index: 10;
+                transition: opacity 0.15s;
+                border-radius: 6px;
+                background: var(--bg2);
+                padding: 4px 8px;
+                font-weight: 600;
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            &:hover .modal-grid-item-tooltip {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+    }
+
+    .modal-panel[data-panel='disc'] .modal-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    }
+
+    .modal-panel[data-panel='disc'] .modal-grid-item {
+        width: 110px;
+    }
+
+    .modal-panel[data-panel='disc'] .disc-icon {
+        width: 110px;
+    }
+
+    .modal-potential-sections {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-potential-section {
+        padding: 0 0.5rem;
+
+        .modal-section-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+
+            img {
+                border-radius: 4px;
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+            }
+        }
+
+        .modal-grid-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+
+            .modal-grid-tab {
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                padding: 0.35rem 0.6rem;
+                color: var(--muted);
+                font-size: 1rem;
+                &:hover {
+                    color: var(--text);
+                }
+                &.active {
+                    color: var(--text);
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .modal-disc-sections {
+        display: flex;
+        flex-direction: column;
+
+        .modal-disc-section {
+            .modal-section-header-disc {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: 700;
+                font-size: 1.1rem;
+            }
         }
     }
 

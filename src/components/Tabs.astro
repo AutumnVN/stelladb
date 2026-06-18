@@ -6,8 +6,11 @@
 
 <script>
     // @ts-nocheck
-    document.addEventListener('click', (e) => {
-        const tab = e.target.closest('.tab');
+    function getActiveTab(tabs) {
+        return Array.from(tabs).find((tab) => tab.classList.contains('active')) || tabs[0] || null;
+    }
+
+    function setTabState(tab) {
         if (!tab) return;
 
         const container = tab.closest('.tabs');
@@ -17,12 +20,53 @@
 
         const targetPanelId = tab.dataset.tab;
         if (!targetPanelId) return;
-        const targetPanel = document.getElementById(targetPanelId);
-        if (!targetPanel) return;
 
         const panels = document.querySelectorAll('.tab-panel');
         panels.forEach((p) => {
             p.hidden = p.id !== targetPanelId;
         });
+    }
+
+    function syncHashToTab(tab) {
+        const targetPanelId = tab?.dataset?.tab;
+        if (!targetPanelId) return;
+
+        const url = new URL(window.location.href);
+        url.hash = targetPanelId;
+
+        window.history.replaceState({}, '', url);
+    }
+
+    function activateTabById(tabId) {
+        if (!tabId) return false;
+
+        const tab = document.querySelector(`.tab[data-tab="${CSS.escape(tabId)}"]`);
+        if (!tab) return false;
+
+        setTabState(tab);
+        syncHashToTab(tab);
+        return true;
+    }
+
+    document.addEventListener('click', (e) => {
+        const tab = e.target.closest('.tab');
+        if (!tab) return;
+
+        setTabState(tab);
+        syncHashToTab(tab);
     });
+
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash.replace(/^#/, '');
+        if (activateTabById(hash)) return;
+
+        const currentTab = getActiveTab(document.querySelectorAll('.tabs .tab'));
+        setTabState(currentTab);
+    });
+
+    const initialHash = window.location.hash.replace(/^#/, '');
+    if (!activateTabById(initialHash)) {
+        const currentTab = getActiveTab(document.querySelectorAll('.tabs .tab'));
+        setTabState(currentTab);
+    }
 </script>

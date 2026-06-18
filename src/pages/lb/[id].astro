@@ -851,50 +851,166 @@ const firstIcon = Object.values(floors)[0]?.icon;
         if (e.key === 'Escape') closeModal(e);
     });
 
-    document.addEventListener('click', (e) => {
-        const tab = e.target.closest('.tab');
-        if (!tab) return;
+    const mainTabs = document.querySelector('.tabs-container > .tabs-wrapper:last-child .tabs');
+    const regionTabsNav = document.querySelector('.region-tabs .tabs');
+    const regionTabsEls = regionTabsNav ? regionTabsNav.querySelectorAll('.tab') : [];
+    let currentRegion = 'en';
+    const selectedFloor = { 'char-usage': 'all', 'team-usage': 'all' };
 
-        const container = tab.closest('.tabs');
-        const localTabs = container ? container.querySelectorAll('.tab') : document.querySelectorAll('.tab');
+    function getDefaultRegion() {
+        return regionTabsNav?.querySelector('.tab')?.dataset.tab || 'en';
+    }
 
+    function getValidRegion(region) {
+        return Array.from(regionTabsEls).some((tab) => tab.dataset.tab === region) ? region : getDefaultRegion();
+    }
+
+    function getValidFloor(panelId, floor) {
+        const panel = document.getElementById(panelId);
+        if (!panel) return 'all';
+
+        return panel.querySelector(`.floor-tab[data-floor="${CSS.escape(floor)}"]`) ? floor : 'all';
+    }
+
+    function getActiveMainTabId() {
+        return mainTabs?.querySelector('.tab.active')?.dataset.tab || 'players';
+    }
+
+    function getActiveRegionTabId() {
+        return getValidRegion(currentRegion || regionTabsNav?.querySelector('.tab.active')?.dataset.tab || getDefaultRegion());
+    }
+
+    function getActiveFloorId(panelId) {
+        return getValidFloor(panelId, selectedFloor[panelId] || document.querySelector(`#${CSS.escape(panelId)} .floor-tab.active`)?.dataset.floor || 'all');
+    }
+
+    function hasFloorTabs(panelId) {
+        return !!document.querySelector(`#${CSS.escape(panelId)} .floor-tab`);
+    }
+
+    function syncTabsHash() {
+        const region = getActiveRegionTabId();
+        const main = getActiveMainTabId();
+        const parts = [region, main];
+
+        if (hasFloorTabs(main)) {
+            parts.push(getActiveFloorId(main));
+        }
+
+        const url = new URL(window.location.href);
+        url.hash = parts.map((part) => encodeURIComponent(part)).join('/');
+
+        window.history.replaceState({}, '', url);
+    }
+
+    function setMainTab(tab) {
+        if (!tab || !mainTabs) return false;
+
+        const localTabs = mainTabs.querySelectorAll('.tab');
         localTabs.forEach((t) => t.classList.toggle('active', t === tab));
 
         const targetPanelId = tab.dataset.tab;
-        if (!targetPanelId) return;
-        const targetPanel = document.getElementById(targetPanelId);
-        if (!targetPanel) return;
+        if (!targetPanelId) return false;
 
         const panels = document.querySelectorAll('.tab-panel');
         panels.forEach((p) => {
             p.hidden = p.id !== targetPanelId;
         });
-    });
 
-    const regionTabsEls = document.querySelectorAll('.region-tabs .tab');
-    let currentRegion = 'en';
-    const selectedFloor = { 'char-usage': 'all', 'team-usage': 'all' };
+        return true;
+    }
 
-    function showRegion(r) {
-        currentRegion = r;
+    function setRegion(r, syncHash = true) {
+        currentRegion = getValidRegion(r);
+        regionTabsEls.forEach((t) => t.classList.toggle('active', t.dataset.tab === currentRegion));
+
         document.querySelectorAll('.region-data').forEach((el) => {
             const elRegion = el.dataset.region;
             const elFloor = el.dataset.floor || 'all';
             const panelId = el.closest('.tab-panel')?.id || 'players';
             const selFloor = selectedFloor[panelId] || 'all';
-            el.hidden = elRegion !== r || selFloor !== elFloor;
+            el.hidden = elRegion !== currentRegion || selFloor !== elFloor;
         });
-        regionTabsEls.forEach((t) => t.classList.toggle('active', t.dataset.tab === r));
+
         const visibleRegion = document.querySelector('.region-data:not([hidden])');
         const ut = visibleRegion?.querySelector('.update-time');
         if (ut) {
             currentUpdateTime = new Date(+ut.dataset.time || Date.now());
             updateDisplayedTime();
         }
+
+        if (syncHash) syncTabsHash();
     }
 
-    regionTabsEls.forEach((btn) => btn.addEventListener('click', () => showRegion(btn.dataset.tab)));
-    showRegion('en');
+    function setFloor(panelId, floor, syncHash = true) {
+        const panel = document.getElementById(panelId);
+        if (!panel) return false;
+
+        const floorTabs = panel.querySelectorAll('.floor-tab');
+        if (!floorTabs.length) return false;
+
+        const nextFloor = getValidFloor(panelId, floor || 'all');
+        panel.querySelectorAll('.floor-tab').forEach((b) => b.classList.toggle('active', b.dataset.floor === nextFloor));
+        selectedFloor[panelId] = nextFloor;
+        setRegion(currentRegion, false);
+
+        if (syncHash) syncTabsHash();
+        return true;
+    }
+
+    function applyHashState(syncHash = false) {
+        const hash = window.location.hash.replace(/^#/, '');
+        const [region = '', main = '', floor = ''] = hash.split('/').map((part) => decodeURIComponent(part || ''));
+        let applied = false;
+
+        if (region) {
+            setRegion(region, false);
+            applied = true;
+        } else {
+            setRegion(currentRegion, false);
+        }
+
+        if (main) {
+            const mainTab = mainTabs?.querySelector(`.tab[data-tab="${CSS.escape(main)}"]`);
+            if (mainTab && setMainTab(mainTab)) applied = true;
+        }
+
+        if (main && floor) {
+            applied = setFloor(main, floor, false) || applied;
+        } else if (hasFloorTabs(getActiveMainTabId())) {
+            const activeMain = getActiveMainTabId();
+            const floorTab = document.querySelector(`#${CSS.escape(activeMain)} .floor-tab.active`);
+            if (!floorTab) {
+                const fallbackFloor = getActiveFloorId(activeMain);
+                setFloor(activeMain, fallbackFloor, false);
+            }
+        }
+
+        if (syncHash) syncTabsHash();
+        return applied;
+    }
+
+    document.addEventListener('click', (e) => {
+        const tab = e.target.closest('.tab');
+        if (!tab) return;
+
+        const container = tab.closest('.tabs');
+        if (container?.closest('.region-tabs')) {
+            setRegion(tab.dataset.tab || 'en');
+            return;
+        }
+
+        if (container === mainTabs) {
+            setMainTab(tab);
+            syncTabsHash();
+        }
+    });
+
+    window.addEventListener('hashchange', () => {
+        applyHashState(false);
+    });
+
+    applyHashState(true);
 
     document.addEventListener('click', (e) => {
         const floorBtn = e.target.closest('.floor-tab');
@@ -902,9 +1018,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
         const panel = floorBtn.closest('.tab-panel');
         if (!panel) return;
         const panelId = panel.id;
-        panel.querySelectorAll('.floor-tab').forEach((b) => b.classList.toggle('active', b === floorBtn));
-        selectedFloor[panelId] = floorBtn.dataset.floor || 'all';
-        showRegion(currentRegion);
+        setFloor(panelId, floorBtn.dataset.floor || 'all');
     });
 
     document.addEventListener('click', async (e) => {

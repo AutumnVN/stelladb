@@ -1585,12 +1585,11 @@ const firstIcon = Object.values(floors)[0]?.icon;
             font-size: 0.9rem;
 
             .modal-grid-item-tooltip {
+                display: none;
                 position: absolute;
                 bottom: calc(100% + 6px);
                 left: 50%;
                 transform: translateX(-50%);
-                visibility: hidden;
-                opacity: 0;
                 z-index: 727;
                 border-radius: 6px;
                 background: var(--bg2);
@@ -1602,8 +1601,7 @@ const firstIcon = Object.values(floors)[0]?.icon;
         }
 
         &:hover .modal-grid-item-tooltip {
-            visibility: visible;
-            opacity: 1;
+            display: block;
         }
     }
 

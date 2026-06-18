@@ -2,14 +2,37 @@
 interface Props {
     placeholder?: string;
     value?: string;
+    tip?: boolean;
 }
 
-const { placeholder = 'Search...', value = '' } = Astro.props as Props;
+const { placeholder = 'Search...', value = '', tip = true } = Astro.props as Props;
 ---
 
 <div class="search-wrap">
     <input id="search" type="search" placeholder={placeholder} value={value} autofocus />
+    {
+        tip && (
+            <div class="search-tip">
+                <b>words separated by space</b> matches BOTH (AND) <br />
+                <b>word1 | word2</b> matches EITHER (OR) <br />
+                <b>"exact phrase"</b> matches the exact words together <br />
+                <b>key=value</b> filters by traits, supports =, !=, &lt;, &gt;, &lt;=, &gt;= <br />
+                available keys are on the search bar placeholder
+            </div>
+        )
+    }
 </div>
+
+<script>
+    // @ts-nocheck
+    document.addEventListener('keydown', (e) => {
+        const searchInput = document.querySelector('#search');
+        if (e.key === '/' && document.activeElement !== searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+        }
+    });
+</script>
 
 <style>
     .search-wrap {
@@ -19,26 +42,43 @@ const { placeholder = 'Search...', value = '' } = Astro.props as Props;
         z-index: 1;
         background: var(--bg1a);
 
+        .search-tip {
+            display: none;
+            position: absolute;
+            top: calc(100% + 1rem);
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            background: var(--bg2);
+            padding: 1rem;
+            width: max-content;
+            color: var(--text);
+        }
+
+        &:hover input[type='search']:placeholder-shown + .search-tip {
+            display: block;
+        }
+
         input[type='search'] {
-            flex: 1 1 auto;
             backdrop-filter: blur(5px);
             border: var(--muted) 3px solid;
             border-radius: 10px;
             background: var(--bg1a);
             padding: 0.75rem;
+            width: 100%;
             color: var(--text);
             accent-color: var(--accent);
             font-size: 1.25rem;
+        }
 
-            &:focus {
-                outline: none;
-                border-color: var(--accent);
-            }
+        input[type='search']:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
 
-            &::-webkit-search-cancel-button {
-                filter: sepia(100%) saturate(900%) hue-rotate(55deg);
-                padding-left: 0.3rem;
-            }
+        input[type='search']::-webkit-search-cancel-button {
+            filter: sepia(100%) saturate(900%) hue-rotate(55deg);
+            padding-left: 0.3rem;
         }
     }
 </style>

@@ -30,25 +30,111 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 
         function splitOr(s) {
             if (!s) return [];
-            return s
-                .split(/\s+\|\s+/)
-                .map((p) => p.trim())
-                .filter(Boolean);
+            const parts = [];
+            let buf = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < s.length; i++) {
+                const ch = s[i];
+                if (ch === '"') {
+                    inQuotes = !inQuotes;
+                    buf += ch;
+                    continue;
+                }
+
+                if (!inQuotes && ch === '|') {
+                    const prev = s[i - 1] || '';
+                    const next = s[i + 1] || '';
+                    if (/\s/.test(prev) && /\s/.test(next)) {
+                        const part = buf.trim();
+                        if (part) parts.push(part);
+                        buf = '';
+                        continue;
+                    }
+                }
+
+                buf += ch;
+            }
+
+            const last = buf.trim();
+            if (last) parts.push(last);
+            return parts;
         }
 
         function tokenizeClause(s) {
             if (!s) return [];
-            return s.match(/\S+/g) || [];
+            const tokens = [];
+            let buf = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < s.length; i++) {
+                const ch = s[i];
+                if (ch === '"') {
+                    inQuotes = !inQuotes;
+                    buf += ch;
+                    continue;
+                }
+
+                if (!inQuotes && /\s/.test(ch)) {
+                    const tok = buf.trim();
+                    if (tok) tokens.push(tok);
+                    buf = '';
+                    continue;
+                }
+
+                buf += ch;
+            }
+
+            const last = buf.trim();
+            if (last) tokens.push(last);
+            return tokens;
+        }
+
+        function splitAlternates(s) {
+            if (!s) return [];
+            const parts = [];
+            let buf = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < s.length; i++) {
+                const ch = s[i];
+                if (ch === '"') {
+                    inQuotes = !inQuotes;
+                    buf += ch;
+                    continue;
+                }
+
+                if (!inQuotes && ch === '|') {
+                    const part = buf.trim();
+                    if (part) parts.push(part);
+                    buf = '';
+                    continue;
+                }
+
+                buf += ch;
+            }
+
+            const last = buf.trim();
+            if (last) parts.push(last);
+            return parts;
+        }
+
+        function stripQuotes(s) {
+            const text = (s || '').trim();
+            if (text.length >= 2 && text.startsWith('"') && text.endsWith('"')) {
+                return text.slice(1, -1);
+            }
+            return text;
         }
 
         function parseToken(tok) {
             const t = tok || '';
             const m = t.match(/^([^<>=!\s]+)\s*(<=|>=|!=|=|<|>)\s*(.*)$/);
             if (m) {
-                const val = m[3] || '';
+                const val = stripQuotes(m[3] || '');
                 return { type: 'key', key: m[1], op: m[2], value: val };
             }
-            const text = t || '';
+            const text = stripQuotes(t);
             return { type: 'general', text };
         }
 
@@ -61,10 +147,7 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
                 const keyed = {};
 
                 rawTokens.forEach((tokStr) => {
-                    const alts = tokStr
-                        .split('|')
-                        .map((s) => s.trim())
-                        .filter(Boolean);
+                    const alts = splitAlternates(tokStr);
                     const parsedAlts = alts.map((alt) => parseToken(alt));
 
                     if (parsedAlts.length === 1 && parsedAlts[0].type === 'key') {
@@ -113,10 +196,12 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 
         function matchClause(item, clause) {
             const ds = item.dataset || {};
-            const combined = Object.keys(ds)
+            const keyOnly = ds.key === 'true';
+            const combinedGeneral = Object.keys(ds)
+                .filter((k) => k !== 'key')
                 .map((k) => ds[k])
                 .join(' ');
-            const combinedAll = (combined + ' ' + (item.textContent || '')).trim();
+            const combinedAll = keyOnly ? '' : (combinedGeneral + ' ' + (item.textContent || '')).trim();
 
             let segmentsPass = true;
             for (const seg of clause.segments || []) {

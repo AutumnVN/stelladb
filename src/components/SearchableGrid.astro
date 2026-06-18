@@ -23,10 +23,30 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
     // @ts-nocheck
     (function () {
         const input = document.querySelector('#search');
+        const searchTips = document.querySelector('#search-tips');
         const grid = document.querySelector('.grid');
         const noResults = document.querySelector('.no-results');
+        const shouldSyncQuery = !!searchTips;
 
         const items = () => Array.from(grid.querySelectorAll('.card-item'));
+
+        function getQueryFromUrl() {
+            if (!shouldSyncQuery) return '';
+            return new URL(window.location.href).searchParams.get('q') || '';
+        }
+
+        function syncQueryToUrl(q) {
+            if (!shouldSyncQuery) return;
+
+            const url = new URL(window.location.href);
+            if (q) {
+                url.searchParams.set('q', q);
+            } else {
+                url.searchParams.delete('q');
+            }
+
+            window.history.replaceState({}, '', url);
+        }
 
         function splitOr(s) {
             if (!s) return [];
@@ -269,9 +289,16 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
                 });
                 if (noResults) noResults.hidden = anyMatched;
             }, 150);
+
+            syncQueryToUrl(q);
         }
 
-        if (input) input.addEventListener('input', onInput);
+        if (input) {
+            const initialQuery = getQueryFromUrl();
+            if (initialQuery) input.value = initialQuery;
+            input.addEventListener('input', onInput);
+            onInput();
+        }
     })();
 </script>
 

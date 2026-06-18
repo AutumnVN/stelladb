@@ -12,7 +12,7 @@ const { placeholder = 'Search...', value = '', tip = true } = Astro.props as Pro
     <input id="search" type="search" placeholder={placeholder} value={value} autofocus />
     {
         tip && (
-            <div class="search-tip">
+            <div id="search-tips">
                 <b>words separated by space</b> matches BOTH (AND) <br />
                 <b>word1 | word2</b> matches EITHER (OR) <br />
                 <b>"exact phrase"</b> matches the exact words together <br />
@@ -42,7 +42,7 @@ const { placeholder = 'Search...', value = '', tip = true } = Astro.props as Pro
         z-index: 1;
         background: var(--bg1a);
 
-        .search-tip {
+        #search-tips {
             display: none;
             position: absolute;
             top: calc(100% + 1rem);
@@ -55,7 +55,7 @@ const { placeholder = 'Search...', value = '', tip = true } = Astro.props as Pro
             color: var(--text);
         }
 
-        &:hover input[type='search']:placeholder-shown + .search-tip {
+        &:hover input[type='search']:placeholder-shown + #search-tips {
             display: block;
         }
 

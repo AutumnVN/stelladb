@@ -43,7 +43,7 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 
         function parseToken(tok) {
             const t = tok || '';
-            const m = t.match(/^([^<>=\s]+)\s*(<=|>=|=|<|>)\s*(.*)$/);
+            const m = t.match(/^([^<>=!\s]+)\s*(<=|>=|!=|=|<|>)\s*(.*)$/);
             if (m) {
                 const val = m[3] || '';
                 return { type: 'key', key: m[1], op: m[2], value: val };
@@ -98,6 +98,10 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
             if (op === '=') {
                 if (bothNumber) return numItem === numTarget;
                 return itemVal.toLowerCase().includes(target.toLowerCase());
+            }
+            if (op === '!=') {
+                if (bothNumber) return numItem !== numTarget;
+                return !itemVal.toLowerCase().includes(target.toLowerCase());
             }
             if (!bothNumber) return false;
             if (op === '>') return numItem > numTarget;

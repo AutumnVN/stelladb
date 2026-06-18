@@ -28,22 +28,148 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
 
         const items = () => Array.from(grid.querySelectorAll('.card-item'));
 
-        function normalize(s) {
-            return (s || '').toString().toLowerCase();
+        function splitOr(s) {
+            if (!s) return [];
+            return s
+                .split(/\s+\|\s+/)
+                .map((p) => p.trim())
+                .filter(Boolean);
+        }
+
+        function tokenizeClause(s) {
+            if (!s) return [];
+            return s.match(/\S+/g) || [];
+        }
+
+        function parseToken(tok) {
+            const t = tok || '';
+            const m = t.match(/^([^<>=\s]+)\s*(<=|>=|=|<|>)\s*(.*)$/);
+            if (m) {
+                const val = m[3] || '';
+                return { type: 'key', key: m[1], op: m[2], value: val };
+            }
+            const text = t || '';
+            return { type: 'general', text };
+        }
+
+        function parseQuery(q) {
+            if (!q) return [];
+            const orParts = splitOr(q);
+            return orParts.map((part) => {
+                const rawTokens = tokenizeClause(part);
+                const segments = [];
+                const keyed = {};
+
+                rawTokens.forEach((tokStr) => {
+                    const alts = tokStr
+                        .split('|')
+                        .map((s) => s.trim())
+                        .filter(Boolean);
+                    const parsedAlts = alts.map((alt) => parseToken(alt));
+
+                    if (parsedAlts.length === 1 && parsedAlts[0].type === 'key') {
+                        const p = parsedAlts[0];
+                        if (!keyed[p.key]) keyed[p.key] = [];
+                        keyed[p.key].push({ op: p.op, value: p.value });
+                    } else {
+                        segments.push(parsedAlts);
+                    }
+                });
+
+                return { segments, keyed };
+            });
+        }
+
+        function getAttrValue(item, key) {
+            const ds = item.dataset || {};
+            if (ds[key] !== undefined) return ds[key];
+            const kebab = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+            const attr = item.getAttribute && item.getAttribute('data-' + kebab);
+            if (attr !== null) return attr;
+            return '';
+        }
+
+        function compareValues(itemValRaw, op, targetRaw) {
+            const itemVal = (itemValRaw || '').toString().trim();
+            const target = (targetRaw || '').toString().trim();
+            const numItem = parseFloat(itemVal);
+            const numTarget = parseFloat(target);
+            const bothNumber = !isNaN(numItem) && !isNaN(numTarget);
+            if (op === '=') {
+                if (bothNumber) return numItem === numTarget;
+                return itemVal.toLowerCase().includes(target.toLowerCase());
+            }
+            if (!bothNumber) return false;
+            if (op === '>') return numItem > numTarget;
+            if (op === '<') return numItem < numTarget;
+            if (op === '>=') return numItem >= numTarget;
+            if (op === '<=') return numItem <= numTarget;
+            return false;
+        }
+
+        function matchClause(item, clause) {
+            const ds = item.dataset || {};
+            const combined = Object.keys(ds)
+                .map((k) => ds[k])
+                .join(' ');
+            const combinedAll = (combined + ' ' + (item.textContent || '')).trim();
+
+            let segmentsPass = true;
+            for (const seg of clause.segments || []) {
+                let anyAlt = false;
+                for (const alt of seg) {
+                    if (alt.type === 'general') {
+                        if (combinedAll.toLowerCase().includes(alt.text.toLowerCase())) {
+                            anyAlt = true;
+                            break;
+                        }
+                    } else if (alt.type === 'key') {
+                        const v = getAttrValue(item, alt.key) || '';
+                        if (compareValues(v, alt.op, alt.value)) {
+                            anyAlt = true;
+                            break;
+                        }
+                    }
+                }
+                if (!anyAlt) {
+                    segmentsPass = false;
+                    break;
+                }
+            }
+
+            let keyedPass = true;
+            for (const key in clause.keyed) {
+                const conds = clause.keyed[key];
+                const itemVal = getAttrValue(item, key) || '';
+                let anyForKey = false;
+                for (const c of conds) {
+                    if (compareValues(itemVal, c.op, c.value)) {
+                        anyForKey = true;
+                        break;
+                    }
+                }
+                if (!anyForKey) {
+                    keyedPass = false;
+                    break;
+                }
+            }
+
+            return segmentsPass && keyedPass;
         }
 
         function matches(item, q) {
             if (!q) return true;
-            const ds = item.dataset;
-            const combined = Object.keys(ds)
-                .map((k) => ds[k])
-                .join(' ');
-            return normalize(combined).includes(q);
+            const clauses = parseQuery(q);
+            if (!clauses.length) return true;
+            for (const clause of clauses) {
+                if (matchClause(item, clause)) return true;
+            }
+            return false;
         }
 
         let timeout = null;
         function onInput() {
-            const q = normalize(input.value.trim());
+            const q = input?.value?.trim() || '';
             if (timeout) clearTimeout(timeout);
             timeout = setTimeout(() => {
                 let anyMatched = false;

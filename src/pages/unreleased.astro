@@ -34,7 +34,7 @@ const emoji = {
 ---
 
 <Layout title="Trekker | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search trekkers by id, name, element, tag, skill, or potential..." noResultsText="No trekker found.">
+    <SearchableGrid placeholder="Search trekkers by id/name/star/element/class/attacktype/tag/skill/potential" noResultsText="No trekker found.">
         {
             Object.entries(data)
                 .sort(([, a], [, b]) => +!!(b.upgrade.length || b.skillUpgrade.length) - +!!(a.upgrade.length || a.skillUpgrade.length))
@@ -43,6 +43,7 @@ const emoji = {
                         class="card-item"
                         data-id={id}
                         data-name={char.name}
+                        data-star={char.star}
                         data-element={char.element}
                         data-class={char.class}
                         data-attacktype={char.attackType}
@@ -52,7 +53,7 @@ const emoji = {
                             .flat()
                             .map((pot) => pot.name)
                             .join(' ')}
-                        data-comingsoon={char.upgrade.length || char.skillUpgrade.length ? 'coming soon' : ''}
+                        data-soon={char.upgrade.length || char.skillUpgrade.length ? 'soon' : ''}
                     >
                         <Card href={`/trekker/${id}`} name={char.name} star={char.star} element={char.element} charClass={char.class} attackType={char.attackType} />
                     </div>

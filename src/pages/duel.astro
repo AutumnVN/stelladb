@@ -29,7 +29,7 @@ const emoji = {
 ---
 
 <Layout title="Summit Show | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
+    <SearchableGrid placeholder="Search bosses by id/name/weakto/resistto" noResultsText="No boss found.">
         {
             Object.entries(data).map(([id, duel]) => (
                 <div class={`card-item ${currentSeason?.BossLevelId === +id ? 'current' : ''}`} data-id={id} data-name={duel.name} data-weakto={duel.weakTo.join(', ')} data-resistto={duel.resistTo}>

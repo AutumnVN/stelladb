@@ -20,7 +20,7 @@ const emoji = {
 ---
 
 <Layout title="Proving Ground | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search bosses by id, name, or element..." noResultsText="No boss found.">
+    <SearchableGrid placeholder="Search bosses by id/name/weakto/resistto" noResultsText="No boss found.">
         {
             Object.entries(data).map(([id, ground]) => (
                 <div class="card-item" data-id={id} data-name={ground.name} data-weakto={ground.weakTo.join(', ')} data-resistto={ground.resistTo}>

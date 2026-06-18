@@ -22,13 +22,14 @@ const emoji = {
 ---
 
 <Layout title="Trekker | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search trekkers by id, name, element, tag, skill, or potential..." noResultsText="No trekker found.">
+    <SearchableGrid placeholder="Search trekkers by id/name/star/element/class/attacktype/tag/skill/potential" noResultsText="No trekker found.">
         {
             Object.entries(data).map(([id, char]) => (
                 <div
                     class="card-item"
                     data-id={id}
                     data-name={char.name}
+                    data-star={char.star}
                     data-element={char.element}
                     data-class={char.class}
                     data-attacktype={char.attackType}

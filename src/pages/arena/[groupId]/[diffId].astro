@@ -37,7 +37,7 @@ if (!group || !diff) {
 ---
 
 <Layout title={`${diff.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/image/uibg/${group.icon}.webp`} description={`Weak: ${group.weakTo}${emoji[group.weakTo]}`} pagefindIgnore={true}>
-    <SearchableGrid placeholder={`Search ${diff.name} floors by id, name, or element...`} noResultsText="No arena floor found.">
+    <SearchableGrid placeholder={`Search ${diff.name} floors by id/name/weakto/resistto`} noResultsText="No arena floor found.">
         {
             Object.entries(diff.floor).map(([id, floor]) => (
                 <div class="card-item" data-id={id} data-name={floor.name} data-weakto={floor.monster[0].weakTo.join(', ')} data-resistto={floor.monster[0].resistTo}>

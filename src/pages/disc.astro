@@ -20,10 +20,10 @@ const emoji = {
 ---
 
 <Layout title="Disc | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search discs by id, name, element, tag, or skill..." noResultsText="No disc found.">
+    <SearchableGrid placeholder="Search discs by id/name/star/element/tag/char/skill" noResultsText="No disc found.">
         {
             Object.entries(data).map(([id, disc]) => (
-                <div class="card-item" data-id={id} data-name={disc.name} data-element={disc.element} data-tag={disc.tag.join(' ')} data-char={disc.char.join(' ')} data-skill={`${disc.mainSkill.name} ${disc.secondarySkill1?.name || ''} ${disc.secondarySkill2?.name || ''}`}>
+                <div class="card-item" data-id={id} data-name={disc.name} data-star={disc.star} data-element={disc.element} data-tag={disc.tag.join(' ')} data-char={disc.char.join(' ')} data-skill={`${disc.mainSkill.name} ${disc.secondarySkill1?.name || ''} ${disc.secondarySkill2?.name || ''}`}>
                     <Card href={`/disc/${id}`} name={disc.name} star={disc.star} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp`} element={disc.element} />
                 </div>
             ))

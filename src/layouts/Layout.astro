@@ -30,9 +30,9 @@ if (import.meta.env.SSR) {
         <link rel="canonical" href={Astro.url.href} />
         <meta property="og:url" content={Astro.url.href} />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content={title} />
+        <meta property="og:title" content={title} data-pagefind-default-meta="title[content]" />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
+        <meta property="og:image" content={image} data-pagefind-default-meta="image[content]" />
         <meta property="og:site_name" content="stelladb.pages.dev" />
         {
             bigImage && (

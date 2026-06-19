@@ -12,7 +12,7 @@ const data = await fetch(DATA_URL)
 ---
 
 <Layout title="Leaderboard | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search leaderboard by id/name/boss" noResultsText="No leaderboard found.">
+    <SearchableGrid placeholder="Search leaderboard by id/name/season/boss" noResultsText="No leaderboard found.">
         {
             Object.entries(data).map(([id, data]) => {
                 const isBB = /^bb/.test(id);
@@ -26,6 +26,7 @@ const data = await fetch(DATA_URL)
                         class={'card-item'}
                         data-id={id}
                         data-name={name}
+                        data-season={season}
                         data-boss={Object.values(floors)
                             .map((f) => f.name)
                             .join(' ')}

@@ -311,12 +311,6 @@ if (import.meta.env.SSR) {
             });
         }
     })();
-
-    navigator.serviceWorker?.getRegistrations()?.then(function (registrations) {
-        for (let registration of registrations) {
-            registration.unregister();
-        }
-    });
 </script>
 
 <style is:global>

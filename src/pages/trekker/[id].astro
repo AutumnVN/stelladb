@@ -79,7 +79,7 @@ if (!char) {
             {!isUnreleased && <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} alt={char.name} title={char.name} width="256" height="340" densities={[1.25]} />}
             <div class="info">
                 <p class="indent">
-                    {`${char.star}⭐`}<br />
+                    {char.star && `${char.star}⭐`}<br />
                     {char.element}{emoji[char.element]}<br />
                     {char.class}{emoji[char.attackType]}<br />
                     {
@@ -90,8 +90,8 @@ if (!char) {
                             </>
                         ))
                     }
-                    🎤 {char.jpCv}<br />
-                    🎂 {char.birthday}<br />
+                    {char.jpCv && `🎤 ${char.jpCv}`}<br />
+                    {char.birthday && `🎂 ${char.birthday}`}<br />
                 </p>
                 <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
             </div>
@@ -725,12 +725,13 @@ if (!char) {
                     <h2>Bonus stats for each activated talent</h2>
                     <p class="indent">
                         {
-                            char.talent[0].boost.slice(1).map((boost) => (
-                                <>
-                                    {boost.desc}
-                                    <br />
-                                </>
-                            ))
+                            char.talent.length &&
+                                char.talent[0].boost.slice(1).map((boost) => (
+                                    <>
+                                        {boost.desc}
+                                        <br />
+                                    </>
+                                ))
                         }
                     </p>
                 </div>
@@ -1031,15 +1032,15 @@ if (!char) {
             skillLevel1Output.innerHTML = `Skill level: ${skillLevel}`;
             const nameLang = `name${skillLang === 'EN' ? '' : skillLang}`;
             const descLang = `desc${skillLang === 'EN' ? '' : skillLang}`;
-            normalAttackName.innerHTML = `Normal attack: ${char.normalAtk[nameLang]}`;
-            skillName.innerHTML = `Skill: ${char.skill[nameLang]}`;
-            supportSkillName.innerHTML = `Support Skill: ${char.supportSkill[nameLang]}`;
-            ultimateName.innerHTML = `Ultimate: ${char.ultimate[nameLang]}`;
+            if (normalAttackName) normalAttackName.innerHTML = `Normal attack: ${char.normalAtk[nameLang]}`;
+            if (skillName) skillName.innerHTML = `Skill: ${char.skill[nameLang]}`;
+            if (supportSkillName) supportSkillName.innerHTML = `Support Skill: ${char.supportSkill[nameLang]}`;
+            if (ultimateName) ultimateName.innerHTML = `Ultimate: ${char.ultimate[nameLang]}`;
 
-            normalAttack.innerHTML = replaceSkillParams(char.normalAtk[descLang], char.normalAtk.params, char.normalAtk.paramsTooltips, upgrade2, skillLevel);
-            skill.innerHTML = replaceSkillParams(char.skill[descLang], char.skill.params, char.skill.paramsTooltips, upgrade2, skillLevel);
-            supportSkill.innerHTML = replaceSkillParams(char.supportSkill[descLang], char.supportSkill.params, char.supportSkill.paramsTooltips, upgrade2, skillLevel);
-            ultimate.innerHTML = replaceSkillParams(char.ultimate[descLang], char.ultimate.params, char.ultimate.paramsTooltips, upgrade2, skillLevel);
+            if (normalAttack) normalAttack.innerHTML = replaceSkillParams(char.normalAtk[descLang], char.normalAtk.params, char.normalAtk.paramsTooltips, upgrade2, skillLevel);
+            if (skill) skill.innerHTML = replaceSkillParams(char.skill[descLang], char.skill.params, char.skill.paramsTooltips, upgrade2, skillLevel);
+            if (supportSkill) supportSkill.innerHTML = replaceSkillParams(char.supportSkill[descLang], char.supportSkill.params, char.supportSkill.paramsTooltips, upgrade2, skillLevel);
+            if (ultimate) ultimate.innerHTML = replaceSkillParams(char.ultimate[descLang], char.ultimate.params, char.ultimate.paramsTooltips, upgrade2, skillLevel);
 
             if (skillLevel >= 9) skillLevel = 9;
 
@@ -1240,30 +1241,31 @@ if (!char) {
 
         let bonusStatResult = '';
 
-        char.talent[0].boost.slice(1).forEach((boost, i) => {
-            if ([6, 7, 8, 9, 10].includes(i + 1)) return;
+        char.talent.length &&
+            char.talent[0].boost.slice(1).forEach((boost, i) => {
+                if ([6, 7, 8, 9, 10].includes(i + 1)) return;
 
-            let desc = boost.desc;
+                let desc = boost.desc;
 
-            boost.params.forEach((param, index) => {
-                param = param.toString();
-                if ([1, 2, 3, 4, 5].includes(i + 1)) {
-                    if (param.includes('%')) {
-                        param = parseFloat(param) * 2 + '%';
-                    } else {
-                        param = parseFloat(param) * 2;
+                boost.params.forEach((param, index) => {
+                    param = param.toString();
+                    if ([1, 2, 3, 4, 5].includes(i + 1)) {
+                        if (param.includes('%')) {
+                            param = parseFloat(param) * 2 + '%';
+                        } else {
+                            param = parseFloat(param) * 2;
+                        }
                     }
-                }
-                desc = desc
-                    .replaceAll(`&Param${index + 1}&`, param)
-                    .replaceAll('Increases ', '')
-                    .replaceAll('Base ', '')
-                    .replaceAll('by ', '+')
-                    .replace(/\.$/, '');
-            });
+                    desc = desc
+                        .replaceAll(`&Param${index + 1}&`, param)
+                        .replaceAll('Increases ', '')
+                        .replaceAll('Base ', '')
+                        .replaceAll('by ', '+')
+                        .replace(/\.$/, '');
+                });
 
-            bonusStatResult += `${format(desc)}<br />`;
-        });
+                bonusStatResult += `${format(desc)}<br />`;
+            });
 
         talentBonusStat.innerHTML = bonusStatResult;
     </script>

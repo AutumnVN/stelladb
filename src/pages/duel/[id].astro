@@ -46,7 +46,9 @@ if (!duel) {
         </Fragment>
 
         <Fragment slot="left">
-            <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} alt={duel.name} title={duel.name} width="256" height="256" densities={[1.25]} />
+            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} target="_blank">
+                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} alt={duel.name} title={duel.name} width="256" height="256" densities={[1.25]} />
+            </a>
             <div class="info">
                 <p class="indent">
                     {`Type: ${duel.type}`}<br />
@@ -87,7 +89,9 @@ if (!duel) {
                             {group.map((mechanic) => (
                                 <div class="mechanic">
                                     <div class="mechanic-header">
-                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/ui_activity/_${duel.activityId}/affix/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" densities={[1.25]} />
+                                        <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/ui_activity/_${duel.activityId}/affix/${mechanic.icon}.webp`} target="_blank">
+                                            <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/ui_activity/_${duel.activityId}/affix/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" densities={[1.25]} />
+                                        </a>
                                         <h3>
                                             {mechanic.name} ({mechanic.diff})
                                         </h3>

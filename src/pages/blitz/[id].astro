@@ -46,7 +46,9 @@ if (!blitz) {
         </Fragment>
 
         <Fragment slot="left">
-            <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} alt={blitz.name} title={blitz.name} width="256" height="256" densities={[1.25]} />
+            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} target="_blank">
+                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${blitz.icon}.webp`} alt={blitz.name} title={blitz.name} width="256" height="256" densities={[1.25]} />
+            </a>
             <div class="info">
                 <p class="indent">
                     {`Type: ${blitz.type}`}<br />
@@ -88,13 +90,30 @@ if (!blitz) {
                     blitz.mechanic.map((mechanic) => (
                         <div class="mechanic">
                             <div class="mechanic-header">
-                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" densities={[1.25]} />
+                                <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${mechanic.icon}.webp`} target="_blank">
+                                    <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monsterskill/bossrush/${mechanic.icon}.webp`} alt={mechanic.name} title={mechanic.name} width="64" height="64" densities={[1.25]} />
+                                </a>
                                 <h3>{mechanic.name}</h3>
                             </div>
                             <div class="indent">
                                 <p>{mechanic.desc}</p>
                                 {!mechanic.effectType?.length ? null : <p class="small">Effect: {mechanic.effectType.join(', ')}</p>}
-                                {!mechanic.buffIcon?.length ? null : <p class="small">Buff: {mechanic.buffIcon.map((icon) => (icon === 'No Icon' ? 'No Icon' : <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />)).reduce((prev, curr) => [prev, ' ', curr])}</p>}
+                                {!mechanic.buffIcon?.length ? null : (
+                                    <p class="small">
+                                        Buff:{' '}
+                                        {mechanic.buffIcon
+                                            .map((icon) =>
+                                                icon === 'No Icon' ? (
+                                                    'No Icon'
+                                                ) : (
+                                                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
+                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
+                                                    </a>
+                                                ),
+                                            )
+                                            .reduce((prev, curr) => [prev, ' ', curr])}
+                                    </p>
+                                )}
                             </div>
                         </div>
                     ))

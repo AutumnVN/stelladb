@@ -49,7 +49,9 @@ if (!group || !diff || !monster) {
         </Fragment>
 
         <Fragment slot="left">
-            <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} alt={monster.name} title={monster.name} width="256" height="256" densities={[1.25]} />
+            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} target="_blank">
+                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} alt={monster.name} title={monster.name} width="256" height="256" densities={[1.25]} />
+            </a>
             <div class="info">
                 <p class="indent">
                     {`Type: ${monster.type}`}<br />

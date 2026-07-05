@@ -159,7 +159,7 @@ if (isValid) {
         html += `<div style="width:${imgW}px;height:${imgH}px;overflow:hidden;position:relative;display:inline-block;">`;
         if (charImg) {
             const alt = char && char.name ? String(char.name).replace(/"/g, '&quot;') : '';
-            html += `<a href="/trekker/${c.CharId}" class="tooltip" target="_blank" rel="noopener noreferrer" style="display:block;width:${imgW}px;height:${imgH}px;">`;
+            html += `<a href="/trekker/${c.CharId}" class="tooltip" target="_blank" style="display:block;width:${imgW}px;height:${imgH}px;">`;
             html += `<img src="${charImg}" alt="${alt}" style="position:absolute;left:${leftOffset}px;top:${topOffset}px;width:${scaledW}px;height:${scaledH}px;object-fit:cover;display:block;" />`;
             html += `<div class="tooltip-text" style="position:fixed; z-index:727;">`;
             html += `<b style="display:block;margin-bottom:6px">${char.name}</b>`;

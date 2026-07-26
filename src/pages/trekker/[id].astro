@@ -625,6 +625,7 @@ if (!char) {
                                     </h3>
                                     <div class="indent">
                                         <p>{pot.desc}</p>
+                                        {pot.badScaleAfterLevel && <p class="small">Bad scale after level {pot.badScaleAfterLevel}</p>}
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
                                                 Damage:{' '}
@@ -688,6 +689,7 @@ if (!char) {
                                     </h3>
                                     <div class="indent">
                                         <p>{pot.desc}</p>
+                                        {pot.badScaleAfterLevel && <p class="small">Bad scale after level {pot.badScaleAfterLevel}</p>}
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
                                                 Damage:{' '}
@@ -814,6 +816,7 @@ if (!char) {
                                     </h3>
                                     <div class="indent">
                                         <p>{pot.desc}</p>
+                                        {pot.badScaleAfterLevel && <p class="small">Bad scale after level {pot.badScaleAfterLevel}</p>}
                                         {!pot.damageType.length ? null : (
                                             <p class="small">
                                                 Damage:{' '}

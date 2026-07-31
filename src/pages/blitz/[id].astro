@@ -86,6 +86,15 @@ if (!blitz) {
             </section>
 
             <section id="mechanic" class="tab-panel" hidden>
+                <div class="langtabs-wrapper" data-lang="EN">
+                    <nav class="langtabs">
+                        <button class="langtab active" data-lang="EN">EN</button>
+                        <button class="langtab" data-lang="CN">CN</button>
+                        <button class="langtab" data-lang="JP">JP</button>
+                        <button class="langtab" data-lang="KR">KR</button>
+                    </nav>
+                </div>
+
                 {
                     blitz.mechanic.map((mechanic) => (
                         <div class="mechanic">
@@ -129,11 +138,23 @@ if (!blitz) {
         const levelInput = document.querySelector('#level');
         const levelOutput = document.querySelector('.level-output');
         const stats = document.querySelector('.stats p+p');
+        const mechanicLangInput = document.querySelector('#mechanic .langtabs-wrapper');
+        const mechanicDescs = document.querySelectorAll('#mechanic .mechanic .indent p:first-of-type');
 
         let level = 1;
+        let mechanicLang;
 
         levelInput.addEventListener('input', onLevelInput);
+        mechanicLangInput.addEventListener('click', (e) => {
+            if (e.target.classList.contains('langtab')) {
+                mechanicLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                mechanicLangInput.dataset.lang = e.target.dataset.lang;
+                onMechanicInput();
+            }
+        });
         onLevelInput();
+        onMechanicInput();
 
         function onLevelInput() {
             level = +levelInput.value;
@@ -146,9 +167,15 @@ if (!blitz) {
                 : 'No stats available';
         }
 
-        const mechanicDesc = document.querySelectorAll('.mechanic p:first-of-type');
-        mechanicDesc.forEach((desc) => {
-            desc.innerHTML = desc.textContent.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
-        });
+        function onMechanicInput() {
+            mechanicLang = mechanicLangInput.dataset.lang;
+            mechanicDescs.forEach((mechanicDesc, index) => {
+                const mechanic = blitz.mechanic[index];
+                const descLang = `desc${mechanicLang === 'EN' ? '' : mechanicLang}`;
+                const desc = mechanic[descLang];
+
+                mechanicDesc.innerHTML = desc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+            });
+        }
     </script>
 </Layout>

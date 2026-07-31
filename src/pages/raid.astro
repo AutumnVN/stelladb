@@ -30,3 +30,38 @@ const emoji = {
         }
     </SearchableGrid>
 </Layout>
+
+<script>
+    // @ts-nocheck
+    const ACTIVITY_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/Activity.json';
+    const activity = await fetch(ACTIVITY_URL).then((res) => res.json());
+    const raidActivity = Object.values(activity).filter((act) => act.ActivityType === 7);
+    const currentRaid = raidActivity.filter((raid) => Date.now() >= new Date(raid.StartTime) && Date.now() <= new Date(raid.EndTime))[0];
+    const upcomingRaids = raidActivity.filter((raid) => Date.now() < new Date(raid.StartTime));
+    console.log('currentRaid', currentRaid);
+    console.log('upcomingRaids', upcomingRaids);
+    const cardItems = document.querySelectorAll('.card-item');
+
+    cardItems.forEach((cardItem) => {
+        const id = cardItem.getAttribute('data-id');
+        if (currentRaid?.Id - 459000 === +id) {
+            cardItem.querySelector('.card-border').classList.add('current');
+        } else if (upcomingRaids.some((raid) => raid.Id - 459000 === +id)) {
+            cardItem.querySelector('.card-border').classList.add('upcoming');
+        }
+    });
+</script>
+
+<style is:global>
+    .card-border {
+        &.current {
+            border: var(--green) 5px solid;
+            border-radius: 5px;
+        }
+
+        &.upcoming {
+            border: var(--blue) 5px solid;
+            border-radius: 5px;
+        }
+    }
+</style>

@@ -321,8 +321,14 @@ if (import.meta.env.SSR) {
         --bg3: #333;
         --muted: #bbb;
         --text: #eee;
-        --accent: #6f9;
-        --word: #69e;
+        --accent: var(--green);
+        --red: #f66;
+        --orange: #f96;
+        --yellow: #ff9;
+        --green: #6f9;
+        --blue: #69f;
+        --indigo: #66f;
+        --purple: #96f;
         --nav-height: 64px;
         color-scheme: only dark;
     }
@@ -357,7 +363,7 @@ if (import.meta.env.SSR) {
 
     .tooltip {
         &.word {
-            color: var(--word);
+            color: var(--blue);
         }
 
         .tooltip-icon {

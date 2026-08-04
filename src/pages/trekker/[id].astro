@@ -1045,7 +1045,7 @@ if (!char) {
                     let wordDesc = word[id].desc;
 
                     word[id].params.forEach((param, index) => {
-                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                        wordDesc = wordDesc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param);
                     });
 
                     wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
@@ -1064,7 +1064,7 @@ if (!char) {
                     let wordDesc = word[id].desc;
 
                     word[id].params.forEach((param, index) => {
-                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                        wordDesc = wordDesc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param);
                     });
 
                     wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
@@ -1326,7 +1326,7 @@ if (!char) {
                     ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                     ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
                 `.trim();
-                result = result.replaceAll(`&Param${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+                result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
             });
 
             return format(result);
@@ -1379,7 +1379,7 @@ if (!char) {
                         ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                         ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
                     `.trim();
-                    result = result.replaceAll(`&Param${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+                    result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
                 });
 
                 pot.hiddenParams.forEach((paramSet, index) => {
@@ -1434,7 +1434,7 @@ if (!char) {
                     ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
                     ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
                 `.trim();
-                    desc = desc.replaceAll(`&Param${index + 1}&`, !tooltipContent ? param : `<span class="tooltip">${param}<span class="tooltip-text">${tooltipContent}</span></span>`);
+                    desc = desc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? param : `<span class="tooltip">${param}<span class="tooltip-text">${tooltipContent}</span></span>`);
                 });
 
                 talentNameElements[i].innerHTML = `${i + 1}. ${name}`;
@@ -1462,7 +1462,7 @@ if (!char) {
                         }
                     }
                     desc = desc
-                        .replaceAll(`&Param${index + 1}&`, param)
+                        .replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param)
                         .replaceAll('Increases ', '')
                         .replaceAll('Base ', '')
                         .replaceAll('by ', '+')

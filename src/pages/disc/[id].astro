@@ -468,7 +468,7 @@ if (!disc) {
                     let wordDesc = word[id].desc;
 
                     word[id].params.forEach((param, index) => {
-                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                        wordDesc = wordDesc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param);
                     });
 
                     wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
@@ -487,7 +487,7 @@ if (!disc) {
                     let wordDesc = word[id].desc;
 
                     word[id].params.forEach((param, index) => {
-                        wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                        wordDesc = wordDesc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param);
                     });
 
                     wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');

@@ -108,7 +108,7 @@ if (isValid) {
                 let wordDesc = word[id].desc;
 
                 word[id].params.forEach((param, index) => {
-                    wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                    wordDesc = wordDesc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param);
                 });
 
                 wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
@@ -123,7 +123,7 @@ if (isValid) {
                 let wordDesc = word[id].desc;
 
                 word[id].params.forEach((param, index) => {
-                    wordDesc = wordDesc.replaceAll(`&Param${index + 1}&`, param);
+                    wordDesc = wordDesc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param);
                 });
 
                 wordDesc = wordDesc.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
@@ -193,7 +193,7 @@ if (isValid) {
                 const splitted = String(paramSet).split('/');
                 const paramValue = splitted.length === 13 ? (splitted[skillLevel2 - 1] ?? splitted[0]) : splitted.length === 9 ? (splitted[potentialLevel - 1] ?? splitted[0]) : splitted[0];
                 const tooltip = (potDef?.paramsTooltips || [])[index] || null;
-                result = result.replaceAll(`&Param${index + 1}&`, paramValue);
+                result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), paramValue);
             });
 
             (potDef?.hiddenParams || []).forEach((paramSet, index) => {

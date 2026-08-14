@@ -164,22 +164,14 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
             return orParts.map((part) => {
                 const rawTokens = tokenizeClause(part);
                 const segments = [];
-                const keyed = {};
 
                 rawTokens.forEach((tokStr) => {
                     const alts = splitAlternates(tokStr);
                     const parsedAlts = alts.map((alt) => parseToken(alt));
-
-                    if (parsedAlts.length === 1 && parsedAlts[0].type === 'key') {
-                        const p = parsedAlts[0];
-                        if (!keyed[p.key]) keyed[p.key] = [];
-                        keyed[p.key].push({ op: p.op, value: p.value });
-                    } else {
-                        segments.push(parsedAlts);
-                    }
+                    segments.push(parsedAlts);
                 });
 
-                return { segments, keyed };
+                return { segments, keyed: {} };
             });
         }
 
@@ -246,24 +238,7 @@ const { placeholder = 'Search...', noResultsText = 'No results found.' } = Astro
                 }
             }
 
-            let keyedPass = true;
-            for (const key in clause.keyed) {
-                const conds = clause.keyed[key];
-                const itemVal = getAttrValue(item, key) || '';
-                let anyForKey = false;
-                for (const c of conds) {
-                    if (compareValues(itemVal, c.op, c.value)) {
-                        anyForKey = true;
-                        break;
-                    }
-                }
-                if (!anyForKey) {
-                    keyedPass = false;
-                    break;
-                }
-            }
-
-            return segmentsPass && keyedPass;
+            return segmentsPass;
         }
 
         function matches(item, q) {

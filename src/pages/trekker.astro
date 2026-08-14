@@ -22,7 +22,7 @@ const emoji = {
 ---
 
 <Layout title="Trekker | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search trekkers by id/name/star/element/class/attacktype/tag/skill/potential" noResultsText="No trekker found.">
+    <SearchableGrid placeholder="Search trekkers by id/name/star/element/class/attacktype/tag/source/skill/potential" noResultsText="No trekker found.">
         {
             Object.entries(data).map(([id, char]) => (
                 <div
@@ -34,6 +34,7 @@ const emoji = {
                     data-class={char.class}
                     data-attacktype={char.attackType}
                     data-tag={char.tag.join(' ')}
+                    data-source={char.source.join(' ')}
                     data-skill={`${char.normalAtk?.name || ''} ${char.skill?.name || ''} ${char.supportSkill?.name || ''} ${char.ultimate?.name || ''}`}
                     data-potential={Object.values(char.potential)
                         .flat()

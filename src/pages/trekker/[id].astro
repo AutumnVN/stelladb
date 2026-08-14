@@ -98,6 +98,14 @@ if (!char) {
                     }
                     {char.jpCv && `🎤 ${char.jpCv}`}<br />
                     {char.birthday && `🎂 ${char.birthday}`}<br />
+                    {
+                        char.source.length ? (
+                            <>
+                                {char.source.join(', ')}
+                                <br />
+                            </>
+                        ) : null
+                    }
                 </p>
                 <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
             </div>

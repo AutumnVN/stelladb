@@ -88,12 +88,20 @@ if (!disc) {
                         ))
                     }
                     {
-                        disc.char.map((char) => (
+                        disc.char.length ? (
                             <>
-                                {char}
+                                {disc.char.join(', ')}
                                 <br />
                             </>
-                        ))
+                        ) : null
+                    }
+                    {
+                        disc.source.length ? (
+                            <>
+                                {disc.source.join(', ')}
+                                <br />
+                            </>
+                        ) : null
                     }
                 </p>
                 <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${disc.name.replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>

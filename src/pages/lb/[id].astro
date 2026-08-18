@@ -36,7 +36,38 @@ const firstIcon = Object.values(floors)[0]?.icon;
     const SEASON_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
     const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
     const CHARACTER_ID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
-    const [seasonData, characterIdData, metaData] = await Promise.all([fetch(SEASON_URL).then((r) => r.json()), fetch(CHARACTER_ID_URL).then((r) => r.json()), fetch(META_URL).then((r) => r.json())]);
+
+    let data;
+
+    const [seasonData, characterIdData, metaData] = await Promise.all([
+        fetch(SEASON_URL)
+            .then((r) => r.json())
+            .catch(onError),
+        fetch(CHARACTER_ID_URL)
+            .then((r) => r.json())
+            .catch(onError),
+        fetch(META_URL)
+            .then((r) => r.json())
+            .catch(onError),
+    ]);
+
+    async function onError(e) {
+        const GITHUBSTATUS_URL = 'https://www.githubstatus.com/api/v2/status.json';
+        const githubStatus = await fetch(GITHUBSTATUS_URL).then((r) => r.json());
+        const pageEl = document.querySelector('.lb-page');
+        pageEl.insertAdjacentHTML(
+            'beforeend',
+            `
+                <div class="leaderboard-header">
+                    <p>
+                        ${e}<br/>
+                        <a href="https://www.githubstatus.com" target="_blank">GitHub status: ${githubStatus.status.description}</a>
+                    </p>
+                </div>
+            `,
+        );
+    }
+
     const regionData = seasonData.region;
     const regionTabs = ['en', 'jp', 'kr', 'tw', ...(regionData.cn ? ['cn'] : []), 'all'];
     const regionLabels = {

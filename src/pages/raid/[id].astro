@@ -62,15 +62,15 @@ if (!raid) {
             <section id="stats" class="tab-panel">
                 <div class="slider-container">
                     <div class="slider difficulty">
-                        <label class="difficulty-output">Diff: {raid.diff[raid.diff.length - 1].name}</label>
-                        <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} />
+                        <label class="difficulty-output">Diff: {raid.diff[raid.diff.length - 1].name} <input type="range" id="difficulty" min="0" max={raid.diff.length - 1} value={raid.diff.length - 1} /></label>
                     </div>
 
                     {
                         raid.diff[0].stat[0].length > 1 && (
                             <div class="slider phase">
-                                <label class="phase-output">Phase: 1</label>
-                                <input type="range" id="phase" min="1" max={raid.diff[0].stat[0].length} value="1" />
+                                <label class="phase-output">
+                                    Phase: 1 <input type="range" id="phase" min="1" max={raid.diff[0].stat[0].length} value="1" />
+                                </label>
                             </div>
                         )
                     }
@@ -78,8 +78,9 @@ if (!raid) {
                     {
                         raid.icons && (
                             <div class="slider boss">
-                                <label class="boss-output">Boss 1</label>
-                                <input type="range" id="boss" min="1" max={raid.icons.length} value="1" />
+                                <label class="boss-output">
+                                    Boss 1 <input type="range" id="boss" min="1" max={raid.icons.length} value="1" />
+                                </label>
                             </div>
                         )
                     }
@@ -164,9 +165,9 @@ if (!raid) {
             if (raid.diff[0].stat[0].length > 1) phase = +phaseInput.value;
             if (raid.icons) boss = +bossInput.value;
 
-            difficultyOutput.innerHTML = `Diff: ${raid.diff[difficulty].name}`;
-            if (raid.diff[0].stat[0].length > 1) phaseOutput.innerHTML = `Phase: ${phase}`;
-            if (raid.icons) bossOutput.innerHTML = `Boss ${boss}`;
+            difficultyOutput.childNodes[0].nodeValue = `Diff: ${raid.diff[difficulty].name} `;
+            if (raid.diff[0].stat[0].length > 1) phaseOutput.childNodes[0].nodeValue = `Phase: ${phase} `;
+            if (raid.icons) bossOutput.childNodes[0].nodeValue = `Boss ${boss} `;
             stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1][phase - 1])
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
                 .join('')}`;

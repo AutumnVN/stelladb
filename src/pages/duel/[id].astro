@@ -62,8 +62,7 @@ if (!duel) {
             <section id="stats" class="tab-panel">
                 <div class="slider-container">
                     <div class="slider difficulty">
-                        <label class="difficulty-output">Difficulty: 100</label>
-                        <input type="range" id="difficulty" min="0" max={duel.diff.length - 1} value="100" />
+                        <label class="difficulty-output">Difficulty: 100 <input type="range" id="difficulty" min="0" max={duel.diff.length - 1} value="100" /></label>
                     </div>
                 </div>
 
@@ -121,7 +120,7 @@ if (!duel) {
 
         function ondifficultyInput() {
             difficulty = +difficultyInput.value;
-            difficultyOutput.textContent = `Difficulty: ${difficulty}`;
+            difficultyOutput.childNodes[0].nodeValue = `Difficulty: ${difficulty} `;
 
             stats.innerHTML = `${Object.entries(duel.stat)
                 .map(([stat, value]) => `${stat}: ${(value + (typeof value === 'number' ? duel.diff[difficulty][stat] || 0 : '')).toLocaleString('en-US')}<br />`)

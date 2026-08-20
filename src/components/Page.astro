@@ -90,16 +90,18 @@ const { ...rest } = Astro.props;
         .slider {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
             width: 100%;
 
             label {
                 margin: 0;
-                width: 16ch;
+                display: grid;
+                grid-template-columns: 16ch minmax(0, 1fr);
+                align-items: center;
+                gap: 0.5rem;
+                width: 100%;
             }
 
             input[type='range'] {
-                flex: 1;
                 width: 100%;
                 min-width: 0;
                 accent-color: var(--accent);

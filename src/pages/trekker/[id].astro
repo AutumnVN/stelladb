@@ -115,13 +115,11 @@ if (!char) {
             <section id="details" class="tab-panel">
                 <div class="slider-container">
                     <div class="slider upgrade1">
-                        <label class="upgrade1-output">Upgrade: 8</label>
-                        <input type="range" id="upgrade1" min="0" max="8" value="8" />
+                        <label class="upgrade1-output">Upgrade: 8 <input type="range" id="upgrade1" min="0" max="8" value="8" /></label>
                     </div>
 
                     <div class="slider level">
-                        <label class="level-output">Level: 90</label>
-                        <input type="range" id="level" min="0" max="10" value="10" />
+                        <label class="level-output">Level: 90 <input type="range" id="level" min="0" max="10" value="10" /></label>
                     </div>
                 </div>
 
@@ -200,12 +198,10 @@ if (!char) {
             <section id="skills" class="tab-panel" hidden>
                 <div class="slider-container">
                     <div class="slider upgrade2">
-                        <label class="upgrade2-output">Upgrade: 0</label>
-                        <input type="range" id="upgrade2" min="0" max="8" value="8" />
+                        <label class="upgrade2-output">Upgrade: 0 <input type="range" id="upgrade2" min="0" max="8" value="8" /></label>
                     </div>
                     <div class="slider skill-level1">
-                        <label class="skill-level1-output">Skill level: 1</label>
-                        <input type="range" id="skill-level1" min="1" max="13" value="10" />
+                        <label class="skill-level1-output">Skill level: 1 <input type="range" id="skill-level1" min="1" max="13" value="10" /></label>
                     </div>
                 </div>
 
@@ -536,12 +532,10 @@ if (!char) {
             <section id="potentials" class="tab-panel" hidden>
                 <div class="slider-container">
                     <div class="slider potential-level">
-                        <label class="potential-level-output">Potential level: 1</label>
-                        <input type="range" id="potential-level" min="1" max="9" value="6" />
+                        <label class="potential-level-output">Potential level: 1 <input type="range" id="potential-level" min="1" max="9" value="6" /></label>
                     </div>
                     <div class="slider skill-level2">
-                        <label class="skill-level2-output">Skill level: 1</label>
-                        <input type="range" id="skill-level2" min="1" max="13" value="10" />
+                        <label class="skill-level2-output">Skill level: 1 <input type="range" id="skill-level2" min="1" max="13" value="10" /></label>
                     </div>
                 </div>
 
@@ -1114,8 +1108,8 @@ if (!char) {
             if (level < 1) level = 1;
             if (level > 90) level = 90;
 
-            upgrade1Output.innerHTML = `Upgrade: ${upgrade1}`;
-            levelOutput.innerHTML = `Level: ${level}`;
+            upgrade1Output.childNodes[0].nodeValue = `Upgrade: ${upgrade1} `;
+            levelOutput.childNodes[0].nodeValue = `Level: ${level} `;
             if (char.stat.length) {
                 stats.innerHTML = Object.entries(char.stat[level + upgrade1 - 1])
                     .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}`)
@@ -1241,8 +1235,8 @@ if (!char) {
             if (skillLevel < 1) skillLevel = 1;
             if (skillLevel > 13) skillLevel = 13;
 
-            upgrade2Output.innerHTML = `Upgrade: ${upgrade2}`;
-            skillLevel1Output.innerHTML = `Skill level: ${skillLevel}`;
+            upgrade2Output.childNodes[0].nodeValue = `Upgrade: ${upgrade2} `;
+            skillLevel1Output.childNodes[0].nodeValue = `Skill level: ${skillLevel} `;
             const nameLang = `name${skillLang === 'EN' ? '' : skillLang}`;
             const descLang = `desc${skillLang === 'EN' ? '' : skillLang}`;
             if (normalAttackName) normalAttackName.innerHTML = `Normal attack: ${char.normalAtk[nameLang]}`;
@@ -1368,8 +1362,8 @@ if (!char) {
             skillLevel2 = +skillLevel2Input.value;
             potentialLang = potentialLangInput.dataset.lang;
 
-            potentialLevelOutput.innerHTML = `Potential level: ${potentialLevel}`;
-            skillLevel2Output.innerHTML = `Skill level: ${skillLevel2}`;
+            potentialLevelOutput.childNodes[0].nodeValue = `Potential level: ${potentialLevel} `;
+            skillLevel2Output.childNodes[0].nodeValue = `Skill level: ${skillLevel2} `;
             potentialElements.forEach((e) => {
                 const pot = JSON.parse(e.dataset.potential);
                 const nameLang = `name${potentialLang === 'EN' ? '' : potentialLang}`;

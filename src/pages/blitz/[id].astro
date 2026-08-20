@@ -62,8 +62,7 @@ if (!blitz) {
             <section id="stats" class="tab-panel">
                 <div class="slider-container">
                     <div class="slider level">
-                        <label class="level-output">Level: 1</label>
-                        <input type="range" id="level" min="1" max={blitz.stat?.length} value="45" />
+                        <label class="level-output">Level: 1 <input type="range" id="level" min="1" max={blitz.stat?.length} value="45" /></label>
                     </div>
                 </div>
 
@@ -158,7 +157,7 @@ if (!blitz) {
 
         function onLevelInput() {
             level = +levelInput.value;
-            levelOutput.textContent = `Level: ${level}`;
+            levelOutput.childNodes[0].nodeValue = `Level: ${level} `;
 
             stats.innerHTML = blitz.stat?.length
                 ? `${Object.entries(blitz.stat[level - 1])

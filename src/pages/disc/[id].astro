@@ -112,18 +112,15 @@ if (!disc) {
             <section id="details" class="tab-panel">
                 <div class="slider-container">
                     <div class="slider upgrade1">
-                        <label class="upgrade1-output">Upgrade: 8</label>
-                        <input type="range" id="upgrade1" min="0" max="8" value="8" />
+                        <label class="upgrade1-output">Upgrade: 8 <input type="range" id="upgrade1" min="0" max="8" value="8" /></label>
                     </div>
 
                     <div class="slider level">
-                        <label class="level-output">Level: 90</label>
-                        <input type="range" id="level" min="0" max="10" value="10" />
+                        <label class="level-output">Level: 90 <input type="range" id="level" min="0" max="10" value="10" /></label>
                     </div>
 
                     <div class="slider dupe1">
-                        <label class="dupe1-output">Dupe: 1</label>
-                        <input type="range" id="dupe1" min="1" max="6" value="1" />
+                        <label class="dupe1-output">Dupe: 1 <input type="range" id="dupe1" min="1" max="6" value="1" /></label>
                     </div>
                 </div>
 
@@ -186,8 +183,7 @@ if (!disc) {
             <section id="melody" class="tab-panel" hidden>
                 <div class="slider-container">
                     <div class="slider dupe2">
-                        <label class="dupe2-output">Dupe: 1</label>
-                        <input type="range" id="dupe2" min="1" max="6" value="1" />
+                        <label class="dupe2-output">Dupe: 1 <input type="range" id="dupe2" min="1" max="6" value="1" /></label>
                     </div>
                 </div>
 
@@ -259,8 +255,9 @@ if (!disc) {
                     <section id="harmony" class="tab-panel" hidden>
                         <div class="slider-container">
                             <div class="slider harmony-level">
-                                <label class="harmony-level-output">Harmony level: 1</label>
-                                <input type="range" id="harmony-level" min="1" max="5" value="1" />
+                                <label class="harmony-level-output">
+                                    Harmony level: 1 <input type="range" id="harmony-level" min="1" max="5" value="1" />
+                                </label>
                             </div>
                         </div>
 
@@ -423,8 +420,7 @@ if (!disc) {
             <section id="note" class="tab-panel" hidden>
                 <div class="slider-container">
                     <div class="slider upgrade2">
-                        <label class="upgrade2-output">Upgrade: 8</label>
-                        <input type="range" id="upgrade2" min="0" max="8" value="8" />
+                        <label class="upgrade2-output">Upgrade: 8 <input type="range" id="upgrade2" min="0" max="8" value="8" /></label>
                     </div>
                 </div>
 
@@ -542,9 +538,9 @@ if (!disc) {
             if (level < 1) level = 1;
             if (level > 90) level = 90;
 
-            upgrade1Output.innerHTML = `Upgrade: ${upgrade1}`;
-            levelOutput.innerHTML = `Level: ${level}`;
-            dupe1Output.innerHTML = `Dupe: ${dupe1}`;
+            upgrade1Output.childNodes[0].nodeValue = `Upgrade: ${upgrade1} `;
+            levelOutput.childNodes[0].nodeValue = `Level: ${level} `;
+            dupe1Output.childNodes[0].nodeValue = `Dupe: ${dupe1} `;
 
             const stat = disc.stat[level + upgrade1 - 1];
 
@@ -648,7 +644,7 @@ if (!disc) {
         function onMelodyInput() {
             dupe2 = +dupe2Input.value;
             melodyLang = melodyLangInput.dataset.lang;
-            dupe2Output.innerHTML = `Dupe: ${dupe2}`;
+            dupe2Output.childNodes[0].nodeValue = `Dupe: ${dupe2} `;
 
             const nameLang = `name${melodyLang === 'EN' ? '' : melodyLang}`;
             const descLang = `desc${melodyLang === 'EN' ? '' : melodyLang}`;
@@ -694,7 +690,7 @@ if (!disc) {
             function onHarmonyInput() {
                 harmonyLevel = +harmonyLevelInput.value;
                 harmonyLang = harmonyLangInput.dataset.lang;
-                harmonyLevelOutput.innerHTML = `Harmony level: ${harmonyLevel}`;
+                harmonyLevelOutput.childNodes[0].nodeValue = `Harmony level: ${harmonyLevel} `;
 
                 const skill1 = disc.secondarySkill1;
                 const name1Lang = `name${harmonyLang === 'EN' ? '' : harmonyLang}`;
@@ -751,7 +747,7 @@ if (!disc) {
 
         function onSupportNoteInput() {
             upgrade1 = +upgrade2Input.value;
-            upgrade2Output.innerHTML = `Upgrade: ${upgrade1}`;
+            upgrade2Output.childNodes[0].nodeValue = `Upgrade: ${upgrade1} `;
 
             note.innerHTML = Object.entries(disc.supportNote[upgrade1])
                 .map(([note, amount]) => `${note}: ${amount}`)

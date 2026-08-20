@@ -62,8 +62,7 @@ if (!ground) {
             <section id="stats" class="tab-panel">
                 <div class="slider-container">
                     <div class="slider difficulty">
-                        <label class="difficulty-output">Difficulty: {ground.diff.length}</label>
-                        <input type="range" id="difficulty" min="0" max={ground.diff.length - 1} value={ground.diff.length - 1} />
+                        <label class="difficulty-output">Difficulty: {ground.diff.length} <input type="range" id="difficulty" min="0" max={ground.diff.length - 1} value={ground.diff.length - 1} /></label>
                     </div>
                 </div>
 
@@ -117,7 +116,7 @@ if (!ground) {
         function onDifficultyInput() {
             difficulty = +difficultyInput.value;
 
-            difficultyOutput.innerHTML = `Difficulty: ${difficulty + 1}`;
+            difficultyOutput.childNodes[0].nodeValue = `Difficulty: ${difficulty + 1} `;
             stats.innerHTML = `${Object.entries(ground.diff[difficulty].stat)
                 .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
                 .join('')}`;

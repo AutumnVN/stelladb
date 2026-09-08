@@ -18,9 +18,9 @@ export async function initWasmOnce() {
     }
 }
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/CharPotential.json';
-const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/character.json';
-const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/CharPotential.json';
+const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
+const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/item.json';
 
 export async function GET({ params, request }) {
     const id = Array.isArray(params.id) ? params.id.join('/') : params.id;

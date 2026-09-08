@@ -4,7 +4,7 @@ import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/blitz.json';
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 
@@ -33,7 +33,7 @@ const emoji = {
 
 <script>
     // @ts-nocheck
-    const SCOREBOSSCONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/ScoreBossControl.json';
+    const SCOREBOSSCONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/ScoreBossControl.json';
     const scoreBossControl = await fetch(SCOREBOSSCONTROL_URL).then((res) => res.json());
     const currentSeason = Object.values(scoreBossControl).filter((season) => Date.now() >= new Date(season.StartTime) && Date.now() <= new Date(season.EndTime))[0];
     const upcomingSeasons = Object.values(scoreBossControl).filter((season) => Date.now() < new Date(season.StartTime) && season.LevelGroup?.join(',') !== '2,3');

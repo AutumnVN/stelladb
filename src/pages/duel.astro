@@ -4,8 +4,8 @@ import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/duel.json';
-const TRAVELERDUELCHALLENGECONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/TravelerDuelChallengeControl.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/duel.json';
+const TRAVELERDUELCHALLENGECONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/TravelerDuelChallengeControl.json';
 
 const [data, scoreBossControl] = await Promise.all([
     fetch(DATA_URL)

@@ -6,9 +6,9 @@ import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 
 export async function getStaticPaths() {
-    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/disc.json';
-    const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/item.json';
-    const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/word.json';
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/disc.json';
+    const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/item.json';
+    const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/word.json';
 
     const [data, itemData, word] = await Promise.all([
         fetch(DATA_URL)

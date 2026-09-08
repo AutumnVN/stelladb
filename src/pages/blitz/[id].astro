@@ -6,7 +6,7 @@ import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 
 export async function getStaticPaths() {
-    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/blitz.json';
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/blitz.json';
     const data = await fetch(DATA_URL).then((res) => res.json());
 
     return Object.keys(data).map((id) => ({

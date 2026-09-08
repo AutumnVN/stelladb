@@ -5,9 +5,9 @@ import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/unreleased.json';
-const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/characterid.json';
-const RAW_CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/EN/bin/Character.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/unreleased.json';
+const CHARACTERID_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/characterid.json';
+const RAW_CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/Character.json';
 
 const [data, characterIdData, rawCharacterData] = await Promise.all([
     fetch(DATA_URL)

@@ -4,7 +4,7 @@ import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/Card.astro';
 
-const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/StellaSoraData/refs/heads/main/gacha.json';
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/gacha.json';
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 ---

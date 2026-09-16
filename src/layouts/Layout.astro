@@ -153,8 +153,8 @@ if (import.meta.env.SSR) {
     document.addEventListener('mousemove', (e) => {
         const el = e.target.closest('.tooltip');
         if (!el) return;
-        lastX = e.pageX;
-        lastY = e.pageY;
+        lastX = e.clientX;
+        lastY = e.clientY;
         lastEl = el;
         if (rafPending) return;
         rafPending = true;
@@ -164,8 +164,8 @@ if (import.meta.env.SSR) {
             if (!tooltip) return;
             const tw = tooltip.clientWidth;
             const th = tooltip.clientHeight;
-            const bw = document.body.clientWidth;
-            const bh = document.body.clientHeight;
+            const bw = window.innerWidth;
+            const bh = window.innerHeight;
             const left = Math.min(Math.max(8, lastX + 16), bw - tw - 8);
             const top = Math.min(Math.max(8, lastY + 16), bh - th - 8);
             tooltip.style.left = left + 'px';
@@ -387,7 +387,7 @@ if (import.meta.env.SSR) {
 
         .tooltip-text {
             display: none;
-            position: absolute;
+            position: fixed;
             z-index: 727;
             border-radius: 10px;
             background: var(--bg2);

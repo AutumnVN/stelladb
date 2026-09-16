@@ -1,0 +1,520 @@
+---
+// @ts-nocheck
+import { Image } from 'astro:assets';
+import Layout from '@/layouts/Layout.astro';
+import Page from '@/components/Page.astro';
+import Tabs from '@/components/Tabs.astro';
+import Card from '@/components/Card.astro';
+import { loadAllTeams, buildNameIndex, findId, buildSkillIndex, resolveIds, renderInline } from '@/scripts/infodoc2.js';
+
+export async function getStaticPaths() {
+    const teams = loadAllTeams();
+
+    const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
+    const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/item.json';
+    const DISC_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/disc.json';
+
+    const [characterData, itemData, discData] = await Promise.all([
+        fetch(CHARACTER_URL)
+            .then((r) => r.json())
+            .catch(() => ({})),
+        fetch(ITEM_URL)
+            .then((r) => r.json())
+            .catch(() => ({})),
+        fetch(DISC_URL)
+            .then((r) => r.json())
+            .catch(() => ({})),
+    ]);
+
+    const itemIndex = buildNameIndex(itemData);
+    const discIndex = buildNameIndex(discData);
+    const charIndex = buildNameIndex(characterData);
+    const skillIndex = buildSkillIndex(characterData);
+
+    return teams.map((team) => {
+        const charId = team.character ? findId(charIndex, team.character) : null;
+        const tabCharIds = {};
+        for (const tab of team.tabs) {
+            if (tab.title.toLowerCase() === 'disc') continue;
+            const cid = findId(charIndex, tab.title);
+            if (cid) tabCharIds[tab.id] = cid;
+        }
+        return {
+            params: { element: team.element, id: team.slug },
+            props: {
+                team: resolveIds(team, itemIndex, discIndex, skillIndex, charId, discData),
+                tabCharIds,
+                characterData,
+            },
+        };
+    });
+}
+
+const { team, tabCharIds, characterData } = Astro.props;
+
+const skillIndex = buildSkillIndex(characterData);
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+    Melee: '⚔️',
+    Ranged: '🏹',
+};
+
+const isCharTab = (tab) => team.character.includes(tab.title);
+
+const lv = (item) => item.level;
+
+const charTabs = team.tabs.filter(isCharTab);
+
+function getChar(cid) {
+    const cc = cid ? characterData[cid] : null;
+    if (!cc) return null;
+    const out = { ...cc, tag: Array.isArray(cc.tag) ? [...cc.tag] : [] };
+    if (out.tag[0] === out.class) out.tag.shift();
+    return out;
+}
+
+const potDefCache = new Map();
+
+function findPotDef(id) {
+    if (potDefCache.has(id)) return potDefCache.get(id);
+    let found = null;
+    for (const key of Object.keys(characterData)) {
+        const cc = characterData[key];
+        if (!cc || !cc.potential) continue;
+        for (const pk of Object.keys(cc.potential)) {
+            const arr = cc.potential[pk];
+            if (!Array.isArray(arr)) continue;
+            for (const pot of arr) {
+                if (String(pot.id ?? pot.Id) === String(id)) {
+                    found = pot;
+                    break;
+                }
+            }
+            if (found) break;
+        }
+        if (found) break;
+    }
+    potDefCache.set(id, found || null);
+    return found;
+}
+
+function potDescHtml(def, level) {
+    if (!def) return '';
+    const lvl = Number(String(level ?? 1).replace(/\D/g, '')) || 1;
+    let desc = def.desc || def.descEN || '';
+    (def.params || []).forEach((paramSet, index) => {
+        const splitted = String(paramSet).split('/');
+        const value = splitted.length === 13 ? (splitted[9] ?? splitted[0]) : splitted.length === 9 ? (splitted[lvl - 1] ?? splitted[0]) : splitted[0];
+        desc = desc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), value);
+    });
+    (def.hiddenParams || []).forEach((paramSet, index) => {
+        const splitted = String(paramSet).split('/');
+        const value = splitted.length === 13 ? (splitted[9] ?? splitted[0]) : splitted.length === 9 ? (splitted[lvl - 1] ?? splitted[0]) : splitted[0];
+        desc = desc.replaceAll(`&HiddenParam${index + 1}&`, value);
+    });
+    return desc
+        .replace(/<color=#(.{6})>/g, '<span style="color:#$1">')
+        .replace(/<\/color>/g, '</span>')
+        .replace(/\u000b/g, '<br />')
+        .replace(/##([^#]*?)#(\d{1,4})#/g, '<b>$1</b>')
+        .replace(/#(\d{1,4})#([^#]*?)##/g, '<b>$2</b>');
+}
+
+function potImg(id) {
+    return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${id}.webp`;
+}
+
+function discImg(id) {
+    return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${String(id).slice(2)}.webp`;
+}
+
+function skillImg(id) {
+    return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${id}.webp`;
+}
+---
+
+<Layout title={`${team.title} | stelladb`} description={team.character}>
+    <Page>
+        <Fragment slot="header">
+            <h1>{team.title}</h1>
+            {
+                team.wip && (
+                    <span class="wip" title="work in progress">
+                        WIP
+                    </span>
+                )
+            }
+            <Tabs>
+                {
+                    team.tabs.map((tab, i) => (
+                        <button data-tab={tab.id} data-left={isCharTab(tab) ? 'character' : 'none'} class={i === 0 ? 'tab active' : 'tab'}>
+                            {tab.title}
+                        </button>
+                    ))
+                }
+            </Tabs>
+        </Fragment>
+
+        <Fragment slot="left">
+            {
+                charTabs.length ? (
+                    charTabs.map((tab) => {
+                        const cid = tabCharIds[tab.id];
+                        const c = getChar(cid);
+                        return (
+                            <div class="left-tab" data-left-for={tab.id} hidden={tab.id !== charTabs[0].id ? true : undefined}>
+                                {c && (
+                                    <a href={`/trekker/${cid}`}>
+                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}02_XL.webp`} alt={c.name} title={c.name} width="256" height="340" densities={[1.25]} />
+                                    </a>
+                                )}
+                                <div class="info">
+                                    {c ? (
+                                        <p class="indent">
+                                            {c.star && `${c.star}⭐`}
+                                            <br />
+                                            {c.element}
+                                            {emoji[c.element]}
+                                            <br />
+                                            {c.class}
+                                            {emoji[c.attackType]}
+                                            <br />
+                                            {c.tag.map((tag) => (
+                                                <>
+                                                    {tag}
+                                                    <br />
+                                                </>
+                                            ))}
+                                            {c.jpCv && `🎤 ${c.jpCv}`}
+                                            <br />
+                                            {c.birthday && `🎂 ${c.birthday}`}
+                                            <br />
+                                            {c.source.length ? (
+                                                <>
+                                                    {c.source.join(', ')}
+                                                    <br />
+                                                </>
+                                            ) : null}
+                                        </p>
+                                    ) : (
+                                        <p class="indent">
+                                            {team.element[0].toUpperCase() + team.element.slice(1)}
+                                            {emoji[team.element]}
+                                        </p>
+                                    )}
+                                    {c && (
+                                        <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${c.name.replaceAll(' ', '_')}`} target="_blank">
+                                            Open in Wiki ↗
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div class="left-tab" data-left-for="">
+                        <div class="info">
+                            <p class="indent">
+                                {team.element[0].toUpperCase() + team.element.slice(1)}
+                                {emoji[team.element]}
+                            </p>
+                        </div>
+                    </div>
+                )
+            }
+        </Fragment>
+
+        <Fragment slot="right">
+            {
+                team.tabs.map((tab, i) => (
+                    <section id={tab.id} class="tab-panel" hidden={i === 0 ? undefined : true}>
+                        <h2 class="tab-title">{tab.title}</h2>
+                        {tab.sections.map((section) => {
+                            if (section.type === 'h2') {
+                                return <h2>{section.title}</h2>;
+                            }
+                            if (section.type === 'h3') {
+                                return <h3>{section.title}</h3>;
+                            }
+                            if (section.type === 'p') {
+                                const inlineSkill = section.text.match(/^@skill\(\s*(.*?)\s*\)\s*([\s\S]*)$/);
+                                if (inlineSkill && inlineSkill[2].trim()) {
+                                    const skillName = inlineSkill[1].trim();
+                                    const entry = (skillIndex.get(String(skillName).toLowerCase()) || [])[0];
+                                    return (
+                                        <div class="skill-prose">
+                                            {entry ? <img src={skillImg(entry.icon)} alt={skillName} title={skillName} width="64" height="64" loading="lazy" /> : null}
+                                            <p class="indent" set:html={renderInline(inlineSkill[2])} />
+                                        </div>
+                                    );
+                                }
+                                return <p class="indent" set:html={renderInline(section.text)} />;
+                            }
+                            if (section.type === 'table') {
+                                return (
+                                    <table class="emblem indent">
+                                        {section.headers.length > 0 && (
+                                            <thead>
+                                                <tr>
+                                                    {section.headers.map((h) => (
+                                                        <th set:html={renderInline(h)} />
+                                                    ))}
+                                                </tr>
+                                            </thead>
+                                        )}
+                                        <tbody>
+                                            {section.rows.map((row) => (
+                                                <tr>
+                                                    {row.map((cell) => (
+                                                        <td set:html={renderInline(cell)} />
+                                                    ))}
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                );
+                            }
+                            if (section.type === 'skill') {
+                                return (
+                                    <div class="inline-images indent">
+                                        {section.items.map((item) => (
+                                            <img src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />
+                                        ))}
+                                    </div>
+                                );
+                            }
+                            if (section.type === 'pot' || section.type === 'disc') {
+                                const isPot = section.type === 'pot';
+                                const isDisc = section.type === 'disc';
+                                return (
+                                    <div class={isDisc ? 'disc-list indent' : 'inline-images indent'}>
+                                        {section.items.map((item) => {
+                                            if (!item.id) {
+                                                return (
+                                                    <div class="inline-images indent">
+                                                        <p class="indent">{item.name}</p>
+                                                    </div>
+                                                );
+                                            }
+                                            if (isDisc) {
+                                                const discName = item.data?.name || item.name;
+                                                return (
+                                                    <div class="disc-wrap">
+                                                        <Card href={`/disc/${item.id}`} name={discName} star={item.data?.star || 0} image={discImg(item.id)} element={item.data?.element} />
+                                                        {item.level != null && <div class="c-badge">C{lv(item)}</div>}
+                                                    </div>
+                                                );
+                                            }
+                                            if (section.type === 'skill') {
+                                                return <img src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />;
+                                            }
+                                            const def = findPotDef(item.id);
+                                            const descHtml = potDescHtml(def, item.level ?? 1);
+                                            return (
+                                                <a class="tooltip" href={isPot ? potImg(item.id) : skillImg(item.id)} target="_blank" rel="noreferrer">
+                                                    <img src={isPot ? potImg(item.id) : skillImg(item.id)} alt={item.name} title={item.name} width="120" height={isPot ? 153 : 120} loading="lazy" />
+                                                    {item.level != null && <div class="level-overlay">{lv(item)}</div>}
+                                                    <div class="tooltip-text">
+                                                        <div class="tooltip-name">
+                                                            {item.name}
+                                                            {isPot && item.level != null && ` ${item.level}`}
+                                                        </div>
+                                                        {!isPot && item.level != null && <div class="tooltip-level">Level {item.level}</div>}
+                                                        {descHtml && <div class="tooltip-desc" set:html={descHtml} />}
+                                                    </div>
+                                                </a>
+                                            );
+                                        })}
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })}
+                    </section>
+                ))
+            }
+        </Fragment>
+    </Page>
+</Layout>
+
+<script>
+    // @ts-nocheck
+    const left = document.querySelector('.page .content .left');
+    const panels = Array.from(document.querySelectorAll('.left-tab'));
+
+    function sync() {
+        const active = document.querySelector('.tabs .tab.active');
+        if (!active) return;
+        if (left) left.classList.toggle('left-hidden', active.dataset.left !== 'character');
+        panels.forEach((panel) => {
+            panel.hidden = panel.dataset.leftFor !== active.dataset.tab;
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.tabs .tab')) setTimeout(sync, 0);
+    });
+
+    window.addEventListener('hashchange', sync);
+    sync();
+</script>
+
+<style is:global>
+    .page .content .left.left-hidden {
+        display: none !important;
+    }
+</style>
+
+<style>
+    @font-face {
+        font-style: normal;
+        font-weight: 600;
+        src: url('/MiSansLatin-Semibold.woff2') format('woff2');
+        font-family: 'MiSansLatin-Semibold';
+        font-display: swap;
+    }
+
+    @media (width < 800px) {
+        .left-tab:not([hidden]) {
+            display: flex;
+            width: 100% !important;
+        }
+    }
+
+    .wip {
+        margin-right: 1rem;
+        border-radius: 727px;
+        background: #531;
+        padding: 0.15rem 0.5rem;
+        color: #fdb;
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .inline-images {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0;
+        margin: 0;
+    }
+
+    .skill-prose {
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+
+    .skill-prose img {
+        flex: 0 0 auto;
+    }
+
+    .skill-prose p {
+        margin: 0;
+    }
+
+    .disc-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        margin: 0;
+    }
+
+    .level-overlay {
+        position: absolute;
+        top: 0px;
+        left: 15px;
+        pointer-events: none;
+        color: #568;
+        font-size: 16px;
+        font-family: 'MiSansLatin-Semibold', sans-serif;
+    }
+
+    .c-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        border-radius: 7px;
+        background: #fff;
+        padding: 2px 7px;
+        pointer-events: none;
+        color: #568;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1;
+        font-family: 'MiSansLatin-Semibold', sans-serif;
+    }
+
+    .disc-wrap {
+        position: relative;
+        flex-shrink: 0;
+        width: 177px;
+    }
+
+    .tooltip-desc {
+        margin-top: 0.5rem;
+        color: var(--text);
+        font-weight: 400;
+        line-height: 1.4;
+
+        b {
+            color: var(--text);
+        }
+
+        span[style*='color'] {
+            font-weight: 700;
+        }
+    }
+
+    .tooltip {
+        display: inline-block;
+        position: relative;
+
+        img {
+            display: block;
+            object-fit: cover;
+            object-position: top;
+        }
+    }
+
+    .tooltip-text {
+        font-weight: 400;
+
+        .tooltip-name {
+            font-weight: 700;
+        }
+
+        .tooltip-level {
+            color: var(--muted);
+        }
+    }
+
+    table.emblem {
+        margin: 0.5rem 0;
+        border-collapse: collapse;
+        width: 100%;
+        table-layout: fixed;
+
+        th,
+        td {
+            border: var(--muted) 1px solid;
+            padding: 0.35rem 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            color: var(--text);
+        }
+    }
+</style>

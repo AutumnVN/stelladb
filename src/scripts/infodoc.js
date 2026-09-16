@@ -24,7 +24,7 @@ export const style = `
 
         body {
             margin: 0;
-            background: #303030 !important;
+            background: #333 !important;
         }
 
         nav {
@@ -36,7 +36,7 @@ export const style = `
             z-index: 727 !important;
             backdrop-filter: blur(5px) !important;
             padding: 0 1rem !important;
-            background: #30303066 !important;
+            background: #3336 !important;
             white-space: nowrap !important;
             gap: 0.5rem !important;
             line-height: 1.3 !important;

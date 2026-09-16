@@ -1,0 +1,232 @@
+---
+// @ts-nocheck
+import { Image } from 'astro:assets';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+import Layout from '@/layouts/Layout.astro';
+import { loadAllTeams, buildNameIndex, findId } from '@/scripts/infodoc2.js';
+
+const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
+
+const characterData = await fetch(CHARACTER_URL)
+    .then((res) => res.json())
+    .catch(() => ({}));
+
+const charIndex = buildNameIndex(characterData);
+
+const teams = loadAllTeams().map((team) => ({
+    ...team,
+    chars: team.character
+        .split(', ')
+        .map((cname) => {
+            const cid = findId(charIndex, cname);
+            return cid ? { id: cid, c: characterData[cid] } : null;
+        })
+        .filter(Boolean),
+}));
+
+const ELEMENT_ORDER = ['aqua', 'ignis', 'terra', 'ventus', 'lux', 'umbra'];
+
+function cap(text) {
+    return text ? text[0].toUpperCase() + text.slice(1) : text;
+}
+
+const groups = [
+    ...ELEMENT_ORDER.map((element) => ({ element, items: teams.filter((team) => team.element === element) })),
+    ...[...new Set(teams.map((team) => team.element))]
+        .filter((element) => !ELEMENT_ORDER.includes(element))
+        .sort()
+        .map((element) => ({ element, items: teams.filter((team) => team.element === element) })),
+].filter((group) => group.items.length);
+---
+
+<Layout title="Infodoc | stelladb">
+    <div class="infodoc2">
+        <SearchableGrid placeholder="Search teams by id/name/character/element/wip" noResultsText="No team found.">
+            {
+                groups.map((group) => (
+                    <>
+                        <div class="element-header" data-group={group.element}>
+                            <Image src={`/${cap(group.element)}.avif`} alt={group.element} title={group.element} width="40" height="40" densities={[1.25]} />
+                            <h2>{cap(group.element)}</h2>
+                        </div>
+                        {group.items.map((team) => {
+                            return (
+                                <div class="card-item" data-id={team.slug} data-name={team.title} data-character={team.character} data-element={team.element} data-wip={team.wip ? 'true' : 'false'}>
+                                    <a class="team-card" href={team.href}>
+                                        <div class="team-card-top">
+                                            <Image class="team-element" src={`/${cap(group.element)}.avif`} alt={group.element} title={group.element} width="28" height="28" densities={[1.25]} />
+                                            <div class="team-text">
+                                                <h3 class="team-name">{team.title}</h3>
+                                            </div>
+                                            {team.wip && (
+                                                <span class="team-wip" title="work in progress">
+                                                    WIP
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div class="team-chars">
+                                            {team.chars.map(({ id: cid, c }) => (
+                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}02_XL.webp`} alt={c.name} title={c.name} width="52" height="52" densities={[1.25]} />
+                                            ))}
+                                        </div>
+                                    </a>
+                                </div>
+                            );
+                        })}
+                    </>
+                ))
+            }
+        </SearchableGrid>
+    </div>
+</Layout>
+
+<script>
+    // @ts-nocheck
+    const input = document.querySelector('#search');
+    const headers = Array.from(document.querySelectorAll('.element-header'));
+    const items = Array.from(document.querySelectorAll('.card-item'));
+
+    function updateHeaders() {
+        headers.forEach((header) => {
+            const group = header.dataset.group;
+            const hasVisible = items.some((item) => item.dataset.element === group && item.style.display !== 'none');
+            header.hidden = !hasVisible;
+        });
+    }
+
+    if (input) {
+        input.addEventListener('input', () => setTimeout(updateHeaders, 200));
+    }
+    updateHeaders();
+    setTimeout(updateHeaders, 250);
+</script>
+
+<style is:global>
+    .infodoc2 {
+        .grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+
+        @media (width < 800px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        .card-item {
+            display: flex;
+        }
+
+        .element-header {
+            display: flex;
+            grid-column: 1 / -1;
+            align-items: center;
+            gap: 0.75rem;
+
+            img {
+                vertical-align: middle;
+                object-fit: cover;
+                object-position: center;
+            }
+
+            h2 {
+                margin: 0;
+                font-size: 1.75rem;
+            }
+
+            &[hidden] {
+                display: none;
+            }
+        }
+
+        .team-card {
+            display: flex;
+            position: relative;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.6rem;
+            box-sizing: border-box;
+            border-radius: 10px;
+            background: var(--bg2);
+            padding: 0.6rem;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            color: var(--text);
+            text-decoration: none;
+
+            .team-card-top {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                min-width: 0;
+
+                .team-element {
+                    flex-shrink: 0;
+                    vertical-align: middle;
+                    object-fit: cover;
+                    object-position: center;
+                }
+
+                .team-text {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.1rem;
+                    min-width: 0;
+
+                    .team-name {
+                        display: -webkit-box;
+                        margin: 0;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        overflow: hidden;
+                        font-weight: 700;
+                        font-size: 1.2rem;
+                        line-height: 1.15;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+
+            .team-wip {
+                flex-shrink: 0;
+                margin-left: auto;
+                border-radius: 727px;
+                background: #5a3a12;
+                padding: 0.15rem 0.5rem;
+                color: #fdb;
+                font-weight: 600;
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+
+            .team-chars {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 0.4rem;
+                min-height: 52px;
+
+                img {
+                    flex-shrink: 0;
+                    border-radius: 8px;
+                    background: var(--bg3);
+                    width: 52px;
+                    height: 52px;
+                    object-fit: cover;
+                    object-position: top;
+                }
+            }
+
+            .team-char-fallback {
+                overflow: hidden;
+                color: var(--muted);
+                font-size: 0.75rem;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+</style>

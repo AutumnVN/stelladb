@@ -5,20 +5,16 @@ import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 import Card from '@/components/Card.astro';
-import { loadAllTeams, buildNameIndex, findId, buildSkillIndex, resolveIds, renderInline } from '@/scripts/infodoc2.js';
+import { loadAllTeams, buildNameIndex, findId, buildSkillIndex, buildPotIndex, resolveIds, renderInline } from '@/scripts/infodoc2.js';
 
 export async function getStaticPaths() {
     const teams = loadAllTeams();
 
     const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
-    const ITEM_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/item.json';
     const DISC_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/disc.json';
 
-    const [characterData, itemData, discData] = await Promise.all([
+    const [characterData, discData] = await Promise.all([
         fetch(CHARACTER_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(ITEM_URL)
             .then((r) => r.json())
             .catch(() => ({})),
         fetch(DISC_URL)
@@ -26,10 +22,10 @@ export async function getStaticPaths() {
             .catch(() => ({})),
     ]);
 
-    const itemIndex = buildNameIndex(itemData);
     const discIndex = buildNameIndex(discData);
     const charIndex = buildNameIndex(characterData);
     const skillIndex = buildSkillIndex(characterData);
+    const potIndex = buildPotIndex(characterData);
 
     return teams.map((team) => {
         const charId = team.character ? findId(charIndex, team.character) : null;
@@ -42,7 +38,7 @@ export async function getStaticPaths() {
         return {
             params: { element: team.element, id: team.slug },
             props: {
-                team: resolveIds(team, itemIndex, discIndex, skillIndex, charId, discData),
+                team: resolveIds(team, potIndex, discIndex, skillIndex, charId, tabCharIds, discData),
                 tabCharIds,
                 characterData,
             },
@@ -140,7 +136,7 @@ function skillImg(id) {
 }
 ---
 
-<Layout title={`${team.title} | stelladb`} description={team.character}>
+<Layout title={`${team.title} | stelladb`} description={team.character} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[team.tabs.find(isCharTab).id]}02_XL.webp`}>
     <Page>
         <Fragment slot="header">
             <h1>{team.title}</h1>
@@ -244,14 +240,21 @@ function skillImg(id) {
                                 return <h3>{section.title}</h3>;
                             }
                             if (section.type === 'p') {
-                                const inlineSkill = section.text.match(/^@skill\(\s*(.*?)\s*\)\s*([\s\S]*)$/);
-                                if (inlineSkill && inlineSkill[2].trim()) {
-                                    const skillName = inlineSkill[1].trim();
-                                    const entry = (skillIndex.get(String(skillName).toLowerCase()) || [])[0];
+                                const skillList = [];
+                                let rest = section.text;
+                                let mm;
+                                const SKILL_MACRO = /^@skill\(\s*([^)]*?)\s*\)\s*/;
+                                while ((mm = rest.match(SKILL_MACRO))) {
+                                    const n = mm[1].trim();
+                                    const entry = (skillIndex.get(String(n).toLowerCase()) || [])[0];
+                                    skillList.push({ name: n, entry });
+                                    rest = rest.slice(mm[0].length);
+                                }
+                                if (skillList.length && rest.trim()) {
                                     return (
                                         <div class="skill-prose">
-                                            {entry ? <img src={skillImg(entry.icon)} alt={skillName} title={skillName} width="64" height="64" loading="lazy" /> : null}
-                                            <p class="indent" set:html={renderInline(inlineSkill[2])} />
+                                            {skillList.map(({ name, entry }) => (entry ? <img src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
+                                            <p class="indent" set:html={renderInline(rest)} />
                                         </div>
                                     );
                                 }

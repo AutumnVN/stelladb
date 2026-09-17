@@ -46,6 +46,7 @@ export function renderInline(text) {
     out = out.replace(/__([^_\r\n]+?)__/g, (_, t) => `<u>${inlineBold(t) || t}</u>`);
 
     out = out.replace(new RegExp(ESC + '(\\d+)' + ESC, 'g'), (_, i) => escs[Number(i)]);
+    out = out.replace(/\r?\n/g, '<br />');
     return out;
 }
 
@@ -100,7 +101,7 @@ export function parseTeam(raw) {
 
     function flushParagraph() {
         if (!paragraph.length) return;
-        currentTab.sections.push({ type: 'p', text: paragraph.join(' ') });
+        currentTab.sections.push({ type: 'p', text: paragraph.join('\n') });
         paragraph = [];
     }
 
@@ -237,11 +238,17 @@ export function findId(index, name) {
     return null;
 }
 
-export function resolveIds(team, itemIndex, discIndex, skillIndex = null, charIdHint = null, discData = null) {
+export function resolveIds(team, potIndex = null, discIndex = null, skillIndex = null, charIdHint = null, tabCharIds = null, discData = null) {
     for (const tab of team.tabs) {
+        const tabHint = (tabCharIds && tabCharIds[tab.id]) || charIdHint;
         for (const section of tab.sections) {
             if (section.type === 'pot') {
-                for (const item of section.items) item.id = findId(itemIndex, item.name);
+                for (const item of section.items) {
+                    const list = (potIndex && potIndex.get(String(item.name).toLowerCase())) || [];
+                    const best = tabHint ? list.find((e) => e.charId === String(tabHint)) : null;
+                    const entry = best || list[0];
+                    item.id = entry ? entry.id : null;
+                }
             } else if (section.type === 'disc') {
                 for (const item of section.items) {
                     const id = findId(discIndex, item.name);
@@ -251,7 +258,7 @@ export function resolveIds(team, itemIndex, discIndex, skillIndex = null, charId
             } else if (section.type === 'skill' && skillIndex) {
                 for (const item of section.items) {
                     const list = skillIndex.get(String(item.name).toLowerCase()) || [];
-                    const best = charIdHint ? list.find((e) => e.charId === String(charIdHint)) : null;
+                    const best = tabHint ? list.find((e) => e.charId === String(tabHint)) : null;
                     const entry = best || list[0];
                     item.id = entry ? entry.icon : null;
                     item.data = entry ? { charId: entry.charId, field: entry.field, charName: entry.name } : null;
@@ -272,6 +279,29 @@ export function buildSkillIndex(characterData) {
             const key = String(s.name).toLowerCase();
             if (!byName.has(key)) byName.set(key, []);
             byName.get(key).push({ icon: s.icon, name: s.name, charId: id, field });
+        }
+    }
+    return byName;
+}
+
+export function buildPotIndex(characterData) {
+    const entries = Array.isArray(characterData) ? characterData.map((v, i) => [String(i), v]) : Object.entries(characterData);
+    const byName = new Map();
+    for (const [id, char] of entries) {
+        const potentials = char && char.potential;
+        if (!potentials) continue;
+        for (const pk of Object.keys(potentials)) {
+            const arr = potentials[pk];
+            if (!Array.isArray(arr)) continue;
+            for (const pot of arr) {
+                const name = pot && pot.name;
+                if (!name) continue;
+                const potId = pot.id ?? pot.Id;
+                if (!potId) continue;
+                const key = String(name).toLowerCase();
+                if (!byName.has(key)) byName.set(key, []);
+                byName.get(key).push({ id: potId, name, charId: id });
+            }
         }
     }
     return byName;

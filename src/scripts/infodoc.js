@@ -4,7 +4,8 @@ export const style = `
     <script defer src="/u.js" data-website-id="a702f6da-1e9a-4d42-bf33-cc60aba3c081"></script>
     <style>
         .column-header-wrapper,
-        .row-header-wrapper {
+        .row-header-wrapper,
+        .row-header-shim {
             display: none !important;
         }
 

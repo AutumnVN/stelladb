@@ -92,6 +92,4 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Winter's Grip +3**
 
 # Disc
 
-this is probably outdated
-
 @disc(Soaring Blue) @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)

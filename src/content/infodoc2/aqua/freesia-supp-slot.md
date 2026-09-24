@@ -26,7 +26,7 @@ Teresa is the core support of the team as she is able to provide high Auto ATK a
 
 ### Optional
 
-@pot(Guardmans Blessing, 6) @pot(Restarting, 1)
+@pot(Guardsman Blessing, 6) @pot(Restarting, 1)
 
 ## Emblem
 

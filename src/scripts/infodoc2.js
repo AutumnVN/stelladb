@@ -186,7 +186,7 @@ export function parseTeam(raw) {
     }
     flushAll();
 
-    const character = tabs.filter((t) => t.title.toLowerCase() !== 'disc' && t.title.toLowerCase() !== 'code').map((t) => t.title).join(', ');
+    const character = tabs.filter((t) => t.title.toLowerCase() !== 'disc' && t.title.toLowerCase() !== 'rotation' && t.title.toLowerCase() !== 'code').map((t) => t.title).join(', ');
 
     return {
         title: frontmatter.title || character || 'Untitled',

@@ -1,9 +1,9 @@
 ---
 title: Freesia (Main Skill)
-wip: false
+wip: true
 ---
 
-# Teresa
+# Freesia
 
 *As of Patch 1.9, Ice Vortex has been changed to only stack one time per enemy instead of three. So this build is not as good as before anymore. Freesia is able to deliver hard hitting AoE attacks through her charged Main Skill , which is further enhanced after she enters Berserk state. To charge her Main Skill, you have to tap and hold the keybind until the gauge is full . This build is specifically useful for Menace Arena as compared to the Chitose team above, it is far more effective when used against mob stages. ★ Key Notes: • Her damage output spikes when she enters Berserk state after using her Ultimate as this will activate Ice Vortex providing a massive Crit DMG buff.
 

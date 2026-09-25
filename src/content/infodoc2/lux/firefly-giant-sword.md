@@ -37,7 +37,7 @@ not needed | not needed | **More Than Just Pretty +3**
 
 **Currently in testing phase.**
 
-Firefly's Giant Sword build relies heavily on Auto Attack DMG . This is currently her best solo DPS build because none of the current units have Lucent mark trigger (except Firefly herself on Main slot).
+Firefly's Giant Sword build relies heavily on Auto Attack DMG. This is currently her best solo DPS build because none of the current units have Lucent mark trigger (except Firefly herself on Main slot).
 
 **★ Key Notes:**
 • **Radiance Blade: Blazing Edge** requires a full Lux team to function.
@@ -72,7 +72,7 @@ Lux DMG 12% | Crit Rate 15% | Auto Attack DMG 30%
 Tilia is a staple support for any Lux team currently, offering constant ATK% buffs and Lux DMG Taken debuffs for the team using her Support Skill and potentials.
 
 **★ Key Notes:**
-• **Blinding Beam** gets a place as an optional potential for this team because Minova's raw Mark DMG is high (in fact, the highest in the game currently). If you are forced to take a 5th Tilia potential, it's pretty much the last best choice .
+• **Blinding Beam** gets a place as an optional potential for this team because Minova's raw Mark DMG is high (in fact, the highest in the game currently). If you are forced to take a 5th Tilia potential, it's pretty much the last best choice.
 
 ## Skill
 

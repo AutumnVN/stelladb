@@ -81,7 +81,7 @@ lv70 | lv80 | lv90
 Snowish Laru is able to provide instantaneous high amounts of ATK% buffs and Ignis DMG Taken debuff from her potentials.
 
 **★ Key Notes:**
-• Regarding Charge Efficiency, getting to 30% CE is probably enough .
+• Regarding Charge Efficiency, getting to 30% CE is probably enough.
 • **Fairy Tale Rule** provides a huge amount of Ignis DMG Taken debuff but only if the team is composed of Ignis Trekkers.
 • **Two-Gun Salute** extends her Support Skill's uptime.
 • **Heart's Benediction** is only taken if you have Snowy Night Surprise disc. Do not consider taking it otherwise.

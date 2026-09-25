@@ -69,7 +69,7 @@ not needed | Support Skill Lv. +3 | Enemy Counter +3
 
 **Currently in testing phase.**
 
-Firefly's Giant Sword build relies heavily on Auto Attack DMG . This is currently her best DPS build because none of the current units have Lucent mark trigger (except Firefly herself on Main slot).
+Firefly's Giant Sword build relies heavily on Auto Attack DMG. This is currently her best DPS build because none of the current units have Lucent mark trigger (except Firefly herself on Main slot).
 
 **★ Key Notes:**
 • **Radiance Blade: Blazing Edge** requires a full Lux team to function.
@@ -103,7 +103,7 @@ Lux DMG 12% | Crit Rate 15% | Auto Attack DMG 30%
 Minova currently provides the highest and consistent source of ATK% buffs in the game.
 
 **★ Key Notes:**
-• **Three Base Hit** is specifically useful for this team since it is used against AoE content .
+• **Three Base Hit** is specifically useful for this team since it is used against AoE content.
 • **Radiant Burst** is taken for its Attack Range buff for Astral Hex.
 
 ## Skill

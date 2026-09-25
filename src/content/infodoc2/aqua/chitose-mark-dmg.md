@@ -11,7 +11,7 @@ Chitose is now able to have a Mark DMG team setup thanks to Suntide Willow's exi
 
 1/1/1/1 (Not needed)
 
-None of her skills needs to be upgraded since Mark DMG does not scale from skill levels .
+None of her skills needs to be upgraded since Mark DMG does not scale from skill levels.
 
 ## Potential
 

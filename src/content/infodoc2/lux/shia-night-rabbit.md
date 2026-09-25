@@ -77,7 +77,7 @@ not needed | Support Skill Lv. +3 | Trick Boost +3
 Minova currently provides the highest and consistent source of ATK% buffs in the game, allowing her to be a great choice in extended boss fights like Boss Blitz.
 
 **★ Key Notes:**
-• **Three Base Hit** is specifically useful for this team since it is used against AoE content .
+• **Three Base Hit** is specifically useful for this team since it is used against AoE content.
 • **Oath Satellite** can replace **Four Star Wanted Level** only if: 1) you need to tank hits and 2) you want to improve the uptime of the Prayer Beneath Light Disc.
 • Take **Perfect Arc** if you do not have **Four Star Wanted Level**.
 

@@ -41,7 +41,7 @@ Skill DMG 20% | Aqua PEN 110 | Skill DMG 20%
 Flora's primary role in this team is to provide Crit Rate buff to take full advantage of Freesia's massive Crit DMG values along with some ATK% buffs.
 
 **★ Key Notes:**
-• **Ashes of the Past** is the most important potential as it spawns two more Mindflare Butterflies, which raises the Crit Rate buff from 9% to 15% .
+• **Ashes of the Past** is the most important potential as it spawns two more Mindflare Butterflies, which raises the Crit Rate buff from 9% to 15%.
 • The 2nd Pink Potential can be whatever because none of them are beneficial on off-element teams.
 • The rest of the potential choices are pretty much just Flora's all-rounded buffs for off-element teams.
 
@@ -64,7 +64,7 @@ not needed | not needed | not needed
 
 # Iris
 
-Iris' role in this team is to inflict Aqua Mark , group up enemies using her Support Skill, and provide ATK% buffs from her potentials.
+Iris' role in this team is to inflict Aqua Mark, group up enemies using her Support Skill, and provide ATK% buffs from her potentials.
 
 ## Skill
 

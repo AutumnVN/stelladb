@@ -10,14 +10,14 @@ Teresa takes on the Main slot as a support role of this team as she is able to p
 **★ Key Notes:**
 • Casting another Main Skill requires at least 0.3s of delay in order to take advantage of **Stream: True Charged Strike**'s effects.
 • Both **Cordiality** and **Muddy Engulf** will only activate if you hit the enemy.
-• **Magic Sword Siphoning** is primarily a QoL potential that helps in making her buff and debuff uptimes be more consistent .
+• **Magic Sword Siphoning** is primarily a QoL potential that helps in making her buff and debuff uptimes be more consistent.
 • Be wary about **Magic Sword Smack**'s ability to change break timings since its value can vary depending on your situation (e.g. cancelling boss phase changes/attack patterns and/or overall team investment)
 
 ## Skill
 
 1/1+/1/1 (Main Skill only, otherwise not needed)
 
-@skill(Limpid Stream) Upgrading **Limpid Stream (Main Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory . Only do it if you find yourself struggling to survive.
+@skill(Limpid Stream) Upgrading **Limpid Stream (Main Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself struggling to survive.
 
 ## Potential
 

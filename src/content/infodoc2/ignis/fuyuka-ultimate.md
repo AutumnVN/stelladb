@@ -14,7 +14,7 @@ Fuyuka's Ultimate-focused build is fully reliant on having fast Energy charging 
 
 1/1+/1/10 (Ultimate > Main Skill)
 
-@skill(Blaze Unsealed) **Blaze Unsealed (Ulitimate)** is the main priority to upgrade as it encompasses majority of her damage output thanks to its inherent multipliers that are further strengthened by **Peak Performance** and **Ironfist Blow**.
+@skill(Blaze Unsealed) **Blaze Unsealed (Ultimate)** is the main priority to upgrade as it encompasses majority of her damage output thanks to its inherent multipliers that are further strengthened by **Peak Performance** and **Ironfist Blow**.
 
 @skill(Ignis Infusion) **Ignis Infusion (Main Skill)** is the last priority as it is only used to comfortably bring down the Resilience bar of the boss for her first Ultimate setup. Additionally, **Kitty Punch** and **Multi-Shot** also scales with its level.
 

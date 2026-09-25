@@ -37,8 +37,8 @@ Nazuna remains to be the primary Mark DMG buffer primarily with **Touch of Natur
 
 lv70 | lv80 | lv90
 **Charge Eff. (Main) 30%** | **Charge Eff. (Main) 30%** | **Touch of Nature +3**
-|| **Rocket Cart +3**
-|| Wily Wonder +3
+| Main Skill Lv. +3 | **Rocket Cart +3**
+| Ultimate Lv. +3 | Wily Wonder +3
 || Cutie's Rally +3
 
 # Sparkla

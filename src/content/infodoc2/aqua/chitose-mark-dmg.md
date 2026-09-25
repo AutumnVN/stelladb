@@ -50,7 +50,7 @@ Unfortunately, the buff scaling for both skills is a bit underwhelming compared 
 ## Emblem
 
 lv70 | lv80 | lv90
-**Charge Eff. (Support) 40%** | **Support Skill Lv. +3** | **Hovering Gale +3**
+**Charge Eff. (Supp) 40%** | **Support Skill Lv. +3** | **Hovering Gale +3**
 || Engulfing Tide +3
 || Words Unchanged +3
 
@@ -78,7 +78,7 @@ Of course Tilia is involved yet again when Mark DMG is involved thanks to **Blin
 ## Emblem
 
 lv70 | lv80 | lv90
-**Charge Eff. (Support) 40%** | Support Skill Lv. +3 | **Blinding Beam +3**
+**Charge Eff. (Supp) 40%** | Support Skill Lv. +3 | **Blinding Beam +3**
 || Trick Boost +3
 
 # Disc

@@ -5,15 +5,19 @@ wip: true
 
 # Fuyuka
 
+## Skill
+
+1+/10/1/10 (Main Skill > Ultimate > Auto Attack)
+
 ## Potential
 
 ### Priority
 
-@pot(Kitty Punch) @pot(Multi-Shot) @pot(Blast Chase, 6) @pot(Finishing Blow, 6) @pot(Combo Punch, 6) @pot(Swirling Counterattack)
+@pot(Kitty Punch) @pot(Multi-Shot) @pot(Blast Chase, 6) @pot(Finishing Blow, 6) @pot(Combo Punch, 6) @pot(Swirling Counterattack, 1+)
 
 ### Optional
 
-@pot(Peak Performance) @pot(Inertial Punch)
+@pot(Peak Performance, 6) @pot(Inertial Punch, 1+)
 
 ## Emblem
 
@@ -25,36 +29,49 @@ Skill DMG 20% | Skill Crit Rate 7.5% | Combo Punch +3
 
 # Flora
 
-Flora's primary role is to provide consistent Ignis DMG taken debuffs and Crit-related buffs through her Soulflare and Mindflare Butterflies. Although you have to be mindful on the timing of her Support Skill's usage. ★ Key Notes: • Ember Rekindled is used for permanent Ignis DMG Taken uptime. • Ember of Tomorrow enables more Ignis DMG Taken debuff from her Soulflare Butterflies. • The debuff applied by Lethal Inferno stacks independently from Soulflare Butterflies rather than refreshing the same duration.
+Flora's primary role is to provide consistent Ignis DMG taken debuffs and Crit-related buffs through her Soulflare and Mindflare Butterflies. Although you have to be mindful on the timing of her Support Skill's usage.
+
+**★ Key Notes:**
+• **Ember Rekindled** is used for permanent Ignis DMG Taken uptime.
+• **Ember of Tomorrow** enables more Ignis DMG Taken debuff from her Soulflare Butterflies.
+• The debuff applied by **Lethal Inferno** stacks independently from Soulflare Butterflies rather than refreshing the same duration.
 
 ## Skill
 
-Only upgrade Flutter Flare (Support Skill) as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
+1/1/10/1 (Support Skill only)
+
+@skill(Flutter Flare) Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
 
 ## Potential
 
 ### Priority
 
-@pot(Ember of Tomorrow) @pot(Ember Rekindled) @pot(Foreshadowing Verification, 6) @pot(Perfect Acting, 6) @pot(Guest Performer, 6) @pot(Visual Impact, 6)
+@pot(Ember of Tomorrow) @pot(Ember Rekindled) @pot(Foreshadowing Verification, 6) @pot(Perfect Acting, 1+) @pot(Guest Performer, 1+) @pot(Visual Impact, 1+)
 
 ### Optional
 
-@pot(Lethal Inferno) @pot(Crowd Effect) @pot(Reinforced Impression)
+@pot(Lethal Inferno, 1+) @pot(Crowd Effect, 1+) @pot(Reinforced Impression, 1+)
 
 ## Emblem
 
 lv70 | lv80 | lv90
-not needed | not needed | Support Skill Lv. +3
- |  | Foreshadowing Verification +3
- |  | Perfect Acting +3
- |  | Guest Performer +3
- |  | Visual Impact +3
+not needed | Support Skill Lv. +3 | Foreshadowing Verification +3
+|| Perfect Acting +3
+|| Guest Performer +3
+|| Visual Impact +3
 
 # Snowish Laru
 
-Snowish Laru is currently a better pick than Chixia as she is able to provide instantaneous high amounts of ATK% buffs and Ignis DMG Taken debuff from her potentials. ★ Key Notes: • Fairy Tale Rule provides a huge amount of Ignis DMG Taken debuff but only if the team is composed of Ignis Trekkers. • Two-Gun Salute is only taken if you need the better Support Skill uptime. • Heart's Benediction is only taken if you have the Snowy Night Surprise disc. Do not consider taking it otherwise.
+Snowish Laru is currently a better pick than Chixia as she is able to provide instantaneous high amounts of ATK% buffs and Ignis DMG Taken debuff from her potentials.
+
+**★ Key Notes:**
+• **Fairy Tale Rule** provides a huge amount of Ignis DMG Taken debuff but only if the team is composed of Ignis Trekkers.
+• **Two-Gun Salute** is only taken if you need the better Support Skill uptime.
+• **Heart's Benediction** is only taken if you have the Snowy Night Surprise disc. Do not consider taking it otherwise.
 
 ## Skill
+
+1/1/1/1 (Not needed)
 
 For this team, Snowish Laru is used for her valuable Potential kit as none of her usable skills scale buffs or debuffs so there is no need to waste skill upgrades on her.
 
@@ -62,24 +79,30 @@ For this team, Snowish Laru is used for her valuable Potential kit as none of he
 
 ### Priority
 
-@pot(Fire Downpour) @pot(Special Ammo) @pot(Fairy Tale Rule, 6) @pot(Celebration Resumed, 6) @pot(Toy Army)
+@pot(Fire Downpour) @pot(Special Ammo) @pot(Fairy Tale Rule, 6) @pot(Celebration Resumed, 6) @pot(Toy Army, 6)
 
 ### Optional
 
-@pot(Two-Gun Salute) @pot(Heart's Benediction)
+@pot(Two-Gun Salute, 1) @pot(Heart's Benediction, 1)
 
 ## Emblem
 
 lv70 | lv80 | lv90
-not needed | not needed | Not needed.
- |  | Fairy Tale Rule +3
- |  | Celebration Resumed +3
+not needed | not needed | Fairy Tale Rule +3
+|| Celebration Resumed +3
 
 # Chixia
 
-Chixia provides lots of ATK% buffs for the team through her potentials, although unlike Snowish Laru, she needs some time to build-up the buffs from certain potentials. ★ Key Notes: • Ink Sigil: Horn Call 's ATK% buff scales based on the amount of Chixia's minions in the field. • Charge Efficiency on her emblems is only relevant if you have Prayer of Raging Flame in your Record. • Prayer of Raging Flame relies on hitting multiple targets to stack up the ATK% buff it provides. It will never stack if it is only hitting one target.
+Chixia provides lots of ATK% buffs for the team through her potentials, although unlike Snowish Laru, she needs some time to build-up the buffs from certain potentials.
+
+**★ Key Notes:**
+• **Ink Sigil: Horn Call**'s ATK% buff scales based on the amount of Chixia's minions in the field.
+• Charge Efficiency on her emblems is only relevant if you have **Prayer of Raging Flame** in your Record.
+• **Prayer of Raging Flame** relies on hitting multiple targets to stack up the ATK% buff it provides. It will never stack if it is only hitting one target.
 
 ## Skill
+
+1/1/1/1 (Not needed)
 
 For this team, Chixia is used for her valuable Potential kit as none of her usable skills scale buffs or debuffs so there is no need to waste skill upgrades on her.
 
@@ -87,19 +110,19 @@ For this team, Chixia is used for her valuable Potential kit as none of her usab
 
 ### Priority
 
-@pot(Crimson Dragon: Convergence) @pot(Crimson Dragon: Chant) @pot(Sigil Unleashed: Flame Glow, 6) @pot(Ink Sigil: Horn Call, 6) @pot(Ink Sigil: Ambush, 6)
+@pot(Crimson Dragon: Convergence) @pot(Crimson Dragon: Chant) @pot(Sigil Unleashed: Flame Glow, 6) @pot(Ink Sigil: Horn Call, 1+) @pot(Ink Sigil: Ambush, 1+)
 
 ### Optional
 
-@pot(Ink Sigil: Barrier Construct) @pot(Crowd Effect) @pot(Prayer of Raging Flame)
+@pot(Ink Sigil: Barrier Construct, 1+) @pot(Scorching Ink, 1+) @pot(Prayer of Raging Flame, 1+)
 
 ## Emblem
 
 lv70 | lv80 | lv90
-Charge Eff. (Support) 40% | Charge Eff. (Support) 40% | Sigil Unleashed: Flame Glow +3
-Ink Sigil: Horn Call +3 | Ink Sigil: Ambush +3 |
+Charge Eff. (Supp) 40% | Charge Eff. (Supp) 40% | Sigil Unleashed: Flame Glow +3
+|| Ink Sigil: Horn Call +3
+|| Ink Sigil: Ambush +3
 
 # Disc
 
 @disc(Snowy Night Surprise) @disc(Mystic Brushstrokes) @disc(Meowing Cat God) @disc(One Shot, One Down, 6) @disc(A Gift for the Journey, 6) @disc(Voyage Blueprint) @disc(Fireworks)
-

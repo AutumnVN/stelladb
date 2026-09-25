@@ -60,7 +60,7 @@ Unfortunately, the buff scaling for both skills is a bit underwhelming compared 
 ## Emblem
 
 lv70 | lv80 | lv90
-**Charge Eff. (Support) 40%** | **Charge Eff. (Support) 40%** | **Receding Echoes +3**
+**Charge Eff. (Supp) 40%** | **Charge Eff. (Supp) 40%** | **Receding Echoes +3**
 || Marine Justice +3
 || Engulfing Tide +3
 
@@ -120,7 +120,7 @@ This upgrade is not mandatory. Only do it if you find yourself getting hit often
 ## Emblem
 
 lv70 | lv80 | lv90
-Charge Eff. (Support) 30% | Charge Eff. (Support) 30% | Shortcut Seeker +3
+Charge Eff. (Supp) 30% | Charge Eff. (Supp) 30% | Shortcut Seeker +3
 || Band-aid Collector +3
 || Isn't It Awesome +3
 

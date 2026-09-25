@@ -5,7 +5,7 @@ wip: false
 
 # Nazuna
 
-Unlike the original Terra Mark team, Nazuna doesn’t have to worry about inflicting Marks all by herself thanks to SCoronis, allowing her to run **Small Force** for better debuffs.
+Unlike the original Terra Mark team, Nazuna doesn't have to worry about inflicting Marks all by herself thanks to SCoronis, allowing her to run **Small Force** for better debuffs.
 
 **★ Key Notes:**
 • Nazuna has to keep moving so she can regenerate Energy faster.

@@ -5,7 +5,7 @@ import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 import Card from '@/components/Card.astro';
-import { loadAllTeams, buildNameIndex, findId, buildSkillIndex, buildPotIndex, resolveIds, renderInline } from '@/scripts/infodoc2.js';
+import { loadAllTeams, buildNameIndex, findId, buildSkillIndex, buildPotIndex, resolveIds, renderInline, baseCharacterName } from '@/scripts/infodoc2.js';
 
 export async function getStaticPaths() {
     const teams = loadAllTeams();
@@ -32,7 +32,7 @@ export async function getStaticPaths() {
         const tabCharIds = {};
         for (const tab of team.tabs) {
             if (tab.title.toLowerCase() === 'disc') continue;
-            const cid = findId(charIndex, tab.title);
+            const cid = findId(charIndex, tab.title) || findId(charIndex, baseCharacterName(tab.title));
             if (cid) tabCharIds[tab.id] = cid;
         }
         return {

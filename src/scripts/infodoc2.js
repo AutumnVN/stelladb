@@ -229,6 +229,13 @@ export function buildNameIndex(json) {
     return { byName, byNorm };
 }
 
+export function baseCharacterName(title) {
+    const s = String(title || '').trim();
+    const i = s.indexOf(' - ');
+    const base = (i === -1 ? s : s.slice(0, i)).trim();
+    return base || s;
+}
+
 export function findId(index, name) {
     const key = String(name || '').toLowerCase();
     if (!key) return null;

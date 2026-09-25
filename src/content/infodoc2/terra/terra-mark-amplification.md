@@ -42,7 +42,7 @@ lv70 | lv80 | lv90
 
 # Gerie
 
-Gerie acts as the DPS by triggering Nazuna’s Terra Marks. Keep in mind that her Support Skill renders her completely stationary which makes her prone to missing hits if you aren't paying attention to your positioning.
+Gerie acts as the DPS by triggering Nazuna's Terra Marks. Keep in mind that her Support Skill renders her completely stationary which makes her prone to missing hits if you aren't paying attention to your positioning.
 
 **★ Key Notes:**
 • **Sin-Bound Echo** allows her to stay longer in the field which enables her to trigger more Marks.

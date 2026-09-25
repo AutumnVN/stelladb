@@ -122,7 +122,7 @@ not needed | not needed | **Temporal Revival +3**
 
 Iris is another support that fulfills the same role as Freesia. Contrary to popular belief, she performs competitively against Freesia when the average proc rate of Freesia's **Temporal Revival** is considered.
 
-Because Iris provides far more consistent buffing, Freesia’s pull value decreases specifically as a support for this team.
+Because Iris provides far more consistent buffing, Freesia's pull value decreases specifically as a support for this team.
 
 **★ Key Notes:**
 • Prioritize upgrading **Bundle Sale** and **Sneaky Fisher** over **Forced Liquidation**.

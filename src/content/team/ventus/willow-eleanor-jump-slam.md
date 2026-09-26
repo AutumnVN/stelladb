@@ -7,6 +7,8 @@ wip: true
 
 *You need 15 Ventus support notes sourced from Support Discs to activate Harmony levels as you will not get them in Difficulty 8 with her as Main Trekker.
 
+Keep her in Megaphone mode (her skill should look like this) @asset(icon/skill/16001_Normal_A)
+
 ## Skill
 
 1/1+/1/1+ (Main Skill > Ultimate)
@@ -59,7 +61,7 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 
 ### Priority
 
-@pot(Flower Formation: Waves) @pot(Flower Formation: Turbulent) @pot(Flower Formation: Erosion, 6) @pot(Almighty Leader, 6) @pot(Flower Formation: Blast, 6) @pot(Self-Improvement, 6)
+@pot(Flower Formation: Waves) @pot(Flower Formation: Turbulent) @pot(Almighty Leader, 6) @pot(Flower Formation: Erosion, 6) @pot(Flower Formation: Blast, 6) @pot(Self-Improvement, 6)
 
 ### Optional
 
@@ -68,7 +70,21 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 ## Emblem
 
 lv70 | lv80 | lv90
+**Ventus PEN 110** | **Support Skill Lv. +3** | **Almighty Leader +3**
+Crit Rate 15% | Crit Rate 15% | Flower Formation: Erosion +3
+Skill DMG 20% | Ventus PEN 110 | Skill DMG 20%
+Skill Crit Rate 7.5% | Skill DMG 20% |
+
 
 # Disc
 
 @disc(Deer's Song, 1) @disc(Fly, O Caged Bird, 1) @disc(Lemon & Black Tea, 6) @disc(One, Two, Three, Jump !, 6) @disc(Sky, Flowers, Poem, 1) @disc(Unknown Fragrance, 6) @disc(Traces of Starlight, 6)
+
+# Rotation
+
+### General Rotation
+
+1. S. Willow Main Skill (only when her Decibels gauge is full)
+2. Nazuka Supp. Skill
+3. Wait 2s then use Eleanor Supp. Skill
+

@@ -5,7 +5,7 @@ import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 import Card from '@/components/Card.astro';
-import { loadAllTeams, buildNameIndex, findId, findCharId, buildSkillIndex, buildPotIndex, resolveIds, renderInline } from '@/scripts/team.js';
+import { loadAllTeams, buildNameIndex, findId, findCharId, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitAssets } from '@/scripts/team.js';
 
 export async function getStaticPaths() {
     const teams = loadAllTeams();
@@ -264,15 +264,22 @@ const embed = JSON.stringify({
                                     skillList.push({ name: n, entry });
                                     rest = rest.slice(mm[0].length);
                                 }
-                                if (skillList.length && rest.trim()) {
-                                    return (
-                                        <div class="skill-prose">
-                                            {skillList.map(({ name, entry }) => (entry ? <img src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
+                                const parts = splitAssets(rest);
+                                const hasAsset = parts.some((part) => part.type === 'asset');
+                                const showSkills = skillList.length > 0 && !!rest.trim();
+                                if (!hasAsset && !showSkills) return <p class="indent" set:html={renderInline(section.text)} />;
+                                return (
+                                    <div class="skill-prose">
+                                        {showSkills && skillList.map(({ name, entry }) => (entry ? <img src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
+                                        {hasAsset ? (
+                                            <p class="indent">
+                                                {parts.map((part) => (part.type === 'asset' ? <Image src={assetUrl(part.path)} alt={assetName(part.path)} title={assetName(part.path)} width="64" height="64" /> : <Fragment set:html={renderInline(part.text)} />))}
+                                            </p>
+                                        ) : (
                                             <p class="indent" set:html={renderInline(rest)} />
-                                        </div>
-                                    );
-                                }
-                                return <p class="indent" set:html={renderInline(section.text)} />;
+                                        )}
+                                    </div>
+                                );
                             }
                             if (section.type === 'table') {
                                 return (
@@ -296,6 +303,15 @@ const embed = JSON.stringify({
                                             ))}
                                         </tbody>
                                     </table>
+                                );
+                            }
+                            if (section.type === 'asset') {
+                                return (
+                                    <div class="inline-images indent">
+                                        {section.items.map((item) => (
+                                            <Image src={assetUrl(item.name)} alt={assetName(item.name)} title={assetName(item.name)} width="64" height="64" />
+                                        ))}
+                                    </div>
                                 );
                             }
                             if (section.type === 'skill') {
@@ -437,6 +453,12 @@ const embed = JSON.stringify({
 
     .skill-prose p {
         margin: 0;
+    }
+
+    .skill-prose p img {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 0.15em;
     }
 
     .disc-list {

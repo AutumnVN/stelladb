@@ -81,6 +81,7 @@ not needed | **Support Skill Lv. +3** | **Forest Princess' Blessing +3**
 ### Priority
 
 @pot(Function Sustain) @pot(Cluster Barrage) @pot(Piercing Trajectory, 6) @pot(Precision Calibration, 6) @pot(Annihilation Echo, 6) @pot(Suppression Analysis, 6) @pot(Power Amp, 6)
+
 ## Emblem
 
 lv70 | lv80 | lv90

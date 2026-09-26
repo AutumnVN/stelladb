@@ -1,5 +1,7 @@
 // @ts-nocheck
-const ITEM_RE = /@(pot|disc|skill)\(([^)]*)\)/g;
+const ITEM_RE = /@(pot|disc|skill|asset)\(([^)]*)\)/g;
+const ASSET_RE = /@asset\(\s*([^)\s]+)\s*\)/g;
+const ASSET_BASE = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles';
 
 const escHtml = (s) =>
     String(s ?? '')
@@ -58,6 +60,37 @@ export function slugify(text) {
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '') || 'untitled'
     );
+}
+
+export function assetUrl(path) {
+    const p = String(path || '')
+        .trim()
+        .replace(/^\/+|\/+$/g, '');
+    if (!p) return '';
+    if (/^(?:[a-z]+:)?\/\//i.test(p) || String(path).trim().startsWith('/')) return String(path).trim();
+    return `${ASSET_BASE}/${p}.webp`;
+}
+
+export function assetName(path) {
+    const p = String(path || '')
+        .trim()
+        .replace(/\/+$/g, '');
+    return p.split('/').pop() || p;
+}
+
+export function splitAssets(text) {
+    const src = String(text ?? '');
+    const parts = [];
+    let last = 0;
+    let m;
+    ASSET_RE.lastIndex = 0;
+    while ((m = ASSET_RE.exec(src))) {
+        if (m.index > last) parts.push({ type: 'text', text: src.slice(last, m.index) });
+        parts.push({ type: 'asset', path: m[1], raw: m[0] });
+        last = m.index + m[0].length;
+    }
+    if (last < src.length) parts.push({ type: 'text', text: src.slice(last) });
+    return parts;
 }
 
 export function parseBlockArg(arg) {

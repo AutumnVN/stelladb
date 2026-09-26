@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
+import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/team.js';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
@@ -30,13 +31,13 @@ export async function getStaticPaths() {
 
     return Object.keys(both).map((id) => ({
         params: { id },
-        props: { char: both[id], itemData, word },
+        props: { char: both[id], itemData, word, allCharData: both },
     }));
 }
 
 const {
     params: { id },
-    props: { char, itemData, word },
+    props: { char, itemData, word, allCharData },
 } = Astro;
 const isUnreleased = /^\d+/.test(char.name);
 
@@ -59,6 +60,33 @@ const emoji = {
 if (!char) {
     throw Astro.redirect('/404');
 }
+
+function cap(text) {
+    return text ? text[0].toUpperCase() + text.slice(1) : text;
+}
+
+const charIndex = buildNameIndex(allCharData);
+
+const matchingTeams = loadAllTeams()
+    .map((team) => {
+        const seen = new Set();
+        const chars = [];
+        for (const cname of team.character.split(', ')) {
+            const cid = findCharId(charIndex, cname);
+            if (!cid || seen.has(cid)) continue;
+            seen.add(cid);
+            chars.push({ id: cid, c: allCharData[cid] });
+        }
+        return { ...team, chars };
+    })
+    .filter((team) => team.chars.some(({ id: cid }) => cid === id));
+
+const teamsByElement = matchingTeams.reduce((acc, team) => {
+    const elem = team.element;
+    if (!acc[elem]) acc[elem] = [];
+    acc[elem].push(team);
+    return acc;
+}, {});
 ---
 
 <Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
@@ -72,6 +100,13 @@ if (!char) {
                 <button data-tab="talents" class="tab">Talents</button>
                 <button data-tab="gifts" class="tab">Gifts</button>
                 <button data-tab="dates" class="tab">Dates</button>
+                {
+                    matchingTeams.length > 0 && (
+                        <button data-tab="team" class="tab">
+                            Team
+                        </button>
+                    )
+                }
             </Tabs>
         </Fragment>
 
@@ -1029,6 +1064,46 @@ if (!char) {
                     ))
                 }
             </section>
+
+            {
+                matchingTeams.length > 0 && (
+                    <section id="team" class="tab-panel" hidden>
+                        {Object.entries(teamsByElement).map(([element, teams]) => (
+                            <div class="element-group">
+                                <div class="element-header">
+                                    <Image class="team-element" src={`/${cap(element)}.avif`} alt={element} title={element} width="40" height="40" densities={[1.25]} />
+                                    <h2 class="element-title">{cap(element)}</h2>
+                                </div>
+
+                                <div class="team-grid">
+                                    {teams.map((team) => (
+                                        <div class="card-item">
+                                            <a class="team-card" href={team.href}>
+                                                <div class="team-card-top">
+                                                    <Image class="team-element" src={`/${cap(team.element)}.avif`} alt={team.element} title={team.element} width="28" height="28" densities={[1.25]} />
+                                                    <div class="team-text">
+                                                        <h3 class="team-name">{team.title}</h3>
+                                                    </div>
+                                                    {team.wip && (
+                                                        <span class="team-wip" title="work in progress">
+                                                            WIP
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <div class="team-chars">
+                                                    {team.chars.map(({ id: cid, c }) => (
+                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}02_XL.webp`} alt={c.name} title={c.name} width="52" height="52" densities={[1.25]} />
+                                                    ))}
+                                                </div>
+                                            </a>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                )
+            }
         </Fragment>
     </Page>
 
@@ -1505,6 +1580,128 @@ if (!char) {
 
         p:not(.small) {
             margin: 0.5rem 0;
+        }
+
+        .element-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            .element-header {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding-bottom: 0.4rem;
+
+                .team-element {
+                    flex-shrink: 0;
+                    object-fit: contain;
+                }
+
+                .element-title {
+                    margin: 0;
+                    color: var(--text);
+                    font-weight: 700;
+                    font-size: 1.25rem;
+                }
+            }
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+
+            .card-item {
+                display: flex;
+            }
+
+            .team-card {
+                display: flex;
+                position: relative;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.6rem;
+                box-sizing: border-box;
+                border-radius: 10px;
+                background: var(--bg2);
+                padding: 0.6rem;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                color: var(--text);
+                text-decoration: none;
+
+                .team-card-top {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    min-width: 0;
+
+                    .team-element {
+                        flex-shrink: 0;
+                        vertical-align: middle;
+                        object-fit: cover;
+                        object-position: center;
+                    }
+
+                    .team-text {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 0.1rem;
+                        min-width: 0;
+
+                        .team-name {
+                            display: -webkit-box;
+                            margin: 0;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2;
+                            overflow: hidden;
+                            font-weight: 700;
+                            font-size: 1.2rem;
+                            line-height: 1.15;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+
+                .team-wip {
+                    flex-shrink: 0;
+                    margin-left: auto;
+                    border-radius: 727px;
+                    background: #5a3a12;
+                    padding: 0.15rem 0.5rem;
+                    color: #fdb;
+                    font-weight: 600;
+                    font-size: 0.7rem;
+                    text-transform: uppercase;
+                    white-space: nowrap;
+                }
+
+                .team-chars {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    gap: 0.4rem;
+                    min-height: 52px;
+
+                    img {
+                        flex-shrink: 0;
+                        border-radius: 8px;
+                        background: var(--bg3);
+                        width: 52px;
+                        height: 52px;
+                        object-fit: cover;
+                        object-position: top;
+                    }
+                }
+            }
         }
     </style>
 </Layout>

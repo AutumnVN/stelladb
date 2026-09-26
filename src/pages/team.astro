@@ -3,7 +3,7 @@
 import { Image } from 'astro:assets';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
-import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/infodoc2.js';
+import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/team.js';
 
 const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
 
@@ -40,8 +40,8 @@ const groups = [
 ].filter((group) => group.items.length);
 ---
 
-<Layout title="Infodoc | stelladb">
-    <div class="infodoc2">
+<Layout title="Team | stelladb">
+    <div class="team">
         <SearchableGrid placeholder="Search teams by id/name/character/element/wip" noResultsText="No team found.">
             {
                 groups.map((group) => (
@@ -103,7 +103,7 @@ const groups = [
 </script>
 
 <style is:global>
-    .infodoc2 {
+    .team {
         .grid {
             grid-template-columns: repeat(3, 1fr) !important;
         }

@@ -198,14 +198,14 @@ export function parseTeam(raw) {
 }
 
 export function loadAllTeams() {
-    const modules = import.meta.glob('../content/infodoc2/**/*.md', { query: '?raw', import: 'default', eager: true });
+    const modules = import.meta.glob('../content/team/**/*.md', { query: '?raw', import: 'default', eager: true });
     return Object.keys(modules)
         .map((filePath) => {
             const parts = filePath.split('/');
             const element = parts[parts.length - 2];
             const slug = parts[parts.length - 1].replace(/\.md$/, '');
             const team = parseTeam(modules[filePath]);
-            return { ...team, element, slug, href: `/infodoc2/${element}/${slug}` };
+            return { ...team, element, slug, href: `/team/${element}/${slug}` };
         })
         .sort((a, b) => a.title.localeCompare(b.title));
 }

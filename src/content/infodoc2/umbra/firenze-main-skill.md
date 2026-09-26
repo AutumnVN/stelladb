@@ -202,4 +202,4 @@ not needed | not needed | Underground Healer +3
 
 # Disc
 
-@disc(Petals of Blooming Mirage) @disc(Wisteria Dream) @disc(Phantom of the Banquet, 6) @disc(Dream Factory of ☆ Truth) @disc(Witch's Swing) @disc(Those with Ambition) @disc(The Meow, 6)
+@disc(Petals of Blooming Mirage) @disc(Wisteria Dream) @disc(Phantom of the Banquet, 6) @disc(Dream Factory of ☆Truth) @disc(Witch's Swing) @disc(Those with Ambition) @disc(The Meow, 6)

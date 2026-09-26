@@ -3,7 +3,7 @@
 import { Image } from 'astro:assets';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
-import { loadAllTeams, buildNameIndex, findId } from '@/scripts/infodoc2.js';
+import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/infodoc2.js';
 
 const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
 
@@ -13,16 +13,17 @@ const characterData = await fetch(CHARACTER_URL)
 
 const charIndex = buildNameIndex(characterData);
 
-const teams = loadAllTeams().map((team) => ({
-    ...team,
-    chars: team.character
-        .split(', ')
-        .map((cname) => {
-            const cid = findId(charIndex, cname);
-            return cid ? { id: cid, c: characterData[cid] } : null;
-        })
-        .filter(Boolean),
-}));
+const teams = loadAllTeams().map((team) => {
+    const seen = new Set();
+    const chars = [];
+    for (const cname of team.character.split(', ')) {
+        const cid = findCharId(charIndex, cname);
+        if (!cid || seen.has(cid)) continue;
+        seen.add(cid);
+        chars.push({ id: cid, c: characterData[cid] });
+    }
+    return { ...team, chars };
+});
 
 const ELEMENT_ORDER = ['aqua', 'ignis', 'terra', 'ventus', 'lux', 'umbra'];
 

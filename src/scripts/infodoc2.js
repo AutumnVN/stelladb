@@ -236,6 +236,10 @@ export function baseCharacterName(title) {
     return base || s;
 }
 
+export function findCharId(index, name) {
+    return findId(index, name) || findId(index, baseCharacterName(name));
+}
+
 export function findId(index, name) {
     const key = String(name || '').toLowerCase();
     if (!key) return null;

@@ -38,6 +38,7 @@ lv70 | lv80 | lv90
 **Ignis PEN 110** | **Main Skill Lv. +3** | **Mark of Darkness +3**
 Crit Rate 15% | Crit Rate 15% | Lucky Bullet +3
 Skill Crit Rate 7.5% | Ignis PEN 110 | Foe Annihilation +3
+Skill DMG 20% | Skill Crit Rate 7.5% |
 
 # Flora
 

@@ -33,9 +33,22 @@ const emoji = {
 if (!raid) {
     throw Astro.redirect('/404');
 }
+
+const embedLines = [`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}`, `Resist: ${raid.resistTo}${emoji[raid.resistTo]}`, `Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0][0].HP.toLocaleString('en-US')}`];
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            { type: 10, content: [`## **[${raid.name}](${Astro.url.href})**`, ...embedLines].join('  \n') },
+            { type: 12, items: [{ media: { url: `https://stelladb.pages.dev/${raid.icon}.png` } }] },
+        ],
+    },
+});
 ---
 
-<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0][0].HP.toLocaleString('en-US')}`}>
+<Layout title={`${raid.name} | stelladb`} image={`https://stelladb.pages.dev/${raid.icon}.png`} description={`Weak: ${raid.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${raid.resistTo}${emoji[raid.resistTo]}, Last diff HP: ${raid.diff[raid.diff.length - 1].stat[0][0].HP.toLocaleString('en-US')}`} embed={embed}>
     <Page data-json={JSON.stringify(raid)}>
         <Fragment slot="header">
             <h1>{raid.name}</h1>

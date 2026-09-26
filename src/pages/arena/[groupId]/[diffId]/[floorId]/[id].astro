@@ -43,9 +43,22 @@ const emoji = {
 if (!group || !diff || !floor || !monster) {
     throw Astro.redirect('/404');
 }
+
+const embedLines = [`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`, `Resist: ${monster.resistTo}${emoji[monster.resistTo]}`, `HP: ${monster.stat.HP.toLocaleString('en-US')}`, monster.type !== 'Normal' && monster.type].filter(Boolean);
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            { type: 10, content: [`## **[${monster.name} | ${diff.name} ${floor.name}](${Astro.url.href})**`, ...embedLines].join('  \n') },
+            { type: 12, items: [{ media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp` } }] },
+        ],
+    },
+});
 ---
 
-<Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString('en-US')}`}>
+<Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString('en-US')}`} embed={embed}>
     <Page>
         <Fragment slot="header">
             <h1>{monster.name} | {diff.name} {floor.name}</h1>

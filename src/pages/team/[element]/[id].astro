@@ -134,9 +134,29 @@ function discImg(id) {
 function skillImg(id) {
     return `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/skill/${id}.webp`;
 }
+
+const embedLines = [
+    `${team.element[0].toUpperCase()}${emoji[team.element[0].toUpperCase() + team.element.slice(1)]}`,
+    ...charTabs.map((tab) => {
+        const c = getChar(tabCharIds[tab.id]);
+        return c ? `${c.name} ${c.element}${emoji[c.element]}` : null;
+    }).filter(Boolean),
+    team.wip && 'WIP',
+].filter(Boolean);
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            { type: 10, content: [`## **[${team.title}](${Astro.url.href})**`, ...embedLines].join('  \n') },
+            { type: 12, items: charTabs.map((tab) => tabCharIds[tab.id]).filter(Boolean).map((cid) => ({ media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}02_XL.webp` } })) },
+        ],
+    },
+});
 ---
 
-<Layout title={`${team.title} | stelladb`} description={team.character} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[team.tabs.find(isCharTab).id]}02_XL.webp`}>
+<Layout title={`${team.title} | stelladb`} description={team.character} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[team.tabs.find(isCharTab).id]}02_XL.webp`} embed={embed}>
     <Page>
         <Fragment slot="header">
             <h1>{team.title} <a href={`https://github.com/AutumnVN/stelladb/edit/main/src/content/team/${team.element}/${team.slug}.md`}>✏️</a></h1>

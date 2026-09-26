@@ -87,9 +87,26 @@ const teamsByElement = matchingTeams.reduce((acc, team) => {
     acc[elem].push(team);
     return acc;
 }, {});
+
+const embedLines = [char.star && `${char.star}⭐`, `${char.element}${emoji[char.element]}`, `${char.class}${emoji[char.attackType]}`, ...char.tag, char.jpCv && `🎤 ${char.jpCv}`, char.birthday && `🎂 ${char.birthday}`, char.source.length && char.source.join(', ')].filter(Boolean);
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            {
+                type: 9,
+                components: [{ type: 10, content: [`## **[${char.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
+                accessory: { type: 2, style: 5, label: 'Wiki', url: `https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}` },
+            },
+            ...(isUnreleased ? [] : [{ type: 12, items: [{ media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp` } }] }]),
+        ],
+    },
+});
 ---
 
-<Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`}>
+<Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`} embed={embed}>
     <Page data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <Fragment slot="header">
             <h1>{char.name}</h1>

@@ -47,9 +47,26 @@ const emoji = {
 if (!disc) {
     throw Astro.redirect('/404');
 }
+
+const embedLines = [`${disc.star}⭐`, `${disc.element}${emoji[disc.element]}`, ...disc.tag, disc.char.length && disc.char.join(', '), disc.source.length && disc.source.join(', ')].filter(Boolean);
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            {
+                type: 9,
+                components: [{ type: 10, content: [`## **[${disc.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
+                accessory: { type: 2, style: 5, label: 'Wiki', url: `https://stellasora.miraheze.org/wiki/${disc.name.replaceAll(' ', '_')}` },
+            },
+            ...(isUnreleased ? [] : [{ type: 12, items: [{ media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp` } }] }]),
+        ],
+    },
+});
 ---
 
-<Layout title={`${disc.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp`} description={`${disc.star}⭐ ${disc.element}${emoji[disc.element]} ${disc.tag.join(' ')}`}>
+<Layout title={`${disc.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp`} description={`${disc.star}⭐ ${disc.element}${emoji[disc.element]} ${disc.tag.join(' ')}`} embed={embed}>
     <Page data-json={JSON.stringify(disc)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <Fragment slot="header">
             <h1>{disc.name}</h1>

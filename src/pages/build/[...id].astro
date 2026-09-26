@@ -217,9 +217,19 @@ if (isValid) {
 
     html += `</div>`;
 }
+
+const embedLines = desc.split(' • ');
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [{ type: 10, content: [`## **[${id}](${Astro.url.href})**`, ...embedLines].join('  \n') }, ...(isValid ? [{ type: 12, items: [{ media: { url: `https://stelladb.pages.dev/og/build/${id}` } }] }] : [])],
+    },
+});
 ---
 
-<Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined}>
+<Layout title={`${id} | stelladb`} description={desc} bigImage={isValid} image={isValid ? `https://stelladb.pages.dev/og/build/${id}` : undefined} embed={embed}>
     <SearchInput value={id} placeholder="Build preset id" />
 
     {

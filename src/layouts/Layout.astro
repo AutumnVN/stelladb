@@ -7,9 +7,36 @@ export interface Props {
     image?: string;
     bigImage?: boolean;
     pagefindIgnore?: boolean;
+    embed?: string;
 }
 
-const { title, description = 'a stella sora database', image = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/datingeventcg/DatingSPCG_156302.webp', bigImage, pagefindIgnore } = Astro.props;
+const { title, description = 'a stella sora database', image = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/datingeventcg/DatingSPCG_156302.webp', bigImage, pagefindIgnore, embed } = Astro.props;
+
+const abs = (path: string) => new URL(path, Astro.url).href;
+
+const fallbackEmbed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            { type: 10, content: `## **[${title.replace(' | stelladb', '')}](${Astro.url.href})**\na stella sora database` },
+            { type: 12, items: [{ media: { url: image } }] },
+            { type: 14, spacing: 1 },
+            {
+                type: 1,
+                components: [
+                    { type: 2, style: 5, label: 'Trekker', url: abs('/trekker') },
+                    { type: 2, style: 5, label: 'Disc', url: abs('/disc') },
+                    { type: 2, style: 5, label: 'Banner', url: abs('/banner') },
+                    { type: 2, style: 5, label: 'Leaderboard', url: abs('/lb') },
+                    { type: 2, style: 5, label: 'Team', url: abs('/team') },
+                ],
+            },
+        ],
+    },
+});
+
+const embedPayload = embed ?? fallbackEmbed;
 
 const buildTime = new Date().toISOString();
 
@@ -43,6 +70,7 @@ if (import.meta.env.SSR) {
             )
         }
         <link rel="sitemap" href="/sitemap-index.xml" />
+        <script is:inline id="discord:component-embed" type="application/json" set:html={embedPayload.replace(/</g, '\\u003c')} />
         <script
             is:inline
             type="application/ld+json"

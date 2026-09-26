@@ -100,3 +100,14 @@ lv70 | lv80 | lv90
 # Disc
 
 @disc(Petals of Blooming Mirage, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Phantom of the Banquet, 6) @disc(Witch's Swing, 1) @disc(Those with Ambition, 6) @disc(The Meow, 6) @disc(Wisteria Dream, 1)
+
+# Rotation
+
+### General Rotation
+1. Cosette Supp. Skill
+2. Mistique Main Skill + Otoha Supp. Skill
+
+### When to use Ultimate?
+• Cosette (with Nether Blaze): Before using her skill.
+• Otoha: Whenever available as long as her skill is not cancelled.
+• Mistique: Whenever available as long as her skill is not cancelled.

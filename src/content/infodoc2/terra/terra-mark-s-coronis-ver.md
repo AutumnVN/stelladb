@@ -111,3 +111,20 @@ not needed | not needed | **Terra Chorus +3**
 # Disc
 
 @disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Colors Pierce the Grey, 6) @disc(Dancing with the Bones, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Veiled Dawn of Spring, 1) @disc(Little Paradise, 1)
+
+# Rotation
+
+The goal of this team is to set up Nazuna and S. Coronis' skills before deploying Gerie to maximize her damage. It is important for Gerie's attacks to hit as not doing so results in an irrecoverable damage loss, to the point of warranting a full restart.
+
+### General Rotation
+1. Nazuna Main Skill
+2. S. Coronis Supp. Skill
+3. Wait 1s then use Gerie Supp. Skill
+
+### When to use Ultimate?
+• Nazuna: Whenever available as long as her skill is not cancelled.
+• Gerie: Never because apparently, the effects of Samsara's Judgment doesn't affect Mark DMG.
+• S. Coronis (with Talent 3): Whenever available as long as her skill is not cancelled.
+
+### Tips
+• While S. Coronis' Supp. Skill covers a large area, be careful of its usage against enemies that have high mobility as you will lose out on the buffs that it can provide.

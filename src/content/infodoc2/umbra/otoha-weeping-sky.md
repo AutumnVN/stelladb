@@ -125,3 +125,17 @@ not needed | not needed | Underground Healer +3
 # Disc
 
 @disc(Petals of Blooming Mirage, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Wisteria Dream, 1) @disc(Witch's Swing, 1) @disc(Those with Ambition, 1) @disc(The Meow, 6) @disc(Phantom of the Banquet, 6)
+
+# Rotation
+
+This team is pretty straightforward and even auto friendly as there is no need for manual skill usage input.
+
+### General Rotation
+1. Mistique or Coronis Supp. Skill
+2. Otoha Supp. Skill + Cosette Main Skill
+
+### When to use Ultimate?
+• Cosette (with Nether Blaze): Before using her skill.
+• Otoha: Whenever available as long as her skill is not cancelled.
+• Mistique: Whenever available as long as her skill is not cancelled.
+• Coronis: Preferably when the enemy has resilience bar active.

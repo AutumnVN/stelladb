@@ -105,3 +105,21 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Blinding Beam +3**
 # Disc
 
 @disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Colors Pierce the Grey, 6) @disc(Dancing with the Bones, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Veiled Dawn of Spring, 1) @disc(Little Paradise, 1)
+
+# Rotation
+
+The goal of this team is to set up Nazuna and Tilia's skills before deploying Gerie to maximize her damage. It is important for Gerie's attacks to hit as not doing so results in an irrecoverable damage loss, to the point of warranting a full restart.
+
+### General Rotation
+1. Nazuna Main Skill
+2. Tilia Supp. Skill
+3. Gerie Supp. Skill
+
+### When to use Ultimate?
+• Nazuna: Whenever available as long as her skill is not cancelled.
+• Gerie: Never because apparently, the effects of Samsara's Judgment doesn't affect Mark DMG.
+• Tilia: Whenever available as long as her skill is not cancelled.
+
+### Tips
+• Try to dodge as minimally as possible when Gerie is on the field so Nazuna can keep on inflicting Terra Marks.
+• Keep enemies in Tilia's Holy Inscription circles to constantly refresh Lux Marks and maintain Blinding Beam's effect.

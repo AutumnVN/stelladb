@@ -5,15 +5,17 @@ wip: false
 
 # Nanoha
 
+## Skill
+
 ## Potential
 
 ### Priority
 
-@pot(Whirling Blade) @pot(Bloom Dance) @pot(Splendid Vortex, 6) @pot(Distant Prayer, 6) @pot(Sky Piercer)
+@pot(Whirling Blade) @pot(Bloom Dance) @pot(Splendid Vortex, 6) @pot(Distant Prayer, 6) @pot(Sky Piercer, 1+)
 
 ### Optional
 
-@pot(Sun Chaser) @pot(Blooming Flowers)
+@pot(Sun Chaser, 1+) @pot(Blooming Flowers, 1+)
 
 ## Emblem
 
@@ -24,11 +26,16 @@ ATK% 12% | ATK% 12% |
 
 # Ann
 
-Ann supports the team by giving a lot of Ventus DMG Taken debuffs and ATK% buffs. ★ Key Notes: • Both Turbulent Flow and Wind Erosion Havoc requires the enemy to be within the wall .
+Ann supports the team by giving a lot of Ventus DMG Taken debuffs and ATK% buffs.
+
+**★ Key Notes:**
+• Both **Turbulent Flow** and **Wind Erosion Havoc** requires the enemy to be within the wall.
 
 ## Skill
 
-Wind Barrier (Support Skill) provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
+1/1/10/1 (Support Skill only)
+
+@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
 
 ## Potential
 
@@ -38,23 +45,22 @@ Wind Barrier (Support Skill) provides the team with an ATK% buff that scales bas
 
 ### Optional
 
-@pot(Windgate Barrier)
+@pot(Windgate Barrier, 6)
 
 ## Emblem
 
 lv70 | lv80 | lv90
-not needed | not needed | Support Skill Lv. +3
- |  | Wind Erosion Havoc +3
- |  | Turbulent Flow +3
- |  | Forest Princess' Blessing +3
+not needed | Support Skill Lv. +3 | Wind Erosion Havoc +3
+|| Turbulent Flow +3
+|| Forest Princess' Blessing +3
 
 # Nazuka
 
-Bouquet Blast (Support Skill) is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
-
 ## Skill
 
-skill priority: 1/1/10/1 (Support Skill only)
+1/1/10/1 (Support Skill only)
+
+@skill(Bouquet Blast) **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
 
 ## Potential
 
@@ -64,7 +70,7 @@ skill priority: 1/1/10/1 (Support Skill only)
 
 ### Optional
 
-@pot(Almighty Leader)
+@pot(Almighty Leader, 1+)
 
 ## Emblem
 
@@ -77,4 +83,3 @@ ATK% 12% | Crit Rate 15% | Wind Demon Seed +3
 # Disc
 
 @disc(Chronicles of Spring) @disc(Deer's Song) @disc(Daylight Garden) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Sky, Flowers, Poem) @disc(One, Two, Three, Jump!)
-

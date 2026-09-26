@@ -151,3 +151,35 @@ not needed | not needed | Ink Sigil: Horn Call +3
 # Disc
 
 @disc(Witch's Swing) @disc(Wisteria Dream) @disc(Dream Factory of ☆Truth) @disc(The Bud of Change, 6) @disc(Those with Ambition) @disc(The Meow, 6) @disc(Eclipse)
+
+# Rotation
+
+The goal is to buff Mistique's minions as they are being summoned out of her circle.
+
+### General Rotation
+__With Mistique's Support Skill pre-casting__
+1. Mistique Supp. Skill
+2. Wait until Mistique's Supp. Skill CD reaches 5s
+3. Iris Supp. Skill + Cosette Supp. Skill
+4. Mistique Supp. Skill
+5. Iris Supp. Skill + Cosette Supp. Skill
+*Then repeat Step 4 and 5
+
+__Without Mistique's Support Skill pre-casting__
+1. Mistique Supp. Skill
+2. Iris Supp. Skill
+3. Cosette Supp. Skill
+
+__Cosette/Mistique/Coronis__
+1. Mistique Supp. Skill
+2. Cosette Supp. Skill + Coronis Supp Skill
+
+### When to use Ultimate?
+• Cosette (w/ Nether Blaze): Before using her skill.
+• Mistique: Whenever available as long as her skill is not cancelled.
+• Iris: When Supp. Skill has 10s CD left to prevent delays.
+• Coronis: Preferably when the enemy has resilience bar active.
+
+### Tips
+• Try to line up Cosette's Main Skill with Iris' Supp. Skill.
+• If you are using Coronis, be mindful about the boss locking their Resilience bar since she will not be able to deplete it if it's locked.

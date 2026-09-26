@@ -203,3 +203,37 @@ not needed | not needed | Underground Healer +3
 # Disc
 
 @disc(Petals of Blooming Mirage) @disc(Wisteria Dream) @disc(Phantom of the Banquet, 6) @disc(Dream Factory of ☆Truth) @disc(Witch's Swing) @disc(Those with Ambition) @disc(The Meow, 6)
+
+# Rotation
+
+The goal of this team is to allow Firenze's Nimble Step potential to have permanent uptime as it allows High Risk to be proc'd consistently.
+
+### General Rotation
+__Firenze/Cosette/Otoha or Coronis__
+1. Cosette Supp. Skill + Otoha/Coronis Supp. Skill
+2. 1st Firenze Main Skill when Cosette skill hits 11s CD
+3. 2nd Firenze Main Skill when Cosette skill hits 5s CD
+*Note: This can be auto friendly if Firenze does not get staggered or miss any skill hits.
+
+__without Mistique pre-casting__
+1. Mistique Supp. Skill + Cosette Supp. Skill
+2. 1st Firenze Main Skill when Cosette skill hits 11s CD
+3. 2nd Firenze Main Skill when Cosette skill hits 5s CD
+
+__with Mistique pre-casting__
+1. Mistique Supp. Skill
+2. Wait until Mistique's Supp. Skill CD reaches 2s
+3. Cosette Supp. Skill
+4. 1st Firenze Main Skill when Cosette skill hits 11s CD
+5. Mistique Supp. Skill
+6. 2nd Firenze Main Skill when Cosette skill hits 5s CD
+
+### When to use Ultimate?
+• Firenze: Ensure that Nimble Step is still active with around 3+ seconds left and Cosette is still on the field.
+• Cosette (with Nether Blaze): Before using her skill.
+• Otoha: When her skill CD is at 5-11s.
+• Mistique: Whenever available as long as her skill is not cancelled.
+• Coronis: Preferably when the enemy has resilience bar active.
+
+### Tips
+• If you have Wisteria Dream as Main Disc, use Firenze's skill (or any Umbra unit that spawns a minion like Mistique) until she has 3 stacks of Reverence if the Boss Blitz stage allows it. The Evernight Emberflies stage is a perfect example for this as it is not an instant battle against the boss.

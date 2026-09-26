@@ -40,8 +40,7 @@ const embed = JSON.stringify({
         type: 17,
         accent_color: 6750105,
         components: [
-            { type: 10, content: [`## **[${group.name}](${Astro.url.href})**`, ...embedLines].join('  \n') },
-            { type: 12, items: [{ media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/image/uibg/${group.icon}.webp` } }] },
+            { type: 9, components: [{ type: 10, content: [`## **[${group.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/image/uibg/${group.icon}.webp` } } },
         ],
     },
 });

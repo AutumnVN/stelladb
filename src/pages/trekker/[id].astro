@@ -98,9 +98,9 @@ const embed = JSON.stringify({
             {
                 type: 9,
                 components: [{ type: 10, content: [`## **[${char.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
-                accessory: { type: 2, style: 5, label: 'Wiki', url: `https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}` },
+                ...(isUnreleased ? {} : { accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp` } } }),
             },
-            ...(isUnreleased ? [] : [{ type: 12, items: [{ media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp` } }] }]),
+            { type: 1, components: [{ type: 2, style: 5, label: 'Wiki', url: `https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}` }] },
         ],
     },
 });

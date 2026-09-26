@@ -224,7 +224,7 @@ const embed = JSON.stringify({
     component: {
         type: 17,
         accent_color: 6750105,
-        components: [{ type: 9, components: [{ type: 10, content: [`## **[${id}](${Astro.url.href})**`, ...embedLines].join('  \n') }], ...(isValid ? { accessory: { type: 11, media: { url: `https://stelladb.pages.dev/og/build/${id}` } } } : {}) }],
+        components: [{ type: 10, content: [`## **[${id}](${Astro.url.href})**`, ...embedLines].join('  \n') }, ...(isValid ? [{ type: 12, items: [{ media: { url: `https://stelladb.pages.dev/og/build/${id}` } }] }] : [])],
     },
 });
 ---

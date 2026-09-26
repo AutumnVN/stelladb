@@ -86,7 +86,11 @@ Currently in testing phase, this section is empty for now.
 
 ### Priority
 
-@pot(Radiance Blade: Blazing Edge) @pot(Radiance Blade: Pursuing Slash)
+@pot(Radiance Blade: Blazing Edge) @pot(Radiance Blade: Pursuing Slash) @pot(Blade Flash, 6) @pot(Radiant Ripple, 6) @pot(Luminous Onslaught, 6) @pot(Domain of Purity, 6)
+
+### Optional
+
+@pot(Blade of Falling Petals, 1+)
 
 ## Emblem
 

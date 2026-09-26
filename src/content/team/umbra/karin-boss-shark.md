@@ -15,6 +15,8 @@ wip: true
 
 ### Priority
 
+@pot(Predator's Vortex) @pot(Shark Ambush) @pot(Aura of Unity, 6) @pot(Deep-Sea Conflict, 6) @pot(Crashing Wave, 6) @pot(Twin Predator, 6) @pot(Hunter's Command, 6)
+
 ## Emblem
 
 lv70 | lv80 | lv90

@@ -39,6 +39,8 @@ not needed | not needed | **Touch 'n' Bounce +3**
 
 ### Priority
 
+@pot(Chain Detonation) @pot(Seismic Spread) @pot(Annihilation Echo, 6) @pot(Field Pull, 6) @pot(Shattering Blow, 6) @pot(Power Amp, 6) @pot(Suppression Analysis, 6)
+
 ## Emblem
 
 lv70 | lv80 | lv90
@@ -57,10 +59,16 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 
 ### Priority
 
+@pot(Flower Formation: Waves) @pot(Flower Formation: Turbulent) @pot(Flower Formation: Erosion, 6) @pot(Almighty Leader, 6) @pot(Flower Formation: Blast, 6) @pot(Self-Improvement, 6)
+
+### Optional
+
+@pot(Wind Demon Seed, 1+)
+
 ## Emblem
 
 lv70 | lv80 | lv90
 
 # Disc
 
-@disc(Deer's Song, 1) @disc(Fly, O Caged Bird, 1) @disc(Lemon & Black Tea, 6) @disc(One, Two, Three, Jump !C6)) @disc(Sky, Flowers, Poem, 1) @disc(Unknown Fragrance, 6) @disc(Traces of Starlight, 6)
+@disc(Deer's Song, 1) @disc(Fly, O Caged Bird, 1) @disc(Lemon & Black Tea, 6) @disc(One, Two, Three, Jump !, 6) @disc(Sky, Flowers, Poem, 1) @disc(Unknown Fragrance, 6) @disc(Traces of Starlight, 6)

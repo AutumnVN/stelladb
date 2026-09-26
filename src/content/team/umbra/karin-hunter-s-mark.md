@@ -15,6 +15,8 @@ wip: true
 
 ### Priority
 
+@pot(Scatter Shot) @pot(Hunting Dark Shackle) @pot(Aura of Unity, 6) @pot(Dark Shackle Detonation, 6) @pot(Hunting Suppression, 6) @pot(High-Threat Target, 6) @pot(Self-Transcend, 6)
+
 ## Emblem
 
 lv70 | lv80 | lv90

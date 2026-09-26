@@ -11,6 +11,8 @@ wip: true
 
 ### Priority
 
+@pot(Fluffy Rechamber) @pot(Neo Radiance Burst) @pot(Cyclone Dial, 6) @pot(Ticking Aftershock, 6) @pot(Harmonic Barrage, 6) @pot(Static Strike, 6)
+
 ## Emblem
 
 lv70 | lv80 | lv90

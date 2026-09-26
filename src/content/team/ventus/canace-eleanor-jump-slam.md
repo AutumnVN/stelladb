@@ -42,6 +42,8 @@ lv70 | lv80 | lv90
 
 ### Priority
 
+@pot(Chain Detonation) @pot(Seismic Spread) @pot(Annihilation Echo, 6) @pot(Field Pull, 6) @pot(Shattering Blow, 6) @pot(Power Amp, 6) @pot(Suppression Analysis, 6)
+
 ## Emblem
 
 lv70 | lv80 | lv90
@@ -55,6 +57,8 @@ lv70 | lv80 | lv90
 ## Potential
 
 ### Priority
+
+@pot(Gale Bastion) @pot(Wind Banish) @pot(Wind Erosion Havoc, 6) @pot(Turbulent Flow, 6) @pot(Forest Princess' Blessing, 6)
 
 ## Emblem
 

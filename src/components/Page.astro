@@ -81,8 +81,11 @@ const { ...rest } = Astro.props;
         }
 
         .slider-container {
+            display: flex;
             position: sticky;
             top: calc(var(--nav-height) * 2);
+            flex-direction: column;
+            gap: 0.25rem;
             backdrop-filter: blur(5px);
             background: var(--bg1a);
             padding: 1rem;

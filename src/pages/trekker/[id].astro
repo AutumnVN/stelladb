@@ -583,11 +583,14 @@ const embed = JSON.stringify({
 
             <section id="potentials" class="tab-panel" hidden>
                 <div class="slider-container">
-                    <div class="slider potential-level">
-                        <label class="potential-level-output">Potential level: 1 <input type="range" id="potential-level" min="1" max="9" value="6" /></label>
+                    <div class="slider potential-upgrade">
+                        <label class="potential-upgrade-output">Upgrade: 8 <input type="range" id="potential-upgrade" min="0" max="8" value="8" /></label>
                     </div>
                     <div class="slider skill-level2">
                         <label class="skill-level2-output">Skill level: 1 <input type="range" id="skill-level2" min="1" max="13" value="10" /></label>
+                    </div>
+                    <div class="slider potential-level">
+                        <label class="potential-level-output">Potential level: 1 <input type="range" id="potential-level" min="1" max="9" value="6" /></label>
                     </div>
                 </div>
 
@@ -1411,9 +1414,8 @@ const embed = JSON.stringify({
             let result = desc;
 
             params.forEach((paramSet, index) => {
-                const splitted = paramSet.toString().split('/');
-                const paramValue = splitted.length === 13 ? splitted[skillLevel - 1] : splitted.length === 9 ? splitted[upgrade2] : splitted[0];
                 const tooltip = tooltips[index];
+                const paramValue = paramAt(paramSet, tooltip, upgrade2, skillLevel);
                 const tooltipContent = `
                     ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                     ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
@@ -1426,19 +1428,36 @@ const embed = JSON.stringify({
             return format(result);
         }
 
-        const potentialLevelInput = document.querySelector('#potential-level');
-        const potentialLevelOutput = document.querySelector('.potential-level-output');
+        function paramAt(paramSet, tooltip, upgrade, skill, potential) {
+            const splitted = String(paramSet).split('/');
+
+            if (splitted.length === 13) return splitted[skill - 1] ?? splitted[0];
+
+            if (splitted.length === 9) {
+                if (/scale with Upgrade/.test(tooltip?.damageType || '')) return splitted[upgrade] ?? splitted[0];
+                if (potential !== undefined) return splitted[potential - 1] ?? splitted[0];
+            }
+
+            return splitted[0];
+        }
+
+        const upgrade3Input = document.querySelector('#potential-upgrade');
+        const potentialUpgradeOutput = document.querySelector('.potential-upgrade-output');
         const skillLevel2Input = document.querySelector('#skill-level2');
         const skillLevel2Output = document.querySelector('.skill-level2-output');
+        const potentialLevelInput = document.querySelector('#potential-level');
+        const potentialLevelOutput = document.querySelector('.potential-level-output');
         const potentialElements = document.querySelectorAll('.potential');
         const potentialLangInput = document.querySelector('#potentials .langtabs-wrapper');
 
-        let potentialLevel;
+        let upgrade3;
         let skillLevel2;
+        let potentialLevel;
         let potentialLang;
 
-        potentialLevelInput.addEventListener('input', onPotentialsInput);
+        upgrade3Input.addEventListener('input', onPotentialsInput);
         skillLevel2Input.addEventListener('input', onPotentialsInput);
+        potentialLevelInput.addEventListener('input', onPotentialsInput);
         potentialLangInput.addEventListener('click', (e) => {
             if (e.target.classList.contains('langtab')) {
                 potentialLangInput.querySelectorAll('.langtab').forEach((btn) => btn.classList.remove('active'));
@@ -1450,12 +1469,14 @@ const embed = JSON.stringify({
         onPotentialsInput();
 
         function onPotentialsInput() {
-            potentialLevel = +potentialLevelInput.value;
+            upgrade3 = +upgrade3Input.value;
             skillLevel2 = +skillLevel2Input.value;
+            potentialLevel = +potentialLevelInput.value;
             potentialLang = potentialLangInput.dataset.lang;
 
-            potentialLevelOutput.childNodes[0].nodeValue = `Potential level: ${potentialLevel} `;
+            potentialUpgradeOutput.childNodes[0].nodeValue = `Upgrade: ${upgrade3} `;
             skillLevel2Output.childNodes[0].nodeValue = `Skill level: ${skillLevel2} `;
+            potentialLevelOutput.childNodes[0].nodeValue = `Potential level: ${potentialLevel} `;
             potentialElements.forEach((e) => {
                 const pot = JSON.parse(e.dataset.potential);
                 const nameLang = `name${potentialLang === 'EN' ? '' : potentialLang}`;
@@ -1464,9 +1485,8 @@ const embed = JSON.stringify({
                 let result = pot[descLang];
 
                 pot.params.forEach((paramSet, index) => {
-                    const splitted = paramSet.toString().split('/');
-                    const paramValue = splitted.length === 13 ? splitted[skillLevel2 - 1] : splitted.length === 9 ? splitted[potentialLevel - 1] : splitted[0];
                     const tooltip = pot.paramsTooltips[index];
+                    const paramValue = paramAt(paramSet, tooltip, upgrade3, skillLevel2, potentialLevel);
                     const tooltipContent = `
                         ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                         ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
@@ -1477,9 +1497,8 @@ const embed = JSON.stringify({
                 });
 
                 pot.hiddenParams.forEach((paramSet, index) => {
-                    const splitted = paramSet.toString().split('/');
-                    const paramValue = splitted.length === 13 ? splitted[skillLevel2 - 1] : splitted.length === 9 ? splitted[potentialLevel - 1] : splitted[0];
                     const tooltip = pot.hiddenParamsTooltips[index];
+                    const paramValue = paramAt(paramSet, tooltip, upgrade3, skillLevel2, potentialLevel);
                     const tooltipContent = `
                         ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                         ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}

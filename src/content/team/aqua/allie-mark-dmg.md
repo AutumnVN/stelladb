@@ -31,7 +31,7 @@ lv70 | lv80 | lv90
 
 lv70 | lv80 | lv90
 **Aqua PEN 110** | **Support Skill Lv. +3** | **Frostbitten Arrow +3**
-Crit Rate 15% | Skill DMG 20% | **Arrow Pursuit +3**
+Crit Rate 15% | Skill DMG 20% | Arrow Pursuit +3
 Skill DMG 20% | Crit Rate 15% | Water Ripple +3
 Aqua DMG 12% | Aqua PEN 110 | Messenger Arrow +3
 

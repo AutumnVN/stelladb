@@ -1,5 +1,5 @@
 ---
-title: Allie (Mark DMG)
+title: Allie (Skill DMG)
 wip: true
 ---
 
@@ -11,7 +11,7 @@ wip: true
 
 ### Priority
 
-@pot(Dusting Vortex) @pot(Sweep Extension) @pot(Overtime Chore, 6) @pot(Wide Blade Arc, 6) @pot(Pending Chore, 6) @pot(Swift Wipe, 6) @pot(Sweep Dash, 6) @pot(Repeated Sweep, 6)
+@pot(Quick Sweep) @pot(Multi Sweep) @pot(Mirror Blade, 6) @pot(Clothesline Stance, 6) @pot(Sweep Dash, 6) @pot(Sweeper's Blow, 6) @pot(Cleaver Ready, 6)
 
 ## Emblem
 
@@ -39,11 +39,11 @@ lv70 | lv80 | lv90
 
 ### Priority
 
-@pot(Flying Droplets) @pot(Flooding Shore) @pot(Hovering Gale, 6) @pot(Words Unchanged, 6) @pot(Balmy Surf, 6) @pot(Eternal Tide, 6)
+@pot(Rhythm Surge) @pot(Thunderous Surf) @pot(Prismatic Bubbles, 6) @pot(Balmy Surf, 6) @pot(Receding Echoes, 6)
 
 ### Optional
 
-@pot(Engulfing Tide, 6)
+@pot(Marine Justice, 6)
 
 ## Emblem
 

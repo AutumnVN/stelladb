@@ -248,22 +248,7 @@ const embed = JSON.stringify({
                                 </p>
                             )
                         }
-                        {
-                            !disc.mainSkill.effectData.length ? null : (
-                                <span class="tooltip small">
-                                    hover this for effect data
-                                    <div class="tooltip-text">
-                                        {disc.mainSkill.effectData.map((data) => (
-                                            <>
-                                                {data}
-                                                <br />
-                                            </>
-                                        ))}
-                                    </div>
-                                </span>
-                            )
-                        }
-                    </div>
+                        </div>
                 </div>
             </section>
 
@@ -326,19 +311,6 @@ const embed = JSON.stringify({
                                             .reduce((prev, curr) => [prev, ' ', curr])}
                                     </p>
                                 )}
-                                {!disc.secondarySkill1.effectData.length ? null : (
-                                    <span class="tooltip small">
-                                        hover this for effect data
-                                        <div class="tooltip-text">
-                                            {disc.secondarySkill1.effectData.map((data) => (
-                                                <>
-                                                    {data}
-                                                    <br />
-                                                </>
-                                            ))}
-                                        </div>
-                                    </span>
-                                )}
                                 <div class="item-image">
                                     {disc.secondarySkill1 &&
                                         Array.from(new Set(disc.secondarySkill1.requirements.flatMap((r) => (r ? Object.keys(r) : [])))).map((itemName) => {
@@ -393,19 +365,6 @@ const embed = JSON.stringify({
                                                 )
                                                 .reduce((prev, curr) => [prev, ' ', curr])}
                                         </p>
-                                    )}
-                                    {!disc.secondarySkill2.effectData.length ? null : (
-                                        <span class="tooltip small">
-                                            hover this for effect data
-                                            <div class="tooltip-text">
-                                                {disc.secondarySkill2.effectData.map((data) => (
-                                                    <>
-                                                        {data}
-                                                        <br />
-                                                    </>
-                                                ))}
-                                            </div>
-                                        </span>
                                     )}
                                     <div class="item-image">
                                         {disc.secondarySkill2 &&

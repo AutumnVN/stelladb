@@ -34,7 +34,11 @@ const fallbackEmbed = JSON.stringify({
     },
 });
 
-const embedPayload = embed ?? fallbackEmbed;
+const embedPayload = (() => {
+    const payload = JSON.parse(embed ?? fallbackEmbed);
+    payload.component.components.unshift({ type: 10, content: '-# stelladb' });
+    return JSON.stringify(payload);
+})();
 
 const buildTime = new Date().toISOString();
 

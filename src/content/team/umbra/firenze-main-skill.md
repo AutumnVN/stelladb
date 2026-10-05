@@ -73,7 +73,7 @@ lv70 | lv80 | lv90
 || Gift of Darkness +3
 || Dark: Mirage / Nether Blaze +3
 
-# Otoha - WS
+# Otoha - Weeping Sky Build
 
 Otoha's skill build relies on the synergy of **Ripple of Shadow**, **Evening Rain**, and **Rain-Woven Sorrow** to bombard a specific area with Sweeping Sky. This works best against enemies who are gathered in one place and bosses that are not mobile.
 
@@ -105,7 +105,7 @@ Skill DMG 20% | Skill DMG 20% | Rain-Woven Sorrow +3
 Crit Rate 15% | Umbra PEN 110 | Murmur of Annihilation +3
 Umbra DMG 12% | Crit Rate 15% | Bone-Chilling Rain +3
 
-# Otoha - Laser
+# Otoha - Laser Build
 
 Otoha's laser build pales in comparison with her skill build when it comes to providing buffs and debuffs. However, what it brings is the ability to be used against bosses that are mobile.
 

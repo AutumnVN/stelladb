@@ -103,5 +103,5 @@ not needed | not needed | Structure Analysis +3
 Below are just notes that are being taken (so I don't forget)
 
 - Always make sure that Wraith has 3 stacks of her skill before using them all at once or she does no damage
-- Laser targetting is random so it will suck if the boss has minions (e.g. Lady Dust)
+- Laser Build targetting is random so it will suck if the boss has minions (e.g. Lady Dust)
 - Not auto friendly sadly

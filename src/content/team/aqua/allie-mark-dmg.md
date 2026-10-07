@@ -48,3 +48,9 @@ lv70 | lv80 | lv90
 ## Emblem
 
 lv70 | lv80 | lv90
+
+# Other
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=laefwrwHgoU)

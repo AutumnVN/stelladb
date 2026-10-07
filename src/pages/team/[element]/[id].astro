@@ -6,7 +6,7 @@ import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 import Card from '@/components/Card.astro';
-import { loadAllTeams, buildNameIndex, findId, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitMacros, youtubeId } from '@/scripts/team.js';
+import { loadAllTeams, buildNameIndex, findId, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitMacros, youtubeId, youtubeParams } from '@/scripts/team.js';
 
 export async function getStaticPaths() {
     const teams = loadAllTeams();
@@ -48,20 +48,53 @@ export async function getStaticPaths() {
         }
     }
 
-    const ytTitles = Object.fromEntries(
+    const ytInfo = Object.fromEntries(
         await Promise.all(
             [...ytIds].map(async (id) => {
+                const info = { title: null, channel: null, avatar: null, posterQuality: 'default' };
                 try {
                     const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}&format=json`);
-                    if (!res.ok) return [id, null];
-                    const data = await res.json();
-                    return [id, typeof data.title === 'string' ? data.title : null];
-                } catch {
-                    return [id, null];
-                }
-            })
-        )
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (typeof data.title === 'string') info.title = data.title;
+                        if (typeof data.author_name === 'string') info.channel = data.author_name;
+                        if (typeof data.author_url === 'string') info.channelUrl = data.author_url;
+                    }
+                } catch {}
+                try {
+                    const probe = async (file) => {
+                        const r = await fetch(`https://i.ytimg.com/vi/${id}/${file}.jpg`, { method: 'HEAD' });
+                        return r.ok && Number(r.headers.get('content-length') || 0) > 5000;
+                    };
+                    if (await probe('maxresdefault')) info.posterQuality = 'max';
+                    else if (await probe('sddefault')) info.posterQuality = 'high';
+                } catch {}
+                return [id, info];
+            }),
+        ),
     );
+
+    const avatarByChannel = new Map();
+    await Promise.all(
+        [
+            ...new Set(
+                Object.values(ytInfo)
+                    .map((info) => info.channelUrl)
+                    .filter(Boolean),
+            ),
+        ].map(async (url) => {
+            try {
+                const res = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } });
+                if (!res.ok) return;
+                const m = (await res.text()).match(/<meta property="og:image" content="([^"]+)"/);
+                if (m) avatarByChannel.set(url, m[1].replace(/=s\d+/, '=s176'));
+            } catch {}
+        }),
+    );
+    for (const info of Object.values(ytInfo)) {
+        info.avatar = info.channelUrl ? avatarByChannel.get(info.channelUrl) || null : null;
+        delete info.channelUrl;
+    }
 
     return teams.map((team) => {
         const charId = team.character ? findId(charIndex, team.character) : null;
@@ -77,13 +110,13 @@ export async function getStaticPaths() {
                 team: resolveIds(team, potIndex, discIndex, skillIndex, charId, tabCharIds, discData),
                 tabCharIds,
                 characterData,
-                ytTitles,
+                ytInfo,
             },
         };
     });
 }
 
-const { team, tabCharIds, characterData, ytTitles } = Astro.props;
+const { team, tabCharIds, characterData, ytInfo } = Astro.props;
 
 const skillIndex = buildSkillIndex(characterData);
 
@@ -316,7 +349,22 @@ const embed = JSON.stringify({
                                                     if (part.type === 'asset') return <Image src={assetUrl(part.path)} alt={assetName(part.path)} title={assetName(part.path)} width="64" height="64" />;
                                                     if (part.type === 'youtube') {
                                                         const yt = youtubeId(part.url);
-                                                        return yt ? <YouTube id={yt} title={ytTitles?.[yt] || undefined} /> : <Fragment set:html={renderInline(part.raw)} />;
+                                                        if (!yt) return <Fragment set:html={renderInline(part.raw)} />;
+                                                        const info = ytInfo?.[yt];
+                                                        return (
+                                                            <span class="yt">
+                                                                <YouTube id={yt} title={info?.title || undefined} posterQuality={info?.posterQuality || 'default'} params={youtubeParams(part.url) || undefined} />
+                                                                {(info?.title || info?.channel) && (
+                                                                    <span class="yt-meta">
+                                                                        {info?.avatar && <img class="yt-avatar" src={info.avatar} alt="" loading="lazy" />}
+                                                                        <span class="yt-text">
+                                                                            {info?.title && <span class="yt-title">{info.title}</span>}
+                                                                            {info?.channel && <span class="yt-channel">{info.channel}</span>}
+                                                                        </span>
+                                                                    </span>
+                                                                )}
+                                                            </span>
+                                                        );
                                                     }
                                                     return <Fragment set:html={renderInline(part.text)} />;
                                                 })}
@@ -365,7 +413,22 @@ const embed = JSON.stringify({
                                     <div class="embeds indent">
                                         {section.items.map((item) => {
                                             const yt = youtubeId(item.name);
-                                            return yt ? <YouTube id={yt} title={ytTitles?.[yt] || undefined} /> : <p class="indent">{item.name}</p>;
+                                            if (!yt) return <p class="indent">{item.name}</p>;
+                                            const info = ytInfo?.[yt];
+                                            return (
+                                                <span class="yt">
+                                                    <YouTube id={yt} title={info?.title || undefined} posterQuality={info?.posterQuality || 'default'} params={youtubeParams(item.name) || undefined} />
+                                                    {(info?.title || info?.channel) && (
+                                                        <span class="yt-meta">
+                                                            {info?.avatar && <img class="yt-avatar" src={info.avatar} alt="" loading="lazy" />}
+                                                            <span class="yt-text">
+                                                                {info?.title && <span class="yt-title">{info.title}</span>}
+                                                                {info?.channel && <span class="yt-channel">{info.channel}</span>}
+                                                            </span>
+                                                        </span>
+                                                    )}
+                                                </span>
+                                            );
                                         })}
                                     </div>
                                 );
@@ -459,6 +522,82 @@ const embed = JSON.stringify({
     .page .content .left.left-hidden {
         display: none !important;
     }
+
+    .yt {
+        display: block;
+        position: relative;
+        container-type: inline-size;
+        max-width: 960px;
+    }
+
+    .yt lite-youtube {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .yt lite-youtube::before {
+        display: none;
+    }
+
+    .yt:has(lite-youtube.lyt-activated) .yt-meta {
+        display: none;
+    }
+
+    .yt-meta {
+        display: flex;
+        position: absolute;
+        align-items: flex-start;
+        gap: 11px;
+        z-index: 2;
+        inset: 0 0 auto 0;
+        background: linear-gradient(to bottom, rgb(0 0 0 / 0.85), transparent);
+        padding: 10px 31px 0;
+        pointer-events: none;
+        color: #fff;
+        font-family: Roboto, Arial, sans-serif;
+    }
+
+    .yt-avatar {
+        flex: none;
+        margin-top: 6px;
+        margin-left: -1px;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        object-fit: cover;
+    }
+
+    .yt-text {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        min-width: 0;
+    }
+
+    .yt-title {
+        overflow: hidden;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 1.4;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .yt-channel {
+        overflow: hidden;
+        font-size: 12px;
+        line-height: 1.1;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    @container (max-width: 527.9px) {
+        .yt-title {
+            font-size: 18px;
+            line-height: 1.44;
+        }
+    }
 </style>
 
 <style>
@@ -517,9 +656,7 @@ const embed = JSON.stringify({
         margin: 0 0.15em;
     }
 
-    .macro-prose lite-youtube {
-        display: block;
-        max-width: 960px;
+    .macro-prose .yt {
         margin: 0.5rem 0;
     }
 
@@ -531,9 +668,8 @@ const embed = JSON.stringify({
         margin: 0;
     }
 
-    .embeds lite-youtube {
+    .embeds .yt {
         width: 100%;
-        max-width: 960px;
     }
 
     .disc-list {

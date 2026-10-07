@@ -104,6 +104,34 @@ export function youtubeId(input) {
     return null;
 }
 
+function ytSeconds(value) {
+    const v = String(value || '').trim().toLowerCase();
+    if (!v) return null;
+    if (/^\d+$/.test(v)) return Number(v);
+    const m = v.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/);
+    if (m && (m[1] || m[2] || m[3])) return Number(m[1] || 0) * 3600 + Number(m[2] || 0) * 60 + Number(m[3] || 0);
+    return null;
+}
+
+export function youtubeParams(input) {
+    const s = String(input || '').trim();
+    if (!s) return '';
+    let u;
+    try {
+        u = new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(s) ? s : `https://${s}`);
+    } catch {
+        return '';
+    }
+    const hash = (u.hash || '').replace(/^#/, '');
+    const raw = u.searchParams.get('t') || u.searchParams.get('start') || u.searchParams.get('time_continue') || (hash.match(/(?:^|&)t=([^&]+)/) || [])[1];
+    const out = [];
+    const start = ytSeconds(raw);
+    if (start != null) out.push(`start=${start}`);
+    const end = ytSeconds(u.searchParams.get('end'));
+    if (end != null) out.push(`end=${end}`);
+    return out.join('&');
+}
+
 export function splitMacros(text) {
     const src = String(text ?? '');
     const found = [];

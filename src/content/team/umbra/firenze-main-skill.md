@@ -200,11 +200,13 @@ lv70 | lv80 | lv90
 not needed | not needed | Underground Healer +3
 || Tag of Fate +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Petals of Blooming Mirage) @disc(Wisteria Dream) @disc(Phantom of the Banquet, 6) @disc(Dream Factory of ☆Truth) @disc(Witch's Swing) @disc(Those with Ambition) @disc(The Meow, 6)
 
-# Rotation
+## Rotation
 
 The goal of this team is to allow Firenze's Nimble Step potential to have permanent uptime as it allows High Risk to be proc'd consistently.
 

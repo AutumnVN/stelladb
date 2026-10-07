@@ -85,6 +85,8 @@ not needed | Support Skill Lv. +3 | Wind Erosion Havoc +3
 || Turbulent Flow +3
 || Forest Princess' Blessing +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Deer's Song) @disc(One, Two, Three, Jump!) @disc(Sky, Flowers, Poem) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Chronicles of Spring) @disc(Daylight Garden)

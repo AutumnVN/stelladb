@@ -112,6 +112,8 @@ lv70 | lv80 | lv90
 not needed | not needed | Corrosive Vines +3
 || Root Grasp +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Little Paradise, 1) @disc(Veiled Dawn of Spring, 1) @disc(Colors Pierce the Grey, 6) @disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Touch of Miracle, 6)

@@ -171,6 +171,8 @@ lv70 | lv80 | lv90
 || Meltdown Threshold +3
 || Army Breaker +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(The Cat's Treasure, 1) @disc(Snowy Night Surprise, 1) @disc(One Shot, One Down, 6) @disc(Mystic Brushstrokes, 1) @disc(Joyful Gathering, 6) @disc(Meowing Cat God, 1) @disc(Fist of Courage, 6)

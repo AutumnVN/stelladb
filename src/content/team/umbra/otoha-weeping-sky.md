@@ -122,11 +122,13 @@ lv70 | lv80 | lv90
 not needed | not needed | Underground Healer +3
 || Tag of Fate +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Petals of Blooming Mirage, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Wisteria Dream, 1) @disc(Witch's Swing, 1) @disc(Those with Ambition, 1) @disc(The Meow, 6) @disc(Phantom of the Banquet, 6)
 
-# Rotation
+## Rotation
 
 This team is pretty straightforward and even auto friendly as there is no need for manual skill usage input.
 

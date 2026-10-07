@@ -169,11 +169,13 @@ lv70 | lv80 | lv90
 not needed | not needed | Structure Analysis +3
 || Storm Eye Expansion +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Chronicles of Spring) @disc(Deer's Song) @disc(Daylight Garden) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Sky, Flowers, Poem) @disc(One, Two, Three, Jump!)
 
-# Rotation
+## Rotation
 
 Wraith comps are generally auto-friendly that can have optimizations to squeeze more damage.
 

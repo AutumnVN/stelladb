@@ -97,11 +97,13 @@ lv70 | lv80 | lv90
 || Gift of Darkness +3
 || Dark: Mirage / Nether Blaze +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Petals of Blooming Mirage, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Phantom of the Banquet, 6) @disc(Witch's Swing, 1) @disc(Those with Ambition, 6) @disc(The Meow, 6) @disc(Wisteria Dream, 1)
 
-# Rotation
+## Rotation
 
 ### General Rotation
 1. Cosette Supp. Skill

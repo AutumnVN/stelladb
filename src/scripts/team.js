@@ -1,6 +1,8 @@
 // @ts-nocheck
-const ITEM_RE = /@(pot|disc|skill|asset)\(([^)]*)\)/g;
+const ITEM_RE = /@(pot|disc|skill|asset|youtube)\(([^)]*)\)/g;
 const ASSET_RE = /@asset\(\s*([^)\s]+)\s*\)/g;
+const YOUTUBE_RE = /@youtube\(\s*([^)\s]+)\s*\)/g;
+const YT_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 const ASSET_BASE = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles';
 
 const escHtml = (s) =>
@@ -78,16 +80,50 @@ export function assetName(path) {
     return p.split('/').pop() || p;
 }
 
-export function splitAssets(text) {
+export function youtubeId(input) {
+    const s = String(input || '').trim();
+    if (!s) return null;
+    if (YT_ID_RE.test(s)) return s;
+    let u;
+    try {
+        u = new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(s) ? s : `https://${s}`);
+    } catch {
+        return null;
+    }
+    const host = u.hostname.toLowerCase().replace(/^(www|m|music)\./, '');
+    if (host === 'youtu.be') {
+        const id = u.pathname.split('/').filter(Boolean)[0] || '';
+        return YT_ID_RE.test(id) ? id : null;
+    }
+    if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+        const v = u.searchParams.get('v');
+        if (v && YT_ID_RE.test(v)) return v;
+        const mm = u.pathname.match(/\/(?:embed|shorts|live|v)\/([A-Za-z0-9_-]{11})(?:[/?]|$)/);
+        if (mm) return mm[1];
+    }
+    return null;
+}
+
+export function splitMacros(text) {
     const src = String(text ?? '');
+    const found = [];
+    const scan = (re, toPart) => {
+        re.lastIndex = 0;
+        let m;
+        while ((m = re.exec(src))) {
+            found.push({ index: m.index, end: m.index + m[0].length, part: toPart(m) });
+        }
+    };
+    scan(ASSET_RE, (m) => ({ type: 'asset', path: m[1], raw: m[0] }));
+    scan(YOUTUBE_RE, (m) => ({ type: 'youtube', url: m[1], raw: m[0] }));
+    found.sort((a, b) => a.index - b.index);
     const parts = [];
     let last = 0;
-    let m;
-    ASSET_RE.lastIndex = 0;
-    while ((m = ASSET_RE.exec(src))) {
-        if (m.index > last) parts.push({ type: 'text', text: src.slice(last, m.index) });
-        parts.push({ type: 'asset', path: m[1], raw: m[0] });
-        last = m.index + m[0].length;
+    for (const f of found) {
+        if (f.index < last) continue;
+        if (f.index > last) parts.push({ type: 'text', text: src.slice(last, f.index) });
+        parts.push(f.part);
+        last = f.end;
     }
     if (last < src.length) parts.push({ type: 'text', text: src.slice(last) });
     return parts;
@@ -219,7 +255,7 @@ export function parseTeam(raw) {
     }
     flushAll();
 
-    const character = tabs.filter((t) => t.title.toLowerCase() !== 'disc' && t.title.toLowerCase() !== 'rotation' && t.title.toLowerCase() !== 'code').map((t) => t.title).join(', ');
+    const character = tabs.filter((t) => t.title.toLowerCase() !== 'other').map((t) => t.title).join(', ');
 
     return {
         title: frontmatter.title || character || 'Untitled',

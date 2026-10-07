@@ -125,11 +125,13 @@ not needed | not needed | Fervent Applause +3
 || Radiant Synergy +3
 || Three Base Hit +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Ripples of Nostalgia) @disc(Prayer Beneath Light) @disc(Summer Sanctuary, 6) @disc(A Moment in the Afternoon) @disc(Sparkling Moment, 6) @disc(Stellar Destination) @disc(Midnight Mayhem)
 
-# Rotation
+## Rotation
 
 ### General Rotation
 1. Tilia + Minova Support Skill

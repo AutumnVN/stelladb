@@ -113,7 +113,9 @@ lv70 | lv80 | lv90
 not needed | not needed | Sneaky Fisher +3
 || Bundle Sale +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Soaring Blue) @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
 

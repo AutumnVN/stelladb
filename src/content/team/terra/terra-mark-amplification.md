@@ -102,11 +102,13 @@ lv70 | lv80 | lv90
 Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Blinding Beam +3**
 || Trick Boost +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Colors Pierce the Grey, 6) @disc(Dancing with the Bones, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Veiled Dawn of Spring, 1) @disc(Little Paradise, 1)
 
-# Rotation
+## Rotation
 
 The goal of this team is to set up Nazuna and Tilia's skills before deploying Gerie to maximize her damage. It is important for Gerie's attacks to hit as not doing so results in an irrecoverable damage loss, to the point of warranting a full restart.
 

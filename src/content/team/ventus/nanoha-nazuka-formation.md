@@ -80,6 +80,8 @@ Skill DMG 20% | Ventus PEN 110 | Wind Demon Seed +3
 Crit Rate 15% | Skill DMG 20% | Self-Improvement +3
 ATK% 12% | Crit Rate 15% |
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Chronicles of Spring) @disc(Deer's Song) @disc(Daylight Garden) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Sky, Flowers, Poem) @disc(One, Two, Three, Jump!)

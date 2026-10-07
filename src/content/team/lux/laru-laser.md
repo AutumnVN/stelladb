@@ -87,6 +87,8 @@ lv70 | lv80 | lv90
 not needed | not needed | Fervent Applause +3
 || Radiant Synergy +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(A Moment in the Afternoon) @disc(Ripples of Nostalgia) @disc(Summer Sanctuary, 6) @disc(Midnight Mayhem) @disc(Sparkling Moment, 6) @disc(Prayer Beneath Light) @disc(Stellar Destination)

@@ -97,6 +97,8 @@ Kasimira is only used for her valuable Potential kit as none of her usable skill
 lv70 | lv80 | lv90
 not needed | not needed | not needed
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Snowy Night Surprise) @disc(Mystic Brushstrokes) @disc(Meowing Cat God) @disc(Fireworks) @disc(A Gift for the Journey, 6) @disc(One Shot, One Down, 6) @disc(Voyage Blueprint)

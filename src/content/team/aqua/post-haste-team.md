@@ -92,11 +92,13 @@ lv70 | lv80 | lv90
 Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Winter's Grip +3**
 || Guardian's Heart +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Soaring Blue) @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
 
-# Rotation
+## Rotation
 
 ### General Rotation
 

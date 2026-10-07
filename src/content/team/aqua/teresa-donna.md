@@ -87,6 +87,8 @@ Unfortunately, the buff scaling for both skills is a bit underwhelming compared 
 
 lv70 | lv80 | lv90
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Soaring Blue, 1) @disc(Sword Against Stream, 1) @disc(Fleeting Glimmers, 1) @disc(Sunlit Blossom, 1)

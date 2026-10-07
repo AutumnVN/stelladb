@@ -97,11 +97,13 @@ Charge Eff. (Supp) 40% | Charge Eff. (Supp) 40% | Enemy Counter +3
 | Support Skill Lv. +3 | Trick Boost +3
 || Knight Oath: Courage +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Ripples of Nostalgia) @disc(Stellar Destination) @disc(Sparkling Moment, 6) @disc(A Moment in the Afternoon) @disc(Summer Sanctuary, 6) @disc(Midnight Mayhem) @disc(Prayer Beneath Light)
 
-# Rotation
+## Rotation
 
 This team generally relies on Minova and Tilia to support Firefly to do as much damage as possible with their potentials.
 

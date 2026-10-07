@@ -148,11 +148,13 @@ not needed | not needed | Ink Sigil: Horn Call +3
 || Ink Sigil: Ambush +3
 || Ink Sigil: Barrier Construct +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Witch's Swing) @disc(Wisteria Dream) @disc(Dream Factory of ☆Truth) @disc(The Bud of Change, 6) @disc(Those with Ambition) @disc(The Meow, 6) @disc(Eclipse)
 
-# Rotation
+## Rotation
 
 The goal is to buff Mistique's minions as they are being summoned out of her circle.
 

@@ -156,6 +156,8 @@ not needed | Support Skill Lv. +3 | Windgate Barrier +3
 || Violent Current +3
 || Leveraged Boost +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Ripples of Nostalgia) @disc(Stellar Destination) @disc(Sparkling Moment, 6) @disc(A Moment in the Afternoon) @disc(Summer Sanctuary, 6) @disc(Midnight Mayhem) @disc(Prayer Beneath Light)

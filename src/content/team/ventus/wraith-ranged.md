@@ -98,7 +98,9 @@ lv70 | lv80 | lv90
 not needed | not needed | Structure Analysis +3
 || Storm Eye Expansion +3
 
-# Rotation
+# Other
+
+## Rotation
 
 Below are just notes that are being taken (so I don't forget)
 

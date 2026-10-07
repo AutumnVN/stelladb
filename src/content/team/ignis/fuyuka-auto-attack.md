@@ -128,6 +128,8 @@ Charge Eff. (Supp) 40% | Charge Eff. (Supp) 40% | Sigil Unleashed: Flame Glow +3
 || Ink Sigil: Horn Call +3
 || Ink Sigil: Ambush +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Snowy Night Surprise) @disc(Fireworks) @disc(Meowing Cat God) @disc(Mystic Brushstrokes) @disc(A Gift for the Journey, 6) @disc(One Shot, One Down, 6) @disc(Voyage Blueprint)

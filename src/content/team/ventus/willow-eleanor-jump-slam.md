@@ -76,11 +76,13 @@ Skill DMG 20% | Ventus PEN 110 | Skill DMG 20%
 Skill Crit Rate 7.5% | Skill DMG 20% |
 
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Deer's Song, 1) @disc(Fly, O Caged Bird, 1) @disc(Lemon & Black Tea, 6) @disc(One, Two, Three, Jump !, 6) @disc(Sky, Flowers, Poem, 1) @disc(Unknown Fragrance, 6) @disc(Traces of Starlight, 6)
 
-# Rotation
+## Rotation
 
 ### General Rotation
 

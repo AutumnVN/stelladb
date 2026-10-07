@@ -150,6 +150,8 @@ Crit Rate 15% | Crit Rate 15% | **Shadow Shackle +3**
 ATK% 12% | Umbra PEN 110 | Solar Absorption +3
 Umbra DMG 12% | ATK% 12% | Twin Born +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Ride the Waves With Me, 1) @disc(Petals of Blooming Mirage, 1) @disc(Witch's Swing, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Those with Ambition, 1) @disc(The Meow, 6) @disc(Phantom of the Banquet, 6)

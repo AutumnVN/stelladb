@@ -155,6 +155,8 @@ lv70 | lv80 | lv90
 not needed | not needed | Underground Healer +3
 || Tag of Fate +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Witch's Swing) @disc(Wisteria Dream) @disc(Dream Factory of ☆Truth) @disc(The Bud of Change, 6) @disc(Those with Ambition) @disc(The Meow, 6) @disc(Eclipse, 6)

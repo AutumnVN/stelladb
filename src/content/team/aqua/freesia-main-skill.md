@@ -106,6 +106,8 @@ lv70 | lv80 | lv90
 not needed | not needed | Shortcut Seeker +3
 || Isn't It Awesome! +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Soaring Blue) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)

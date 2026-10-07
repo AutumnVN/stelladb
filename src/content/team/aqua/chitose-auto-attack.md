@@ -147,6 +147,8 @@ not needed | not needed | Bundle Sale +3
 || Sneaky Fisher +3
 || Forced Liquidation +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Soaring Blue) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)

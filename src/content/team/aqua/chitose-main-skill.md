@@ -173,7 +173,9 @@ lv70 | lv80 | lv90
 || Sneaky Fisher +3
 || Forced Liquidation +3
 
-# Disc
+# Other
+
+## Disc
 
 @disc(Sword Against Stream, 1) @disc(Fleeting Glimmers, 1) @disc(Soaring Blue, 1) @disc(United by Fate, 6) @disc(Sunlit Blossom, 1) @disc(The Clash of Blade and Axe, 1) @disc(Delivered by the Breeze, 6)
 

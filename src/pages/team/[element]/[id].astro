@@ -1,11 +1,12 @@
 ---
 // @ts-nocheck
 import { Image } from 'astro:assets';
+import { YouTube } from 'astro-embed';
 import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 import Card from '@/components/Card.astro';
-import { loadAllTeams, buildNameIndex, findId, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitAssets } from '@/scripts/team.js';
+import { loadAllTeams, buildNameIndex, findId, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitMacros, youtubeId } from '@/scripts/team.js';
 
 export async function getStaticPaths() {
     const teams = loadAllTeams();
@@ -27,11 +28,46 @@ export async function getStaticPaths() {
     const skillIndex = buildSkillIndex(characterData);
     const potIndex = buildPotIndex(characterData);
 
+    const ytIds = new Set();
+    for (const team of teams) {
+        for (const tab of team.tabs) {
+            for (const section of tab.sections) {
+                if (section.type === 'youtube') {
+                    for (const item of section.items) {
+                        const id = youtubeId(item.name);
+                        if (id) ytIds.add(id);
+                    }
+                } else if (section.type === 'p') {
+                    for (const part of splitMacros(section.text)) {
+                        if (part.type !== 'youtube') continue;
+                        const id = youtubeId(part.url);
+                        if (id) ytIds.add(id);
+                    }
+                }
+            }
+        }
+    }
+
+    const ytTitles = Object.fromEntries(
+        await Promise.all(
+            [...ytIds].map(async (id) => {
+                try {
+                    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}&format=json`);
+                    if (!res.ok) return [id, null];
+                    const data = await res.json();
+                    return [id, typeof data.title === 'string' ? data.title : null];
+                } catch {
+                    return [id, null];
+                }
+            })
+        )
+    );
+
     return teams.map((team) => {
         const charId = team.character ? findId(charIndex, team.character) : null;
         const tabCharIds = {};
         for (const tab of team.tabs) {
-            if (tab.title.toLowerCase() === 'disc') continue;
+            if (tab.title.toLowerCase() === 'other') continue;
             const cid = findCharId(charIndex, tab.title);
             if (cid) tabCharIds[tab.id] = cid;
         }
@@ -41,12 +77,13 @@ export async function getStaticPaths() {
                 team: resolveIds(team, potIndex, discIndex, skillIndex, charId, tabCharIds, discData),
                 tabCharIds,
                 characterData,
+                ytTitles,
             },
         };
     });
 }
 
-const { team, tabCharIds, characterData } = Astro.props;
+const { team, tabCharIds, characterData, ytTitles } = Astro.props;
 
 const skillIndex = buildSkillIndex(characterData);
 
@@ -266,14 +303,27 @@ const embed = JSON.stringify({
                                     skillList.push({ name: n, entry });
                                     rest = rest.slice(mm[0].length);
                                 }
-                                const parts = splitAssets(rest);
-                                const hasAsset = parts.some((part) => part.type === 'asset');
+                                const parts = splitMacros(rest);
+                                const hasMacro = parts.some((part) => part.type !== 'text');
                                 const showSkills = skillList.length > 0 && !!rest.trim();
-                                if (!hasAsset && !showSkills) return <p class="indent" set:html={renderInline(section.text)} />;
+                                if (!hasMacro && !showSkills) return <p class="indent" set:html={renderInline(section.text)} />;
                                 return (
-                                    <div class="skill-prose">
+                                    <div class="macro-prose">
                                         {showSkills && skillList.map(({ name, entry }) => (entry ? <img src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
-                                        {hasAsset ? <p class="indent">{parts.map((part) => (part.type === 'asset' ? <Image src={assetUrl(part.path)} alt={assetName(part.path)} title={assetName(part.path)} width="64" height="64" /> : <Fragment set:html={renderInline(part.text)} />))}</p> : <p class="indent" set:html={renderInline(rest)} />}
+                                        {hasMacro ? (
+                                            <p class="indent">
+                                                {parts.map((part) => {
+                                                    if (part.type === 'asset') return <Image src={assetUrl(part.path)} alt={assetName(part.path)} title={assetName(part.path)} width="64" height="64" />;
+                                                    if (part.type === 'youtube') {
+                                                        const yt = youtubeId(part.url);
+                                                        return yt ? <YouTube id={yt} title={ytTitles?.[yt] || undefined} /> : <Fragment set:html={renderInline(part.raw)} />;
+                                                    }
+                                                    return <Fragment set:html={renderInline(part.text)} />;
+                                                })}
+                                            </p>
+                                        ) : (
+                                            <p class="indent" set:html={renderInline(rest)} />
+                                        )}
                                     </div>
                                 );
                             }
@@ -307,6 +357,16 @@ const embed = JSON.stringify({
                                         {section.items.map((item) => (
                                             <Image src={assetUrl(item.name)} alt={assetName(item.name)} title={assetName(item.name)} width="64" height="64" />
                                         ))}
+                                    </div>
+                                );
+                            }
+                            if (section.type === 'youtube') {
+                                return (
+                                    <div class="embeds indent">
+                                        {section.items.map((item) => {
+                                            const yt = youtubeId(item.name);
+                                            return yt ? <YouTube id={yt} title={ytTitles?.[yt] || undefined} /> : <p class="indent">{item.name}</p>;
+                                        })}
                                     </div>
                                 );
                             }
@@ -437,24 +497,43 @@ const embed = JSON.stringify({
         margin: 0;
     }
 
-    .skill-prose {
+    .macro-prose {
         display: flex;
         align-items: center;
         margin: 0;
     }
 
-    .skill-prose img {
+    .macro-prose img {
         flex: 0 0 auto;
     }
 
-    .skill-prose p {
+    .macro-prose p {
         margin: 0;
     }
 
-    .skill-prose p img {
+    .macro-prose p img {
         display: inline-block;
         vertical-align: middle;
         margin: 0 0.15em;
+    }
+
+    .macro-prose lite-youtube {
+        display: block;
+        max-width: 960px;
+        margin: 0.5rem 0;
+    }
+
+    .embeds {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin: 0;
+    }
+
+    .embeds lite-youtube {
+        width: 100%;
+        max-width: 960px;
     }
 
     .disc-list {

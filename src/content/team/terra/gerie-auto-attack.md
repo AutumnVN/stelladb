@@ -85,6 +85,8 @@ Ridge is only used for her Potential kit and none of her skills scale buffs or d
 
 lv70 | lv80 | lv90
 
-# Disc
+# Other
+
+## Disc
 
 @disc(The Lost Pilgrim) @disc(Claw the Claw) @disc(Dancing with the Bones) @disc(Colors Pierce the Grey) @disc(Wine Warm, Lamps Alight) @disc(Veiled Dawn of Spring) @disc(Sweet Times)

@@ -121,3 +121,7 @@ This team generally relies on Minova and Tilia to support Firefly to do as much 
 • Firefly takes 2.4s to start attacking so it is fine to deploy her early on.
 • Using Minova's skill after every 5th AA hit allows for **More Than Just Pretty** to have constant uptime.
 • Her 5th AA hit has a unique \*ding\* sound cue to aid you on when to use her Main Skill again.
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=R-MkppLXwqo)

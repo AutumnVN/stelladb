@@ -112,3 +112,7 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Winter's Grip +3**
 • Teresa: Only if you have **Wave Breaker** and/or need the i-frame
 • Donna: Between 2-8s remaining on her Supp. Skill cooldown
 • Freesia: Best used if Supp. Skill is also available
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=M437yvmzH94)

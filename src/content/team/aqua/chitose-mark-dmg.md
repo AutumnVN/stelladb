@@ -86,3 +86,7 @@ lv70 | lv80 | lv90
 ## Disc
 
 @disc(Sword Against Stream, 1) @disc(Fleeting Glimmers, 1) @disc(United by Fate, 6) @disc(Dappled Sunlight, 6) @disc(Sunlit Blossom, 1) @disc(Soaring Blue, 1) @disc(The Clash of Blade and Axe, 1)
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=igxGeWp5PsY)

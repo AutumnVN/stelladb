@@ -152,3 +152,7 @@ not needed | not needed | Bundle Sale +3
 ## Disc
 
 @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Soaring Blue) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=O5N1x3F2wBM)

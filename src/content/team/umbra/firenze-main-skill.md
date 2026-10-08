@@ -239,3 +239,7 @@ __with Mistique pre-casting__
 
 ### Tips
 • If you have Wisteria Dream as Main Disc, use Firenze's skill (or any Umbra unit that spawns a minion like Mistique) until she has 3 stacks of Reverence if the Boss Blitz stage allows it. The Evernight Emberflies stage is a perfect example for this as it is not an instant battle against the boss.
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=VUiktIb7FG4)

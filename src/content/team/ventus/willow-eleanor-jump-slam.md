@@ -90,3 +90,7 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 2. Nazuka Supp. Skill
 3. Wait 2s then use Eleanor Supp. Skill
 
+## Video
+
+@youtube(https://www.youtube.com/watch?v=VW-t72XSON4)
+

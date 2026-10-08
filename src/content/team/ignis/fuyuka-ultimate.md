@@ -154,3 +154,7 @@ __Flora (without Reincarnation of Fire)__
 2. Wait 2s and then use XLaru Supp. Skill + Ultimate
 3. Wait 3s and then use Flora Supp. Skill
 4. Wait 2s then use Fuyuka's Ultimate
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=c2UFkY52dTc)

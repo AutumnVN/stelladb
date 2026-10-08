@@ -141,3 +141,7 @@ This team is pretty straightforward and even auto friendly as there is no need f
 • Otoha: Whenever available as long as her skill is not cancelled.
 • Mistique: Whenever available as long as her skill is not cancelled.
 • Coronis: Preferably when the enemy has resilience bar active.
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=VUiktIb7FG4)

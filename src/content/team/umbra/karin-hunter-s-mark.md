@@ -155,3 +155,7 @@ Umbra DMG 12% | ATK% 12% | Twin Born +3
 ## Disc
 
 @disc(Ride the Waves With Me, 1) @disc(Petals of Blooming Mirage, 1) @disc(Witch's Swing, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Those with Ambition, 1) @disc(The Meow, 6) @disc(Phantom of the Banquet, 6)
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=JjntJffv3bA&t=544)

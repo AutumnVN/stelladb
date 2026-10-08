@@ -161,3 +161,7 @@ not needed | Support Skill Lv. +3 | Windgate Barrier +3
 ## Disc
 
 @disc(Ripples of Nostalgia) @disc(Stellar Destination) @disc(Sparkling Moment, 6) @disc(A Moment in the Afternoon) @disc(Summer Sanctuary, 6) @disc(Midnight Mayhem) @disc(Prayer Beneath Light)
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=R-MkppLXwqo)

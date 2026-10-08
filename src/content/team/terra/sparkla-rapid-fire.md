@@ -131,3 +131,7 @@ not needed | not needed | Corrosive Vines +3
 ## Disc
 
 @disc(Little Paradise, 1) @disc(Veiled Dawn of Spring, 1) @disc(Colors Pierce the Grey, 6) @disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Touch of Miracle, 6)
+
+## Video
+
+@youtube(https://www.youtube.com/watch?v=Neu7ID0u2VU)

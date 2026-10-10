@@ -5,7 +5,7 @@ wip: false
 
 # Wraith
 
-Wraith's Auto Attack build utilizes her melee mode to summon tornados with **Last Gasp of Gale** and **Twin Shadows**. To maximize the amount of tornados she can summon, do the Main Skill x1 -> Auto Attack -> Main Skill x1 -> Auto Attack rotation. This will allow her to consistently summon and maintain 3 tornados against the enemy,
+Wraith's Auto Attack build utilizes her melee mode to summon tornados with **Last Gasp of Gale** and **Twin Shadows**. To maximize the amount of tornados she can summon, do the Main Skill x1 → Auto Attack → Main Skill x1 → Auto Attack rotation. This will allow her to consistently summon and maintain 3 tornados against the enemy,
 
 **★ Key Notes:**
 • Unlike other teams, this team thrives on maximizing Melody of Focus notes, since **Blade's Waltz**, **Zero Hour**, and **Rapid Draw** scale poorly with more levels by comparison.

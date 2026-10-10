@@ -78,7 +78,7 @@ Of course Tilia is involved yet again when Mark DMG is involved thanks to **Blin
 ## Emblem
 
 lv70 | lv80 | lv90
-**Charge Eff. (Supp) 40%** | Support Skill Lv. +3 | **Blinding Beam +3**
+**Charge Eff. (Supp) 40%** | **Support Skill Lv. +3** | **Blinding Beam +3**
 || Trick Boost +3
 
 # Other

@@ -161,4 +161,4 @@ lv70 | lv80 | lv90
 
 ## Disc
 
-@disc(Bedtime Story, 1) @disc(Fleeting Glimmers, 1) @disc(Soaring Blue, 1) @disc(Sunlit Blossom, 1) @disc(Sword Against Stream, 1) @disc(Unity of Fate, 6) @disc(Dappled Sunlight, 6)
+@disc(Bedtime Story, 1) @disc(Fleeting Glimmers, 1) @disc(Soaring Blue, 1) @disc(Sunlit Blossom, 1) @disc(Sword Against Stream, 1) @disc(United by Fate, 6) @disc(Dappled Sunlight, 6)

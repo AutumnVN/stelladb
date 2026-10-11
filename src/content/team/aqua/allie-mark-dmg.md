@@ -174,7 +174,7 @@ not needed | not needed | **Frostbitten Arrow +3**
 
 ## Disc
 
-@disc(Bedtime Story, 1) @disc(All That Was Beautiful, 6) @disc(Fleeting Glimmers, 1) @disc(Sword Against Stream, 1) @disc(Unity of Fate, 6) @disc(Dappled Sunlight, 6) @disc(Delivered by the Breeze, 6)
+@disc(Bedtime Story, 1) @disc(All That Was Beautiful, 6) @disc(Fleeting Glimmers, 1) @disc(Sword Against Stream, 1) @disc(United by Fate, 6) @disc(Dappled Sunlight, 6) @disc(Delivered by the Breeze, 6)
 
 ## Video
 

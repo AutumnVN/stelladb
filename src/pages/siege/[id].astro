@@ -1,0 +1,115 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import Page from '@/components/Page.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/siege.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((id) => ({
+        params: { id },
+        props: { siege: data[id] },
+    }));
+}
+
+const {
+    params: { id },
+    props: { siege },
+} = Astro;
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!siege) {
+    throw Astro.redirect('/404');
+}
+
+const image = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/tracehunt/${siege.icon}.webp`;
+
+const embedLines = [`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}`, `Resist: ${siege.resistTo}${emoji[siege.resistTo]}`, `Season: ${siege.seasons.join(', ')}`].filter(Boolean);
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [{ type: 9, components: [{ type: 10, content: [`## **[${siege.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: image } } }],
+    },
+});
+---
+
+<Layout title={`${siege.name} | stelladb`} image={image} description={`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${siege.resistTo}${emoji[siege.resistTo]}, Season: ${siege.seasons.join(', ')}`} embed={embed}>
+    <Page data-json={JSON.stringify(siege)}>
+        <Fragment slot="header">
+            <h1>{siege.name}</h1>
+        </Fragment>
+
+        <Fragment slot="left">
+            <a href={image} target="_blank">
+                <Image src={image} alt={siege.name} title={siege.name} width="256" height="256" densities={[1.25]} />
+            </a>
+            <div class="info">
+                <p class="indent">
+                    {`Season: ${siege.seasons.join(', ')}`}<br />
+                    {`Type: ${siege.type}`}<br />
+                    {`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
+                    {`Resist: ${siege.resistTo}${emoji[siege.resistTo]}`}<br />
+                </p>
+            </div>
+        </Fragment>
+
+        <Fragment slot="right">
+            <div class="slider-container">
+                <div class="slider level">
+                    <label class="level-output">Level: 1 <input type="range" id="level" min="1" max={siege.stat?.length} value={30} /></label>
+                </div>
+            </div>
+
+            <div class="stats">
+                <h2>Stats</h2>
+                <p class="indent">
+                    {
+                        siege.stat?.length &&
+                            Object.entries(siege.stat[0]).map(([stat, value]) => (
+                                <>
+                                    {stat}: {value.toLocaleString('en-US')}
+                                    {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                    <br />
+                                </>
+                            ))
+                    }
+                </p>
+            </div>
+        </Fragment>
+    </Page>
+
+    <script>
+        // @ts-nocheck
+        const siege = JSON.parse(document.querySelector('.page').dataset.json);
+
+        const levelInput = document.querySelector('#level');
+        const levelOutput = document.querySelector('.level-output');
+        const stats = document.querySelector('.stats p');
+
+        levelInput.addEventListener('input', onLevelInput);
+        onLevelInput();
+
+        function onLevelInput() {
+            const level = +levelInput.value;
+            levelOutput.childNodes[0].nodeValue = `Level: ${level} `;
+            stats.innerHTML = siege.stat?.length
+                ? `${Object.entries(siege.stat[level - 1])
+                      .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
+                      .join('')}`
+                : 'No stats available';
+        }
+    </script>
+</Layout>

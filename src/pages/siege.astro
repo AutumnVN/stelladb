@@ -1,0 +1,64 @@
+---
+// @ts-nocheck
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+import Layout from '@/layouts/Layout.astro';
+
+const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/siege.json';
+
+const data = await fetch(DATA_URL).then((res) => res.json());
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+---
+
+<Layout title="Shadow Siege | stelladb" pagefindIgnore={true}>
+    <SearchableGrid placeholder="Search bosses by id/name/season/weakto/resistto" noResultsText="No boss found.">
+        {
+            Object.entries(data).map(([id, siege]) => (
+                <div class="card-item" data-id={id} data-name={`${siege.name} S${siege.seasons.join(',')}`} data-season={siege.seasons.join(',')} data-weakto={siege.weakTo.join(', ')} data-resistto={siege.resistTo}>
+                    <Card href={`/siege/${id}`} name={`${siege.name} S${siege.seasons.join(',')}`} desc={`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${siege.resistTo}${emoji[siege.resistTo]}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/tracehunt/${siege.icon}.webp`} inset={-30} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>
+
+<script>
+    // @ts-nocheck
+    const TRACEHUNTCONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/TraceHuntControl.json';
+    const traceHuntControl = await fetch(TRACEHUNTCONTROL_URL).then((res) => res.json());
+    const currentSeason = Object.values(traceHuntControl).filter((season) => Date.now() >= new Date(season.StartTime) && Date.now() <= new Date(season.EndTime))[0];
+    const upcomingSeasons = Object.values(traceHuntControl).filter((season) => Date.now() < new Date(season.StartTime));
+    const cardItems = document.querySelectorAll('.card-item');
+
+    cardItems.forEach((cardItem) => {
+        const id = cardItem.getAttribute('data-id');
+        if (currentSeason?.BossList?.includes(+id)) {
+            cardItem.querySelector('.card-border').classList.add('current');
+        } else if (upcomingSeasons.some((season) => season.BossList.includes(+id))) {
+            cardItem.querySelector('.card-border').classList.add('upcoming');
+        }
+    });
+</script>
+
+<style is:global>
+    .card-border {
+        &.current {
+            border: var(--green) 5px solid;
+            border-radius: 5px;
+        }
+
+        &.upcoming {
+            border: var(--blue) 5px solid;
+            border-radius: 5px;
+        }
+    }
+</style>

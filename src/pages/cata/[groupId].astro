@@ -1,0 +1,57 @@
+---
+// @ts-nocheck
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/cata.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).map((groupId) => ({
+        params: { groupId },
+        props: { group: data[groupId] },
+    }));
+}
+
+const {
+    params: { groupId },
+    props: { group },
+} = Astro;
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!group) {
+    throw Astro.redirect('/404');
+}
+
+const embedLines = [`${Object.keys(group.diff).length} stages`];
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [{ type: 9, components: [{ type: 10, content: [`## **[${group.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${group.icon}.webp` } } }],
+    },
+});
+---
+
+<Layout title={`${group.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${group.icon}.webp`} description={group.name} pagefindIgnore={true} embed={embed}>
+    <SearchableGrid placeholder={`Search ${group.name} stages by id/name/weakto/resistto`} noResultsText="No cataclysm stage found.">
+        {
+            Object.entries(group.diff).map(([id, diff]) => (
+                <div class="card-item" data-id={id} data-name={diff.name} data-weakto={diff.weakTo.join(', ')} data-resistto={diff.resistTo.join(', ')}>
+                    <Card href={`/cata/${groupId}/${id}`} name={diff.name} desc={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${diff.icon}.webp`} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>;

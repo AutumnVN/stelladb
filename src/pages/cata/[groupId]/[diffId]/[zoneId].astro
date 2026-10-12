@@ -1,0 +1,67 @@
+---
+// @ts-nocheck
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+    const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/cata.json';
+    const data = await fetch(DATA_URL).then((res) => res.json());
+
+    return Object.keys(data).flatMap((groupId) =>
+        Object.keys(data[groupId].diff).flatMap((diffId) =>
+            Object.keys(data[groupId].diff[diffId].zone).map((zoneId) => ({
+                params: { groupId, diffId, zoneId },
+                props: {
+                    group: data[groupId],
+                    diff: data[groupId].diff[diffId],
+                    zone: data[groupId].diff[diffId].zone[zoneId],
+                },
+            })),
+        ),
+    );
+}
+
+const {
+    params: { groupId, diffId, zoneId },
+    props: { group, diff, zone },
+} = Astro;
+
+const emoji = {
+    Aqua: '💧',
+    Ignis: '🔥',
+    Terra: '⛰️',
+    Ventus: '🌪️',
+    Lux: '☀️',
+    Umbra: '🌙',
+    None: '⬜',
+};
+
+if (!group || !diff || !zone) {
+    throw Astro.redirect('/404');
+}
+
+const boss = zone.monster.find((m) => m.boss);
+
+const embedLines = [`Weak: ${(zone.weakTo || []).map((e) => e + emoji[e]).join(', ') || '⬜ None'}`, `${zone.monster.length} monsters`];
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [{ type: 9, components: [{ type: 10, content: [`## **[${diff.name} ${zone.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: boss ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${boss.icon}.webp` : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${diff.icon}.webp` } } }],
+    },
+});
+---
+
+<Layout title={`${diff.name} ${zone.name} | stelladb`} image={boss ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${boss.icon}.webp` : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${diff.icon}.webp`} description={`Weak: ${(zone.weakTo || []).map((e) => e + emoji[e]).join(', ') || 'None'}`} pagefindIgnore={true} embed={embed}>
+    <SearchableGrid placeholder={`Search ${diff.name} monsters by id/name/weakto/resistto`} noResultsText="No cataclysm monster found.">
+        {
+            zone.monster.map((monster, id) => (
+                <div class="card-item" data-id={id} data-name={monster.name} data-weakto={monster.weakTo.join(', ')} data-resistto={monster.resistTo}>
+                    <Card href={`/cata/${groupId}/${diffId}/${zoneId}/${id}`} name={monster.name} desc={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} inset={-30} charClass={monster.type !== 'Normal' && monster.type} />
+                </div>
+            ))
+        }
+    </SearchableGrid>
+</Layout>

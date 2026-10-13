@@ -17,17 +17,17 @@ Teresa takes on the Main slot as a support role of this team as she is able to p
 
 1/1+/1/1 (Main Skill only, otherwise not needed)
 
-@skill(Limpid Stream) Upgrading **Limpid Stream (Main Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself struggling to survive.
+skill[Limpid Stream] Upgrading **Limpid Stream (Main Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself struggling to survive.
 
 ## Potential
 
 ### Priority
 
-@pot(Stream: True Charged Strike) @pot(Stream: Drip's Overturn) @pot(Cordiality, 6) @pot(Muddy Engulf, 6) @pot(Unbreakable Bond, 6) @pot(Magic Sword Siphoning, 1)
+pot[Stream: True Charged Strike] pot[Stream: Drip's Overturn] pot[Cordiality, 6] pot[Muddy Engulf, 6] pot[Unbreakable Bond, 6] pot[Magic Sword Siphoning, 1]
 
 ### Optional
 
-@pot(Magic Sword Smack, 1) @pot(Restarting, 1) @pot(Guardsman Blessing, 1+) @pot(Wave Breaker, 6) @pot(Power Unbound, 1+)
+pot[Magic Sword Smack, 1] pot[Restarting, 1] pot[Guardsman Blessing, 1+] pot[Wave Breaker, 6] pot[Power Unbound, 1+]
 
 ## Emblem
 
@@ -44,13 +44,13 @@ not needed | not needed | Cordiality +3
 
 1/1/10/1 (Support Skill only)
 
-@skill(Tide Threader) **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
+skill[Tide Threader] **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
 
 ## Potential
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Arrow Pursuit, 6) @pot(Frostbitten Arrow, 6) @pot(Aquatic Assault, 6) @pot(Water Ripple, 6) @pot(Chilling Onslaught, 1)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Arrow Pursuit, 6] pot[Frostbitten Arrow, 6] pot[Aquatic Assault, 6] pot[Water Ripple, 6] pot[Chilling Onslaught, 1]
 
 ## Emblem
 
@@ -80,11 +80,11 @@ However, if you still want to do so, upgrade **Frost Bloom (Support Skill)** to 
 
 ### Priority
 
-@pot(Realm of Frost) @pot(Localized Snowfall) @pot(Winter's Grip, 6) @pot(Guardian's Heart, 6)
+pot[Realm of Frost] pot[Localized Snowfall] pot[Winter's Grip, 6] pot[Guardian's Heart, 6]
 
 ### Optional
 
-@pot(Blessing of Faith, 1) @pot(Penetrating Chill, 1+) @pot(Ice Vortex, 1+)
+pot[Blessing of Faith, 1] pot[Penetrating Chill, 1+] pot[Ice Vortex, 1+]
 
 ## Emblem
 
@@ -96,7 +96,7 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Winter's Grip +3**
 
 ## Disc
 
-@disc(Soaring Blue) @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
+disc[Soaring Blue] disc[Sword Against Stream] disc[Sunlit Blossom] disc[The Clash of Blade and Axe] disc[Delivered by the Breeze] disc[United by Fate] disc[Summer Afternoon Rain]
 
 ## Rotation
 
@@ -115,4 +115,4 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Winter's Grip +3**
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=M437yvmzH94)
+youtube[https://www.youtube.com/watch?v=M437yvmzH94]

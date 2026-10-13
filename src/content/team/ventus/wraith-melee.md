@@ -14,21 +14,21 @@ Wraith's Auto Attack build utilizes her melee mode to summon tornados with **Las
 
 1+/10/1/1+ (Main Skill >>> Auto Attack > Ultimate)
 
-@skill(Whirling Onslaught) **Whirling Onslaught (Main Skill)** is the main priority to level up for this build since **Last Gasp of Gale** and **Twin Shadows** scale with its level.
+skill[Whirling Onslaught] **Whirling Onslaught (Main Skill)** is the main priority to level up for this build since **Last Gasp of Gale** and **Twin Shadows** scale with its level.
 
-@skill(Swish and Fire) **Swish and Fire (Auto Attack)** is the second priority, although you can take your time with it as the damage it can contribute is not that much and nothing scales based on its level.
+skill[Swish and Fire] **Swish and Fire (Auto Attack)** is the second priority, although you can take your time with it as the damage it can contribute is not that much and nothing scales based on its level.
 
-@skill(Thousand Shade Dance) **Thousand Shade Dance (Ultimate)** is the lowest priority since, at most, she can only use it thrice and does not leave that much of an impact compared to the rest.
+skill[Thousand Shade Dance] **Thousand Shade Dance (Ultimate)** is the lowest priority since, at most, she can only use it thrice and does not leave that much of an impact compared to the rest.
 
 ## Potential
 
 ### Priority
 
-@pot(Last Gasp of Gale) @pot(Twin Shadows) @pot(Dauntless Poise, 6) @pot(Tempest Stance, 6) @pot(Blade's Waltz, 1+) @pot(Zero Hour, 1+) @pot(Rapid Draw, 1+)
+pot[Last Gasp of Gale] pot[Twin Shadows] pot[Dauntless Poise, 6] pot[Tempest Stance, 6] pot[Blade's Waltz, 1+] pot[Zero Hour, 1+] pot[Rapid Draw, 1+]
 
 ### Optional
 
-@pot(Unseen Predator, 1) @pot(Daybreaker, 1)
+pot[Unseen Predator, 1] pot[Daybreaker, 1]
 
 ## Emblem
 
@@ -50,17 +50,17 @@ Ann supports the team by giving a lot of Ventus DMG Taken debuffs and ATK% buffs
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Warm Wind Guard) @pot(Wind Banish) @pot(Turbulent Flow, 6) @pot(Wind Erosion Havoc, 6) @pot(Windgate Barrier, 6) @pot(Forest Princess' Blessing, 6)
+pot[Warm Wind Guard] pot[Wind Banish] pot[Turbulent Flow, 6] pot[Wind Erosion Havoc, 6] pot[Windgate Barrier, 6] pot[Forest Princess' Blessing, 6]
 
 ### Optional
 
-@pot(Gale Bastion) @pot(Speed Surge, 1)
+pot[Gale Bastion] pot[Speed Surge, 1]
 
 ## Emblem
 
@@ -80,7 +80,7 @@ not needed | **Support Skill Lv. +3** | **Forest Princess' Blessing +3**
 
 ### Priority
 
-@pot(Function Sustain) @pot(Cluster Barrage) @pot(Piercing Trajectory, 6) @pot(Precision Calibration, 6) @pot(Annihilation Echo, 6) @pot(Suppression Analysis, 6) @pot(Power Amp, 6)
+pot[Function Sustain] pot[Cluster Barrage] pot[Piercing Trajectory, 6] pot[Precision Calibration, 6] pot[Annihilation Echo, 6] pot[Suppression Analysis, 6] pot[Power Amp, 6]
 
 ## Emblem
 
@@ -98,17 +98,17 @@ If you don't have Eleanor, Nazuka is still able to act as this team's sub-DPS, c
 
 1/1/10/1 (Support Skill only)
 
-@skill(Bouquet Blast) **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
+skill[Bouquet Blast] **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
 
 ## Potential
 
 ### Priority
 
-@pot(Flower Formation: Waves) @pot(Flower Formation: Turbulent) @pot(Flower Formation: Convergence, 6) @pot(Almighty Leader, 6) @pot(Self-Improvement, 6) @pot(Wind Demon Seed, 1+)
+pot[Flower Formation: Waves] pot[Flower Formation: Turbulent] pot[Flower Formation: Convergence, 6] pot[Almighty Leader, 6] pot[Self-Improvement, 6] pot[Wind Demon Seed, 1+]
 
 ### Optional
 
-@pot(Flower Formation: Blast, 1+)
+pot[Flower Formation: Blast, 1+]
 
 ## Emblem
 
@@ -135,7 +135,7 @@ Minova is only used for her Potentials and none of her skills provide any buffs 
 
 ### Priority
 
-@pot(Four-Star Wanted Level) @pot(Star Core Crumbled) @pot(Fervent Applause, 6) @pot(Three Base Hit, 6) @pot(Radiant Synergy, 1+)
+pot[Four-Star Wanted Level] pot[Star Core Crumbled] pot[Fervent Applause, 6] pot[Three Base Hit, 6] pot[Radiant Synergy, 1+]
 
 ## Emblem
 
@@ -161,7 +161,7 @@ Canace is only used for her Potentials and none of her skills provide any buffs 
 
 ### Priority
 
-@pot(Grants Efficient Delving) @pot(Grants Speedup Notion) @pot(Structure Analysis, 6) @pot(Conclusion Analysis, 1) @pot(Storm Eye Expansion, 6)
+pot[Grants Efficient Delving] pot[Grants Speedup Notion] pot[Structure Analysis, 6] pot[Conclusion Analysis, 1] pot[Storm Eye Expansion, 6]
 
 ## Emblem
 
@@ -173,7 +173,7 @@ not needed | not needed | Structure Analysis +3
 
 ## Disc
 
-@disc(Chronicles of Spring) @disc(Deer's Song) @disc(Daylight Garden) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Sky, Flowers, Poem) @disc(One, Two, Three, Jump!)
+disc[Chronicles of Spring] disc[Deer's Song] disc[Daylight Garden] disc[Lemon & Black Tea] disc[Dawn After Winter] disc[Sky, Flowers, Poem] disc[One, Two, Three, Jump!]
 
 ## Rotation
 

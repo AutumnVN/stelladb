@@ -17,21 +17,21 @@ Just as the Snow Rabbit build is recognized as the best boss-fighting compositio
 
 10/10/1/10 (Auto Attack > Main Skill >= Ultimate)
 
-@skill(Sail of Twin Moons) **Sail of Twin Moons (Auto Attack)** will be the main priority to level for this build.
+skill[Sail of Twin Moons] **Sail of Twin Moons (Auto Attack)** will be the main priority to level for this build.
 
-@skill(Whirling Waves) **Moonlight Overflow** and **Astral Pirouette** scales based on the level of **Whirling Waves (Main Skill)**.
+skill[Whirling Waves] **Moonlight Overflow** and **Astral Pirouette** scales based on the level of **Whirling Waves (Main Skill)**.
 
-@skill(Divine Deluge) **Divine Deluge (Ultimate)** helps with dealing against tanky enemies. Due to the nature of this build being strictly good against AOE, sudden singular tanky enemies becomes a pain to deal without using Ult.
+skill[Divine Deluge] **Divine Deluge (Ultimate)** helps with dealing against tanky enemies. Due to the nature of this build being strictly good against AOE, sudden singular tanky enemies becomes a pain to deal without using Ult.
 
 ## Potential
 
 ### Priority
 
-@pot(Moonlight Overflow) @pot(Astral Pirouette) @pot(Lunar Detonation, 6) @pot(Final Crescent, 6) @pot(Lunar Combo, 6) @pot(Rabbit's Beam, 6)
+pot[Moonlight Overflow] pot[Astral Pirouette] pot[Lunar Detonation, 6] pot[Final Crescent, 6] pot[Lunar Combo, 6] pot[Rabbit's Beam, 6]
 
 ### Optional
 
-@pot(Wave to Oblivion, 1+) @pot(Glacial Dash, 1+) @pot(Subzero Dominion, 1+) @pot(Leporine Gale, 1+)
+pot[Wave to Oblivion, 1+] pot[Glacial Dash, 1+] pot[Subzero Dominion, 1+] pot[Leporine Gale, 1+]
 
 ## Emblem
 
@@ -52,17 +52,17 @@ Tilia is the premier must-have support for Lux teams as she provides Lux DMG Tak
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Holy Inscription) @pot(Perfect Spiral) @pot(Trick Boost, 6) @pot(Blinding Beam, 6) @pot(Guardian's Resolve, 1+) @pot(Knight's Seal, 1)
+pot[Holy Inscription] pot[Perfect Spiral] pot[Trick Boost, 6] pot[Blinding Beam, 6] pot[Guardian's Resolve, 1+] pot[Knight's Seal, 1]
 
 ### Optional
 
-@pot(Knight Oath: Courage, 1+)
+pot[Knight Oath: Courage, 1+]
 
 ## Emblem
 
@@ -91,11 +91,11 @@ Despite Minova's high scaling on her support skill, it is better for her to be r
 
 ### Priority
 
-@pot(Four-Star Wanted Level) @pot(Star Core Crumbled) @pot(Fervent Applause, 6) @pot(Radiant Synergy, 6) @pot(Three Base Hit, 6) @pot(Ashwind's Wrath, 1)
+pot[Four-Star Wanted Level] pot[Star Core Crumbled] pot[Fervent Applause, 6] pot[Radiant Synergy, 6] pot[Three Base Hit, 6] pot[Ashwind's Wrath, 1]
 
 ### Optional
 
-@pot(Oath Satellite) @pot(Perfect Arc, 1+)
+pot[Oath Satellite] pot[Perfect Arc, 1+]
 
 ## Emblem
 
@@ -115,13 +115,13 @@ Ann is a great alternative in case you do not have Minova on your account as she
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Gale Bastion) @pot(Warm Wind Guard) @pot(Windgate Barrier, 6) @pot(Violent Current, 6) @pot(Leveraged Boost, 1+)
+pot[Gale Bastion] pot[Warm Wind Guard] pot[Windgate Barrier, 6] pot[Violent Current, 6] pot[Leveraged Boost, 1+]
 
 ## Emblem
 
@@ -134,4 +134,4 @@ not needed | Support Skill Lv. +3 | Windgate Barrier +3
 
 ## Disc
 
-@disc(Ripples of Nostalgia) @disc(Stellar Destination) @disc(Sparkling Moment, 6) @disc(A Moment in the Afternoon) @disc(Summer Sanctuary, 6) @disc(Midnight Mayhem) @disc(Prayer Beneath Light)
+disc[Ripples of Nostalgia] disc[Stellar Destination] disc[Sparkling Moment, 6] disc[A Moment in the Afternoon] disc[Summer Sanctuary, 6] disc[Midnight Mayhem] disc[Prayer Beneath Light]

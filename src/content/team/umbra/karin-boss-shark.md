@@ -15,7 +15,7 @@ wip: true
 
 ### Priority
 
-@pot(Predator's Vortex) @pot(Shark Ambush) @pot(Aura of Unity, 6) @pot(Deep-Sea Conflict, 6) @pot(Crashing Wave, 6) @pot(Twin Predator, 6) @pot(Hunter's Command, 6)
+pot[Predator's Vortex] pot[Shark Ambush] pot[Aura of Unity, 6] pot[Deep-Sea Conflict, 6] pot[Crashing Wave, 6] pot[Twin Predator, 6] pot[Hunter's Command, 6]
 
 ## Emblem
 
@@ -38,17 +38,17 @@ Cosette is the staple support for any Umbra team at the moment due to the consis
 
 1/1/10/1 (Support Skill only)
 
-@skill(Abyssal Hunter) **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
+skill[Abyssal Hunter] **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Phantom Mark) @pot(Eclipse Imprint) @pot(Dark: Afterglow, 6) @pot(Dark: Demon Mark, 6) @pot(Gift of Darkness, 6)
+pot[Phantom Mark] pot[Eclipse Imprint] pot[Dark: Afterglow, 6] pot[Dark: Demon Mark, 6] pot[Gift of Darkness, 6]
 
 ### Optional
 
-@pot(Dark: Mirage, 6) @pot(Nether Blaze, 6) @pot(Dark: Hallucination, 1+)
+pot[Dark: Mirage, 6] pot[Nether Blaze, 6] pot[Dark: Hallucination, 1+]
 
 ## Emblem
 
@@ -73,17 +73,17 @@ Otoha's laser build pales in comparison with her skill build when it comes to pr
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha as **Night-Walker**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha as **Night-Walker**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Lonely Twin Shadows) @pot(Night-Walker) @pot(Devouring Shadow, 6) @pot(Solitary Lantern, 6) @pot(Without A Trace, 6) @pot(Murmur of Annihilation, 6)
+pot[Lonely Twin Shadows] pot[Night-Walker] pot[Devouring Shadow, 6] pot[Solitary Lantern, 6] pot[Without A Trace, 6] pot[Murmur of Annihilation, 6]
 
 ### Optional
 
-@pot(Hollow Steps, 1+)
+pot[Hollow Steps, 1+]
 
 ## Emblem
 
@@ -105,17 +105,17 @@ Otoha's skill build relies on the synergy of **Ripple of Shadow**, Evening Rain,
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Ripple of Shadow) @pot(Evening Rain) @pot(Devouring Shadow, 6) @pot(Rain-Woven Sorrow, 6) @pot(Bone-Chilling Rain, 6) @pot(Murmur of Annihilation, 1+)
+pot[Ripple of Shadow] pot[Evening Rain] pot[Devouring Shadow, 6] pot[Rain-Woven Sorrow, 6] pot[Bone-Chilling Rain, 6] pot[Murmur of Annihilation, 1+]
 
 ### Optional
 
-@pot(Inevitable End, 1+) @pot(Silent Knell, 1+)
+pot[Inevitable End, 1+] pot[Silent Knell, 1+]
 
 ## Emblem
 
@@ -133,17 +133,17 @@ Mistique acts as a sub-DPS and debuffer for the team using her typical minion bu
 
 1/1/10/1 (Support Skill only)
 
-@skill(Summoning Circle) **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
+skill[Summoning Circle] **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Happy Face) @pot(Reality Erosion) @pot(The Conjuring, 6) @pot(Shadow Shackle, 6) @pot(Solar Absorption, 6)
+pot[Happy Face] pot[Reality Erosion] pot[The Conjuring, 6] pot[Shadow Shackle, 6] pot[Solar Absorption, 6]
 
 ### Optional
 
-@pot(Malice, 1) @pot(Twin Born, 6) @pot(Wraith Haunting, 1+)
+pot[Malice, 1] pot[Twin Born, 6] pot[Wraith Haunting, 1+]
 
 ## Emblem
 
@@ -157,8 +157,8 @@ Umbra DMG 12% | ATK% 12% | Twin Born +3
 
 ## Disc
 
-@disc(Ride the Waves With Me, 1) @disc(Petals of Blooming Mirage, 1) @disc(Witch's Swing, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Those with Ambition, 1) @disc(The Meow, 6) @disc(Phantom of the Banquet, 6)
+disc[Ride the Waves With Me, 1] disc[Petals of Blooming Mirage, 1] disc[Witch's Swing, 1] disc[Dream Factory of ☆Truth, 1] disc[Those with Ambition, 1] disc[The Meow, 6] disc[Phantom of the Banquet, 6]
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=JjntJffv3bA)
+youtube[https://www.youtube.com/watch?v=JjntJffv3bA]

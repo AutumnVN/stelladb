@@ -15,13 +15,13 @@ Nazuna is able to provide high amounts of buffs and debuffs through her skills a
 
 1/10/1/10 (Main Skill > Ultimate)
 
-@skill(Plushie Dance) **Plushie Dance (Main Skill)** is the primary priority as it provides Terra DMG Taken debuff to enemies, which scales based on the skill's level.
+skill[Plushie Dance] **Plushie Dance (Main Skill)** is the primary priority as it provides Terra DMG Taken debuff to enemies, which scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Small Force) @pot(Wobble Dance) @pot(Wily Wonder, 6) @pot(Cutie's Rally, 6) @pot(Fill the Gap, 6) @pot(Swiftstep, 6) @pot(Focus Fire, 6)
+pot[Small Force] pot[Wobble Dance] pot[Wily Wonder, 6] pot[Cutie's Rally, 6] pot[Fill the Gap, 6] pot[Swiftstep, 6] pot[Focus Fire, 6]
 
 ## Emblem
 
@@ -41,13 +41,13 @@ S. Coronis' Rose Vial build allows you to speedrun because she can dish out a de
 
 1/1/10/1 (Support Skill only)
 
-@skill(Instant Blossom) **Instant Blossom (Support Skill)** is the only source of damage for S. Coronis in this speedrun team. **Essence Extraction**'s insane damage multiplier depends heavily on its skill level so make sure that it is maxed.
+skill[Instant Blossom] **Instant Blossom (Support Skill)** is the only source of damage for S. Coronis in this speedrun team. **Essence Extraction**'s insane damage multiplier depends heavily on its skill level so make sure that it is maxed.
 
 ## Potential
 
 ### Priority
 
-@pot(Essence Extraction) @pot(Vernal Breath) @pot(Perfect Touch, 6) @pot(Symptom Sight, 6) @pot(Herbal Tempering, 6) @pot(Flying Fire, 6) @pot(Aromatic Room, 6)
+pot[Essence Extraction] pot[Vernal Breath] pot[Perfect Touch, 6] pot[Symptom Sight, 6] pot[Herbal Tempering, 6] pot[Flying Fire, 6] pot[Aromatic Room, 6]
 
 ## Emblem
 
@@ -69,13 +69,13 @@ Tilia's role for the team is to provide high amounts of buffs through her Suppor
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals damage. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals damage. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Renewed Spectrum) @pot(Perfect Spiral) @pot(Trick Boost, 6) @pot(Revealed Flaw, 6)
+pot[Renewed Spectrum] pot[Perfect Spiral] pot[Trick Boost, 6] pot[Revealed Flaw, 6]
 
 ## Emblem
 
@@ -101,7 +101,7 @@ Ridge is only used for her Potential kit and none of her skills scale buffs or d
 
 ### Priority
 
-@pot(Reblossom) @pot(Sense the Stir) @pot(Corrosive Vines, 6) @pot(Root Grasp, 6) @pot(Small Changes, 1+)
+pot[Reblossom] pot[Sense the Stir] pot[Corrosive Vines, 6] pot[Root Grasp, 6] pot[Small Changes, 1+]
 
 ## Emblem
 
@@ -113,4 +113,4 @@ not needed | not needed | Corrosive Vines +3
 
 ## Disc
 
-@disc(Veiled Dawn of Spring) @disc(Claw the Claw) @disc(Dancing with the Bones) @disc(Colors Pierce the Grey, 6) @disc(The Lost Pilgrim) @disc(Wine Warm, Lamps Alight, 6) @disc(Little Paradise)
+disc[Veiled Dawn of Spring] disc[Claw the Claw] disc[Dancing with the Bones] disc[Colors Pierce the Grey, 6] disc[The Lost Pilgrim] disc[Wine Warm, Lamps Alight, 6] disc[Little Paradise]

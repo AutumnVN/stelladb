@@ -23,7 +23,7 @@ The "Wave" seen in the description of **Sweeping Extension** and **Pending Chore
 
 Ultimate > Auto Attack (10/1/1/10)
 
-@skill(Deep Sweep) @skill(Housework Slash) Since we are able to use her **Deep Sweep: Dust Off (Ultimate Phase 1)** consistently via **Sweeping Rush (Main Skill)** and her actual Ultimate skill, raising her Ultimate sees better value to prioritize than **Housework Slash (Auto Attack)**.
+skill[Deep Sweep] skill[Housework Slash] Since we are able to use her **Deep Sweep: Dust Off (Ultimate Phase 1)** consistently via **Sweeping Rush (Main Skill)** and her actual Ultimate skill, raising her Ultimate sees better value to prioritize than **Housework Slash (Auto Attack)**.
 
 None of her potentials scale on any of her skills (**Sweeping Extension** scales based on Trekker tier) so it's a non-factor in this case.
 
@@ -31,11 +31,11 @@ None of her potentials scale on any of her skills (**Sweeping Extension** scales
 
 ### Priority
 
-@pot(Dusting Vortex) @pot(Sweep Extension) @pot(Wide Blade Arc, 6) @pot(Pending Chore, 6) @pot(Overtime Chore, 6) @pot(Swift Wipe, 6) @pot(Sweep Dash, 6)
+pot[Dusting Vortex] pot[Sweep Extension] pot[Wide Blade Arc, 6] pot[Pending Chore, 6] pot[Overtime Chore, 6] pot[Swift Wipe, 6] pot[Sweep Dash, 6]
 
 ### Optional
 
-@pot(Purge Stance, 1+) @pot(Silent Paws, 1+)
+pot[Purge Stance, 1+] pot[Silent Paws, 1+]
 
 ## Emblem
 
@@ -59,7 +59,7 @@ Suntide Willow is the core support of the team, providing a wide array of buffs 
 
 1/1/10/10 (Support Skill > Ultimate)
 
-@skill(Frolic in the Sea) @skill(Beach Warning) Prioritize upgrading **Frolic in the Sea (Support Skill)** first and **Beach Warning (Ultimate)** next since her Support Skill gives more buffs than her Ultimate.
+skill[Frolic in the Sea] skill[Beach Warning] Prioritize upgrading **Frolic in the Sea (Support Skill)** first and **Beach Warning (Ultimate)** next since her Support Skill gives more buffs than her Ultimate.
 
 You can comfortably stop at Level 7 if you're low on resources since her buff scaling is rather underwhelming compared to others.
 
@@ -67,11 +67,11 @@ You can comfortably stop at Level 7 if you're low on resources since her buff sc
 
 ### Priority
 
-@pot(Flying Droplets) @pot(Flooding Shore) @pot(Hovering Gale, 6) @pot(Words Unchanged, 6) @pot(Engulfing Tide, 6) @pot(Marine Justice, 6)
+pot[Flying Droplets] pot[Flooding Shore] pot[Hovering Gale, 6] pot[Words Unchanged, 6] pot[Engulfing Tide, 6] pot[Marine Justice, 6]
 
 ### Optional
 
-@pot(Balmy Surf, 1+)
+pot[Balmy Surf, 1+]
 
 ## Emblem
 
@@ -93,13 +93,13 @@ Teresa is better than Donna for this particular team as she is able to boost All
 
 1/1/10/1 (Support Skill only)
 
-@skill(Billowing Tide) Level up **Billowing Tide (Support Skill)** if you are having trouble keeping Surging Shield up because the **Isn't it Awesome** potential relies on the Main Trekker having the shield.
+skill[Billowing Tide] Level up **Billowing Tide (Support Skill)** if you are having trouble keeping Surging Shield up because the **Isn't it Awesome** potential relies on the Main Trekker having the shield.
 
 ## Potential
 
 ### Priority
 
-@pot(Surge: Infinite) @pot(Surge: Ripple) @pot(Wave Breaker, 6) @pot(Hold On!, 1) @pot(Isn't It Awesome!, 1+) @pot(Shortcut Seeker, 6)
+pot[Surge: Infinite] pot[Surge: Ripple] pot[Wave Breaker, 6] pot[Hold On!, 1] pot[Isn't It Awesome!, 1+] pot[Shortcut Seeker, 6]
 
 ## Emblem
 
@@ -123,17 +123,17 @@ Do take note that you will want to have a built Donna in the first place if you 
 
 Support Skill only (1/1/10/1)
 
-@skill(Tide Threader) **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
+skill[Tide Threader] **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
 
 ## Potential
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Arrow Pursuit, 6) @pot(Frostbitten Arrow, 6) @pot(Water Ripple, 6) @pot(Aquatic Assault, 6) @pot(Chilling Onslaught, 1)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Arrow Pursuit, 6] pot[Frostbitten Arrow, 6] pot[Water Ripple, 6] pot[Aquatic Assault, 6] pot[Chilling Onslaught, 1]
 
 ### Optional
 
-@pot(Messenger Arrow, 1+)
+pot[Messenger Arrow, 1+]
 
 ## Emblem
 
@@ -161,7 +161,7 @@ Since Donna's role in this case is to be a pure supportive Trekker, there's no n
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Frostbitten Arrow, 6) @pot(Water Ripple, 6) @pot(Messenger Arrow, 6)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Frostbitten Arrow, 6] pot[Water Ripple, 6] pot[Messenger Arrow, 6]
 
 ## Emblem
 
@@ -174,8 +174,8 @@ not needed | not needed | **Frostbitten Arrow +3**
 
 ## Disc
 
-@disc(Bedtime Story, 1) @disc(All That Was Beautiful, 6) @disc(Fleeting Glimmers, 1) @disc(Sword Against Stream, 1) @disc(United by Fate, 6) @disc(Dappled Sunlight, 6) @disc(Delivered by the Breeze, 6)
+disc[Bedtime Story, 1] disc[All That Was Beautiful, 6] disc[Fleeting Glimmers, 1] disc[Sword Against Stream, 1] disc[United by Fate, 6] disc[Dappled Sunlight, 6] disc[Delivered by the Breeze, 6]
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=laefwrwHgoU)
+youtube[https://www.youtube.com/watch?v=laefwrwHgoU]

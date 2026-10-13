@@ -17,11 +17,11 @@ None of Nazuna's skills benefit this team as they are all Terra-aligned so don't
 
 ### Priority
 
-@pot(Roll the Dice) @pot(Graceful Turn) @pot(Fill the Gap, 6) @pot(Operation: Pandemonium, 6) @pot(Cutie's Rally, 6)
+pot[Roll the Dice] pot[Graceful Turn] pot[Fill the Gap, 6] pot[Operation: Pandemonium, 6] pot[Cutie's Rally, 6]
 
 ### Optional
 
-@pot(Focus Fire, 1+) @pot(Swiftstep, 1+)
+pot[Focus Fire, 1+] pot[Swiftstep, 1+]
 
 ## Emblem
 
@@ -46,17 +46,17 @@ Freesia's DPS build revolves around the **Localized Snowfall** potential. This p
 
 1/1/10/1 (Support Skill only)
 
-@skill(Frost Bloom) Freesia's damage output is fully reliant on **Frost Bloom (Support Skill)** since this is where the scaling of **Localized Snowfall** depends on so make sure to upgrade it as much as you can.
+skill[Frost Bloom] Freesia's damage output is fully reliant on **Frost Bloom (Support Skill)** since this is where the scaling of **Localized Snowfall** depends on so make sure to upgrade it as much as you can.
 
 ## Potential
 
 ### Priority
 
-@pot(Realm of Frost) @pot(Localized Snowfall) @pot(Ice Vortex, 6) @pot(Penetrating Chill, 6) @pot(Winter's Grip, 6) @pot(Blessing of Faith, 1)
+pot[Realm of Frost] pot[Localized Snowfall] pot[Ice Vortex, 6] pot[Penetrating Chill, 6] pot[Winter's Grip, 6] pot[Blessing of Faith, 1]
 
 ### Optional
 
-@pot(Power of Redemption, 1+)
+pot[Power of Redemption, 1+]
 
 ## Emblem
 
@@ -74,13 +74,13 @@ Tilia acts as the baseline buffer for this team as it is easier to make a Record
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Perfect Spiral) @pot(Mystery of Gyration) @pot(Trick Boost, 6) @pot(Knight Oath: Courage, 6)
+pot[Perfect Spiral] pot[Mystery of Gyration] pot[Trick Boost, 6] pot[Knight Oath: Courage, 6]
 
 ## Emblem
 
@@ -105,7 +105,7 @@ Iris is only used for her valuable Potential kit and none of her skills scale bu
 
 ### Priority
 
-@pot(Blizzard: Stack) @pot(Blizzard: Impact) @pot(Sneaky Fisher, 6) @pot(Prolonged Winter, 1) @pot(Bundle Sale, 6) @pot(Frozen Shield, 6)
+pot[Blizzard: Stack] pot[Blizzard: Impact] pot[Sneaky Fisher, 6] pot[Prolonged Winter, 1] pot[Bundle Sale, 6] pot[Frozen Shield, 6]
 
 ## Emblem
 
@@ -117,5 +117,5 @@ not needed | not needed | Sneaky Fisher +3
 
 ## Disc
 
-@disc(Soaring Blue) @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
+disc[Soaring Blue] disc[Sword Against Stream] disc[Sunlit Blossom] disc[The Clash of Blade and Axe] disc[Delivered by the Breeze] disc[United by Fate] disc[Summer Afternoon Rain]
 

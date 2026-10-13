@@ -21,11 +21,11 @@ None of Mistique's usable skills provide buff and/or debuff for the team to use 
 
 ### Priority
 
-@pot(Defiance Before Deletion) @pot(Burst Shooting) @pot(Cursed Screech, 6) @pot(Lingering Grudge: Demon Barrier, 1+) @pot(Abominable Fester, 1) @pot(Decisive Moment, 1)
+pot[Defiance Before Deletion] pot[Burst Shooting] pot[Cursed Screech, 6] pot[Lingering Grudge: Demon Barrier, 1+] pot[Abominable Fester, 1] pot[Decisive Moment, 1]
 
 ### Optional
 
-@pot(Night Dash, 1+)
+pot[Night Dash, 1+]
 
 ## Emblem
 
@@ -44,17 +44,17 @@ Otoha's skill build relies on the synergy of **Ripple of Shadow**, Evening Rain,
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Ripple of Shadow) @pot(Evening Rain) @pot(Devouring Shadow, 6) @pot(Rain-Woven Sorrow, 6) @pot(Bone-Chilling Rain, 6) @pot(Inevitable End, 6)
+pot[Ripple of Shadow] pot[Evening Rain] pot[Devouring Shadow, 6] pot[Rain-Woven Sorrow, 6] pot[Bone-Chilling Rain, 6] pot[Inevitable End, 6]
 
 ### Optional
 
-@pot(Silent Knell, 1+) @pot(Blossom-Eroded Abyss, 1+)
+pot[Silent Knell, 1+] pot[Blossom-Eroded Abyss, 1+]
 
 ## Emblem
 
@@ -77,17 +77,17 @@ Cosette is the staple support for any Umbra team at the moment due to the consis
 
 1/1/10/1 (Support Skill only)
 
-@skill(Abyssal Hunter) **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
+skill[Abyssal Hunter] **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Phantom Mark) @pot(Eclipse Imprint) @pot(Dark: Afterglow, 6) @pot(Dark: Demon Mark, 6) @pot(Gift of Darkness, 6)
+pot[Phantom Mark] pot[Eclipse Imprint] pot[Dark: Afterglow, 6] pot[Dark: Demon Mark, 6] pot[Gift of Darkness, 6]
 
 ### Optional
 
-@pot(Dark: Mirage, 1+) @pot(Nether Blaze, 1+) @pot(Dark: Hallucination, 1+)
+pot[Dark: Mirage, 1+] pot[Nether Blaze, 1+] pot[Dark: Hallucination, 1+]
 
 ## Emblem
 
@@ -101,7 +101,7 @@ lv70 | lv80 | lv90
 
 ## Disc
 
-@disc(Petals of Blooming Mirage, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Phantom of the Banquet, 6) @disc(Witch's Swing, 1) @disc(Those with Ambition, 6) @disc(The Meow, 6) @disc(Wisteria Dream, 1)
+disc[Petals of Blooming Mirage, 1] disc[Dream Factory of ☆Truth, 1] disc[Phantom of the Banquet, 6] disc[Witch's Swing, 1] disc[Those with Ambition, 6] disc[The Meow, 6] disc[Wisteria Dream, 1]
 
 ## Rotation
 

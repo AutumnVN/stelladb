@@ -16,21 +16,21 @@ Shia's Snow Rabbit build involves taking advantage of the Auto Attack chain rese
 
 10/10/1/1+ (Auto Attack > Main Skill >> Ultimate)
 
-@skill(Sail of Twin Moons) **Sail of Twin Moons (Auto Attack)** will be the main priority as most of Shia's damage output lies on it, especially with the dash cancel tech.
+skill[Sail of Twin Moons] **Sail of Twin Moons (Auto Attack)** will be the main priority as most of Shia's damage output lies on it, especially with the dash cancel tech.
 
-@skill(Whirling Waves) **Phantom Step Radiance** and **Rimecrystal Edge** scales based on the level of Whirling Waves (Main Skill).
+skill[Whirling Waves] **Phantom Step Radiance** and **Rimecrystal Edge** scales based on the level of Whirling Waves (Main Skill).
 
-@skill(Divine Deluge) Using **Divine Deluge (Ultimate)** usually results in a slight DPS loss since it is much better to just spam Shia's AA1, leading to it being entirely ignored or used in situations where you need the i-frame it provides while still dealing damage.
+skill[Divine Deluge] Using **Divine Deluge (Ultimate)** usually results in a slight DPS loss since it is much better to just spam Shia's AA1, leading to it being entirely ignored or used in situations where you need the i-frame it provides while still dealing damage.
 
 ## Potential
 
 ### Priority
 
-@pot(Phantom Step Radiance) @pot(Rimecrystal Edge) @pot(Glacial Dash, 6) @pot(Subzero Dominion, 6) @pot(Rimeheart Pulse, 6) @pot(Rabbit's Beam, 6) @pot(Hare's Pursuit, 1)
+pot[Phantom Step Radiance] pot[Rimecrystal Edge] pot[Glacial Dash, 6] pot[Subzero Dominion, 6] pot[Rimeheart Pulse, 6] pot[Rabbit's Beam, 6] pot[Hare's Pursuit, 1]
 
 ### Optional
 
-@pot(Astral Pirouette) @pot(Lunar Combo, 1+)
+pot[Astral Pirouette] pot[Lunar Combo, 1+]
 
 ## Emblem
 
@@ -57,13 +57,13 @@ Tilia is the premier must-have support for Lux teams as she provides Lux DMG Tak
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Holy Inscription) @pot(Perfect Spiral) @pot(Enemy Counter, 6) @pot(Trick Boost, 6) @pot(Knight's Seal, 6) @pot(Brilliant Relay, 6) @pot(Knight Oath: Courage, 1+)
+pot[Holy Inscription] pot[Perfect Spiral] pot[Enemy Counter, 6] pot[Trick Boost, 6] pot[Knight's Seal, 6] pot[Brilliant Relay, 6] pot[Knight Oath: Courage, 1+]
 
 ## Emblem
 
@@ -80,17 +80,17 @@ Currently in testing phase, this section is empty for now.
 
 1/1/10/1 (Support Skill only)
 
-@skill(Starflare Pursuit) **Starflare Pursuit (Support Skill)** is the only important skill to max out as this is Firefly's prominent source of damage. Additionally, both **Radiance Blade: Blazing Edge** and **Radiance Blade: Pursuing Slash**'s DMG output scale with its level.
+skill[Starflare Pursuit] **Starflare Pursuit (Support Skill)** is the only important skill to max out as this is Firefly's prominent source of damage. Additionally, both **Radiance Blade: Blazing Edge** and **Radiance Blade: Pursuing Slash**'s DMG output scale with its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Radiance Blade: Blazing Edge) @pot(Radiance Blade: Pursuing Slash) @pot(Blade Flash, 6) @pot(Radiant Ripple, 6) @pot(Luminous Onslaught, 6) @pot(Domain of Purity, 6)
+pot[Radiance Blade: Blazing Edge] pot[Radiance Blade: Pursuing Slash] pot[Blade Flash, 6] pot[Radiant Ripple, 6] pot[Luminous Onslaught, 6] pot[Domain of Purity, 6]
 
 ### Optional
 
-@pot(Blade of Falling Petals, 1+)
+pot[Blade of Falling Petals, 1+]
 
 ## Emblem
 
@@ -117,11 +117,11 @@ Despite Minova's high scaling on her support skill, it is better for her to be r
 
 ### Priority
 
-@pot(Four-Star Wanted Level) @pot(Star Core Crumbled) @pot(Fervent Applause, 6) @pot(Radiant Synergy, 6) @pot(Ashwind's Wrath, 1)
+pot[Four-Star Wanted Level] pot[Star Core Crumbled] pot[Fervent Applause, 6] pot[Radiant Synergy, 6] pot[Ashwind's Wrath, 1]
 
 ### Optional
 
-@pot(Oath Satellite) @pot(Perfect Arc, 1+) @pot(Three Base Hit, 6)
+pot[Oath Satellite] pot[Perfect Arc, 1+] pot[Three Base Hit, 6]
 
 ## Emblem
 
@@ -141,13 +141,13 @@ Ann is a great alternative in case you do not have Minova on your account as she
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Gale Bastion) @pot(Warm Wind Guard) @pot(Windgate Barrier, 6) @pot(Violent Current, 6) @pot(Leveraged Boost, 1+)
+pot[Gale Bastion] pot[Warm Wind Guard] pot[Windgate Barrier, 6] pot[Violent Current, 6] pot[Leveraged Boost, 1+]
 
 ## Emblem
 
@@ -160,8 +160,8 @@ not needed | Support Skill Lv. +3 | Windgate Barrier +3
 
 ## Disc
 
-@disc(Ripples of Nostalgia) @disc(Stellar Destination) @disc(Sparkling Moment, 6) @disc(A Moment in the Afternoon) @disc(Summer Sanctuary, 6) @disc(Midnight Mayhem) @disc(Prayer Beneath Light)
+disc[Ripples of Nostalgia] disc[Stellar Destination] disc[Sparkling Moment, 6] disc[A Moment in the Afternoon] disc[Summer Sanctuary, 6] disc[Midnight Mayhem] disc[Prayer Beneath Light]
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=R-MkppLXwqo)
+youtube[https://www.youtube.com/watch?v=R-MkppLXwqo]

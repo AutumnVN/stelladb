@@ -24,7 +24,7 @@ As none of her skills affect her Mark DMG, it is not recommended to level up any
 
 ### Priority
 
-@pot(Energy Storage: Bind) @pot(Energy Storage: Channel) @pot(Conductor Conversion, 6) @pot(Leakage Protection, 6) @pot(Heavenly Kirin, 6) @pot(Auspicious Spirit, 6) @pot(Lord of Beasts, 1)
+pot[Energy Storage: Bind] pot[Energy Storage: Channel] pot[Conductor Conversion, 6] pot[Leakage Protection, 6] pot[Heavenly Kirin, 6] pot[Auspicious Spirit, 6] pot[Lord of Beasts, 1]
 
 ## Emblem
 
@@ -46,17 +46,17 @@ Tilia's primary role is to further improve Jinglin's ability to dish out higher 
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals DMG. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Holy Inscription) @pot(Renewed Spectrum) @pot(Blinding Beam, 6) @pot(Trick Boost, 6) @pot(Enemy Counter, 6) @pot(Brilliant Relay, 6)
+pot[Holy Inscription] pot[Renewed Spectrum] pot[Blinding Beam, 6] pot[Trick Boost, 6] pot[Enemy Counter, 6] pot[Brilliant Relay, 6]
 
 ### Optional
 
-@pot(Knight Oath: Courage, 1+)
+pot[Knight Oath: Courage, 1+]
 
 ## Emblem
 
@@ -78,17 +78,17 @@ Firefly's Giant Sword build relies heavily on Auto Attack DMG. This is currently
 
 1/1/10/1 (Support Skill only)
 
-@skill(Starflare Pursuit) **Starflare Pursuit (Support Skill)** is the only important skill to max out as this is Firefly's prominent source of damage. Additionally, both **Radiance Blade: Blazing Edge** and **Radiance Blade: Pursuing Slash**'s DMG output scale with its level.
+skill[Starflare Pursuit] **Starflare Pursuit (Support Skill)** is the only important skill to max out as this is Firefly's prominent source of damage. Additionally, both **Radiance Blade: Blazing Edge** and **Radiance Blade: Pursuing Slash**'s DMG output scale with its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Radiance Blade: Blazing Edge) @pot(Radiance Blade: Pursuing Slash) @pot(Radiant Ripple, 6) @pot(Domain of Purity, 6) @pot(Blade Flash, 6) @pot(Cosmic Brilliance, 6)
+pot[Radiance Blade: Blazing Edge] pot[Radiance Blade: Pursuing Slash] pot[Radiant Ripple, 6] pot[Domain of Purity, 6] pot[Blade Flash, 6] pot[Cosmic Brilliance, 6]
 
 ### Optional
 
-@pot(Persistent Warmth, 1+)
+pot[Persistent Warmth, 1+]
 
 ## Emblem
 
@@ -116,7 +116,7 @@ Despite Minova's high scaling on her support skill, it is better for her to be r
 
 ### Priority
 
-@pot(Four-Star Wanted Level) @pot(Radiant Burst) @pot(Fervent Applause, 6) @pot(Radiant Synergy, 6) @pot(Three Base Hit, 6)
+pot[Four-Star Wanted Level] pot[Radiant Burst] pot[Fervent Applause, 6] pot[Radiant Synergy, 6] pot[Three Base Hit, 6]
 
 ## Emblem
 
@@ -129,7 +129,7 @@ not needed | not needed | Fervent Applause +3
 
 ## Disc
 
-@disc(Ripples of Nostalgia) @disc(Prayer Beneath Light) @disc(Summer Sanctuary, 6) @disc(A Moment in the Afternoon) @disc(Sparkling Moment, 6) @disc(Stellar Destination) @disc(Midnight Mayhem)
+disc[Ripples of Nostalgia] disc[Prayer Beneath Light] disc[Summer Sanctuary, 6] disc[A Moment in the Afternoon] disc[Sparkling Moment, 6] disc[Stellar Destination] disc[Midnight Mayhem]
 
 ## Rotation
 

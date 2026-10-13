@@ -18,11 +18,11 @@ This build is quite expensive potential-wise as it has to make up for some of th
 
 ### Priority
 
-@pot(Reload) @pot(Double Strike) @pot(Thunder Punch, 6) @pot(All-Out Effort, 6) @pot(Finishing Blow, 6) @pot(Pyro Mark, 1+) @pot(Combo Punch, 1) @pot(Blast Chase, 1+)
+pot[Reload] pot[Double Strike] pot[Thunder Punch, 6] pot[All-Out Effort, 6] pot[Finishing Blow, 6] pot[Pyro Mark, 1+] pot[Combo Punch, 1] pot[Blast Chase, 1+]
 
 ### Optional
 
-@pot(Peak Performance, 6) @pot(Swirling Counterattack, 1+)
+pot[Peak Performance, 6] pot[Swirling Counterattack, 1+]
 
 ## Emblem
 
@@ -45,17 +45,17 @@ Flora's primary role is to provide consistent Ignis DMG taken debuffs and Crit-r
 
 1/1/10/1 (Support Skill only)
 
-@skill(Flutter Flare) Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
+skill[Flutter Flare] Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
 
 ## Potential
 
 ### Priority
 
-@pot(Ember of Tomorrow) @pot(Ember Rekindled) @pot(Foreshadowing Verification, 6) @pot(Perfect Acting, 1+) @pot(Guest Performer, 1+) @pot(Visual Impact, 1+)
+pot[Ember of Tomorrow] pot[Ember Rekindled] pot[Foreshadowing Verification, 6] pot[Perfect Acting, 1+] pot[Guest Performer, 1+] pot[Visual Impact, 1+]
 
 ### Optional
 
-@pot(Lethal Inferno, 1+) @pot(Crowd Effect, 1+) @pot(Reinforced Impression, 1+)
+pot[Lethal Inferno, 1+] pot[Crowd Effect, 1+] pot[Reinforced Impression, 1+]
 
 ## Emblem
 
@@ -84,11 +84,11 @@ For this team, Snowish Laru is used for her valuable Potential kit as none of he
 
 ### Priority
 
-@pot(Fire Downpour) @pot(Special Ammo) @pot(Fairy Tale Rule, 6) @pot(Celebration Resumed, 6) @pot(Toy Army, 6)
+pot[Fire Downpour] pot[Special Ammo] pot[Fairy Tale Rule, 6] pot[Celebration Resumed, 6] pot[Toy Army, 6]
 
 ### Optional
 
-@pot(Two-Gun Salute, 1) @pot(Heart's Benediction, 1)
+pot[Two-Gun Salute, 1] pot[Heart's Benediction, 1]
 
 ## Emblem
 
@@ -115,11 +115,11 @@ For this team, Chixia is used for her valuable Potential kit as none of her usab
 
 ### Priority
 
-@pot(Crimson Dragon: Convergence) @pot(Crimson Dragon: Chant) @pot(Sigil Unleashed: Flame Glow, 6) @pot(Ink Sigil: Horn Call, 1+) @pot(Ink Sigil: Ambush, 1+)
+pot[Crimson Dragon: Convergence] pot[Crimson Dragon: Chant] pot[Sigil Unleashed: Flame Glow, 6] pot[Ink Sigil: Horn Call, 1+] pot[Ink Sigil: Ambush, 1+]
 
 ### Optional
 
-@pot(Ink Sigil: Barrier Construct, 1+) @pot(Prayer of Raging Flame, 1+)
+pot[Ink Sigil: Barrier Construct, 1+] pot[Prayer of Raging Flame, 1+]
 
 ## Emblem
 
@@ -132,4 +132,4 @@ Charge Eff. (Supp) 40% | Charge Eff. (Supp) 40% | Sigil Unleashed: Flame Glow +3
 
 ## Disc
 
-@disc(Snowy Night Surprise) @disc(Fireworks) @disc(Meowing Cat God) @disc(Mystic Brushstrokes) @disc(A Gift for the Journey, 6) @disc(One Shot, One Down, 6) @disc(Voyage Blueprint)
+disc[Snowy Night Surprise] disc[Fireworks] disc[Meowing Cat God] disc[Mystic Brushstrokes] disc[A Gift for the Journey, 6] disc[One Shot, One Down, 6] disc[Voyage Blueprint]

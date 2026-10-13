@@ -18,19 +18,19 @@ Firenze's Main Skill build focuses on dishing out sustained high skill damage th
 
 1/10/1/10 (Main Skill > Ultimate)
 
-@skill(Elegant Parade) **Elegant Parade (Main Skill)** will be the main priority to upgrade as not only does it increase its own base multipliers but it also affects **Step Kicking** and **Nimble Step** due to their multipliers scaling based on its level.
+skill[Elegant Parade] **Elegant Parade (Main Skill)** will be the main priority to upgrade as not only does it increase its own base multipliers but it also affects **Step Kicking** and **Nimble Step** due to their multipliers scaling based on its level.
 
-@skill(Personal Tuition) **Personal Tuition (Ultimate)** is the next priority to upgrade as it offers high damage multipliers by default and does not result in a damage loss, especially if you have **Place Your Bets** in your Record.
+skill[Personal Tuition] **Personal Tuition (Ultimate)** is the next priority to upgrade as it offers high damage multipliers by default and does not result in a damage loss, especially if you have **Place Your Bets** in your Record.
 
 ## Potential
 
 ### Priority
 
-@pot(Step Kicking) @pot(Nimble Step) @pot(High Risk, 6) @pot(Hunting Command, 6) @pot(Place Your Bets, 6) @pot(Dark Pirouette, 6) @pot(Flash Break, 1+)
+pot[Step Kicking] pot[Nimble Step] pot[High Risk, 6] pot[Hunting Command, 6] pot[Place Your Bets, 6] pot[Dark Pirouette, 6] pot[Flash Break, 1+]
 
 ### Optional
 
-@pot(Instant Liquidation, 1+)
+pot[Instant Liquidation, 1+]
 
 ## Emblem
 
@@ -53,17 +53,17 @@ Cosette is the staple support for any Umbra team at the moment due to the consis
 
 1/1/10/1 (Support Skill only)
 
-@skill(Abyssal Hunter) **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
+skill[Abyssal Hunter] **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Phantom Mark) @pot(Eclipse Imprint) @pot(Dark: Demon Mark, 6) @pot(Gift of Darkness, 6) @pot(Dark: Afterglow, 6)
+pot[Phantom Mark] pot[Eclipse Imprint] pot[Dark: Demon Mark, 6] pot[Gift of Darkness, 6] pot[Dark: Afterglow, 6]
 
 ### Optional
 
-@pot(Dark: Mirage, 1+) @pot(Nether Blaze, 1+) @pot(Dark: Hallucination, 1+) @pot(Void Blessing, 1+)
+pot[Dark: Mirage, 1+] pot[Nether Blaze, 1+] pot[Dark: Hallucination, 1+] pot[Void Blessing, 1+]
 
 ## Emblem
 
@@ -85,17 +85,17 @@ Otoha's skill build relies on the synergy of **Ripple of Shadow**, **Evening Rai
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Ripple of Shadow) @pot(Evening Rain) @pot(Devouring Shadow, 6) @pot(Rain-Woven Sorrow, 6) @pot(Bone-Chilling Rain, 6) @pot(Murmur of Annihilation, 6)
+pot[Ripple of Shadow] pot[Evening Rain] pot[Devouring Shadow, 6] pot[Rain-Woven Sorrow, 6] pot[Bone-Chilling Rain, 6] pot[Murmur of Annihilation, 6]
 
 ### Optional
 
-@pot(Inevitable End, 1+) @pot(Silent Knell, 1+) @pot(Blossom-Eroded Abyss, 1+)
+pot[Inevitable End, 1+] pot[Silent Knell, 1+] pot[Blossom-Eroded Abyss, 1+]
 
 ## Emblem
 
@@ -120,17 +120,17 @@ Otoha's laser build pales in comparison with her skill build when it comes to pr
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha as **Night-Walker**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha as **Night-Walker**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Lonely Twin Shadows) @pot(Night-Walker) @pot(Devouring Shadow, 6) @pot(Solitary Lantern, 6) @pot(Without A Trace, 6) @pot(Murmur of Annihilation, 6)
+pot[Lonely Twin Shadows] pot[Night-Walker] pot[Devouring Shadow, 6] pot[Solitary Lantern, 6] pot[Without A Trace, 6] pot[Murmur of Annihilation, 6]
 
 ### Optional
 
-@pot(Hollow Steps, 1+) @pot(Silent Knell, 1+) @pot(Blossom-Eroded Abyss, 1+)
+pot[Hollow Steps, 1+] pot[Silent Knell, 1+] pot[Blossom-Eroded Abyss, 1+]
 
 ## Emblem
 
@@ -155,17 +155,17 @@ If you don't have Otoha, Mistique can take her place as a debuffer with **Solar 
 
 1/1/10/1 (Support Skill only)
 
-@skill(Summoning Circle) **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
+skill[Summoning Circle] **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Happy Face) @pot(Reality Erosion) @pot(Solar Absorption, 6) @pot(The Conjuring, 6) @pot(Shadow Shackle, 6)
+pot[Happy Face] pot[Reality Erosion] pot[Solar Absorption, 6] pot[The Conjuring, 6] pot[Shadow Shackle, 6]
 
 ### Optional
 
-@pot(Twin Born, 1+) @pot(Wraith Haunting, 1+) @pot(Malice, 1)
+pot[Twin Born, 1+] pot[Wraith Haunting, 1+] pot[Malice, 1]
 
 ## Emblem
 
@@ -192,7 +192,7 @@ Coronis is only used for her Potential kit and none of her skills scale buffs or
 
 ### Priority
 
-@pot(Hormone Elixir) @pot(Toxin Infusion) @pot(Underground Healer, 6) @pot(Tag of Fate, 6) @pot(Medical Research, 1)
+pot[Hormone Elixir] pot[Toxin Infusion] pot[Underground Healer, 6] pot[Tag of Fate, 6] pot[Medical Research, 1]
 
 ## Emblem
 
@@ -204,7 +204,7 @@ not needed | not needed | Underground Healer +3
 
 ## Disc
 
-@disc(Petals of Blooming Mirage) @disc(Wisteria Dream) @disc(Phantom of the Banquet, 6) @disc(Dream Factory of ☆Truth) @disc(Witch's Swing) @disc(Those with Ambition) @disc(The Meow, 6)
+disc[Petals of Blooming Mirage] disc[Wisteria Dream] disc[Phantom of the Banquet, 6] disc[Dream Factory of ☆Truth] disc[Witch's Swing] disc[Those with Ambition] disc[The Meow, 6]
 
 ## Rotation
 
@@ -242,4 +242,4 @@ __with Mistique pre-casting__
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=VUiktIb7FG4)
+youtube[https://www.youtube.com/watch?v=VUiktIb7FG4]

@@ -16,17 +16,17 @@ Freesia is able to deliver hard hitting AoE attacks through her charged Main Ski
 
 1/10/1/1 (Main Skill only)
 
-@skill(Freezing Swirl) **Freezing Swirl (Main Skill)** is your only priority to level up as this is where majority of her damage comes from. Her Auto Attack is rarely used and her Ultimate is only used to refresh her Berserk state so it is pointless to care about these two skills.
+skill[Freezing Swirl] **Freezing Swirl (Main Skill)** is your only priority to level up as this is where majority of her damage comes from. Her Auto Attack is rarely used and her Ultimate is only used to refresh her Berserk state so it is pointless to care about these two skills.
 
 ## Potential
 
 ### Priority
 
-@pot(Whirlwind Frenzy) @pot(Unstoppable March) @pot(Ice Vortex, 6) @pot(Limits of Oblivion, 6) @pot(Victorious Pursuit, 6) @pot(Soul Extraction, 6) @pot(Frost Ward, 1+)
+pot[Whirlwind Frenzy] pot[Unstoppable March] pot[Ice Vortex, 6] pot[Limits of Oblivion, 6] pot[Victorious Pursuit, 6] pot[Soul Extraction, 6] pot[Frost Ward, 1+]
 
 ### Optional
 
-@pot(Frost Gift, 1)
+pot[Frost Gift, 1]
 
 ## Emblem
 
@@ -49,13 +49,13 @@ Flora's primary role in this team is to provide Crit Rate buff to take full adva
 
 1/1/1+/1 (Support Skill, otherwise not needed)
 
-@skill(Flutter Flare) You are definitely fine to choose not to upgrade her skills at all but if you want to do so, only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Though keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
+skill[Flutter Flare] You are definitely fine to choose not to upgrade her skills at all but if you want to do so, only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Though keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
 
 ## Potential
 
 ### Priority
 
-@pot(Ashes of the Past) @pot(Ember of Tomorrow) @pot(Perfect Acting, 6) @pot(Visual Impact, 6) @pot(Crowd Effect, 1+)
+pot[Ashes of the Past] pot[Ember of Tomorrow] pot[Perfect Acting, 6] pot[Visual Impact, 6] pot[Crowd Effect, 1+]
 
 ## Emblem
 
@@ -76,7 +76,7 @@ Iris is only used for her valuable Potential kit and none of her skills scale bu
 
 ### Priority
 
-@pot(Blizzard: Spread) @pot(Blizzard: Vortex) @pot(Sneaky Fisher, 6) @pot(Forced Liquidation, 6) @pot(Prolonged Winter, 1)
+pot[Blizzard: Spread] pot[Blizzard: Vortex] pot[Sneaky Fisher, 6] pot[Forced Liquidation, 6] pot[Prolonged Winter, 1]
 
 ## Emblem
 
@@ -92,13 +92,13 @@ Teresa's role is to primarily buff Freesia in boss stages since she will be rest
 
 1/1/1+/1 (Support Skill, otherwise not needed)
 
-@skill(Billowing Tide) Upgrading **Billowing Tide (Support Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself getting hit often.
+skill[Billowing Tide] Upgrading **Billowing Tide (Support Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself getting hit often.
 
 ## Potential
 
 ### Priority
 
-@pot(Surge: Infinite) @pot(Surge: Immortality) @pot(Shortcut Seeker, 6) @pot(Isn't It Awesome!, 6) @pot(Band-aid Collector, 1+)
+pot[Surge: Infinite] pot[Surge: Immortality] pot[Shortcut Seeker, 6] pot[Isn't It Awesome!, 6] pot[Band-aid Collector, 1+]
 
 ## Emblem
 
@@ -110,4 +110,4 @@ not needed | not needed | Shortcut Seeker +3
 
 ## Disc
 
-@disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Soaring Blue) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
+disc[Sword Against Stream] disc[Sunlit Blossom] disc[The Clash of Blade and Axe] disc[Soaring Blue] disc[Delivered by the Breeze] disc[United by Fate] disc[Summer Afternoon Rain]

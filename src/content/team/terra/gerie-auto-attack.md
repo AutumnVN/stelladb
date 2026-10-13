@@ -13,11 +13,11 @@ wip: true
 
 ### Priority
 
-@pot(Beyond All Control) @pot(Avalanche of Stone) @pot(Lingering Hunger, 6) @pot(No Safeword, 6) @pot(Delight in Ruin, 6) @pot(Piercing Sorrow, 1) @pot(Anima Resonance, 1+)
+pot[Beyond All Control] pot[Avalanche of Stone] pot[Lingering Hunger, 6] pot[No Safeword, 6] pot[Delight in Ruin, 6] pot[Piercing Sorrow, 1] pot[Anima Resonance, 1+]
 
 ### Optional
 
-@pot(Samsara's Judgment, 1+)
+pot[Samsara's Judgment, 1+]
 
 ## Emblem
 
@@ -29,19 +29,19 @@ lv70 | lv80 | lv90
 
 1/1/10/10 (Support Skill > Ultimate)
 
-@skill(Bingo Crush) **Bingo Crush (Support Skill)** contributes to the majority of Nazuna's supportive capabilities for this team. Both **Bold Assertion** and the effects that this skill provides scaled based on its level.
+skill[Bingo Crush] **Bingo Crush (Support Skill)** contributes to the majority of Nazuna's supportive capabilities for this team. Both **Bold Assertion** and the effects that this skill provides scaled based on its level.
 
-@skill(Dream Spiral) **Dream Spiral (Ultimate)** is the last priority as it provides the team an ATK% buff that scales based on the skill's level.
+skill[Dream Spiral] **Dream Spiral (Ultimate)** is the last priority as it provides the team an ATK% buff that scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Bold Assertion) @pot(Feel the Beat) @pot(Lucky Drop, 6) @pot(Double Delight, 6) @pot(Rain of Passion, 6)
+pot[Bold Assertion] pot[Feel the Beat] pot[Lucky Drop, 6] pot[Double Delight, 6] pot[Rain of Passion, 6]
 
 ### Optional
 
-@pot(Rocket Cart, 6)
+pot[Rocket Cart, 6]
 
 ## Emblem
 
@@ -79,7 +79,7 @@ Ridge is only used for her Potential kit and none of her skills scale buffs or d
 
 ### Priority
 
-@pot(Reblossom) @pot(Sense the Stir) @pot(Corrosive Vines, 6) @pot(Root Grasp, 6)
+pot[Reblossom] pot[Sense the Stir] pot[Corrosive Vines, 6] pot[Root Grasp, 6]
 
 ## Emblem
 
@@ -89,4 +89,4 @@ lv70 | lv80 | lv90
 
 ## Disc
 
-@disc(The Lost Pilgrim) @disc(Claw the Claw) @disc(Dancing with the Bones) @disc(Colors Pierce the Grey) @disc(Wine Warm, Lamps Alight) @disc(Veiled Dawn of Spring) @disc(Sweet Times)
+disc[The Lost Pilgrim] disc[Claw the Claw] disc[Dancing with the Bones] disc[Colors Pierce the Grey] disc[Wine Warm, Lamps Alight] disc[Veiled Dawn of Spring] disc[Sweet Times]

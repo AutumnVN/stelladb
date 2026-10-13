@@ -11,11 +11,11 @@ wip: false
 
 ### Priority
 
-@pot(Whirling Blade) @pot(Bloom Dance) @pot(Splendid Vortex, 6) @pot(Distant Prayer, 6) @pot(Sky Piercer, 1+)
+pot[Whirling Blade] pot[Bloom Dance] pot[Splendid Vortex, 6] pot[Distant Prayer, 6] pot[Sky Piercer, 1+]
 
 ### Optional
 
-@pot(Sun Chaser, 1+) @pot(Blooming Flowers, 1+)
+pot[Sun Chaser, 1+] pot[Blooming Flowers, 1+]
 
 ## Emblem
 
@@ -35,17 +35,17 @@ Ann supports the team by giving a lot of Ventus DMG Taken debuffs and ATK% buffs
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Gale Bastion) @pot(Wind Banish) @pot(Turbulent Flow, 6) @pot(Wind Erosion Havoc, 6) @pot(Forest Princess' Blessing, 6)
+pot[Gale Bastion] pot[Wind Banish] pot[Turbulent Flow, 6] pot[Wind Erosion Havoc, 6] pot[Forest Princess' Blessing, 6]
 
 ### Optional
 
-@pot(Windgate Barrier, 6)
+pot[Windgate Barrier, 6]
 
 ## Emblem
 
@@ -60,17 +60,17 @@ not needed | Support Skill Lv. +3 | Wind Erosion Havoc +3
 
 1/1/10/1 (Support Skill only)
 
-@skill(Bouquet Blast) **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
+skill[Bouquet Blast] **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
 
 ## Potential
 
 ### Priority
 
-@pot(Youth: Dazzling) @pot(Youth: Hunting) @pot(Youth: Weakness, 6) @pot(Wind Demon Seed, 6) @pot(Youth: Blooming, 6) @pot(Youth: Annihilation, 6)
+pot[Youth: Dazzling] pot[Youth: Hunting] pot[Youth: Weakness, 6] pot[Wind Demon Seed, 6] pot[Youth: Blooming, 6] pot[Youth: Annihilation, 6]
 
 ### Optional
 
-@pot(Almighty Leader, 1+)
+pot[Almighty Leader, 1+]
 
 ## Emblem
 
@@ -84,4 +84,4 @@ ATK% 12% | Crit Rate 15% | Wind Demon Seed +3
 
 ## Disc
 
-@disc(Chronicles of Spring) @disc(Deer's Song) @disc(Daylight Garden) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Sky, Flowers, Poem) @disc(One, Two, Three, Jump!)
+disc[Chronicles of Spring] disc[Deer's Song] disc[Daylight Garden] disc[Lemon & Black Tea] disc[Dawn After Winter] disc[Sky, Flowers, Poem] disc[One, Two, Three, Jump!]

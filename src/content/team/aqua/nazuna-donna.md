@@ -20,11 +20,11 @@ None of Nazuna's skills benefit this team as they are all Terra-aligned so don't
 
 ### Priority
 
-@pot(Roll the Dice) @pot(Graceful Turn) @pot(Fill the Gap, 6) @pot(Operation: Pandemonium, 6) @pot(Cutie's Rally, 6)
+pot[Roll the Dice] pot[Graceful Turn] pot[Fill the Gap, 6] pot[Operation: Pandemonium, 6] pot[Cutie's Rally, 6]
 
 ### Optional
 
-@pot(Focus Fire, 1+) @pot(Swiftstep, 1)
+pot[Focus Fire, 1+] pot[Swiftstep, 1]
 
 ## Emblem
 
@@ -42,13 +42,13 @@ lv70 | lv80 | lv90
 
 1/1/10/1 (Support Skill only)
 
-@skill(Tide Threader) **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
+skill[Tide Threader] **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
 
 ## Potential
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Arrow Pursuit, 6) @pot(Frostbitten Arrow, 6) @pot(Aquatic Assault, 6) @pot(Water Ripple, 6) @pot(Chilling Onslaught, 1)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Arrow Pursuit, 6] pot[Frostbitten Arrow, 6] pot[Aquatic Assault, 6] pot[Water Ripple, 6] pot[Chilling Onslaught, 1]
 
 ## Emblem
 
@@ -78,11 +78,11 @@ However, if you still want to do so, upgrade **Frost Bloom (Support Skill)** to 
 
 ### Priority
 
-@pot(Realm of Frost) @pot(Localized Snowfall) @pot(Winter's Grip, 6) @pot(Guardian's Heart, 6)
+pot[Realm of Frost] pot[Localized Snowfall] pot[Winter's Grip, 6] pot[Guardian's Heart, 6]
 
 ### Optional
 
-@pot(Blessing of Faith, 1) @pot(Penetrating Chill, 1+) @pot(Ice Vortex, 1+)
+pot[Blessing of Faith, 1] pot[Penetrating Chill, 1+] pot[Ice Vortex, 1+]
 
 ## Emblem
 
@@ -94,4 +94,4 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Winter's Grip +3**
 
 ## Disc
 
-@disc(Soaring Blue) @disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
+disc[Soaring Blue] disc[Sword Against Stream] disc[Sunlit Blossom] disc[The Clash of Blade and Axe] disc[Delivered by the Breeze] disc[United by Fate] disc[Summer Afternoon Rain]

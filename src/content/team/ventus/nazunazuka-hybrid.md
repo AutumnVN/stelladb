@@ -17,11 +17,11 @@ None of Nazuna's skills benefit this team as they are all Terra-aligned so don't
 
 ### Priority
 
-@pot(Roll the Dice) @pot(Graceful Turn) @pot(Fill the Gap, 6) @pot(Operation: Pandemonium, 6) @pot(Cutie's Rally, 6)
+pot[Roll the Dice] pot[Graceful Turn] pot[Fill the Gap, 6] pot[Operation: Pandemonium, 6] pot[Cutie's Rally, 6]
 
 ### Optional
 
-@pot(Focus Fire, 1+) @pot(Swiftstep, 1+)
+pot[Focus Fire, 1+] pot[Swiftstep, 1+]
 
 ## Emblem
 
@@ -36,17 +36,17 @@ Charge Eff. (Main) 40% | not needed | Fill the Gap +3
 
 1/1/10/1 (Support Skill only)
 
-@skill(Bouquet Blast) **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
+skill[Bouquet Blast] **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
 
 ## Potential
 
 ### Priority
 
-@pot(Youth: Hunting) @pot(Flower Formation: Waves) @pot(Wind Demon Seed, 6) @pot(Self-Improvement, 6) @pot(Almighty Leader, 6) @pot(Flower Formation: Blast, 6)
+pot[Youth: Hunting] pot[Flower Formation: Waves] pot[Wind Demon Seed, 6] pot[Self-Improvement, 6] pot[Almighty Leader, 6] pot[Flower Formation: Blast, 6]
 
 ### Optional
 
-@pot(Youth: Weakness, 1) @pot(Youth: Blooming, 1)
+pot[Youth: Weakness, 1] pot[Youth: Blooming, 1]
 
 ## Emblem
 
@@ -68,17 +68,17 @@ Ann supports the team by giving a lot of Ventus DMG Taken debuffs and ATK% buffs
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Gale Bastion) @pot(Wind Banish) @pot(Wind Erosion Havoc, 6) @pot(Turbulent Flow, 6) @pot(Forest Princess' Blessing, 6)
+pot[Gale Bastion] pot[Wind Banish] pot[Wind Erosion Havoc, 6] pot[Turbulent Flow, 6] pot[Forest Princess' Blessing, 6]
 
 ### Optional
 
-@pot(Speed Surge, 1)
+pot[Speed Surge, 1]
 
 ## Emblem
 
@@ -91,7 +91,7 @@ not needed | Support Skill Lv. +3 | Wind Erosion Havoc +3
 
 ## Disc
 
-@disc(Deer's Song) @disc(One, Two, Three, Jump!) @disc(Sky, Flowers, Poem) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Chronicles of Spring) @disc(Daylight Garden)
+disc[Deer's Song] disc[One, Two, Three, Jump!] disc[Sky, Flowers, Poem] disc[Lemon & Black Tea] disc[Dawn After Winter] disc[Chronicles of Spring] disc[Daylight Garden]
 
 ## Rotation
 

@@ -7,7 +7,7 @@ wip: true
 
 *You need 15 Ventus support notes sourced from Support Discs to activate Harmony levels as you will not get them in Difficulty 8 with her as Main Trekker.
 
-Keep her in Megaphone mode (her skill should look like this) @asset(icon/skill/16001_Normal_A)
+Keep her in Megaphone mode (her skill should look like this) asset[icon/skill/16001_Normal_A]
 
 ## Skill
 
@@ -17,11 +17,11 @@ Keep her in Megaphone mode (her skill should look like this) @asset(icon/skill/1
 
 ### Priority
 
-@pot(Rhythmic Bubbles) @pot(Rainbow Rebound) @pot(Touch 'n' Bounce, 6) @pot(Foam Echo, 6) @pot(Wavering Glow, 6) @pot(Cumulus Drift, 6)
+pot[Rhythmic Bubbles] pot[Rainbow Rebound] pot[Touch 'n' Bounce, 6] pot[Foam Echo, 6] pot[Wavering Glow, 6] pot[Cumulus Drift, 6]
 
 ### Optional
 
-@pot(Singing Shores, 1) @pot(Shore Regulation, 1)
+pot[Singing Shores, 1] pot[Shore Regulation, 1]
 
 ## Emblem
 
@@ -41,7 +41,7 @@ not needed | not needed | **Touch 'n' Bounce +3**
 
 ### Priority
 
-@pot(Chain Detonation) @pot(Seismic Spread) @pot(Annihilation Echo, 6) @pot(Field Pull, 6) @pot(Shattering Blow, 6) @pot(Power Amp, 6) @pot(Suppression Analysis, 6)
+pot[Chain Detonation] pot[Seismic Spread] pot[Annihilation Echo, 6] pot[Field Pull, 6] pot[Shattering Blow, 6] pot[Power Amp, 6] pot[Suppression Analysis, 6]
 
 ## Emblem
 
@@ -61,11 +61,11 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 
 ### Priority
 
-@pot(Flower Formation: Waves) @pot(Flower Formation: Turbulent) @pot(Almighty Leader, 6) @pot(Flower Formation: Erosion, 6) @pot(Flower Formation: Blast, 6) @pot(Self-Improvement, 6)
+pot[Flower Formation: Waves] pot[Flower Formation: Turbulent] pot[Almighty Leader, 6] pot[Flower Formation: Erosion, 6] pot[Flower Formation: Blast, 6] pot[Self-Improvement, 6]
 
 ### Optional
 
-@pot(Wind Demon Seed, 1+)
+pot[Wind Demon Seed, 1+]
 
 ## Emblem
 
@@ -80,7 +80,7 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 
 ## Disc
 
-@disc(Deer's Song, 1) @disc(Fly, O Caged Bird, 1) @disc(Lemon & Black Tea, 6) @disc(One, Two, Three, Jump !, 6) @disc(Sky, Flowers, Poem, 1) @disc(Unknown Fragrance, 6) @disc(Traces of Starlight, 6)
+disc[Deer's Song, 1] disc[Fly, O Caged Bird, 1] disc[Lemon & Black Tea, 6] disc[One, Two, Three, Jump !, 6] disc[Sky, Flowers, Poem, 1] disc[Unknown Fragrance, 6] disc[Traces of Starlight, 6]
 
 ## Rotation
 
@@ -92,5 +92,5 @@ Skill Crit Rate 7.5% | Skill DMG 20% |
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=VW-t72XSON4)
+youtube[https://www.youtube.com/watch?v=VW-t72XSON4]
 

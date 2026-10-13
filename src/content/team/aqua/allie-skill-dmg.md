@@ -21,19 +21,19 @@ Casting her Ultimate skill grants a 15s ATK% buff (+40% Aqua DMG at T1). You sho
 
 1/10/1/10 (Main Skill > Ultimate)
 
-@skill(Sweeping Rush) **Sweeping Rush (Main Skill)** is the first priority to max out for this build as Multi-Sweep's damage scales based on its level.
+skill[Sweeping Rush] **Sweeping Rush (Main Skill)** is the first priority to max out for this build as Multi-Sweep's damage scales based on its level.
 
-@skill(Deep Sweep) **Deep Sweep (Ultimate)** is the final priority to max out due to its consistent usage and high burst damage potential for this setup.
+skill[Deep Sweep] **Deep Sweep (Ultimate)** is the final priority to max out due to its consistent usage and high burst damage potential for this setup.
 
 ## Potential
 
 ### Priority
 
-@pot(Quick Sweep) @pot(Multi Sweep) @pot(Cleaver Ready, 6) @pot(Mirror Blade, 6) @pot(Clothesline Stance, 6) @pot(Sweep Dash, 6) @pot(Sweeper's Blow, 6)
+pot[Quick Sweep] pot[Multi Sweep] pot[Cleaver Ready, 6] pot[Mirror Blade, 6] pot[Clothesline Stance, 6] pot[Sweep Dash, 6] pot[Sweeper's Blow, 6]
 
 ### Optional
 
-@pot(Purge Stance, 1+) @pot(Silent Paws, 1+)
+pot[Purge Stance, 1+] pot[Silent Paws, 1+]
 
 ## Emblem
 
@@ -58,7 +58,7 @@ Suntide Willow is the core support of the team, providing a wide array of buffs 
 
 1/1/10/10 (Support Skill > Ultimate)
 
-@skill(Frolic in the Sea) @skill(Beach Warning) Prioritize upgrading **Frolic in the Sea (Support Skill)** first and **Beach Warning (Ultimate)** next since her Support Skill gives more buffs than her Ultimate.
+skill[Frolic in the Sea] skill[Beach Warning] Prioritize upgrading **Frolic in the Sea (Support Skill)** first and **Beach Warning (Ultimate)** next since her Support Skill gives more buffs than her Ultimate.
 
 You can comfortably stop at Level 7 if you're low on resources since her buff scaling is rather underwhelming compared to others.
 
@@ -66,7 +66,7 @@ You can comfortably stop at Level 7 if you're low on resources since her buff sc
 
 ### Priority
 
-@pot(Rhythm Surge) @pot(Thunderous Surf) @pot(Prismatic Bubbles, 6) @pot(Marine Justice, 6) @pot(Engulfing Tide, 6) @pot(Balmy Surf, 6) @pot(Receding Echoes, 1+)
+pot[Rhythm Surge] pot[Thunderous Surf] pot[Prismatic Bubbles, 6] pot[Marine Justice, 6] pot[Engulfing Tide, 6] pot[Balmy Surf, 6] pot[Receding Echoes, 1+]
 
 ## Emblem
 
@@ -88,13 +88,13 @@ Do take note that you will want to have a built Donna in the first place if you 
 
 1/1/10/1 (Support Skill only)
 
-@skill(Tide Threader) **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
+skill[Tide Threader] **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
 
 ## Potential
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Frostbitten Arrow, 6) @pot(Arrow Pursuit, 6) @pot(Water Ripple, 6) @pot(Aquatic Assault, 6) @pot(Chilling Onslaught, 1)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Frostbitten Arrow, 6] pot[Arrow Pursuit, 6] pot[Water Ripple, 6] pot[Aquatic Assault, 6] pot[Chilling Onslaught, 1]
 
 ## Emblem
 
@@ -122,7 +122,7 @@ Since Donna's role in this case is to be a pure supportive Trekker, there's no n
 
 ### Priority
 
-@pot(Frostbitten Arrow, 6) @pot(Water Ripple, 6) @pot(Messenger Arrow, 6)
+pot[Frostbitten Arrow, 6] pot[Water Ripple, 6] pot[Messenger Arrow, 6]
 
 ## Emblem
 
@@ -142,13 +142,13 @@ If you don't have Donna, you can use Teresa instead but take note that she is fa
 
 1/1/1+/1 (Support Skill if needed)
 
-@skill(Billowing Tide) Level up **Billowing Tide (Support Skill)** if you are having trouble keeping Surging Shield up because the **Isn't it Awesome** potential relies on the Main Trekker having the shield.
+skill[Billowing Tide] Level up **Billowing Tide (Support Skill)** if you are having trouble keeping Surging Shield up because the **Isn't it Awesome** potential relies on the Main Trekker having the shield.
 
 ## Potential
 
 ### Priority
 
-@pot(Surge: Infinite) @pot(Surge: Immortality) @pot(Wave Breaker, 6) @pot(Hold On!, 1) @pot(Isn't It Awesome!, 1+) @pot(Shortcut Seeker, 6)
+pot[Surge: Infinite] pot[Surge: Immortality] pot[Wave Breaker, 6] pot[Hold On!, 1] pot[Isn't It Awesome!, 1+] pot[Shortcut Seeker, 6]
 
 ## Emblem
 
@@ -161,4 +161,4 @@ lv70 | lv80 | lv90
 
 ## Disc
 
-@disc(Bedtime Story, 1) @disc(Fleeting Glimmers, 1) @disc(Soaring Blue, 1) @disc(Sunlit Blossom, 1) @disc(Sword Against Stream, 1) @disc(United by Fate, 6) @disc(Dappled Sunlight, 6)
+disc[Bedtime Story, 1] disc[Fleeting Glimmers, 1] disc[Soaring Blue, 1] disc[Sunlit Blossom, 1] disc[Sword Against Stream, 1] disc[United by Fate, 6] disc[Dappled Sunlight, 6]

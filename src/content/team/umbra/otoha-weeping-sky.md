@@ -15,17 +15,17 @@ Cosette occupies this team's Main slot as she is able to provide high amounts of
 
 1/10/1/1 (Main Skill only)
 
-@skill(Nocturn Hooks) **Nocturn Hooks (Main Skill)** is the only skill that you should upgrade since it scales the amount of Umbra DMG Taken debuff based on its level.
+skill[Nocturn Hooks] **Nocturn Hooks (Main Skill)** is the only skill that you should upgrade since it scales the amount of Umbra DMG Taken debuff based on its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Nightscar Trace) @pot(Nocturn Mark) @pot(Darkclaw Haunt, 6) @pot(Twilight Wish, 6) @pot(Nether Blaze, 6)
+pot[Nightscar Trace] pot[Nocturn Mark] pot[Darkclaw Haunt, 6] pot[Twilight Wish, 6] pot[Nether Blaze, 6]
 
 ### Optional
 
-@pot(Darkclaw Etch, 1+) @pot(Shadowflash Companion, 1+) @pot(Nightshadow Veil, 1+)
+pot[Darkclaw Etch, 1+] pot[Shadowflash Companion, 1+] pot[Nightshadow Veil, 1+]
 
 ## Emblem
 
@@ -46,17 +46,17 @@ Otoha's skill build relies on the synergy of **Ripple of Shadow**, Evening Rain,
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha since both **Ripple of Shadow** and **Evening Rain**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Ripple of Shadow) @pot(Evening Rain) @pot(Devouring Shadow, 6) @pot(Rain-Woven Sorrow, 6) @pot(Bone-Chilling Rain, 6) @pot(Inevitable End, 6)
+pot[Ripple of Shadow] pot[Evening Rain] pot[Devouring Shadow, 6] pot[Rain-Woven Sorrow, 6] pot[Bone-Chilling Rain, 6] pot[Inevitable End, 6]
 
 ### Optional
 
-@pot(Silent Knell, 1+) @pot(Blossom-Eroded Abyss, 1+) @pot(Murmur of Annihilation, 1+)
+pot[Silent Knell, 1+] pot[Blossom-Eroded Abyss, 1+] pot[Murmur of Annihilation, 1+]
 
 ## Emblem
 
@@ -77,17 +77,17 @@ Mistique acts as a sub-DPS and debuffer for the team using her typical minion bu
 
 1/1/10/1 (Support Skill only)
 
-@skill(Summoning Circle) **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
+skill[Summoning Circle] **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Happy Face) @pot(Reality Erosion) @pot(The Conjuring, 6) @pot(Shadow Shackle, 6) @pot(Solar Absorption, 6) @pot(Twin Born, 6)
+pot[Happy Face] pot[Reality Erosion] pot[The Conjuring, 6] pot[Shadow Shackle, 6] pot[Solar Absorption, 6] pot[Twin Born, 6]
 
 ### Optional
 
-@pot(Slumber Invitation) @pot(Lucky Constitution) @pot(Wraith Haunting, 1+)
+pot[Slumber Invitation] pot[Lucky Constitution] pot[Wraith Haunting, 1+]
 
 ## Emblem
 
@@ -114,7 +114,7 @@ Coronis is only used for her Potential kit and none of her skills scale buffs or
 
 ### Priority
 
-@pot(Skeleton Sculpture) @pot(Skeleton Frenzy) @pot(Underground Healer, 6) @pot(Tag of Fate, 6) @pot(Medical Research, 1)
+pot[Skeleton Sculpture] pot[Skeleton Frenzy] pot[Underground Healer, 6] pot[Tag of Fate, 6] pot[Medical Research, 1]
 
 ## Emblem
 
@@ -126,7 +126,7 @@ not needed | not needed | Underground Healer +3
 
 ## Disc
 
-@disc(Petals of Blooming Mirage, 1) @disc(Dream Factory of ☆Truth, 1) @disc(Wisteria Dream, 1) @disc(Witch's Swing, 1) @disc(Those with Ambition, 1) @disc(The Meow, 6) @disc(Phantom of the Banquet, 6)
+disc[Petals of Blooming Mirage, 1] disc[Dream Factory of ☆Truth, 1] disc[Wisteria Dream, 1] disc[Witch's Swing, 1] disc[Those with Ambition, 1] disc[The Meow, 6] disc[Phantom of the Banquet, 6]
 
 ## Rotation
 
@@ -144,4 +144,4 @@ This team is pretty straightforward and even auto friendly as there is no need f
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=VUiktIb7FG4)
+youtube[https://www.youtube.com/watch?v=VUiktIb7FG4]

@@ -16,17 +16,17 @@ Among the current options for Umbra, Cosette is the best Trekker to placed in th
 
 1/10/1/1 (Main Skill only)
 
-@skill(Nocturn Hooks) **Nocturn Hooks (Main Skill)** is the only skill that you should upgrade since it scales the amount of Umbra DMG Taken debuff based on its level.
+skill[Nocturn Hooks] **Nocturn Hooks (Main Skill)** is the only skill that you should upgrade since it scales the amount of Umbra DMG Taken debuff based on its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Netherworld Touch) @pot(Nocturn Mark) @pot(Darkclaw Haunt, 6) @pot(Twilight Wish, 6) @pot(Nether Blaze, 6)
+pot[Netherworld Touch] pot[Nocturn Mark] pot[Darkclaw Haunt, 6] pot[Twilight Wish, 6] pot[Nether Blaze, 6]
 
 ### Optional
 
-@pot(Nightshadow Veil, 1+) @pot(Shadowflash Companion, 1+)
+pot[Nightshadow Veil, 1+] pot[Shadowflash Companion, 1+]
 
 ## Emblem
 
@@ -47,17 +47,17 @@ Contrary to other team compositions, Mistique's DPS capability shines when place
 
 1/1/10/1 (Support Skill only)
 
-@skill(Summoning Circle) **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
+skill[Summoning Circle] **Summoning Circle (Support Skill)** is where all of Mistique's DPS comes from. The Minion DMG dealt by her summoned minions scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Happy Face) @pot(Reality Erosion) @pot(The Conjuring, 6) @pot(Shadow Shackle, 6) @pot(Twin Born, 6) @pot(Solar Absorption, 1+)
+pot[Happy Face] pot[Reality Erosion] pot[The Conjuring, 6] pot[Shadow Shackle, 6] pot[Twin Born, 6] pot[Solar Absorption, 1+]
 
 ### Optional
 
-@pot(Wraith Haunting, 6)
+pot[Wraith Haunting, 6]
 
 ## Emblem
 
@@ -86,7 +86,7 @@ Iris is only used for her crowd control capability and buffs from potentials. No
 
 ### Priority
 
-@pot(Blizzard: Spread) @pot(Blizzard: Vortex) @pot(Sneaky Fisher, 6) @pot(Prolonged Winter, 1) @pot(Frozen Shield, 6)
+pot[Blizzard: Spread] pot[Blizzard: Vortex] pot[Sneaky Fisher, 6] pot[Prolonged Winter, 1] pot[Frozen Shield, 6]
 
 ## Emblem
 
@@ -112,7 +112,7 @@ Coronis is only used for her Potential kit and none of her skills scale buffs or
 
 ### Priority
 
-@pot(Skeleton Sculpture) @pot(Skeleton Frenzy) @pot(Medical Research, 1) @pot(Underground Healer, 6) @pot(Tag of Fate, 6)
+pot[Skeleton Sculpture] pot[Skeleton Frenzy] pot[Medical Research, 1] pot[Underground Healer, 6] pot[Tag of Fate, 6]
 
 ## Emblem
 
@@ -139,7 +139,7 @@ Chixia is used for her valuable Potential kit as none of her usable skills scale
 
 ### Priority
 
-@pot(Crimson Dragon: Convergence) @pot(Crimson Dragon: Chant) @pot(Ink Sigil: Horn Call, 6) @pot(Ink Sigil: Ambush, 6) @pot(Ink Sigil: Barrier Construct, 1+)
+pot[Crimson Dragon: Convergence] pot[Crimson Dragon: Chant] pot[Ink Sigil: Horn Call, 6] pot[Ink Sigil: Ambush, 6] pot[Ink Sigil: Barrier Construct, 1+]
 
 ## Emblem
 
@@ -152,7 +152,7 @@ not needed | not needed | Ink Sigil: Horn Call +3
 
 ## Disc
 
-@disc(Witch's Swing) @disc(Wisteria Dream) @disc(Dream Factory of ☆Truth) @disc(The Bud of Change, 6) @disc(Those with Ambition) @disc(The Meow, 6) @disc(Eclipse)
+disc[Witch's Swing] disc[Wisteria Dream] disc[Dream Factory of ☆Truth] disc[The Bud of Change, 6] disc[Those with Ambition] disc[The Meow, 6] disc[Eclipse]
 
 ## Rotation
 

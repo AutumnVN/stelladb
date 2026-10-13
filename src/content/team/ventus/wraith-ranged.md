@@ -21,7 +21,7 @@ lv70 | lv80 | lv90
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level so it is recommended to level this skill.
 
 ## Potential
 
@@ -37,7 +37,7 @@ lv70 | lv80 | lv90
 
 1/1/10/1 (Support Skill only)
 
-@skill(Bouquet Blast) **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
+skill[Bouquet Blast] **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
 
 ## Potential
 
@@ -64,7 +64,7 @@ Minova is only used for her Potentials and none of her skills provide any buffs 
 
 ### Priority
 
-@pot(Four-Star Wanted Level) @pot(Star Core Crumbled) @pot(Fervent Applause, 6) @pot(Three Base Hit, 6) @pot(Radiant Synergy, 1+)
+pot[Four-Star Wanted Level] pot[Star Core Crumbled] pot[Fervent Applause, 6] pot[Three Base Hit, 6] pot[Radiant Synergy, 1+]
 
 ## Emblem
 
@@ -90,7 +90,7 @@ Canace is only used for her Potentials and none of her skills provide any buffs 
 
 ### Priority
 
-@pot(Grants Efficient Delving) @pot(Grants Speedup Notion) @pot(Structure Analysis, 6) @pot(Conclusion Analysis, 1) @pot(Storm Eye Expansion, 6)
+pot[Grants Efficient Delving] pot[Grants Speedup Notion] pot[Structure Analysis, 6] pot[Conclusion Analysis, 1] pot[Storm Eye Expansion, 6]
 
 ## Emblem
 

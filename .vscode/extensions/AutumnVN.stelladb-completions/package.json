@@ -1,0 +1,22 @@
+{
+    "name": "stelladb-completions",
+    "displayName": "stelladb completions",
+    "description": "auto-complete names in team .md files",
+    "version": "0.0.1",
+    "publisher": "AutumnVN",
+    "engines": {
+        "vscode": "^1.82.0"
+    },
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "stelladb.refresh",
+                "title": "stelladb: refresh names cache"
+            }
+        ]
+    }
+}

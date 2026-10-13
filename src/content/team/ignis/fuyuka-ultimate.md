@@ -14,19 +14,19 @@ Fuyuka's Ultimate-focused build is fully reliant on having fast Energy charging 
 
 1/1+/1/10 (Ultimate > Main Skill)
 
-@skill(Blaze Unsealed) **Blaze Unsealed (Ultimate)** is the main priority to upgrade as it encompasses majority of her damage output thanks to its inherent multipliers that are further strengthened by **Peak Performance** and **Ironfist Blow**.
+skill[Blaze Unsealed] **Blaze Unsealed (Ultimate)** is the main priority to upgrade as it encompasses majority of her damage output thanks to its inherent multipliers that are further strengthened by **Peak Performance** and **Ironfist Blow**.
 
-@skill(Ignis Infusion) **Ignis Infusion (Main Skill)** is the last priority as it is only used to comfortably bring down the Resilience bar of the boss for her first Ultimate setup. Additionally, **Kitty Punch** and **Multi-Shot** also scales with its level.
+skill[Ignis Infusion] **Ignis Infusion (Main Skill)** is the last priority as it is only used to comfortably bring down the Resilience bar of the boss for her first Ultimate setup. Additionally, **Kitty Punch** and **Multi-Shot** also scales with its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Kitty Punch) @pot(Multi-Shot) @pot(Peak Performance, 6) @pot(Blazing Heart, 6) @pot(Finishing Blow, 6) @pot(Combo Punch, 1) @pot(Bold Challenge, 6)
+pot[Kitty Punch] pot[Multi-Shot] pot[Peak Performance, 6] pot[Blazing Heart, 6] pot[Finishing Blow, 6] pot[Combo Punch, 1] pot[Bold Challenge, 6]
 
 ### Optional
 
-@pot(Swirling Counterattack, 1+)
+pot[Swirling Counterattack, 1+]
 
 ## Emblem
 
@@ -50,13 +50,13 @@ Flora's primary role is to provide consistent Ignis DMG taken debuffs and Crit-r
 
 1/1/10/1 (Support Skill only)
 
-@skill(Flutter Flare) Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
+skill[Flutter Flare] Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
 
 ## Potential
 
 ### Priority
 
-@pot(Ember of Tomorrow) @pot(Ashes of the Past) @pot(Foreshadowing Verification, 6) @pot(Lethal Inferno, 6) @pot(Reinforced Impression, 6) @pot(Perfect Acting, 6) @pot(Guest Performer, 6)
+pot[Ember of Tomorrow] pot[Ashes of the Past] pot[Foreshadowing Verification, 6] pot[Lethal Inferno, 6] pot[Reinforced Impression, 6] pot[Perfect Acting, 6] pot[Guest Performer, 6]
 
 ## Emblem
 
@@ -88,11 +88,11 @@ For this team, Snowish Laru is used for her valuable Potential kit as none of he
 
 ### Priority
 
-@pot(Fire Downpour) @pot(Special Ammo) @pot(Fairy Tale Rule, 6) @pot(Celebration Resumed, 6) @pot(Toy Army, 6)
+pot[Fire Downpour] pot[Special Ammo] pot[Fairy Tale Rule, 6] pot[Celebration Resumed, 6] pot[Toy Army, 6]
 
 ### Optional
 
-@pot(Two-Gun Salute, 1) @pot(Heart's Benediction, 1)
+pot[Two-Gun Salute, 1] pot[Heart's Benediction, 1]
 
 ## Emblem
 
@@ -119,11 +119,11 @@ For this team, Chixia is used for her valuable Potential kit as none of her usab
 
 ### Priority
 
-@pot(Crimson Dragon: Convergence) @pot(Crimson Dragon: Chant) @pot(Sigil Unleashed: Flame Glow, 6) @pot(Ink Sigil: Horn Call, 6) @pot(Ink Sigil: Ambush, 6)
+pot[Crimson Dragon: Convergence] pot[Crimson Dragon: Chant] pot[Sigil Unleashed: Flame Glow, 6] pot[Ink Sigil: Horn Call, 6] pot[Ink Sigil: Ambush, 6]
 
 ### Optional
 
-@pot(Prayer of Raging Flame, 6) @pot(Ink Sigil: Barrier Construct, 1+)
+pot[Prayer of Raging Flame, 6] pot[Ink Sigil: Barrier Construct, 1+]
 
 ## Emblem
 
@@ -136,7 +136,7 @@ Charge Eff. (Supp) 40% | Charge Eff. (Supp) 40% | Sigil Unleashed: Flame Glow +3
 
 ## Disc
 
-@disc(Snowy Night Surprise) @disc(Mystic Brushstrokes) @disc(Meowing Cat God) @disc(One Shot, One Down, 6) @disc(A Gift for the Journey, 6) @disc(Voyage Blueprint) @disc(Fireworks)
+disc[Snowy Night Surprise] disc[Mystic Brushstrokes] disc[Meowing Cat God] disc[One Shot, One Down, 6] disc[A Gift for the Journey, 6] disc[Voyage Blueprint] disc[Fireworks]
 
 ## Rotation
 
@@ -157,4 +157,4 @@ __Flora (without Reincarnation of Fire)__
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=c2UFkY52dTc)
+youtube[https://www.youtube.com/watch?v=c2UFkY52dTc]

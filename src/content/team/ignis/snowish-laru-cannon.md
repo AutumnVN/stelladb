@@ -9,17 +9,17 @@ wip: false
 
 1/10/1/1 (Main Skill only)
 
-@skill(Hat Toss) Only upgrade **Hat Toss (Main Skill)** since the ATK% buff that it provides scales with its level.
+skill[Hat Toss] Only upgrade **Hat Toss (Main Skill)** since the ATK% buff that it provides scales with its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Spiral Dance) @pot(Ending Song) @pot(Perception of Psyche, 6) @pot(Emotional Catharsis, 6) @pot(Hero's Halo, 6) @pot(Lethal Inferno, 6)
+pot[Spiral Dance] pot[Ending Song] pot[Perception of Psyche, 6] pot[Emotional Catharsis, 6] pot[Hero's Halo, 6] pot[Lethal Inferno, 6]
 
 ### Optional
 
-@pot(Home Court Dominance, 1+)
+pot[Home Court Dominance, 1+]
 
 ## Emblem
 
@@ -37,7 +37,7 @@ Charge Eff. (Main) 30% | Charge Eff. (Main) 30% | Lethal Inferno +3
 
 ### Priority
 
-@pot(Fire Downpour) @pot(Special Ammo) @pot(Two-Gun Salute, 6) @pot(Uplifting Shot, 6) @pot(Fairy Tale Rule, 6) @pot(Jazz of Rage, 6) @pot(Toy Army, 6)
+pot[Fire Downpour] pot[Special Ammo] pot[Two-Gun Salute, 6] pot[Uplifting Shot, 6] pot[Fairy Tale Rule, 6] pot[Jazz of Rage, 6] pot[Toy Army, 6]
 
 ## Emblem
 
@@ -65,11 +65,11 @@ Chixia is only used for her valuable Potential kit as none of her usable skills 
 
 ### Priority
 
-@pot(Crimson Dragon: Convergence) @pot(Crimson Dragon: Chant) @pot(Sigil Unleashed: Flame Glow, 6) @pot(Ink Sigil: Horn Call, 6) @pot(Ink Sigil: Ambush, 6) @pot(Ink Sigil: Barrier Construct, 1+)
+pot[Crimson Dragon: Convergence] pot[Crimson Dragon: Chant] pot[Sigil Unleashed: Flame Glow, 6] pot[Ink Sigil: Horn Call, 6] pot[Ink Sigil: Ambush, 6] pot[Ink Sigil: Barrier Construct, 1+]
 
 ### Optional
 
-@pot(Prayer of Raging Flame, 1+)
+pot[Prayer of Raging Flame, 1+]
 
 ## Emblem
 
@@ -90,7 +90,7 @@ Kasimira is only used for her valuable Potential kit as none of her usable skill
 
 ### Priority
 
-@pot(Heated Battle) @pot(Area Bombardment) @pot(Shocking Bombardment, 6) @pot(Surprise Gift, 1) @pot(Meltdown Threshold, 6) @pot(Army Breaker, 6)
+pot[Heated Battle] pot[Area Bombardment] pot[Shocking Bombardment, 6] pot[Surprise Gift, 1] pot[Meltdown Threshold, 6] pot[Army Breaker, 6]
 
 ## Emblem
 
@@ -101,4 +101,4 @@ not needed | not needed | not needed
 
 ## Disc
 
-@disc(Snowy Night Surprise) @disc(Mystic Brushstrokes) @disc(Meowing Cat God) @disc(Fireworks) @disc(A Gift for the Journey, 6) @disc(One Shot, One Down, 6) @disc(Voyage Blueprint)
+disc[Snowy Night Surprise] disc[Mystic Brushstrokes] disc[Meowing Cat God] disc[Fireworks] disc[A Gift for the Journey, 6] disc[One Shot, One Down, 6] disc[Voyage Blueprint]

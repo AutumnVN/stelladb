@@ -329,7 +329,7 @@ const embed = JSON.stringify({
                                 const skillList = [];
                                 let rest = section.text;
                                 let mm;
-                                const SKILL_MACRO = /^@skill\(\s*([^)]*?)\s*\)\s*/;
+                                const SKILL_MACRO = /^skill\[\s*([^\]]*?)\s*\]\s*/;
                                 while ((mm = rest.match(SKILL_MACRO))) {
                                     const n = mm[1].trim();
                                     const entry = (skillIndex.get(String(n).toLowerCase()) || [])[0];

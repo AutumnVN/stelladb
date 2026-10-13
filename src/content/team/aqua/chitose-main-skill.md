@@ -14,13 +14,13 @@ Some of Chitose's Skill-based potentials have been buffed thoroughly in Patch 1.
 
 1/10/1/1 (Main Skill only)
 
-@skill(Torrent Flash) **Torrent Flash (Main Skill)** is her main damage source for this build as all of her potentials buff up her Skill DMG. **Cascade of Ruin**'s damage multiplier also scales with its level.
+skill[Torrent Flash] **Torrent Flash (Main Skill)** is her main damage source for this build as all of her potentials buff up her Skill DMG. **Cascade of Ruin**'s damage multiplier also scales with its level.
 
 ## Potential
 
 ### Priority
 
-@pot(Cascade of Ruin) @pot(Against the Flow) @pot(Flowing Circle, 6) @pot(Serpent in Tide, 6) @pot(Returning Tide, 1) @pot(Azure Embrace, 6) @pot(Adamant Scales, 1+)
+pot[Cascade of Ruin] pot[Against the Flow] pot[Flowing Circle, 6] pot[Serpent in Tide, 6] pot[Returning Tide, 1] pot[Azure Embrace, 6] pot[Adamant Scales, 1+]
 
 ## Emblem
 
@@ -47,7 +47,7 @@ On a different note, she is usable outside of Aqua as some of her buffing Potent
 
 1/1/1+/1+ (Support Skill > Ultimate)
 
-@skill(Frolic in the Sea) @skill(Beach Warning) Prioritize upgrading **Frolic in the Sea (Support Skill)** first and **Beach Warning (Ultimate)** next since her Support Skill gives more buffs than her Ultimate.
+skill[Frolic in the Sea] skill[Beach Warning] Prioritize upgrading **Frolic in the Sea (Support Skill)** first and **Beach Warning (Ultimate)** next since her Support Skill gives more buffs than her Ultimate.
 
 Unfortunately, the buff scaling for both skills is a bit underwhelming compared to other Trekkers. Additionally, none of her Potentials for this team scale based on Support Skill level. Therefore, you can comfortably stop at Level 7 if you're low on resources.
 
@@ -55,7 +55,7 @@ Unfortunately, the buff scaling for both skills is a bit underwhelming compared 
 
 ### Priority
 
-@pot(Rhythm Surge) @pot(Thunderous Surf) @pot(Prismatic Bubbles, 6) @pot(Marine Justice, 6) @pot(Receding Echoes, 6) @pot(Balmy Surf, 6) @pot(Engulfing Tide, 6)
+pot[Rhythm Surge] pot[Thunderous Surf] pot[Prismatic Bubbles, 6] pot[Marine Justice, 6] pot[Receding Echoes, 6] pot[Balmy Surf, 6] pot[Engulfing Tide, 6]
 
 ## Emblem
 
@@ -76,17 +76,17 @@ Donna is the sub-DPS of the team, able to dish out good amounts of damage and bu
 
 1/1/1+/1+ (Support Skill > Ultimate)
 
-@skill(Tide Threader) **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
+skill[Tide Threader] **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
 
 ## Potential
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Frostbitten Arrow, 6) @pot(Arrow Pursuit, 6) @pot(Water Ripple, 6) @pot(Chilling Onslaught, 1) @pot(Aquatic Assault, 6)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Frostbitten Arrow, 6] pot[Arrow Pursuit, 6] pot[Water Ripple, 6] pot[Chilling Onslaught, 1] pot[Aquatic Assault, 6]
 
 ### Optional
 
-@pot(Messenger Arrow, 6)
+pot[Messenger Arrow, 6]
 
 ## Emblem
 
@@ -108,14 +108,14 @@ Teresa provides the team with good amounts of ATK buffs through her potentials a
 
 1/1/1+/1 (Support Skill only, otherwise not needed)
 
-@skill(Billowing Tide) Upgrading **Billowing Tide (Support Skill)** allows Teresa's Surging Shield to absorb damage better.
+skill[Billowing Tide] Upgrading **Billowing Tide (Support Skill)** allows Teresa's Surging Shield to absorb damage better.
 This upgrade is not mandatory. Only do it if you find yourself getting hit often.
 
 ## Potential
 
 ### Priority
 
-@pot(Surge: Infinite) @pot(Surge: Ripple) @pot(Hold On!, 1) @pot(Shortcut Seeker, 6) @pot(Band-aid Collector, 6) @pot(Wave Breaker, 6) @pot(Isn't It Awesome!, 6)
+pot[Surge: Infinite] pot[Surge: Ripple] pot[Hold On!, 1] pot[Shortcut Seeker, 6] pot[Band-aid Collector, 6] pot[Wave Breaker, 6] pot[Isn't It Awesome!, 6]
 
 ## Emblem
 
@@ -138,7 +138,7 @@ As Freesia is relegated as a supportive unit for this team, it's not worth it to
 
 ### Priority
 
-@pot(Realm of Frost) @pot(Localized Snowfall) @pot(Winter's Grip, 6) @pot(Guardian's Heart, 6)
+pot[Realm of Frost] pot[Localized Snowfall] pot[Winter's Grip, 6] pot[Guardian's Heart, 6]
 
 ## Emblem
 
@@ -164,7 +164,7 @@ Iris is only used for her valuable Potential kit and none of her skills scale bu
 
 ### Priority
 
-@pot(Blizzard: Spread) @pot(Blizzard: Vortex) @pot(Bundle Sale, 6) @pot(Sneaky Fisher, 6) @pot(Forced Liquidation, 6) @pot(Raging Blizzard, 1) @pot(Prolonged Winter, 1)
+pot[Blizzard: Spread] pot[Blizzard: Vortex] pot[Bundle Sale, 6] pot[Sneaky Fisher, 6] pot[Forced Liquidation, 6] pot[Raging Blizzard, 1] pot[Prolonged Winter, 1]
 
 ## Emblem
 
@@ -177,10 +177,10 @@ lv70 | lv80 | lv90
 
 ## Disc
 
-@disc(Sword Against Stream, 1) @disc(Fleeting Glimmers, 1) @disc(Soaring Blue, 1) @disc(United by Fate, 6) @disc(Sunlit Blossom, 1) @disc(The Clash of Blade and Axe, 1) @disc(Delivered by the Breeze, 6)
+disc[Sword Against Stream, 1] disc[Fleeting Glimmers, 1] disc[Soaring Blue, 1] disc[United by Fate, 6] disc[Sunlit Blossom, 1] disc[The Clash of Blade and Axe, 1] disc[Delivered by the Breeze, 6]
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=-Vkt1cRSjuk)
-@youtube(https://www.youtube.com/watch?v=_BS4KqaGKfg)
+youtube[https://www.youtube.com/watch?v=-Vkt1cRSjuk]
+youtube[https://www.youtube.com/watch?v=_BS4KqaGKfg]
 

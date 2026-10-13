@@ -11,17 +11,17 @@ Due to recent changes with Chitose, this build has been relegated to WIP status 
 
 10/1/1/1 (Auto Attack only)
 
-@skill(Aeroflow) **Aeroflow (Auto Attack)** is the only relevant skill to upgrade for this build because Serpent's Glide and Mirror Blade scales based on the level of this skill.
+skill[Aeroflow] **Aeroflow (Auto Attack)** is the only relevant skill to upgrade for this build because Serpent's Glide and Mirror Blade scales based on the level of this skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Serpent's Glide) @pot(Mirror Blade) @pot(Aqueous Phantasm, 6) @pot(Tremble and Fall, 6) @pot(Dance of Elegance, 6) @pot(Azure Embrace, 6) @pot(Adamant Scales, 6)
+pot[Serpent's Glide] pot[Mirror Blade] pot[Aqueous Phantasm, 6] pot[Tremble and Fall, 6] pot[Dance of Elegance, 6] pot[Azure Embrace, 6] pot[Adamant Scales, 6]
 
 ### Optional
 
-@pot(Waltz of Ripples, 1+)
+pot[Waltz of Ripples, 1+]
 
 ## Emblem
 
@@ -44,17 +44,17 @@ Teresa is the core support of the team as she is able to provide high Auto ATK a
 
 1/1/1+/1 (Support Skill only, otherwise not needed)
 
-@skill(Billowing Tide) Upgrading **Billowing Tide (Support Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself getting hit often.
+skill[Billowing Tide] Upgrading **Billowing Tide (Support Skill)** allows Teresa's Surging Shield to absorb damage better. This upgrade is not mandatory. Only do it if you find yourself getting hit often.
 
 ## Potential
 
 ### Priority
 
-@pot(Surge: Infinite) @pot(Surge: Immortality) @pot(Let Me Help!, 6) @pot(Shortcut Seeker, 6) @pot(Isn't It Awesome!, 6) @pot(Hold On!, 1)
+pot[Surge: Infinite] pot[Surge: Immortality] pot[Let Me Help!, 6] pot[Shortcut Seeker, 6] pot[Isn't It Awesome!, 6] pot[Hold On!, 1]
 
 ### Optional
 
-@pot(Wave Breaker, 6) @pot(Band-aid Collector, 1+)
+pot[Wave Breaker, 6] pot[Band-aid Collector, 1+]
 
 ## Emblem
 
@@ -72,13 +72,13 @@ not needed | not needed | Let Me Help! +3
 
 1/1/10/1 (Support Skill only)
 
-@skill(Tide Threader) **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
+skill[Tide Threader] **Tide Threader (Support Skill)** is Donna's primary damage source through its innately high multipliers. Its level also directly scales the damage dealt by **Unleashed Arrow** and **Arrowfall Reckoning**.
 
 ## Potential
 
 ### Priority
 
-@pot(Unleashed Arrow) @pot(Arrowfall Reckoning) @pot(Arrow Pursuit, 6) @pot(Frostbitten Arrow, 6) @pot(Water Ripple, 6) @pot(Aquatic Assault, 6) @pot(Chilling Onslaught, 1)
+pot[Unleashed Arrow] pot[Arrowfall Reckoning] pot[Arrow Pursuit, 6] pot[Frostbitten Arrow, 6] pot[Water Ripple, 6] pot[Aquatic Assault, 6] pot[Chilling Onslaught, 1]
 
 ## Emblem
 
@@ -106,11 +106,11 @@ Freesia's Berserk state uses Auto Attacks but her damage output is minimal and n
 
 ### Priority
 
-@pot(Realm of Frost) @pot(Localized Snowfall) @pot(Temporal Revival, 6) @pot(Winter's Grip, 6)
+pot[Realm of Frost] pot[Localized Snowfall] pot[Temporal Revival, 6] pot[Winter's Grip, 6]
 
 ### Optional
 
-@pot(Guardian's Heart, 1+)
+pot[Guardian's Heart, 1+]
 
 ## Emblem
 
@@ -138,7 +138,7 @@ Iris is mainly used for her valuable Potential kit and none of her skills scale 
 
 ### Priority
 
-@pot(Blizzard: Spread) @pot(Blizzard: Vortex) @pot(Bundle Sale, 6) @pot(Sneaky Fisher, 6) @pot(Forced Liquidation, 6) @pot(Raging Blizzard, 1) @pot(Prolonged Winter, 1)
+pot[Blizzard: Spread] pot[Blizzard: Vortex] pot[Bundle Sale, 6] pot[Sneaky Fisher, 6] pot[Forced Liquidation, 6] pot[Raging Blizzard, 1] pot[Prolonged Winter, 1]
 
 ## Emblem
 
@@ -151,8 +151,8 @@ not needed | not needed | Bundle Sale +3
 
 ## Disc
 
-@disc(Sword Against Stream) @disc(Sunlit Blossom) @disc(The Clash of Blade and Axe) @disc(Soaring Blue) @disc(Delivered by the Breeze) @disc(United by Fate) @disc(Summer Afternoon Rain)
+disc[Sword Against Stream] disc[Sunlit Blossom] disc[The Clash of Blade and Axe] disc[Soaring Blue] disc[Delivered by the Breeze] disc[United by Fate] disc[Summer Afternoon Rain]
 
 ## Video
 
-@youtube(https://www.youtube.com/watch?v=O5N1x3F2wBM)
+youtube[https://www.youtube.com/watch?v=O5N1x3F2wBM]

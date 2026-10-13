@@ -17,21 +17,21 @@ Firenze's Minion build is primarily relevant in Menace Arena usage because of th
 
 10/10/1/10 (Auto Attack > Main Skill > Ultimate)
 
-@skill(Blooming Shadows) **Blooming Shadows (Auto Attack)** is the primary priority to upgrade as her clones' damage directly scale based on its level.
+skill[Blooming Shadows] **Blooming Shadows (Auto Attack)** is the primary priority to upgrade as her clones' damage directly scale based on its level.
 
-@skill(Elegant Parade) **Elegant Parade (Main Skill)** is the second priority to upgrade since **Shadow Step**'s damage scales based on its level.
+skill[Elegant Parade] **Elegant Parade (Main Skill)** is the second priority to upgrade since **Shadow Step**'s damage scales based on its level.
 
-@skill(Personal Tuition) Lastly, **Personal Tuition (Ultimate)** will be the final priority for its ability to deal burst damage every once in a while, which gets better if you have **Place Your Bets** and **Instant Liquidation** in your Record.
+skill[Personal Tuition] Lastly, **Personal Tuition (Ultimate)** will be the final priority for its ability to deal burst damage every once in a while, which gets better if you have **Place Your Bets** and **Instant Liquidation** in your Record.
 
 ## Potential
 
 ### Priority
 
-@pot(Phantom Waltz) @pot(Shadow Step) @pot(Extended Shift, 6) @pot(Accurate Coincidence, 6) @pot(Gloomy Veil, 1+) @pot(Hunting Command, 6) @pot(Place Your Bets, 6)
+pot[Phantom Waltz] pot[Shadow Step] pot[Extended Shift, 6] pot[Accurate Coincidence, 6] pot[Gloomy Veil, 1+] pot[Hunting Command, 6] pot[Place Your Bets, 6]
 
 ### Optional
 
-@pot(Instant Liquidation, 1+)
+pot[Instant Liquidation, 1+]
 
 ## Emblem
 
@@ -53,17 +53,17 @@ Cosette is the staple support for this team primarily for the consistent high Um
 
 1/1/10/1 (Support Skill only)
 
-@skill(Abyssal Hunter) **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
+skill[Abyssal Hunter] **Abyssal Hunter (Support Skill)** is the only skill that matters here as it scales the Umbra DMG Taken debuff inflicted based on the level of the skill.
 
 ## Potential
 
 ### Priority
 
-@pot(Phantom Mark) @pot(Eclipse Imprint) @pot(Dark: Demon Mark, 6) @pot(Gift of Darkness, 6) @pot(Dark: Mirage, 6)
+pot[Phantom Mark] pot[Eclipse Imprint] pot[Dark: Demon Mark, 6] pot[Gift of Darkness, 6] pot[Dark: Mirage, 6]
 
 ### Optional
 
-@pot(Dark: Hallucination, 1+) @pot(Nether Blaze, 1+)
+pot[Dark: Hallucination, 1+] pot[Nether Blaze, 1+]
 
 ## Emblem
 
@@ -86,17 +86,17 @@ Otoha acts as a direct replacement for Mistique for this team. Her role is to be
 
 1/1/10/1 (Support Skill only)
 
-@skill(Shattered Edge) **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha as **Night-Walker**'s DMG scales based on this skill's level.
+skill[Shattered Edge] **Shattered Edge (Support Skill)** is the only skill to prioritize for Otoha as **Night-Walker**'s DMG scales based on this skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Lonely Twin Shadows) @pot(Night-Walker) @pot(Devouring Shadow, 6) @pot(Solitary Lantern, 6) @pot(Without A Trace, 6) @pot(Murmur of Annihilation, 6)
+pot[Lonely Twin Shadows] pot[Night-Walker] pot[Devouring Shadow, 6] pot[Solitary Lantern, 6] pot[Without A Trace, 6] pot[Murmur of Annihilation, 6]
 
 ### Optional
 
-@pot(Hollow Steps, 1+) @pot(Silent Knell, 1+)
+pot[Hollow Steps, 1+] pot[Silent Knell, 1+]
 
 ## Emblem
 
@@ -123,7 +123,7 @@ Mistique's role is purely to provide crowd control in Menace Arena, so none of h
 
 ### Priority
 
-@pot(Slumber Invitation) @pot(Lucky Constitution) @pot(Solar Absorption, 6) @pot(Extra Perk, 1+)
+pot[Slumber Invitation] pot[Lucky Constitution] pot[Solar Absorption, 6] pot[Extra Perk, 1+]
 
 ## Emblem
 
@@ -147,7 +147,7 @@ Coronis is only used for her Potential kit and none of her skills scale buffs or
 
 ### Priority
 
-@pot(Skeleton Sculpture) @pot(Skeleton Frenzy) @pot(Underground Healer, 6) @pot(Tag of Fate, 6) @pot(Medical Research, 1)
+pot[Skeleton Sculpture] pot[Skeleton Frenzy] pot[Underground Healer, 6] pot[Tag of Fate, 6] pot[Medical Research, 1]
 
 ## Emblem
 
@@ -159,4 +159,4 @@ not needed | not needed | Underground Healer +3
 
 ## Disc
 
-@disc(Witch's Swing) @disc(Wisteria Dream) @disc(Dream Factory of ☆Truth) @disc(The Bud of Change, 6) @disc(Those with Ambition) @disc(The Meow, 6) @disc(Eclipse, 6)
+disc[Witch's Swing] disc[Wisteria Dream] disc[Dream Factory of ☆Truth] disc[The Bud of Change, 6] disc[Those with Ambition] disc[The Meow, 6] disc[Eclipse, 6]

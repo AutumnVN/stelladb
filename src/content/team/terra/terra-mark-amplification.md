@@ -18,19 +18,19 @@ Nazuna acts as the premier Terra Mark applier and buffer, with **Touch of Nature
 
 1/10/1/10 (Main Skill > Ultimate)
 
-@skill(Plushie Dance) **Plushie Dance (Main Skill)** is the primary priority as it provides Terra DMG Taken debuff to enemies, which scales based on the skill's level.
+skill[Plushie Dance] **Plushie Dance (Main Skill)** is the primary priority as it provides Terra DMG Taken debuff to enemies, which scales based on the skill's level.
 
-@skill(Dream Spiral) **Dream Spiral (Ultimate)** is the last priority providing a high ATK% buff that scales based on the skill's level.
+skill[Dream Spiral] **Dream Spiral (Ultimate)** is the last priority providing a high ATK% buff that scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Wobble Dance) @pot(Graceful Turn) @pot(Touch of Nature, 6) @pot(Clean Sweep, 1) @pot(Rocket Cart, 6) @pot(Wily Wonder, 6) @pot(Cutie's Rally, 6) @pot(Focus Fire, 1+)
+pot[Wobble Dance] pot[Graceful Turn] pot[Touch of Nature, 6] pot[Clean Sweep, 1] pot[Rocket Cart, 6] pot[Wily Wonder, 6] pot[Cutie's Rally, 6] pot[Focus Fire, 1+]
 
 ### Optional
 
-@pot(Swiftstep, 1+)
+pot[Swiftstep, 1+]
 
 ## Emblem
 
@@ -61,11 +61,11 @@ Both **Immediate Execution (Support Skill)** and **Divine: Retribution of Evil (
 
 ### Priority
 
-@pot(Curtain Call) @pot(Sin-Bound Echo) @pot(Twilight's Verdict, 6) @pot(Twilight's Hunt, 6) @pot(Hexacalamity: Famine, 1) @pot(Anima Resonance, 1+)
+pot[Curtain Call] pot[Sin-Bound Echo] pot[Twilight's Verdict, 6] pot[Twilight's Hunt, 6] pot[Hexacalamity: Famine, 1] pot[Anima Resonance, 1+]
 
 ### Optional
 
-@pot(Deeper into Sin)
+pot[Deeper into Sin]
 
 ## Emblem
 
@@ -88,13 +88,13 @@ This team setup is further amplified by Tilia thanks to **Blinding Beam** provid
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals damage. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals damage. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Holy Inscription) @pot(Renewed Spectrum) @pot(Blinding Beam, 6) @pot(Trick Boost, 6) @pot(Knight Oath: Courage, 6)
+pot[Holy Inscription] pot[Renewed Spectrum] pot[Blinding Beam, 6] pot[Trick Boost, 6] pot[Knight Oath: Courage, 6]
 
 ## Emblem
 
@@ -106,7 +106,7 @@ Charge Eff. (Supp) 40% | Support Skill Lv. +3 | **Blinding Beam +3**
 
 ## Disc
 
-@disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Colors Pierce the Grey, 6) @disc(Dancing with the Bones, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Veiled Dawn of Spring, 1) @disc(Little Paradise, 1)
+disc[Claw the Claw, 1] disc[The Lost Pilgrim, 1] disc[Colors Pierce the Grey, 6] disc[Dancing with the Bones, 1] disc[Wine Warm, Lamps Alight, 6] disc[Veiled Dawn of Spring, 1] disc[Little Paradise, 1]
 
 ## Rotation
 

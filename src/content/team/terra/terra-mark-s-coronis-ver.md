@@ -19,19 +19,19 @@ Unlike the original Terra Mark team, Nazuna doesn't have to worry about inflicti
 
 1/10/1/10 (Main Skill > Ultimate)
 
-@skill(Plushie Dance) **Plushie Dance (Main Skill)** is the primary priority as it provides Terra DMG Taken debuff to enemies, which scales based on the skill's level.
+skill[Plushie Dance] **Plushie Dance (Main Skill)** is the primary priority as it provides Terra DMG Taken debuff to enemies, which scales based on the skill's level.
 
-@skill(Dream Spiral) **Dream Spiral (Ultimate)** is the last priority providing a high ATK% buff that scales based on the skill's level.
+skill[Dream Spiral] **Dream Spiral (Ultimate)** is the last priority providing a high ATK% buff that scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Small Force) @pot(Wobble Dance) @pot(Touch of Nature, 6) @pot(Rocket Cart, 6) @pot(Wily Wonder, 6) @pot(Cutie's Rally, 6) @pot(Focus Fire, 6)
+pot[Small Force] pot[Wobble Dance] pot[Touch of Nature, 6] pot[Rocket Cart, 6] pot[Wily Wonder, 6] pot[Cutie's Rally, 6] pot[Focus Fire, 6]
 
 ### Optional
 
-@pot(Swiftstep, 1+) @pot(Balloonado, 1)
+pot[Swiftstep, 1+] pot[Balloonado, 1]
 
 ## Emblem
 
@@ -62,11 +62,11 @@ Both **Immediate Execution (Support Skill)** and **Divine: Retribution of Evil (
 
 ### Priority
 
-@pot(Curtain Call) @pot(Sin-Bound Echo) @pot(Twilight's Verdict, 6) @pot(Twilight's Hunt, 6) @pot(Hexacalamity: Famine, 1) @pot(Anima Resonance, 6)
+pot[Curtain Call] pot[Sin-Bound Echo] pot[Twilight's Verdict, 6] pot[Twilight's Hunt, 6] pot[Hexacalamity: Famine, 1] pot[Anima Resonance, 6]
 
 ### Optional
 
-@pot(Deeper into Sin)
+pot[Deeper into Sin]
 
 ## Emblem
 
@@ -95,11 +95,11 @@ None of her skills scale buffs or debuffs and thus, it is not worth it to waste 
 
 ### Priority
 
-@pot(Essence Extraction) @pot(Lasting Aftertaste) @pot(Terra Chorus, 6) @pot(Symptom Sight, 6) @pot(Aromatic Room, 6) @pot(Lingering Grace, 6)
+pot[Essence Extraction] pot[Lasting Aftertaste] pot[Terra Chorus, 6] pot[Symptom Sight, 6] pot[Aromatic Room, 6] pot[Lingering Grace, 6]
 
 ### Optional
 
-@pot(Flying Fire, 1+) @pot(Reciprocity, 1)
+pot[Flying Fire, 1+] pot[Reciprocity, 1]
 
 ## Emblem
 
@@ -112,7 +112,7 @@ not needed | not needed | **Terra Chorus +3**
 
 ## Disc
 
-@disc(Claw the Claw, 1) @disc(The Lost Pilgrim, 1) @disc(Colors Pierce the Grey, 6) @disc(Dancing with the Bones, 1) @disc(Wine Warm, Lamps Alight, 6) @disc(Veiled Dawn of Spring, 1) @disc(Little Paradise, 1)
+disc[Claw the Claw, 1] disc[The Lost Pilgrim, 1] disc[Colors Pierce the Grey, 6] disc[Dancing with the Bones, 1] disc[Wine Warm, Lamps Alight, 6] disc[Veiled Dawn of Spring, 1] disc[Little Paradise, 1]
 
 ## Rotation
 

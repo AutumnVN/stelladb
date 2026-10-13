@@ -18,19 +18,19 @@ Chaton's Dark Ray build is executed by tapping her Main Skill to activate Dark R
 
 1+/10/1/1+ (Main Skill >> Auto Attack = Ultimate)
 
-@skill(Sniper Operation) **Sniper Operation (Main Skill)** is the core skill for this build. It is a must to max it out as soon as possible since Dark Ray, Dark Mark, and **Reincarnation of Darkness**' damage scales depending on its skill level.
+skill[Sniper Operation] **Sniper Operation (Main Skill)** is the core skill for this build. It is a must to max it out as soon as possible since Dark Ray, Dark Mark, and **Reincarnation of Darkness**' damage scales depending on its skill level.
 
-@skill(Full-Auto Trigger) @skill(Dark Evil Eye) Both **Full-Auto Trigger (Auto Attack)** and **Dark Evil Eye (Ultimate)** can be optionally upgraded as well but not as much as her Main Skill, preferably only until Level 7 to help against bosses that summon additional targets.
+skill[Full-Auto Trigger] skill[Dark Evil Eye] Both **Full-Auto Trigger (Auto Attack)** and **Dark Evil Eye (Ultimate)** can be optionally upgraded as well but not as much as her Main Skill, preferably only until Level 7 to help against bosses that summon additional targets.
 
 ## Potential
 
 ### Priority
 
-@pot(Meowth's Curse) @pot(Reincarnation of Darkness) @pot(Mark of Darkness, 6) @pot(Lucky Bullet, 6) @pot(Foe Annihilation, 6) @pot(Dominant Firepower, 1+) @pot(Doom's Echo, 1+)
+pot[Meowth's Curse] pot[Reincarnation of Darkness] pot[Mark of Darkness, 6] pot[Lucky Bullet, 6] pot[Foe Annihilation, 6] pot[Dominant Firepower, 1+] pot[Doom's Echo, 1+]
 
 ### Optional
 
-@pot(Mobile Combat, 1+)
+pot[Mobile Combat, 1+]
 
 ## Emblem
 
@@ -57,17 +57,17 @@ Flora is currently the irreplaceable support of this team. The massive buff and 
 
 1/1/10/1 (Support Skill only)
 
-@skill(Flutter Flare) Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
+skill[Flutter Flare] Only upgrade **Flutter Flare (Support Skill)** as it increases the Crit DMG given by Mindflare Butterfly. Keep in mind that the Crit DMG buff does not correlate with the amount of Mindflare Butterflies present.
 
 ## Potential
 
 ### Priority
 
-@pot(Ashes of the Past) @pot(Ember Rekindled) @pot(Foreshadowing Verification, 6) @pot(Lethal Inferno, 6) @pot(Guest Performer, 6) @pot(Reinforced Impression, 6) @pot(Perfect Acting, 6)
+pot[Ashes of the Past] pot[Ember Rekindled] pot[Foreshadowing Verification, 6] pot[Lethal Inferno, 6] pot[Guest Performer, 6] pot[Reinforced Impression, 6] pot[Perfect Acting, 6]
 
 ### Optional
 
-@pot(Ember of Tomorrow)
+pot[Ember of Tomorrow]
 
 ## Emblem
 
@@ -97,11 +97,11 @@ Snowish Laru is used for her valuable Potential kit as none of her usable skills
 
 ### Priority
 
-@pot(Fire Downpour) @pot(Special Ammo) @pot(Fairy Tale Rule, 6) @pot(Celebration Resumed, 6) @pot(Toy Army, 6) @pot(Two-Gun Salute, 1)
+pot[Fire Downpour] pot[Special Ammo] pot[Fairy Tale Rule, 6] pot[Celebration Resumed, 6] pot[Toy Army, 6] pot[Two-Gun Salute, 1]
 
 ### Optional
 
-@pot(Heart's Benediction, 1)
+pot[Heart's Benediction, 1]
 
 ## Emblem
 
@@ -122,13 +122,13 @@ If you do not have Snowish Laru, Tilia can take her place as a hyper ATK% buffer
 
 1/1/10/1 (Support Skill only)
 
-@skill(Aegis Intervention) **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals damage. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
+skill[Aegis Intervention] **Aegis Intervention (Support Skill)** provides an ATK% buff to the team when her skill deals damage. This buff scales according to the level of the skill and thus, it is beneficial to upgrade it.
 
 ## Potential
 
 ### Priority
 
-@pot(Renewed Spectrum) @pot(Perfect Spiral) @pot(Trick Boost, 6) @pot(Brilliant Relay, 6) @pot(Guardian's Resolve, 6) @pot(Knight Oath: Courage, 6)
+pot[Renewed Spectrum] pot[Perfect Spiral] pot[Trick Boost, 6] pot[Brilliant Relay, 6] pot[Guardian's Resolve, 6] pot[Knight Oath: Courage, 6]
 
 ## Emblem
 
@@ -158,11 +158,11 @@ Kasimira is used for her valuable Potential kit as none of her usable skills sca
 
 ### Priority
 
-@pot(Heated Battle) @pot(Area Bombardment) @pot(Shocking Bombardment, 6) @pot(Meltdown Threshold, 6) @pot(Surprise Gift, 1) @pot(Army Breaker, 6)
+pot[Heated Battle] pot[Area Bombardment] pot[Shocking Bombardment, 6] pot[Meltdown Threshold, 6] pot[Surprise Gift, 1] pot[Army Breaker, 6]
 
 ### Optional
 
-@pot(Lucky Blast, 1)
+pot[Lucky Blast, 1]
 
 ## Emblem
 
@@ -175,4 +175,4 @@ lv70 | lv80 | lv90
 
 ## Disc
 
-@disc(The Cat's Treasure, 1) @disc(Snowy Night Surprise, 1) @disc(One Shot, One Down, 6) @disc(Mystic Brushstrokes, 1) @disc(Joyful Gathering, 6) @disc(Meowing Cat God, 1) @disc(Fist of Courage, 6)
+disc[The Cat's Treasure, 1] disc[Snowy Night Surprise, 1] disc[One Shot, One Down, 6] disc[Mystic Brushstrokes, 1] disc[Joyful Gathering, 6] disc[Meowing Cat God, 1] disc[Fist of Courage, 6]

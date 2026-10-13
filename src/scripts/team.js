@@ -1,7 +1,7 @@
 // @ts-nocheck
-const ITEM_RE = /@(pot|disc|skill|asset|youtube)\(([^)]*)\)/g;
-const ASSET_RE = /@asset\(\s*([^)\s]+)\s*\)/g;
-const YOUTUBE_RE = /@youtube\(\s*([^)\s]+)\s*\)/g;
+const ITEM_RE = /\b(pot|disc|skill|asset|youtube)\[([^\]]*)\]/g;
+const ASSET_RE = /\basset\[\s*([^\]\s]+)\s*\]/g;
+const YOUTUBE_RE = /\byoutube\[\s*([^\]\s]+)\s*\]/g;
 const YT_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 const ASSET_BASE = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles';
 
@@ -40,8 +40,9 @@ export function renderInline(text) {
         return ph;
     });
 
-    out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, alt, url) => `<img src="${attrEsc(url)}" alt="${attrEsc(alt)}" />`);
-    out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, label, url) => `<a href="${attrEsc(url)}" target="_blank" rel="noreferrer">${inlineBold(label) || label}</a>`);
+out = out.replace(/\b(red|orange|yellow|green|blue|indigo|purple|brown)\[((?:[^\[\]]|\[[^\[\]]*\])*)\]/g, (_, name, t) => `<span style="color: var(--${name})">${t}</span>`);
+    out = out.replace(/!\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, alt, url) => `<img src="${attrEsc(url)}" alt="${attrEsc(alt)}" />`);
+    out = out.replace(/\[((?:[^\[\]]|\[[^\[\]]*\])*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g, (_, label, url) => `<a href="${attrEsc(url)}" target="_blank" rel="noreferrer">${inlineBold(label) || label}</a>`);
     out = inlineCode(out);
     out = inlineBold(out);
     out = out.replace(/(^|[\s(])\*([^*\s][^*]*?)\*(?=[\s),.!?]|$)/g, (_, pre, t) => `${pre}<em>${inlineBold(t) || t}</em>`);

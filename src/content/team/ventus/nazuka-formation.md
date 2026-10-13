@@ -22,11 +22,11 @@ Canace is only used to fill in the Main slot for Nazuka and provide Ventus-relat
 
 ### Priority
 
-@pot(Most Admired) @pot(Erratic Weather) @pot(Weakness Analysis, 6) @pot(Subject Boost, 6)
+pot[Most Admired] pot[Erratic Weather] pot[Weakness Analysis, 6] pot[Subject Boost, 6]
 
 ### Optional
 
-@pot(Comprehensive Praise, 1) @pot(Shadow Stride, 1)
+pot[Comprehensive Praise, 1] pot[Shadow Stride, 1]
 
 ## Emblem
 
@@ -39,13 +39,13 @@ not needed | not needed | not needed
 
 1/1/10/1 (Support Skill only)
 
-@skill(Bouquet Blast) **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
+skill[Bouquet Blast] **Bouquet Blast (Support Skill)** is where majority of Nazuka's damage output comes from. It is recommended to level it up as much as you can.
 
 ## Potential
 
 ### Priority
 
-@pot(Flower Formation: Waves) @pot(Flower Formation: Turbulent) @pot(Flower Formation: Blast, 6) @pot(Wind Demon Seed, 6) @pot(Self-Improvement, 6) @pot(Flower Formation: Convergence, 1+)
+pot[Flower Formation: Waves] pot[Flower Formation: Turbulent] pot[Flower Formation: Blast, 6] pot[Wind Demon Seed, 6] pot[Self-Improvement, 6] pot[Flower Formation: Convergence, 1+]
 
 ## Emblem
 
@@ -66,13 +66,13 @@ Ann provides ample amounts of ATK% buff and Ventus DMG taken debuffs through her
 
 1/1/10/1 (Support Skill only)
 
-@skill(Wind Barrier) **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level.
+skill[Wind Barrier] **Wind Barrier (Support Skill)** provides the team with an ATK% buff that scales based on the skill's level.
 
 ## Potential
 
 ### Priority
 
-@pot(Gale Bastion) @pot(Wind Banish) @pot(Wind Erosion Havoc, 6) @pot(Turbulent Flow, 6) @pot(Forest Princess' Blessing, 6)
+pot[Gale Bastion] pot[Wind Banish] pot[Wind Erosion Havoc, 6] pot[Turbulent Flow, 6] pot[Forest Princess' Blessing, 6]
 
 ## Emblem
 
@@ -85,4 +85,4 @@ not needed | Support Skill Lv. +3 | Wind Erosion Havoc +3
 
 ## Disc
 
-@disc(Deer's Song) @disc(One, Two, Three, Jump!) @disc(Sky, Flowers, Poem) @disc(Lemon & Black Tea) @disc(Dawn After Winter) @disc(Chronicles of Spring) @disc(Daylight Garden)
+disc[Deer's Song] disc[One, Two, Three, Jump!] disc[Sky, Flowers, Poem] disc[Lemon & Black Tea] disc[Dawn After Winter] disc[Chronicles of Spring] disc[Daylight Garden]

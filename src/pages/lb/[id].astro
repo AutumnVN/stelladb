@@ -27,9 +27,7 @@ const embed = JSON.stringify({
     component: {
         type: 17,
         accent_color: 6750105,
-        components: [
-            { type: 9, components: [{ type: 10, content: [`## **[${name} Leaderboard](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstIcon}.webp` } } },
-        ],
+        components: [{ type: 9, components: [{ type: 10, content: [`## **[${name} Leaderboard](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${isBB ? 'mapchallenge' : 'monster'}/${firstIcon}.webp` } } }],
     },
 });
 ---
@@ -668,23 +666,27 @@ const embed = JSON.stringify({
 
         modalContent.innerHTML = '';
 
-        const rowsHtml = item.users
-            .map((u) => {
-                const entry = (regionData.Rank || []).find((e) => String(e.Id) === String(u.id)) || (regionData.Self && String(regionData.Self.Id) === String(u.id) ? regionData.Self : null);
-                const dataEntry = entry ? `data-entry='${JSON.stringify(entry).replace(/'/g, '&apos;')}'` : '';
-                const scoreText = !isBB ? `${(Math.abs(u.teamScore) / 1000).toLocaleString('en-US')}s` : (u.teamScore || 0).toLocaleString('en-US');
-                return `
-                    <div class="modal-team-item" tabindex="0" ${dataEntry}>
-                        <div class="modal-team-item-rank">${u.rank}</div>
-                        <img class="modal-team-item-icon" src="${headIconUrl(entry?.HeadIcon)}" alt="${u.name || ''}" width="40" height="40">
-                        <div class="modal-team-item-name" title="${u.id}">${u.name}</div>
-                        <div class="modal-team-item-score">${scoreText}</div>
-                    </div>
-                `;
-            })
-            .join('');
+        function playerRowsHtml(usersList) {
+            return usersList
+                .map((u) => {
+                    const entry = (regionData.Rank || []).find((e) => String(e.Id) === String(u.id)) || (regionData.Self && String(regionData.Self.Id) === String(u.id) ? regionData.Self : null);
+                    const dataEntry = entry ? `data-entry='${JSON.stringify(entry).replace(/'/g, '&apos;')}'` : '';
+                    const scoreText = !isBB ? `${(Math.abs(u.teamScore) / 1000).toLocaleString('en-US')}s` : (u.teamScore || 0).toLocaleString('en-US');
+                    return `
+                        <div class="modal-team-item" tabindex="0" ${dataEntry}>
+                            <div class="modal-team-item-rank">${u.rank}</div>
+                            <img class="modal-team-item-icon" src="${headIconUrl(entry?.HeadIcon)}" alt="${u.name || ''}" width="40" height="40">
+                            <div class="modal-team-item-name" title="${u.id}">${u.name}</div>
+                            <div class="modal-team-item-score">${scoreText}</div>
+                        </div>
+                    `;
+                })
+                .join('');
+        }
 
-        function modalGrid(obj, total) {
+        const rowsHtml = playerRowsHtml(item.users);
+
+        function modalGrid(obj, total, levelRange = 'all') {
             const entries = Object.entries(obj);
             if (entries.length && entries[0][0][0] === 'p') {
                 entries.sort((a, b) => {
@@ -698,12 +700,12 @@ const embed = JSON.stringify({
                 });
             }
             return entries
-                .map(([id, count]) => {
-                    const prefix = id[0];
-                    id = id.slice(1);
+                .map(([key, count]) => {
+                    const prefix = key[0];
+                    const id = key.slice(1);
                     const iconUrl = prefix === 'p' ? `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/potential/${id}.webp` : `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.slice(2)}.webp`;
                     return `
-                        <div class="modal-grid-item">
+                        <div class="modal-grid-item" data-key="${key}" data-prefix="${prefix}" data-char-id="${prefix === 'p' ? getCharIdFromPotentialKey(key) : ''}" data-level-range="${levelRange}">
                             ${
                                 prefix === 'p'
                                     ? `
@@ -739,7 +741,7 @@ const embed = JSON.stringify({
 
         modalContent.innerHTML = `
             <div class="modal-heading">
-                <div>${item.name} (${item.count})</div>
+                <div>${item.name} (${item.count}) <div id="potential-filter-indicator" class="potential-filter-indicator" hidden></div></div>
 
                 <div class="modal-tabs-wrapper">
                     <div class="modal-tabs">
@@ -774,15 +776,15 @@ const embed = JSON.stringify({
                                 </div>
 
                                 <div class="modal-grid-panel" data-panel="all">
-                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.all, charId), item.count)}</div>
+                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.all, charId), item.count, 'all')}</div>
                                 </div>
 
                                 <div class="modal-grid-panel" data-panel="high" hidden>
-                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.high, charId), item.count)}</div>
+                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.high, charId), item.count, 'high')}</div>
                                 </div>
 
                                 <div class="modal-grid-panel" data-panel="low" hidden>
-                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.low, charId), item.count)}</div>
+                                    <div class="modal-grid">${modalGrid(filterPotentialsByChar(item.potentialUsage.low, charId), item.count, 'low')}</div>
                                 </div>
                             </div>
                         `;
@@ -832,6 +834,71 @@ const embed = JSON.stringify({
                 openModal(JSON.parse(row.dataset.entry));
             }
         }
+
+        let currentPotentialFilter = null;
+        const membersKey = item.members.map(String).sort().join(',');
+
+        function renderPlayers(usersList) {
+            list.innerHTML = playerRowsHtml(usersList);
+        }
+
+        function clearPotentialFilter() {
+            currentPotentialFilter = null;
+            const indicator = modalContent.querySelector('#potential-filter-indicator');
+            if (indicator) indicator.hidden = true;
+            modalContent.querySelectorAll('.modal-grid-item.potential-filtered').forEach((el) => el.classList.remove('potential-filtered'));
+            renderPlayers(item.users);
+        }
+
+        modalContent.addEventListener('click', (e) => {
+            const icon = e.target.closest('.modal-grid-item[data-prefix="p"] .modal-grid-item-icon');
+            if (!icon) return;
+            const potEl = icon.closest('.modal-grid-item[data-prefix="p"]');
+            const key = potEl.dataset.key;
+            const levelRange = potEl.dataset.levelRange || 'all';
+            const charId = parseInt(potEl.dataset.charId);
+            const potId = parseInt(key.slice(1));
+
+            if (currentPotentialFilter && currentPotentialFilter.key === key && currentPotentialFilter.levelRange === levelRange) {
+                clearPotentialFilter();
+            } else {
+                const filtered = item.users.filter((u) => {
+                    const entry = (regionData.Rank || []).find((r) => String(r.Id) === String(u.id)) || (regionData.Self && String(regionData.Self.Id) === String(u.id) ? regionData.Self : null);
+                    if (!entry) return false;
+                    return (entry.Teams || []).some((t) => {
+                        if (
+                            (t.Chars || [])
+                                .map((c) => String(c.Id))
+                                .sort()
+                                .join(',') !== membersKey
+                        )
+                            return false;
+                        if (!isNaN(charId) && !(t.Chars || []).some((c) => c.Id === charId)) return false;
+                        return (t.Potentials || []).some((p) => {
+                            if (p.PotentialId !== potId) return false;
+                            if (levelRange === 'high') return p.Level >= 4 && p.Level <= 6;
+                            if (levelRange === 'low') return p.Level >= 1 && p.Level <= 3;
+                            return true;
+                        });
+                    });
+                });
+
+                currentPotentialFilter = { key, levelRange };
+                modalContent.querySelectorAll('.modal-grid-item.potential-filtered').forEach((el) => el.classList.remove('potential-filtered'));
+                potEl.classList.add('potential-filtered');
+
+                const indicator = modalContent.querySelector('#potential-filter-indicator');
+                if (indicator) {
+                    indicator.textContent = `Filtered by potential (${filtered.length})`;
+                    indicator.hidden = false;
+                }
+
+                renderPlayers(filtered);
+            }
+
+            const playersTab = modalContent.querySelector('.modal-tab[data-tab="players"]');
+            if (playersTab) playersTab.click();
+        });
 
         modalClose.addEventListener('click', closeModal);
         modalBackdrop.addEventListener('click', closeModal);
@@ -1792,6 +1859,7 @@ const embed = JSON.stringify({
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            color: var(--text);
             font-weight: 700;
             font-size: 1.2rem;
 
@@ -1844,6 +1912,21 @@ const embed = JSON.stringify({
     .modal-team-list {
         display: flex;
         flex-direction: column;
+    }
+
+    .potential-filter-indicator {
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+
+    .modal-grid-item[data-prefix='p'] .modal-grid-item-icon {
+        cursor: pointer;
+        border: 3px solid transparent;
+        border-radius: 4px;
+    }
+
+    .modal-grid-item.potential-filtered .modal-grid-item-icon {
+        border-color: var(--accent);
     }
 
     .modal-team-item {

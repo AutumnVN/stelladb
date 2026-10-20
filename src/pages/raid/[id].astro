@@ -40,9 +40,7 @@ const embed = JSON.stringify({
     component: {
         type: 17,
         accent_color: 6750105,
-        components: [
-            { type: 9, components: [{ type: 10, content: [`## **[${raid.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${raid.icon}.webp` } } },
-        ],
+        components: [{ type: 9, components: [{ type: 10, content: [`## **[${raid.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }], accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${raid.icon}.webp` } } }],
     },
 });
 ---
@@ -103,13 +101,13 @@ const embed = JSON.stringify({
                     <p class="indent">
                         {
                             raid.diff[0].stat[0][0] &&
-                            Object.entries(raid.diff[0].stat[0][0]).map(([stat, value]) => (
-                                <>
-                                    {stat}: {value.toLocaleString('en-US')}
-                                    {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
-                                    <br />
-                                </>
-                            ))
+                                Object.entries(raid.diff[0].stat[0][0]).map(([stat, value]) => (
+                                    <>
+                                        {stat}: {value.toLocaleString('en-US')}
+                                        {stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}
+                                        <br />
+                                    </>
+                                ))
                         }
                     </p>
                 </div>
@@ -133,6 +131,84 @@ const embed = JSON.stringify({
             </section>
 
             <section id="mechanic" class="tab-panel" hidden>
+                {
+                    raid.effects?.length ? (
+                        <div class="mechanic">
+                            <div class="indent">
+                                {raid.effects.map((effect) => {
+                                    const isAddAttr = Boolean(effect.addAttrType);
+                                    const label = isAddAttr ? effect.addAttrType : effect.effectType;
+                                    const buffIconUrl = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${effect.buffIcon}.webp`;
+                                    const buffIconTooltipUrl = `https://chino.is-a.dev/cdn-cgi/image/format=avif/${buffIconUrl}`;
+                                    return (
+                                        <div class="small">
+                                            {label && (
+                                                <p>
+                                                    {isAddAttr ? 'AddAttr' : 'Effect'}: {label}{' '}
+                                                    <span class="tooltip">
+                                                        <span class="effect-value" data-values={effect.value}>
+                                                            {effect.value?.split('/')[raid.diff.length - 1] ?? '-'}
+                                                        </span>
+                                                        <span class="tooltip-text">
+                                                            {effect.effectType && (
+                                                                <>
+                                                                    Effect: {effect.effectType}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                            {effect.effectId && (
+                                                                <>
+                                                                    Effect ID: {effect.effectId}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                            {effect.addAttrType && (
+                                                                <>
+                                                                    AddAttr: {effect.addAttrType}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                            {effect.addAttrId && (
+                                                                <>
+                                                                    AddAttr ID: {effect.addAttrId}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                            {effect.buffId && (
+                                                                <>
+                                                                    Buff ID: {effect.buffId}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                            {effect.buffIcon && (
+                                                                <>
+                                                                    Buff: {effect.buffIcon === 'No Icon' ? 'No Icon' : <img src={buffIconTooltipUrl} alt={effect.buffIcon} title={effect.buffIcon} width="26" height="36" />}
+                                                                    <br />
+                                                                </>
+                                                            )}
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            )}
+                                            {effect.buffIcon && (
+                                                <p>
+                                                    Buff:{' '}
+                                                    {effect.buffIcon === 'No Icon' ? (
+                                                        'No Icon'
+                                                    ) : (
+                                                        <a href={buffIconUrl} target="_blank">
+                                                            <Image src={buffIconUrl} alt={effect.buffIcon} title={effect.buffIcon} width="26" height="36" densities={[1.25]} />
+                                                        </a>
+                                                    )}
+                                                </p>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ) : null
+                }
                 {
                     raid.mechanic.map((mechanic) => (
                         <div class="mechanic">
@@ -162,6 +238,7 @@ const embed = JSON.stringify({
         const bossOutput = document.querySelector('.boss-output');
         const stats = document.querySelector('.stats p');
         const bookStats = document.querySelector('.book-stats p');
+        const effectValues = document.querySelectorAll('.effect-value');
         const icon = document.querySelector('.left img');
 
         let difficulty = 0;
@@ -181,6 +258,9 @@ const embed = JSON.stringify({
             difficultyOutput.childNodes[0].nodeValue = `Diff: ${raid.diff[difficulty].name} `;
             if (raid.diff[0].stat[0].length > 1) phaseOutput.childNodes[0].nodeValue = `Phase: ${phase} `;
             if (raid.icons) bossOutput.childNodes[0].nodeValue = `Boss ${boss} `;
+            effectValues.forEach((effect) => {
+                effect.textContent = effect.dataset.values?.split('/')[difficulty] ?? '-';
+            });
             const statData = raid.diff[difficulty].stat[boss - 1]?.[phase - 1];
             stats.innerHTML = statData
                 ? Object.entries(statData)

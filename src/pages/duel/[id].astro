@@ -107,7 +107,27 @@ const embed = JSON.stringify({
                                             {mechanic.name} ({mechanic.diff})
                                         </h3>
                                     </div>
-                                    <p class="indent">{mechanic.desc}</p>
+                                    <div class="indent">
+                                        <p>{mechanic.desc}</p>
+                                        {!mechanic.effectType?.length ? null : <p class="small">Effect: {mechanic.effectType.join(', ')}</p>}
+                                        {!mechanic.addAttrType?.length ? null : <p class="small">AddAttr: {mechanic.addAttrType.join(', ')}</p>}
+                                        {!mechanic.buffIcon?.length ? null : (
+                                            <p class="small">
+                                                Buff:{' '}
+                                                {mechanic.buffIcon
+                                                    .map((icon) =>
+                                                        icon === 'No Icon' ? (
+                                                            'No Icon'
+                                                        ) : (
+                                                            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
+                                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
+                                                            </a>
+                                                        ),
+                                                    )
+                                                    .reduce((prev, curr) => [prev, ' ', curr])}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -139,9 +159,42 @@ const embed = JSON.stringify({
                 .join('')}`;
         }
 
-        const mechanicDesc = document.querySelectorAll('.mechanic p');
-        mechanicDesc.forEach((desc) => {
-            desc.innerHTML = desc.textContent.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
+        const left = document.querySelector('.page .left');
+        const mechanicPanel = document.querySelector('#mechanic');
+        const updateLeftVisibility = () => {
+            const hidden = !mechanicPanel.hidden;
+            left.hidden = hidden;
+            left.style.display = hidden ? 'none' : '';
+        };
+
+        new MutationObserver(updateLeftVisibility).observe(mechanicPanel, { attributes: true, attributeFilter: ['hidden'] });
+        updateLeftVisibility();
+
+        const mechanics = duel.mechanic.flat();
+        const mechanicDesc = document.querySelectorAll('.mechanic .indent > p:first-child');
+        mechanicDesc.forEach((desc, index) => {
+            const mechanic = mechanics[index];
+            let result = mechanic.desc;
+
+            (mechanic.params || []).forEach((paramSet, paramIndex) => {
+                const tooltip = mechanic.paramsTooltips?.[paramIndex] || {};
+                const paramValue = String(mechanic.value?.[paramIndex] ?? paramSet).split('/')[0];
+                const tooltipContent = `
+                    ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
+                    ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
+                    ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
+                    ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
+                    ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
+                    ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
+                    ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
+                    ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
+                    ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
+                `.trim();
+
+                result = result.replaceAll(new RegExp(`&Param${paramIndex + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+            });
+
+            desc.innerHTML = result.replace(/<color=#(.{6})>/g, '<color style="color:#$1">').replace(/\u000b/g, '<br />');
         });
     </script>
 

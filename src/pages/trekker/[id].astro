@@ -313,7 +313,7 @@ const embed = JSON.stringify({
                                             .reduce((prev, curr) => [prev, ' ', curr])}
                                     </p>
                                 )}
-                                </div>
+                            </div>
                         </div>
                     )
                 }
@@ -364,7 +364,7 @@ const embed = JSON.stringify({
                                             .reduce((prev, curr) => [prev, ' ', curr])}
                                     </p>
                                 )}
-                                </div>
+                            </div>
                         </div>
                     )
                 }
@@ -414,7 +414,7 @@ const embed = JSON.stringify({
                                             .reduce((prev, curr) => [prev, ' ', curr])}
                                     </p>
                                 )}
-                                </div>
+                            </div>
                         </div>
                     )
                 }
@@ -466,7 +466,7 @@ const embed = JSON.stringify({
                                             .reduce((prev, curr) => [prev, ' ', curr])}
                                     </p>
                                 )}
-                                </div>
+                            </div>
                         </div>
                     )
                 }
@@ -596,7 +596,7 @@ const embed = JSON.stringify({
                                                     .reduce((prev, curr) => [prev, ' ', curr])}
                                             </p>
                                         )}
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -647,7 +647,7 @@ const embed = JSON.stringify({
                                                     .reduce((prev, curr) => [prev, ' ', curr])}
                                             </p>
                                         )}
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -698,7 +698,7 @@ const embed = JSON.stringify({
                                                     .reduce((prev, curr) => [prev, ' ', curr])}
                                             </p>
                                         )}
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -748,7 +748,7 @@ const embed = JSON.stringify({
                                                     .reduce((prev, curr) => [prev, ' ', curr])}
                                             </p>
                                         )}
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -799,7 +799,7 @@ const embed = JSON.stringify({
                                                     .reduce((prev, curr) => [prev, ' ', curr])}
                                             </p>
                                         )}
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))
@@ -842,7 +842,7 @@ const embed = JSON.stringify({
                                             .reduce((prev, curr) => [prev, ' ', curr])}
                                     </p>
                                 )}
-                                </div>
+                            </div>
                         </div>
                     ))
                 }
@@ -1470,6 +1470,7 @@ const embed = JSON.stringify({
                         .replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), param)
                         .replaceAll('Increases ', '')
                         .replaceAll('Base ', '')
+                        .replaceAll('Boost ', '')
                         .replaceAll('by ', '+')
                         .replace(/\.$/, '');
                 });

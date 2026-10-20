@@ -102,6 +102,7 @@ const embed = JSON.stringify({
                     <h2>Stats</h2>
                     <p class="indent">
                         {
+                            raid.diff[0].stat[0][0] &&
                             Object.entries(raid.diff[0].stat[0][0]).map(([stat, value]) => (
                                 <>
                                     {stat}: {value.toLocaleString('en-US')}
@@ -180,9 +181,12 @@ const embed = JSON.stringify({
             difficultyOutput.childNodes[0].nodeValue = `Diff: ${raid.diff[difficulty].name} `;
             if (raid.diff[0].stat[0].length > 1) phaseOutput.childNodes[0].nodeValue = `Phase: ${phase} `;
             if (raid.icons) bossOutput.childNodes[0].nodeValue = `Boss ${boss} `;
-            stats.innerHTML = `${Object.entries(raid.diff[difficulty].stat[boss - 1][phase - 1])
-                .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
-                .join('')}`;
+            const statData = raid.diff[difficulty].stat[boss - 1]?.[phase - 1];
+            stats.innerHTML = statData
+                ? Object.entries(statData)
+                      .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)
+                      .join('')
+                : '';
             if (raid.diff[difficulty].bookStat)
                 bookStats.innerHTML = `${Object.entries(raid.diff[difficulty].bookStat)
                     .map(([stat, value]) => `${stat}: ${value.toLocaleString('en-US')}${stat === 'DEF' ? ` (${Math.round(((value * 40) / (value * 32 + 24000)) * 100 * 100) / 100}%)` : ''}<br />`)

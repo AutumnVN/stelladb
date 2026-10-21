@@ -1,5 +1,9 @@
 ---
+import { injectNote } from '@/scripts/note.js';
+
 const { ...rest } = Astro.props;
+const right = await Astro.slots.render('right');
+const rightHtml = injectNote(right, Astro.locals.notePage ?? '');
 ---
 
 <div class="page" {...rest}>
@@ -13,7 +17,7 @@ const { ...rest } = Astro.props;
         </div>
 
         <div class="right">
-            <slot name="right" />
+            <Fragment set:html={rightHtml} />
         </div>
     </div>
 </div>

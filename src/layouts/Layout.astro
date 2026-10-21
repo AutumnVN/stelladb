@@ -14,6 +14,8 @@ const { title, description = 'a stella sora database', image = 'https://raw.gith
 
 const abs = (path: string) => new URL(path, Astro.url).href;
 
+Astro.locals.notePage = title.replace(/\s*\|\s*stelladb\s*$/, '');
+
 const fallbackEmbed = JSON.stringify({
     component: {
         type: 17,

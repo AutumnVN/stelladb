@@ -46,10 +46,11 @@ const embed = JSON.stringify({
     const SEASON_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
     const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
     const CHARACTER_ID_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/characterid.json';
+    const PLAYER_HEAD_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/PlayerHead.json';
 
     let data;
 
-    const [seasonData, characterIdData, metaData] = await Promise.all([
+    const [seasonData, characterIdData, metaData, playerHeadData] = await Promise.all([
         fetch(SEASON_URL)
             .then((r) => r.json())
             .catch(onError),
@@ -57,6 +58,9 @@ const embed = JSON.stringify({
             .then((r) => r.json())
             .catch(onError),
         fetch(META_URL)
+            .then((r) => r.json())
+            .catch(onError),
+        fetch(PLAYER_HEAD_URL)
             .then((r) => r.json())
             .catch(onError),
     ]);
@@ -531,9 +535,10 @@ const embed = JSON.stringify({
     }
 
     function headIconUrl(icon) {
-        const prefix = icon > 100000 || [101, 102].includes(icon) ? 'player' : '';
-        const id = icon === 101 ? 10001 : icon === 102 ? 10101 : icon;
-        return `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${prefix}head/${prefix}head_${id}_XXL.webp`;
+        const iconPath = playerHeadData[icon]?.Icon;
+        if (!iconPath) return '';
+        const [, folder, file] = iconPath.split('/');
+        return `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${folder.toLowerCase()}/${file}.webp`;
     }
 
     function openModal(entry) {

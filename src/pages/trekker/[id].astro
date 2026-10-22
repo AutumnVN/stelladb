@@ -1,4 +1,4 @@
----
+﻿---
 // @ts-nocheck
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
@@ -1296,6 +1296,7 @@ const embed = JSON.stringify({
                     ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
                     ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
                     ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
+                    ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((usage) => `${usage.duration}s duration, ${usage.hitDelay}s delay, ${usage.hitInterval}s interval, ${usage.hits} hits${usage.requirement ? ` (${usage.requirement})` : ''}`).join('; ')}<br />`}
                     ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
                     ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                     ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
@@ -1375,12 +1376,13 @@ const embed = JSON.stringify({
                         ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                         ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
                     ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
+                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
                     ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
                     ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
                     ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
                     ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
                     ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
+                    ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((usage) => `${usage.duration}s duration, ${usage.hitDelay}s delay, ${usage.hitInterval}s interval, ${usage.hits} hits${usage.requirement ? ` (${usage.requirement})` : ''}`).join('; ')}<br />`}
                     ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
                         ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                         ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
@@ -1399,12 +1401,13 @@ const embed = JSON.stringify({
                         ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                         ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
                     ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
+                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
                     ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
                     ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
                     ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
                     ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
                     ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
+                    ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((usage) => `${usage.duration}s duration, ${usage.hitDelay}s delay, ${usage.hitInterval}s interval, ${usage.hits} hits${usage.requirement ? ` (${usage.requirement})` : ''}`).join('; ')}<br />`}
                     ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
                         ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                         ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
@@ -1453,12 +1456,13 @@ const embed = JSON.stringify({
                     ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                     ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
                     ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
+                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
                     ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
                     ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
                     ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
                     ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
                     ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
+                    ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((usage) => `${usage.duration}s duration, ${usage.hitDelay}s delay, ${usage.hitInterval}s interval, ${usage.hits} hits${usage.requirement ? ` (${usage.requirement})` : ''}`).join('; ')}<br />`}
                     ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
                     ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                     ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
@@ -1477,12 +1481,13 @@ const embed = JSON.stringify({
                     ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
                     ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
                     ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
+                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
                     ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
                     ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
                     ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
                     ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
                     ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
+                    ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((usage) => `${usage.duration}s duration, ${usage.hitDelay}s delay, ${usage.hitInterval}s interval, ${usage.hits} hits${usage.requirement ? ` (${usage.requirement})` : ''}`).join('; ')}<br />`}
                     ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
                     ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                     ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}

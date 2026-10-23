@@ -1203,14 +1203,8 @@ const embed = JSON.stringify({
                 ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
                 ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
                 ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
-                ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
-                ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
-                ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
-                ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
-                ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
-                ${!tooltip.areaShape ? '' : `Shape: ${tooltip.areaShape}<br />`}
-                ${!tooltip.projectile ? '' : `Projectile: ${tooltip.projectile}<br />`}
-                ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((variant) => `${variant.duration}s duration, ${variant.hitDelay}s delay, ${variant.hitInterval}s interval, ${variant.hits} hits${variant.size ? `, ${variant.size}` : ''}${variant.requirement ? ` (${variant.requirement})` : ''}`).join('; ')}<br />`}
+                ${!tooltip.hitSources || !tooltip.hitSources.length ? '' : `${tooltip.hitSources.join('<br />')}<br />`}
+                ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((variant) => `${variant.class ? `${variant.class}${variant.snapshot ? '(Snapshot)' : ''}: ` : ''}${variant.duration}s duration, ${variant.hitDelay}s delay, ${variant.hitInterval}s interval, ${variant.hits} hits${variant.size ? `, ${variant.size}` : ''}${variant.requirement ? ` (${variant.requirement})` : ''}`).join('; ')}<br />`}
                 ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
                 ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
                 ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}

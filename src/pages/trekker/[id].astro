@@ -629,7 +629,7 @@ const embed = JSON.stringify({
                                             const buffs = getPotentialBuffs(pot);
                                             if (!buffs.length) return null;
                                             return (
-                                                <p class="small">
+                                                <p class="small buff-row">
                                                     Buff:{' '}
                                                     {buffs
                                                         .map((buff) =>
@@ -686,7 +686,7 @@ const embed = JSON.stringify({
                                             const buffs = getPotentialBuffs(pot);
                                             if (!buffs.length) return null;
                                             return (
-                                                <p class="small">
+                                                <p class="small buff-row">
                                                     Buff:{' '}
                                                     {buffs
                                                         .map((buff) =>
@@ -743,7 +743,7 @@ const embed = JSON.stringify({
                                             const buffs = getPotentialBuffs(pot);
                                             if (!buffs.length) return null;
                                             return (
-                                                <p class="small">
+                                                <p class="small buff-row">
                                                     Buff:{' '}
                                                     {buffs
                                                         .map((buff) =>
@@ -799,7 +799,7 @@ const embed = JSON.stringify({
                                             const buffs = getPotentialBuffs(pot);
                                             if (!buffs.length) return null;
                                             return (
-                                                <p class="small">
+                                                <p class="small buff-row">
                                                     Buff:{' '}
                                                     {buffs
                                                         .map((buff) =>
@@ -856,7 +856,7 @@ const embed = JSON.stringify({
                                             const buffs = getPotentialBuffs(pot);
                                             if (!buffs.length) return null;
                                             return (
-                                                <p class="small">
+                                                <p class="small buff-row">
                                                     Buff:{' '}
                                                     {buffs
                                                         .map((buff) =>
@@ -1689,6 +1689,10 @@ const embed = JSON.stringify({
 
         .potential-wrapper > img {
             margin: 10px 0;
+        }
+
+        .buff-row img {
+            vertical-align: middle;
         }
 
         .date {

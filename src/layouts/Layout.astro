@@ -403,6 +403,15 @@ if (import.meta.env.SSR) {
             color: var(--blue);
         }
 
+        &.detail-tooltip {
+            cursor: pointer;
+
+            .tooltip-text {
+                width: max-content;
+                max-width: min(400px, 90vw);
+            }
+        }
+
         .tooltip-icon {
             display: inline-block;
             position: relative;

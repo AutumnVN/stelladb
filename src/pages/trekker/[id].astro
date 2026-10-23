@@ -65,6 +65,51 @@ function cap(text) {
     return text ? text[0].toUpperCase() + text.slice(1) : text;
 }
 
+const BUFF_ICON_URL = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff';
+
+function buffTitle(buff) {
+    if (buff.id === undefined) return buff.icon || '';
+    return `${buff.id}${buff.duration === undefined ? '' : ` • ${buff.duration}s`}${buff.stacks === undefined ? '' : ` • ${buff.stacks} stacks`}`;
+}
+
+function getPotentialBuffs(pot) {
+    const icons = (pot.buffIcon || []).filter((icon) => icon !== 'No Icon');
+    const buffs = pot.buffs || [];
+    const merged = [];
+    const seenIcons = new Set();
+    const seenIds = new Set();
+
+    for (const icon of icons) {
+        if (seenIcons.has(icon)) continue;
+        seenIcons.add(icon);
+
+        const matches = buffs.filter((buff) => buff.icon === icon);
+        for (const match of matches) seenIds.add(match.id);
+        merged.push({
+            icon,
+            id: matches[0]?.id,
+            title: matches.length ? matches.map(buffTitle).join(' / ') : icon,
+        });
+    }
+
+    for (const buff of buffs) {
+        if (buff.icon && buff.icon !== 'No Icon' && icons.includes(buff.icon)) continue;
+        if (buff.id && seenIds.has(buff.id)) continue;
+        if (buff.id) seenIds.add(buff.id);
+        merged.push({
+            icon: buff.icon && buff.icon !== 'No Icon' ? buff.icon : null,
+            id: buff.id,
+            title: buffTitle(buff),
+        });
+    }
+
+    if (!merged.length && (pot.buffIcon || []).includes('No Icon')) {
+        merged.push({ icon: null, id: null, title: 'No Icon' });
+    }
+
+    return merged;
+}
+
 const charIndex = buildNameIndex(allCharData);
 
 const matchingTeams = loadAllTeams()
@@ -580,22 +625,28 @@ const embed = JSON.stringify({
                                         )}
                                         {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                         {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : (
-                                            <p class="small">
-                                                Buff:{' '}
-                                                {pot.buffIcon
-                                                    .map((icon) =>
-                                                        icon === 'No Icon' ? (
-                                                            'No Icon'
-                                                        ) : (
-                                                            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                            </a>
-                                                        ),
-                                                    )
-                                                    .reduce((prev, curr) => [prev, ' ', curr])}
-                                            </p>
-                                        )}
+                                        {(() => {
+                                            const buffs = getPotentialBuffs(pot);
+                                            if (!buffs.length) return null;
+                                            return (
+                                                <p class="small">
+                                                    Buff:{' '}
+                                                    {buffs
+                                                        .map((buff) =>
+                                                            buff.icon ? (
+                                                                <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                </a>
+                                                            ) : buff.id ? (
+                                                                <span title={buff.title}>{buff.id}</span>
+                                                            ) : (
+                                                                buff.title
+                                                            ),
+                                                        )
+                                                        .reduce((prev, curr) => [prev, ' ', curr])}
+                                                </p>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -631,22 +682,28 @@ const embed = JSON.stringify({
                                         )}
                                         {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                         {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : (
-                                            <p class="small">
-                                                Buff:{' '}
-                                                {pot.buffIcon
-                                                    .map((icon) =>
-                                                        icon === 'No Icon' ? (
-                                                            'No Icon'
-                                                        ) : (
-                                                            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                            </a>
-                                                        ),
-                                                    )
-                                                    .reduce((prev, curr) => [prev, ' ', curr])}
-                                            </p>
-                                        )}
+                                        {(() => {
+                                            const buffs = getPotentialBuffs(pot);
+                                            if (!buffs.length) return null;
+                                            return (
+                                                <p class="small">
+                                                    Buff:{' '}
+                                                    {buffs
+                                                        .map((buff) =>
+                                                            buff.icon ? (
+                                                                <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                </a>
+                                                            ) : buff.id ? (
+                                                                <span title={buff.title}>{buff.id}</span>
+                                                            ) : (
+                                                                buff.title
+                                                            ),
+                                                        )
+                                                        .reduce((prev, curr) => [prev, ' ', curr])}
+                                                </p>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -682,22 +739,28 @@ const embed = JSON.stringify({
                                         )}
                                         {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                         {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : (
-                                            <p class="small">
-                                                Buff:{' '}
-                                                {pot.buffIcon
-                                                    .map((icon) =>
-                                                        icon === 'No Icon' ? (
-                                                            'No Icon'
-                                                        ) : (
-                                                            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                            </a>
-                                                        ),
-                                                    )
-                                                    .reduce((prev, curr) => [prev, ' ', curr])}
-                                            </p>
-                                        )}
+                                        {(() => {
+                                            const buffs = getPotentialBuffs(pot);
+                                            if (!buffs.length) return null;
+                                            return (
+                                                <p class="small">
+                                                    Buff:{' '}
+                                                    {buffs
+                                                        .map((buff) =>
+                                                            buff.icon ? (
+                                                                <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                </a>
+                                                            ) : buff.id ? (
+                                                                <span title={buff.title}>{buff.id}</span>
+                                                            ) : (
+                                                                buff.title
+                                                            ),
+                                                        )
+                                                        .reduce((prev, curr) => [prev, ' ', curr])}
+                                                </p>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -732,22 +795,28 @@ const embed = JSON.stringify({
                                         )}
                                         {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                         {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : (
-                                            <p class="small">
-                                                Buff:{' '}
-                                                {pot.buffIcon
-                                                    .map((icon) =>
-                                                        icon === 'No Icon' ? (
-                                                            'No Icon'
-                                                        ) : (
-                                                            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                            </a>
-                                                        ),
-                                                    )
-                                                    .reduce((prev, curr) => [prev, ' ', curr])}
-                                            </p>
-                                        )}
+                                        {(() => {
+                                            const buffs = getPotentialBuffs(pot);
+                                            if (!buffs.length) return null;
+                                            return (
+                                                <p class="small">
+                                                    Buff:{' '}
+                                                    {buffs
+                                                        .map((buff) =>
+                                                            buff.icon ? (
+                                                                <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                </a>
+                                                            ) : buff.id ? (
+                                                                <span title={buff.title}>{buff.id}</span>
+                                                            ) : (
+                                                                buff.title
+                                                            ),
+                                                        )
+                                                        .reduce((prev, curr) => [prev, ' ', curr])}
+                                                </p>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -783,22 +852,28 @@ const embed = JSON.stringify({
                                         )}
                                         {!pot.effectType.length ? null : <p class="small">Effect: {pot.effectType.join(', ')}</p>}
                                         {!pot.addAttrType.length ? null : <p class="small">AddAttr: {pot.addAttrType.join(', ')}</p>}
-                                        {!pot.buffIcon.length ? null : (
-                                            <p class="small">
-                                                Buff:{' '}
-                                                {pot.buffIcon
-                                                    .map((icon) =>
-                                                        icon === 'No Icon' ? (
-                                                            'No Icon'
-                                                        ) : (
-                                                            <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                                <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                            </a>
-                                                        ),
-                                                    )
-                                                    .reduce((prev, curr) => [prev, ' ', curr])}
-                                            </p>
-                                        )}
+                                        {(() => {
+                                            const buffs = getPotentialBuffs(pot);
+                                            if (!buffs.length) return null;
+                                            return (
+                                                <p class="small">
+                                                    Buff:{' '}
+                                                    {buffs
+                                                        .map((buff) =>
+                                                            buff.icon ? (
+                                                                <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                </a>
+                                                            ) : buff.id ? (
+                                                                <span title={buff.title}>{buff.id}</span>
+                                                            ) : (
+                                                                buff.title
+                                                            ),
+                                                        )
+                                                        .reduce((prev, curr) => [prev, ' ', curr])}
+                                                </p>
+                                            );
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -994,6 +1069,14 @@ const embed = JSON.stringify({
                     </section>
                 )
             }
+
+            <div id="detail-modal" class="detail-modal" hidden>
+                <div class="modal-backdrop" id="detail-modal-backdrop"></div>
+                <div class="modal-wrapper">
+                    <button class="modal-close" id="detail-modal-close" aria-label="Close">×</button>
+                    <div class="modal-content" id="detail-modal-content"></div>
+                </div>
+            </div>
         </Fragment>
     </Page>
 
@@ -1045,6 +1128,62 @@ const embed = JSON.stringify({
                         </div>
                     </span>`;
                 });
+        }
+
+        function buffIconHtml(icon) {
+            if (icon === 'No Icon') return 'No Icon';
+
+            return `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp" alt="${icon}" title="${icon}" width="26" height="36" />`;
+        }
+
+        function tooltipDetails(tooltip) {
+            if (!tooltip) return '';
+
+            return `
+                ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
+                ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
+                ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
+                ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
+                ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
+                ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
+                ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
+                ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
+                ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
+                ${!tooltip.areaShape ? '' : `Shape: ${tooltip.areaShape}<br />`}
+                ${!tooltip.projectile ? '' : `Projectile: ${tooltip.projectile}<br />`}
+                ${!tooltip.areaEffectVariants ? '' : `Other variants: ${tooltip.areaEffectVariants.map((variant) => `${variant.duration}s duration, ${variant.hitDelay}s delay, ${variant.hitInterval}s interval, ${variant.hits} hits${variant.size ? `, ${variant.size}` : ''}${variant.requirement ? ` (${variant.requirement})` : ''}`).join('; ')}<br />`}
+                ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
+                ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
+                ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
+                ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
+                ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
+                ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
+                ${tooltip.buffDuration === undefined ? '' : `Buff duration: ${tooltip.buffDuration}s<br />`}
+                ${tooltip.buffStacks === undefined ? '' : `Buff stacks: ${tooltip.buffStacks}<br />`}
+                ${!tooltip.buffIcon ? '' : `Buff: ${buffIconHtml(tooltip.buffIcon)}<br />`}
+            `.trim();
+        }
+
+        function tooltipSummary(tooltip) {
+            if (!tooltip) return '';
+
+            const rows = [
+                tooltip.damageType && `Damage: ${tooltip.damageType}`,
+                tooltip.effectType && `Effect: ${tooltip.effectType}`,
+                tooltip.addAttrType && `AddAttr: ${tooltip.addAttrType}`,
+                tooltip.buffIcon && `Buff: ${buffIconHtml(tooltip.buffIcon)}`,
+            ].filter(Boolean);
+
+            return rows.length ? rows.join('<br />') : '';
+        }
+
+        function renderTooltip(tooltip, paramValue) {
+            const details = tooltipDetails(tooltip);
+            if (!details) return paramValue;
+
+            const summary = tooltipSummary(tooltip);
+
+            return `<span class="tooltip detail-tooltip">${paramValue}${summary ? `<span class="tooltip-text">${summary}</span>` : ''}<span class="tooltip-details" hidden>${details}</span></span>`;
         }
 
         const upgrade1Input = document.querySelector('#upgrade1');
@@ -1286,25 +1425,8 @@ const embed = JSON.stringify({
             params.forEach((paramSet, index) => {
                 const tooltip = tooltips[index];
                 const paramValue = paramAt(paramSet, tooltip, upgrade2, skillLevel);
-                const tooltipContent = `
-                    ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
-                    ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
-                    ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` • ${tooltip.summonAttrPercent}%` : ''}<br />`}
-                    ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
-                    ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
-                    ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
-                    ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
-                    ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
-                    ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
-                    ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
-                    ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
-                    ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
-                    ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
-                    ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
-                    ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
-                `.trim();
-                result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+
+                result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), renderTooltip(tooltip, paramValue));
             });
 
             return format(result);
@@ -1371,49 +1493,15 @@ const embed = JSON.stringify({
                 pot.params.forEach((paramSet, index) => {
                     const tooltip = pot.paramsTooltips[index];
                     const paramValue = paramAt(paramSet, tooltip, upgrade3, skillLevel2, potentialLevel);
-                    const tooltipContent = `
-                        ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
-                        ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
-                    ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
-                    ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
-                    ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
-                    ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
-                    ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
-                    ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
-                    ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
-                        ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
-                        ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
-                        ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
-                        ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
-                        ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
-                        ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
-                    `.trim();
-                    result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+
+                    result = result.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), renderTooltip(tooltip, paramValue));
                 });
 
                 pot.hiddenParams.forEach((paramSet, index) => {
                     const tooltip = pot.hiddenParamsTooltips[index];
                     const paramValue = paramAt(paramSet, tooltip, upgrade3, skillLevel2, potentialLevel);
-                    const tooltipContent = `
-                        ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
-                        ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
-                    ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
-                    ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
-                    ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
-                    ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
-                    ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
-                    ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
-                    ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
-                        ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
-                        ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
-                        ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
-                        ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
-                        ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
-                        ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
-                    `.trim();
-                    result = result.replaceAll(`&HiddenParam${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+
+                    result = result.replaceAll(`&HiddenParam${index + 1}&`, renderTooltip(tooltip, paramValue));
                 });
 
                 e.querySelector('h3').innerHTML = `${pot.id % 100}. ${pot[nameLang]}`;
@@ -1449,49 +1537,15 @@ const embed = JSON.stringify({
 
                 params.forEach((param, index) => {
                     const tooltip = talent.boost[0].paramsTooltips[index];
-                    const tooltipContent = `
-                    ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
-                    ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
-                    ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
-                    ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
-                    ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
-                    ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
-                    ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
-                    ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
-                    ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
-                    ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
-                    ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
-                    ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
-                    ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
-                    ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
-                    ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
-                `.trim();
-                    desc = desc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), !tooltipContent ? param : `<span class="tooltip">${param}<span class="tooltip-text">${tooltipContent}</span></span>`);
+
+                    desc = desc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), renderTooltip(tooltip, param));
                 });
 
                 (talent.boost[0].hiddenParams || []).forEach((paramSet, index) => {
                     const tooltip = (talent.boost[0].hiddenParamsTooltips || [])[index] || {};
                     const paramValue = paramAt(paramSet, tooltip);
-                    const tooltipContent = `
-                    ${!tooltip.damageType ? '' : `Damage: ${tooltip.damageType}<br />`}
-                    ${!tooltip.hitDamageId ? '' : `HitDamage ID: ${tooltip.hitDamageId}<br />`}
-                    ${!tooltip.hitDamageNote ? '' : `Note: ${tooltip.hitDamageNote}<br />`}
-                    ${!tooltip.summonAttrType ? '' : `Summon: ${tooltip.summonAttrType}${tooltip.summonAttrPercent !== undefined ? ` — ${tooltip.summonAttrPercent}%` : ''}<br />`}
-                    ${!tooltip.areaEffect ? '' : `AreaEffect: ${tooltip.areaEffect}<br />`}
-                    ${tooltip.duration === undefined ? '' : `Duration: ${tooltip.duration}s<br />`}
-                    ${tooltip.hitDelay === undefined ? '' : `Hit delay: ${tooltip.hitDelay}s<br />`}
-                    ${tooltip.hitInterval === undefined ? '' : `Hit interval: ${tooltip.hitInterval}s<br />`}
-                    ${tooltip.hits === undefined ? '' : `Hits: ${tooltip.hits}<br />`}
-                    ${!tooltip.damageTag ? '' : `Damage tag: ${tooltip.damageTag.join(', ')}<br />`}
-                    ${!tooltip.effectType ? '' : `Effect: ${tooltip.effectType}<br />`}
-                    ${!tooltip.effectId ? '' : `Effect ID: ${tooltip.effectId}<br />`}
-                    ${!tooltip.addAttrType ? '' : `AddAttr: ${tooltip.addAttrType}<br />`}
-                    ${!tooltip.addAttrId ? '' : `AddAttr ID: ${tooltip.addAttrId}<br />`}
-                    ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
-                    ${!tooltip.buffIcon ? '' : `Buff: ${tooltip.buffIcon === 'No Icon' ? 'No Icon' : `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${tooltip.buffIcon}.webp" alt="${tooltip.buffIcon}" title="${tooltip.buffIcon}" width="26" height="36" />`}<br />`}
-                `.trim();
-                    desc = desc.replaceAll(`&HiddenParam${index + 1}&`, !tooltipContent ? paramValue : `<span class="tooltip">${paramValue}<span class="tooltip-text">${tooltipContent}</span></span>`);
+
+                    desc = desc.replaceAll(`&HiddenParam${index + 1}&`, renderTooltip(tooltip, paramValue));
                 });
 
                 talentNameElements[i].innerHTML = `${i + 1}. ${name}`;
@@ -1537,9 +1591,97 @@ const embed = JSON.stringify({
             });
 
         talentBonusStat.innerHTML = bonusStatResult;
+
+        const detailModal = document.querySelector('#detail-modal');
+        const detailModalContent = document.querySelector('#detail-modal-content');
+        const detailModalClose = document.querySelector('#detail-modal-close');
+        const detailModalBackdrop = document.querySelector('#detail-modal-backdrop');
+
+        function closeDetailModal() {
+            detailModal.hidden = true;
+            detailModalContent.innerHTML = '';
+        }
+
+        function openDetailModal(tooltip) {
+            const details = tooltip.querySelector('.tooltip-details');
+            if (!details) return;
+
+            detailModalContent.innerHTML = `${details.innerHTML}`;
+            detailModal.hidden = false;
+        }
+
+        detailModalClose.addEventListener('click', closeDetailModal);
+        detailModalBackdrop.addEventListener('click', closeDetailModal);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !detailModal.hidden) closeDetailModal();
+        });
+
+        document.addEventListener('click', (e) => {
+            const tooltip = e.target.closest('.tooltip');
+            if (!tooltip || !tooltip.querySelector('.tooltip-details')) return;
+
+            e.preventDefault();
+            openDetailModal(tooltip);
+        });
     </script>
 
     <style>
+        .detail-modal {
+            display: flex;
+            position: fixed;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            inset: 0;
+        }
+
+        .detail-modal[hidden] {
+            display: none;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-wrapper {
+            position: relative;
+            z-index: 2;
+            border-radius: 10px;
+            background: var(--bg1a);
+            padding: 1rem;
+            width: min(560px, 90%);
+            max-height: 80vh;
+            overflow: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--text);
+            font-size: 2rem;
+        }
+
+        .modal-content {
+            line-height: 1.5;
+
+            img {
+                vertical-align: middle;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
         .skill-header h2 {
             margin: 0;
         }

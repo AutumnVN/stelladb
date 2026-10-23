@@ -72,9 +72,34 @@ function buffTitle(buff) {
     return `${buff.id}${buff.duration === undefined ? '' : ` • ${buff.duration}s`}${buff.stacks === undefined ? '' : ` • ${buff.stacks} stacks`}`;
 }
 
+function getItemBuffs(item) {
+    const buffs = new Map((item.buffs || []).map((buff) => [buff.id, buff]));
+
+    for (const tooltip of [...(item.paramsTooltips || []), ...(item.hiddenParamsTooltips || [])]) {
+        if (!tooltip.buffIcon || tooltip.buffIcon === 'No Icon' || tooltip.buffId === undefined) continue;
+
+        const existing = buffs.get(tooltip.buffId);
+
+        if (existing) {
+            if (existing.icon === undefined) existing.icon = tooltip.buffIcon;
+            if (existing.duration === undefined) existing.duration = tooltip.buffDuration;
+            if (existing.stacks === undefined) existing.stacks = tooltip.buffStacks;
+        } else {
+            buffs.set(tooltip.buffId, {
+                id: tooltip.buffId,
+                icon: tooltip.buffIcon,
+                duration: tooltip.buffDuration,
+                stacks: tooltip.buffStacks,
+            });
+        }
+    }
+
+    return [...buffs.values()];
+}
+
 function getPotentialBuffs(pot) {
     const icons = (pot.buffIcon || []).filter((icon) => icon !== 'No Icon');
-    const buffs = pot.buffs || [];
+    const buffs = getItemBuffs(pot);
     const merged = [];
     const seenIcons = new Set();
     const seenIds = new Set();
@@ -342,22 +367,28 @@ const embed = JSON.stringify({
                                 )}
                                 {!char.normalAtk.effectType.length ? null : <p class="small">Effect: {char.normalAtk.effectType.join(', ')}</p>}
                                 {!char.normalAtk.addAttrType.length ? null : <p class="small">AddAttr: {char.normalAtk.addAttrType.join(', ')}</p>}
-                                {!char.normalAtk.buffIcon.length ? null : (
-                                    <p class="small">
-                                        Buff:{' '}
-                                        {char.normalAtk.buffIcon
-                                            .map((icon) =>
-                                                icon === 'No Icon' ? (
-                                                    'No Icon'
-                                                ) : (
-                                                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                    </a>
-                                                ),
-                                            )
-                                            .reduce((prev, curr) => [prev, ' ', curr])}
-                                    </p>
-                                )}
+                                {(() => {
+                                    const buffs = getPotentialBuffs(char.normalAtk);
+                                    if (!buffs.length) return null;
+                                    return (
+                                        <p class="small buff-row">
+                                            Buff:{' '}
+                                            {buffs
+                                                .map((buff) =>
+                                                    buff.icon ? (
+                                                        <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                        </a>
+                                                    ) : buff.id ? (
+                                                        <span title={buff.title}>{buff.id}</span>
+                                                    ) : (
+                                                        buff.title
+                                                    ),
+                                                )
+                                                .reduce((prev, curr) => [prev, ' ', curr])}
+                                        </p>
+                                    );
+                                })()}
                             </div>
                         </div>
                     )
@@ -393,22 +424,28 @@ const embed = JSON.stringify({
                                 )}
                                 {!char.skill.effectType.length ? null : <p class="small">Effect: {char.skill.effectType.join(', ')}</p>}
                                 {!char.skill.addAttrType.length ? null : <p class="small">AddAttr: {char.skill.addAttrType.join(', ')}</p>}
-                                {!char.skill.buffIcon.length ? null : (
-                                    <p class="small">
-                                        Buff:{' '}
-                                        {char.skill.buffIcon
-                                            .map((icon) =>
-                                                icon === 'No Icon' ? (
-                                                    'No Icon'
-                                                ) : (
-                                                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                    </a>
-                                                ),
-                                            )
-                                            .reduce((prev, curr) => [prev, ' ', curr])}
-                                    </p>
-                                )}
+                                {(() => {
+                                    const buffs = getPotentialBuffs(char.skill);
+                                    if (!buffs.length) return null;
+                                    return (
+                                        <p class="small buff-row">
+                                            Buff:{' '}
+                                            {buffs
+                                                .map((buff) =>
+                                                    buff.icon ? (
+                                                        <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                        </a>
+                                                    ) : buff.id ? (
+                                                        <span title={buff.title}>{buff.id}</span>
+                                                    ) : (
+                                                        buff.title
+                                                    ),
+                                                )
+                                                .reduce((prev, curr) => [prev, ' ', curr])}
+                                        </p>
+                                    );
+                                })()}
                             </div>
                         </div>
                     )
@@ -443,22 +480,28 @@ const embed = JSON.stringify({
                                 )}
                                 {!char.supportSkill.effectType.length ? null : <p class="small">Effect: {char.supportSkill.effectType.join(', ')}</p>}
                                 {!char.supportSkill.addAttrType.length ? null : <p class="small">AddAttr: {char.supportSkill.addAttrType.join(', ')}</p>}
-                                {!char.supportSkill.buffIcon.length ? null : (
-                                    <p class="small">
-                                        Buff:{' '}
-                                        {char.supportSkill.buffIcon
-                                            .map((icon) =>
-                                                icon === 'No Icon' ? (
-                                                    'No Icon'
-                                                ) : (
-                                                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                    </a>
-                                                ),
-                                            )
-                                            .reduce((prev, curr) => [prev, ' ', curr])}
-                                    </p>
-                                )}
+                                {(() => {
+                                    const buffs = getPotentialBuffs(char.supportSkill);
+                                    if (!buffs.length) return null;
+                                    return (
+                                        <p class="small buff-row">
+                                            Buff:{' '}
+                                            {buffs
+                                                .map((buff) =>
+                                                    buff.icon ? (
+                                                        <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                        </a>
+                                                    ) : buff.id ? (
+                                                        <span title={buff.title}>{buff.id}</span>
+                                                    ) : (
+                                                        buff.title
+                                                    ),
+                                                )
+                                                .reduce((prev, curr) => [prev, ' ', curr])}
+                                        </p>
+                                    );
+                                })()}
                             </div>
                         </div>
                     )
@@ -495,22 +538,28 @@ const embed = JSON.stringify({
                                 )}
                                 {!char.ultimate.effectType.length ? null : <p class="small">Effect: {char.ultimate.effectType.join(', ')}</p>}
                                 {!char.ultimate.addAttrType.length ? null : <p class="small">AddAttr: {char.ultimate.addAttrType.join(', ')}</p>}
-                                {!char.ultimate.buffIcon.length ? null : (
-                                    <p class="small">
-                                        Buff:{' '}
-                                        {char.ultimate.buffIcon
-                                            .map((icon) =>
-                                                icon === 'No Icon' ? (
-                                                    'No Icon'
-                                                ) : (
-                                                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                    </a>
-                                                ),
-                                            )
-                                            .reduce((prev, curr) => [prev, ' ', curr])}
-                                    </p>
-                                )}
+                                {(() => {
+                                    const buffs = getPotentialBuffs(char.ultimate);
+                                    if (!buffs.length) return null;
+                                    return (
+                                        <p class="small buff-row">
+                                            Buff:{' '}
+                                            {buffs
+                                                .map((buff) =>
+                                                    buff.icon ? (
+                                                        <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                        </a>
+                                                    ) : buff.id ? (
+                                                        <span title={buff.title}>{buff.id}</span>
+                                                    ) : (
+                                                        buff.title
+                                                    ),
+                                                )
+                                                .reduce((prev, curr) => [prev, ' ', curr])}
+                                        </p>
+                                    );
+                                })()}
                             </div>
                         </div>
                     )
@@ -901,22 +950,28 @@ const embed = JSON.stringify({
                                 <p>{talent.boost[0].desc}</p>
                                 {!talent.boost[0].effectType.length ? null : <p class="small">Effect: {talent.boost[0].effectType.join(', ')}</p>}
                                 {!talent.boost[0].addAttrType.length ? null : <p class="small">AddAttr: {talent.boost[0].addAttrType.join(', ')}</p>}
-                                {!talent.boost[0].buffIcon.length ? null : (
-                                    <p class="small">
-                                        Buff:{' '}
-                                        {talent.boost[0].buffIcon
-                                            .map((icon) =>
-                                                icon === 'No Icon' ? (
-                                                    'No Icon'
-                                                ) : (
-                                                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} target="_blank">
-                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp`} alt={icon} title={icon} width="26" height="36" densities={[1.25]} />
-                                                    </a>
-                                                ),
-                                            )
-                                            .reduce((prev, curr) => [prev, ' ', curr])}
-                                    </p>
-                                )}
+                                {(() => {
+                                    const buffs = getPotentialBuffs(talent.boost[0]);
+                                    if (!buffs.length) return null;
+                                    return (
+                                        <p class="small buff-row">
+                                            Buff:{' '}
+                                            {buffs
+                                                .map((buff) =>
+                                                    buff.icon ? (
+                                                        <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                        </a>
+                                                    ) : buff.id ? (
+                                                        <span title={buff.title}>{buff.id}</span>
+                                                    ) : (
+                                                        buff.title
+                                                    ),
+                                                )
+                                                .reduce((prev, curr) => [prev, ' ', curr])}
+                                        </p>
+                                    );
+                                })()}
                             </div>
                         </div>
                     ))
@@ -1130,10 +1185,14 @@ const embed = JSON.stringify({
                 });
         }
 
-        function buffIconHtml(icon) {
+        function buffIconHtml(tooltip) {
+            const icon = tooltip.buffIcon;
+            if (!icon) return '';
             if (icon === 'No Icon') return 'No Icon';
 
-            return `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp" alt="${icon}" title="${icon}" width="26" height="36" />`;
+            const title = `${tooltip.buffId ?? icon}${tooltip.buffDuration === undefined ? '' : ` • ${tooltip.buffDuration}s`}${tooltip.buffStacks === undefined ? '' : ` • ${tooltip.buffStacks} stacks`}`;
+
+            return `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp" alt="${tooltip.buffId ?? icon}" title="${title}" width="26" height="36" />`;
         }
 
         function tooltipDetails(tooltip) {
@@ -1160,14 +1219,14 @@ const embed = JSON.stringify({
                 ${!tooltip.buffId ? '' : `Buff ID: ${tooltip.buffId}<br />`}
                 ${tooltip.buffDuration === undefined ? '' : `Buff duration: ${tooltip.buffDuration}s<br />`}
                 ${tooltip.buffStacks === undefined ? '' : `Buff stacks: ${tooltip.buffStacks}<br />`}
-                ${!tooltip.buffIcon ? '' : `Buff: ${buffIconHtml(tooltip.buffIcon)}<br />`}
+                ${!tooltip.buffIcon ? '' : `Buff: ${buffIconHtml(tooltip)}<br />`}
             `.trim();
         }
 
         function tooltipSummary(tooltip) {
             if (!tooltip) return '';
 
-            const rows = [tooltip.damageType && `Damage: ${tooltip.damageType}`, tooltip.effectType && `Effect: ${tooltip.effectType}`, tooltip.addAttrType && `AddAttr: ${tooltip.addAttrType}`, tooltip.buffIcon && `Buff: ${buffIconHtml(tooltip.buffIcon)}`].filter(Boolean);
+            const rows = [tooltip.damageType && `Damage: ${tooltip.damageType}`, tooltip.effectType && `Effect: ${tooltip.effectType}`, tooltip.addAttrType && `AddAttr: ${tooltip.addAttrType}`, tooltip.buffIcon && `Buff: ${buffIconHtml(tooltip)}`].filter(Boolean);
 
             return rows.length ? rows.join('<br />') : '';
         }
@@ -1666,7 +1725,7 @@ const embed = JSON.stringify({
         .modal-content {
             line-height: 1.5;
 
-            img {
+            :global(img) {
                 vertical-align: middle;
                 object-fit: cover;
                 object-position: center;
@@ -1691,7 +1750,8 @@ const embed = JSON.stringify({
             margin: 10px 0;
         }
 
-        .buff-row img {
+        .buff-row img,
+        .buff-row a {
             vertical-align: middle;
         }
 

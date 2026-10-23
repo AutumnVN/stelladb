@@ -1,4 +1,4 @@
----
+﻿---
 // @ts-nocheck
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
@@ -1167,12 +1167,7 @@ const embed = JSON.stringify({
         function tooltipSummary(tooltip) {
             if (!tooltip) return '';
 
-            const rows = [
-                tooltip.damageType && `Damage: ${tooltip.damageType}`,
-                tooltip.effectType && `Effect: ${tooltip.effectType}`,
-                tooltip.addAttrType && `AddAttr: ${tooltip.addAttrType}`,
-                tooltip.buffIcon && `Buff: ${buffIconHtml(tooltip.buffIcon)}`,
-            ].filter(Boolean);
+            const rows = [tooltip.damageType && `Damage: ${tooltip.damageType}`, tooltip.effectType && `Effect: ${tooltip.effectType}`, tooltip.addAttrType && `AddAttr: ${tooltip.addAttrType}`, tooltip.buffIcon && `Buff: ${buffIconHtml(tooltip.buffIcon)}`].filter(Boolean);
 
             return rows.length ? rows.join('<br />') : '';
         }

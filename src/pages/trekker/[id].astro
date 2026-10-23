@@ -67,11 +67,6 @@ function cap(text) {
 
 const BUFF_ICON_URL = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff';
 
-function buffTitle(buff) {
-    if (buff.id === undefined) return buff.icon || '';
-    return `${buff.id}${buff.duration === undefined ? '' : ` • ${buff.duration}s`}${buff.stacks === undefined ? '' : ` • ${buff.stacks} stacks`}`;
-}
-
 function getItemBuffs(item) {
     const buffs = new Map((item.buffs || []).map((buff) => [buff.id, buff]));
 
@@ -113,7 +108,6 @@ function getPotentialBuffs(pot) {
         merged.push({
             icon,
             id: matches[0]?.id,
-            title: matches.length ? matches.map(buffTitle).join(' / ') : icon,
         });
     }
 
@@ -124,12 +118,11 @@ function getPotentialBuffs(pot) {
         merged.push({
             icon: buff.icon && buff.icon !== 'No Icon' ? buff.icon : null,
             id: buff.id,
-            title: buffTitle(buff),
         });
     }
 
     if (!merged.length && (pot.buffIcon || []).includes('No Icon')) {
-        merged.push({ icon: null, id: null, title: 'No Icon' });
+        merged.push({ icon: null, id: null });
     }
 
     return merged;
@@ -377,12 +370,10 @@ const embed = JSON.stringify({
                                                 .map((buff) =>
                                                     buff.icon ? (
                                                         <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                         </a>
-                                                    ) : buff.id ? (
-                                                        <span title={buff.title}>{buff.id}</span>
                                                     ) : (
-                                                        buff.title
+                                                        'No Icon'
                                                     ),
                                                 )
                                                 .reduce((prev, curr) => [prev, ' ', curr])}
@@ -434,12 +425,10 @@ const embed = JSON.stringify({
                                                 .map((buff) =>
                                                     buff.icon ? (
                                                         <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                         </a>
-                                                    ) : buff.id ? (
-                                                        <span title={buff.title}>{buff.id}</span>
                                                     ) : (
-                                                        buff.title
+                                                        'No Icon'
                                                     ),
                                                 )
                                                 .reduce((prev, curr) => [prev, ' ', curr])}
@@ -490,12 +479,10 @@ const embed = JSON.stringify({
                                                 .map((buff) =>
                                                     buff.icon ? (
                                                         <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                         </a>
-                                                    ) : buff.id ? (
-                                                        <span title={buff.title}>{buff.id}</span>
                                                     ) : (
-                                                        buff.title
+                                                        'No Icon'
                                                     ),
                                                 )
                                                 .reduce((prev, curr) => [prev, ' ', curr])}
@@ -548,12 +535,10 @@ const embed = JSON.stringify({
                                                 .map((buff) =>
                                                     buff.icon ? (
                                                         <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                         </a>
-                                                    ) : buff.id ? (
-                                                        <span title={buff.title}>{buff.id}</span>
                                                     ) : (
-                                                        buff.title
+                                                        'No Icon'
                                                     ),
                                                 )
                                                 .reduce((prev, curr) => [prev, ' ', curr])}
@@ -684,12 +669,10 @@ const embed = JSON.stringify({
                                                         .map((buff) =>
                                                             buff.icon ? (
                                                                 <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                                 </a>
-                                                            ) : buff.id ? (
-                                                                <span title={buff.title}>{buff.id}</span>
                                                             ) : (
-                                                                buff.title
+                                                                'No Icon'
                                                             ),
                                                         )
                                                         .reduce((prev, curr) => [prev, ' ', curr])}
@@ -741,12 +724,10 @@ const embed = JSON.stringify({
                                                         .map((buff) =>
                                                             buff.icon ? (
                                                                 <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                                 </a>
-                                                            ) : buff.id ? (
-                                                                <span title={buff.title}>{buff.id}</span>
                                                             ) : (
-                                                                buff.title
+                                                                'No Icon'
                                                             ),
                                                         )
                                                         .reduce((prev, curr) => [prev, ' ', curr])}
@@ -798,12 +779,10 @@ const embed = JSON.stringify({
                                                         .map((buff) =>
                                                             buff.icon ? (
                                                                 <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                                 </a>
-                                                            ) : buff.id ? (
-                                                                <span title={buff.title}>{buff.id}</span>
                                                             ) : (
-                                                                buff.title
+                                                                'No Icon'
                                                             ),
                                                         )
                                                         .reduce((prev, curr) => [prev, ' ', curr])}
@@ -854,12 +833,10 @@ const embed = JSON.stringify({
                                                         .map((buff) =>
                                                             buff.icon ? (
                                                                 <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                                 </a>
-                                                            ) : buff.id ? (
-                                                                <span title={buff.title}>{buff.id}</span>
                                                             ) : (
-                                                                buff.title
+                                                                'No Icon'
                                                             ),
                                                         )
                                                         .reduce((prev, curr) => [prev, ' ', curr])}
@@ -911,12 +888,10 @@ const embed = JSON.stringify({
                                                         .map((buff) =>
                                                             buff.icon ? (
                                                                 <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                                    <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                                 </a>
-                                                            ) : buff.id ? (
-                                                                <span title={buff.title}>{buff.id}</span>
                                                             ) : (
-                                                                buff.title
+                                                                'No Icon'
                                                             ),
                                                         )
                                                         .reduce((prev, curr) => [prev, ' ', curr])}
@@ -960,12 +935,10 @@ const embed = JSON.stringify({
                                                 .map((buff) =>
                                                     buff.icon ? (
                                                         <a href={`${BUFF_ICON_URL}/${buff.icon}.webp`} target="_blank">
-                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.title} width="26" height="36" densities={[1.25]} />
+                                                            <Image src={`${BUFF_ICON_URL}/${buff.icon}.webp`} alt={buff.id ?? buff.icon} title={buff.icon} width="26" height="36" densities={[1.25]} />
                                                         </a>
-                                                    ) : buff.id ? (
-                                                        <span title={buff.title}>{buff.id}</span>
                                                     ) : (
-                                                        buff.title
+                                                        'No Icon'
                                                     ),
                                                 )
                                                 .reduce((prev, curr) => [prev, ' ', curr])}
@@ -1190,9 +1163,7 @@ const embed = JSON.stringify({
             if (!icon) return '';
             if (icon === 'No Icon') return 'No Icon';
 
-            const title = `${tooltip.buffId ?? icon}${tooltip.buffDuration === undefined ? '' : ` • ${tooltip.buffDuration}s`}${tooltip.buffStacks === undefined ? '' : ` • ${tooltip.buffStacks} stacks`}`;
-
-            return `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp" alt="${tooltip.buffId ?? icon}" title="${title}" width="26" height="36" />`;
+            return `<img src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/buff/${icon}.webp" alt="${tooltip.buffId ?? icon}" title="${icon}" width="26" height="36" />`;
         }
 
         function tooltipDetails(tooltip) {

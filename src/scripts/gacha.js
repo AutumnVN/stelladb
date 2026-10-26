@@ -160,8 +160,13 @@ function renderAccounts() {
         if (!uid) return '';
         const region = normalizeRegion(data.region);
         const active = uid === state.active;
-        return `<button type="button" class="account-tab${active ? ' active' : ''}" data-uid="${escAttr(uid)}" aria-pressed="${active}">
-            <span>${esc(uid)}</span>
+        const gameUid = normalizeUid(data.gameUid);
+        const gameName = normalizeUid(data.gameName);
+        const title = [gameName, `UID ${gameUid || uid}`]
+            .filter(Boolean)
+            .join(' · ');
+        return `<button type="button" class="account-tab${active ? ' active' : ''}" data-uid="${escAttr(uid)}" aria-pressed="${active}" title="${escAttr(title)}">
+            <span>${esc(gameName || gameUid || uid)}</span>
             <small>${REGION_LABELS[region] || '??'} · ${formatNumber(totalPulls(data))} pulls</small>
         </button>`;
     }).join('');
@@ -171,10 +176,14 @@ function renderAccount(data) {
     const region = normalizeRegion(data.region);
     const updated = formatTime(parseDate(data.updatedAt));
     const errors = Array.isArray(data.errors) ? data.errors.length : 0;
+    const gameUid = normalizeUid(data.gameUid);
+    const gameName = normalizeUid(data.gameName);
+    const uid = gameUid || normalizeUid(data.uid);
+    const uidText = uid ? `UID ${esc(uid)}` : 'UID unknown';
+    const nameHtml = gameName ? `<strong>${esc(gameName)}</strong> ` : '';
     els.account.innerHTML = `<div class="account-identity">
         <span class="region-pill">${REGION_LABELS[region] || '??'}</span>
-        <strong>UID ${esc(data.uid ?? 'unknown')}</strong>
-        <span class="muted">• Updated ${esc(updated)}</span>
+        ${nameHtml}<span class="muted">(${uidText}) • Updated ${esc(updated)}</span>
     </div>
     ${errors ? `<div class="account-notes"><span class="warning">${formatNumber(errors)} fetch ${errors === 1 ? 'error' : 'errors'}</span></div>` : ''}`;
 }
@@ -755,11 +764,7 @@ async function importFiles(fileList) {
         if (failed.length) {
             toast(`Imported ${unique.length} account${unique.length === 1 ? '' : 's'}; ${failed.length} failed.`, 'error');
         } else if (saved) {
-            const labels = unique.map((uid) => {
-                const data = state.accounts[uid];
-                const region = normalizeRegion(data?.region);
-                return `${REGION_LABELS[region] || '??'} UID ${uid}`;
-            });
+            const labels = unique.map((uid) => accountLabel(state.accounts[uid]));
             toast(`Imported ${labels.join(', ')}.`);
         }
     } else if (failed.length) {
@@ -805,6 +810,8 @@ function mergeGachaAccounts(existing, incoming) {
     return {
         ...primary,
         uid: incoming.uid,
+        gameUid: primary.gameUid || secondary.gameUid || null,
+        gameName: primary.gameName || secondary.gameName || null,
         region: primary.region || secondary.region,
         updatedAt: primary.updatedAt || secondary.updatedAt || new Date().toISOString(),
         totals: rebuildGachaTotals(banners),
@@ -1070,19 +1077,36 @@ function parseGacha(text, filename) {
     if (!uid) throw new Error('Missing UID');
     const region = normalizeRegion(data.region) || regionFromFilename(filename);
     if (!region) throw new Error('Unknown region');
-    return { ...data, uid, region };
+    const gameUid = normalizeUid(data.gameUid ?? data.game_uid);
+    const gameName = normalizeUid(data.gameName ?? data.game_name);
+    return {
+        ...data,
+        uid,
+        region,
+        ...(gameUid ? { gameUid } : {}),
+        ...(gameName ? { gameName } : {}),
+    };
 }
 
 function regionFromFilename(filename) {
-    const match = String(filename || '').toLowerCase().match(/gacha[._-](en|jp|kr|tw|cn)(?:[._-].*)?\.json$/);
+    const match = String(filename || '').toLowerCase().match(/^gacha(?:[._-][^.]+)?[._-](en|jp|kr|tw|cn)(?:[._-].*)?\.json$/);
     return match ? match[1] : null;
 }
 
 function exportActive() {
     const data = activeData();
     if (!data) return;
-    const region = normalizeRegion(data.region) || 'unknown';
-    const filename = `gacha.${region}.json`;
+    const gameUid = normalizeUid(data.gameUid);
+    if (!gameUid) {
+        toast('Missing game UID; cannot export.', 'error');
+        return;
+    }
+    const region = normalizeRegion(data.region);
+    if (!region) {
+        toast('Missing region; cannot export.', 'error');
+        return;
+    }
+    const filename = `gacha.${gameUid}.${region}.json`;
     const blob = new Blob([JSON.stringify(data, null, 4)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -1147,7 +1171,15 @@ function loadStored() {
         for (const [key, data] of Object.entries(stored)) {
             if (!isGachaData(data)) continue;
             const uid = normalizeUid(data.uid) || normalizeUid(key);
-            if (uid) accounts[uid] = { ...data, uid };
+            if (!uid) continue;
+            const gameUid = normalizeUid(data.gameUid ?? data.game_uid);
+            const gameName = normalizeUid(data.gameName ?? data.game_name);
+            accounts[uid] = {
+                ...data,
+                uid,
+                ...(gameUid ? { gameUid } : {}),
+                ...(gameName ? { gameName } : {}),
+            };
         }
         const active = normalizeUid(parsed?.active);
         return { accounts, active: active && accounts[active] ? active : firstAccountUid(accounts) };
@@ -1199,8 +1231,14 @@ function sortAccounts(accounts) {
 
 function accountLabel(data) {
     const uid = normalizeUid(data?.uid);
+    const gameUid = normalizeUid(data?.gameUid);
+    const gameName = normalizeUid(data?.gameName);
     const region = normalizeRegion(data?.region);
-    return `${REGION_LABELS[region] || '??'} UID ${uid}`;
+    const id = gameUid || uid;
+    const label = gameName
+        ? `${gameName}${id ? ` (UID ${id})` : ''}`
+        : (id ? `UID ${id}` : 'unknown');
+    return `${REGION_LABELS[region] || '??'} ${label}`;
 }
 
 function normalizeUid(value) {

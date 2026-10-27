@@ -272,9 +272,7 @@ function renderBanners(data) {
     const filtered = banners
         .filter((banner) => bannerMatches(banner, filters.mode, query, pitiedBanners))
         .sort(sortBanners);
-    els.count.textContent = filters.mode === 'pity'
-        ? `${formatNumber(filtered.length)} ${filtered.length === 1 ? 'pitied banner' : 'pitied banners'}${suffix}`
-        : `${formatNumber(filtered.length)} of ${formatNumber(banners.length)} banners${suffix}`;
+    els.count.textContent = `${formatNumber(filtered.length)} of ${formatNumber(banners.length)} banners${suffix}`;
     if (!filtered.length) {
         els.banners.innerHTML = '<div class="no-results">No banners match this view.</div>';
         return;

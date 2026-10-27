@@ -329,6 +329,7 @@ function renderBannerCard(banner, pitiedBanners = new Set()) {
         sparkHtml = `<div class="spark-label" title="${escAttr(title)}"><span>Spark</span><span>${formatNumber(shown)} / ${formatNumber(threshold)}</span></div>
             <div class="spark-track"><span class="spark-fill${spark.sparked ? ' ready' : ''}" style="width:${width}%"></span></div>`;
     }
+    const pityHtml = renderPityBar(banner, status.key);
     const chips = [
         `<span class="status ${status.key}">${status.label}</span>`,
         banner.storageName ? `<span class="chip">${esc(banner.storageName)}</span>` : '',
@@ -351,7 +352,10 @@ function renderBannerCard(banner, pitiedBanners = new Set()) {
                 <div class="${rateUp ? 'has-rateup' : ''}"><b>${formatNumber(rateUp)}</b><span>rate-up ${rarityLabel('SSR')}</span></div>
                 <span class="chevron">⌄</span>
             </div>
-            ${sparkHtml ? `<div class="banner-spark">${sparkHtml}</div>` : ''}
+            ${sparkHtml || pityHtml ? `<div class="banner-bars">
+                ${sparkHtml ? `<div class="banner-spark">${sparkHtml}</div>` : ''}
+                ${pityHtml}
+            </div>` : ''}
         </summary>
         <div class="banner-body"></div>
     </details>`;
@@ -367,7 +371,6 @@ function loadBannerBody(details) {
 
 function renderBannerBody(banner) {
     const history = (Array.isArray(banner.history) ? banner.history.slice() : []).sort((a, b) => number(b.time) - number(a.time));
-    const pity = renderPity(banner);
     const groups = groupHistory(history);
     const spark = banner.spark || {};
     const threshold = number(spark.threshold, 120);
@@ -385,8 +388,7 @@ function renderBannerBody(banner) {
     }
     const records = groups.map((group, index) =>
         `${renderHistoryGroup(group)}${index === sparkAfter ? renderSparkClaim(banner, threshold) : ''}`).join('');
-    return `${pity}
-        <div class="history-head"><h4>Pull history</h4></div>
+    return `<div class="history-head"><h4>Pull history</h4></div>
         ${history.length ? `<div class="history-list">${records}</div>` : '<p class="empty">No pulls recorded on this banner.</p>'}`;
 }
 
@@ -515,18 +517,15 @@ function pityInfo(banner) {
     return category || null;
 }
 
-function renderPity(banner) {
-    const status = bannerStatus(banner).key;
-    if (!['active', 'standard'].includes(status)) return '';
+function renderPityBar(banner, statusKey = bannerStatus(banner).key) {
+    if (!['active', 'standard'].includes(statusKey)) return '';
     const info = pityInfo(banner);
     if (!info) return '';
     const shown = Math.max(0, Math.min(info.current, info.threshold));
     const width = info.threshold ? (shown / info.threshold) * 100 : 0;
-    return `<div class="pity-panel">
-        <div class="pity-head">
-            <div class="pity-title"><h4>${esc(info.label)} pity</h4><span class="pity-note">Guarantees ${esc(info.guarantee)}</span></div>
-            <span class="pity-count">${formatNumber(shown)} / ${formatNumber(info.threshold)}</span>
-        </div>
+    const title = `${info.label} pity · Guarantees ${info.guarantee}`;
+    return `<div class="banner-pity">
+        <div class="pity-label" title="${escAttr(title)}"><span>Pity</span><span>${formatNumber(shown)} / ${formatNumber(info.threshold)}</span></div>
         <div class="pity-track"><span class="pity-fill" style="width:${width}%"></span></div>
     </div>`;
 }

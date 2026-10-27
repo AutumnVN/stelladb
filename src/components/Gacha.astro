@@ -816,23 +816,32 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
             transform: rotate(180deg);
         }
 
-        .banner-spark {
+        .banner-bars {
             display: flex;
+            flex-direction: column;
             grid-column: 2 / -1;
+            gap: 0.35rem;
+            margin-top: 0.35rem;
+        }
+
+        .banner-spark,
+        .banner-pity {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
-            margin-top: 0.35rem;
             color: var(--muted);
             font-size: 0.9rem;
         }
 
-        .spark-label {
+        .spark-label,
+        .pity-label {
             display: flex;
             justify-content: space-between;
             gap: 0.5rem;
             min-width: 110px;
         }
-        .spark-track {
+        .spark-track,
+        .pity-track {
             flex: 1;
             border-radius: 3px;
             background: var(--bg3);
@@ -847,61 +856,14 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
         .spark-fill.ready {
             background: var(--yellow);
         }
+        .pity-fill {
+            display: block;
+            background: var(--red);
+            height: 100%;
+        }
 
         .banner-body {
             padding: 0.7rem;
-        }
-
-        .pity-panel {
-            margin-bottom: 0.65rem;
-            border-radius: 5px;
-            padding: 0.65rem 0.75rem;
-        }
-
-        .pity-head {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 0.25rem 1rem;
-            margin-bottom: 0.4rem;
-
-            .pity-title {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: baseline;
-                gap: 0.1rem 0.4rem;
-                min-width: 0;
-            }
-            h4 {
-                margin: 0;
-                color: var(--muted);
-                font-size: 0.85rem;
-                text-transform: uppercase;
-            }
-            .pity-note {
-                color: var(--muted);
-                font-size: 0.8rem;
-            }
-            .pity-count {
-                color: var(--green);
-                font-weight: 700;
-                font-size: 1rem;
-                font-variant-numeric: tabular-nums;
-                white-space: nowrap;
-            }
-        }
-
-        .pity-track {
-            border-radius: 3px;
-            background: var(--bg3);
-            height: 8px;
-            overflow: hidden;
-        }
-        .pity-fill {
-            display: block;
-            background: var(--green);
-            height: 100%;
         }
 
         .pity-grid {
@@ -1137,7 +1099,7 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
                 border-top: 1px solid var(--bg3);
                 padding-top: 0.35rem;
             }
-            .banner-spark {
+            .banner-bars {
                 grid-column: 1 / -1;
             }
             .banner-icon {

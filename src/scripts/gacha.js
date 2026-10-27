@@ -12,8 +12,9 @@ const PITY_CATEGORIES = [
     { storageId: 4, storageKey: 'DiscCardPool', label: 'Standard Disc', threshold: 120, rateUp: false },
     { storageId: 6, storageKey: 'CharacterCardRewardPool', label: 'Anniversary', threshold: 160, rateUp: false },
 ];
-const ASSETS = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles';
-const BANNER_ASSETS = 'https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en';
+const CDN_IMAGE = 'https://chino.is-a.dev/cdn-cgi/image/format=avif/';
+const ASSETS = `${CDN_IMAGE}https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles`;
+const BANNER_ASSETS = `${CDN_IMAGE}https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles_en`;
 const DATE_FMT = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 const TIME_FMT = new Intl.DateTimeFormat('en-US', {
     month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit',

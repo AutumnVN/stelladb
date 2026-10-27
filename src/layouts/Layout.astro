@@ -30,6 +30,7 @@ const fallbackEmbed = JSON.stringify({
                     { type: 2, style: 5, label: 'Banner', url: abs('/banner') },
                     { type: 2, style: 5, label: 'Leaderboard', url: abs('/lb') },
                     { type: 2, style: 5, label: 'Team', url: abs('/team') },
+                    { type: 2, style: 5, label: 'Pull Tracker', url: abs('/gacha') },
                 ],
             },
         ],
@@ -98,6 +99,7 @@ if (import.meta.env.SSR) {
                 <a href="/banner" data-astro-prefetch>Banner</a>
                 <a href="/lb" data-astro-prefetch>Leaderboard</a>
                 <a href="/team" data-astro-prefetch>Team</a>
+                <a href="/gacha" data-astro-prefetch>Pull Tracker</a>
                 <details>
                     <summary>Monster</summary>
                     <div>
@@ -114,7 +116,6 @@ if (import.meta.env.SSR) {
                 <details>
                     <summary>Other</summary>
                     <div>
-                        <a href="/gacha" data-astro-prefetch>Pull Tracker</a>
                         <a href="/build" data-astro-prefetch>Build Preset</a>
                         <a href="/emblem" data-astro-prefetch>Emblem</a>
                         <a href="/unreleased" data-astro-prefetch>Unreleased</a>
@@ -369,6 +370,7 @@ if (import.meta.env.SSR) {
         --pink: #f9f;
         --brown: #966;
         --nav-height: 64px;
+        --nav-gap: clamp(0.125rem, calc((100vw - 46rem) / 7), 1rem);
         color-scheme: only dark;
     }
 
@@ -463,7 +465,7 @@ if (import.meta.env.SSR) {
         .tabs {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: var(--nav-gap);
 
             .tab {
                 cursor: pointer;
@@ -528,7 +530,7 @@ if (import.meta.env.SSR) {
         .navlinks {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: var(--nav-gap);
             margin-left: auto;
 
             a {

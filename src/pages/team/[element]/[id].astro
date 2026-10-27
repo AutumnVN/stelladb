@@ -218,7 +218,7 @@ const embed = JSON.stringify({
                     return {
                         type: 9,
                         components: [{ type: 10, content: [`**${c.name}**`, `${c.star}⭐`, `${c.element}${emoji[c.element]}`, `${c.class}${emoji[c.attackType]}`].join('  \n') }],
-                        accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[tab.id]}02_XL.webp` } },
+                        accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[tab.id]}01_XL.webp` } },
                     };
                 })
                 .filter(Boolean),
@@ -227,7 +227,7 @@ const embed = JSON.stringify({
 });
 ---
 
-<Layout title={`${team.title} | stelladb`} description={team.character} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[team.tabs.find(isCharTab).id]}02_XL.webp`} embed={embed}>
+<Layout title={`${team.title} | stelladb`} description={team.character} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[team.tabs.find(isCharTab).id]}01_XL.webp`} embed={embed}>
     <Page>
         <Fragment slot="header">
             <h1>{team.title} <a href={`https://github.com/AutumnVN/stelladb/edit/main/src/content/team/${team.element}/${team.slug}.md`}>✏️</a></h1>
@@ -259,7 +259,7 @@ const embed = JSON.stringify({
                             <div class="left-tab" data-left-for={tab.id} hidden={tab.id !== charTabs[0].id ? true : undefined}>
                                 {c && (
                                     <a href={`/trekker/${cid}`}>
-                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}02_XL.webp`} alt={c.name} title={c.name} width="256" height="340" densities={[1.25]} />
+                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}01_XL.webp`} alt={c.name} title={c.name} width="256" height="340" densities={[1.25]} />
                                     </a>
                                 )}
                                 <div class="info">

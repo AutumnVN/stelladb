@@ -57,7 +57,7 @@ export async function GET({ params, request }) {
         const c = cells[i];
         if (!c) continue;
         const char = characterData[c.CharId];
-        if (char) imageUrls.add(`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}02_XL.webp`);
+        if (char) imageUrls.add(`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}01_XL.webp`);
         const potentials = sortPots(c.Potentials || []);
         for (const p of potentials) {
             const pot = itemData[p.Id];
@@ -101,7 +101,7 @@ export async function GET({ params, request }) {
         if (!c) continue;
 
         const char = characterData[c.CharId];
-        const charUrl = char ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}02_XL.webp` : null;
+        const charUrl = char ? `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.CharId}01_XL.webp` : null;
         const charImg = charUrl ? (urlToData[charUrl] || charUrl) : null;
 
         const scale = 1.1;

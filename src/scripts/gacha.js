@@ -699,7 +699,7 @@ function itemImage(item) {
         return `${ASSETS}/icon/outfit/outfit_${encodeURIComponent(id)}.webp`;
     }
     if (item.type === 'Char') {
-        return `${ASSETS}/icon/head/head_${encodeURIComponent(item.id)}02_XL.webp`;
+        return `${ASSETS}/icon/head/head_${encodeURIComponent(item.id)}01_XL.webp`;
     }
     return '';
 }
@@ -710,7 +710,7 @@ function rateUpImage(item, type) {
         const id = String(item.id).replace(/^.{2}/, '');
         return `${ASSETS}/icon/outfit/outfit_${encodeURIComponent(id)}.webp`;
     }
-    return `${ASSETS}/icon/head/head_${encodeURIComponent(item.id)}02_XL.webp`;
+    return `${ASSETS}/icon/head/head_${encodeURIComponent(item.id)}01_XL.webp`;
 }
 
 function bannerIconUrl(banner) {

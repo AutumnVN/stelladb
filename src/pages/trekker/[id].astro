@@ -161,7 +161,7 @@ const embed = JSON.stringify({
             {
                 type: 9,
                 components: [{ type: 10, content: [`## **[${char.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
-                ...(isUnreleased ? {} : { accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp` } } }),
+                ...(isUnreleased ? {} : { accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}01_XL.webp` } } }),
             },
             { type: 1, components: [{ type: 2, style: 5, label: 'Wiki', url: `https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}` }] },
         ],
@@ -169,7 +169,7 @@ const embed = JSON.stringify({
 });
 ---
 
-<Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`} embed={embed}>
+<Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}01_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`} embed={embed}>
     <Page data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <Fragment slot="header">
             <h1>{char.name}</h1>
@@ -193,8 +193,8 @@ const embed = JSON.stringify({
         <Fragment slot="left">
             {
                 !isUnreleased && (
-                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} target="_blank">
-                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}02_XL.webp`} alt={char.name} title={char.name} width="256" height="340" densities={[1.25]} />
+                    <a href={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}01_XL.webp`} target="_blank">
+                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}01_XL.webp`} alt={char.name} title={char.name} width="256" height="340" densities={[1.25]} />
                     </a>
                 )
             }
@@ -1085,7 +1085,7 @@ const embed = JSON.stringify({
                                                 </div>
                                                 <div class="team-chars">
                                                     {team.chars.map(({ id: cid, c }) => (
-                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}02_XL.webp`} alt={c.name} title={c.name} width="52" height="52" densities={[1.25]} />
+                                                        <Image src={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${cid}01_XL.webp`} alt={c.name} title={c.name} width="52" height="52" densities={[1.25]} />
                                                     ))}
                                                 </div>
                                             </a>

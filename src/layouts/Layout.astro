@@ -167,13 +167,17 @@ if (import.meta.env.SSR) {
                 <p>
                     last build <span class="build-time" data-time={buildTime}></span>
                     <br />
-                    <a href="https://github.com/AutumnVN/stelladb">site</a>
-                    /
-                    <a href="https://github.com/AutumnVN/ss-data">data</a>
-                    /
-                    <a href="https://github.com/AutumnVN/ssassets">img</a>
-                    /
-                    <a href="https://github.com/AutumnVN/ssleaderboard">lb</a>
+                    <span>
+                        <a href="https://github.com/AutumnVN/stelladb">website</a>
+                        •
+                        <a href="https://github.com/AutumnVN/ss-data">data</a>
+                        •
+                        <a href="https://github.com/AutumnVN/ssassets">assets</a>
+                        •
+                        <a href="https://github.com/AutumnVN/ssleaderboard">leaderboard</a>
+                        •
+                        <a href="https://github.com/AutumnVN/ssgacha">gacha</a>
+                    </span>
                 </p>
             </div>
         </footer>
@@ -630,7 +634,7 @@ if (import.meta.env.SSR) {
             .name-row {
                 width: max-content;
                 min-width: 0;
-                max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
+                max-width: min(calc(100vw - 450px), calc(1000px - 450px));
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -649,7 +653,7 @@ if (import.meta.env.SSR) {
             .activity-row {
                 width: max-content;
                 min-width: 0;
-                max-width: min(calc(100vw - 18rem), calc(1000px - 18rem));
+                max-width: min(calc(100vw - 450px), calc(1000px - 450px));
                 overflow: hidden;
                 color: var(--muted);
                 text-overflow: ellipsis;

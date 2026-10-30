@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+    star: number;
+    size?: number;
+    scale?: number;
+}
+
+const { star, size = 18, scale = 1.1 } = Astro.props;
+const widths: Record<number, number> = { 3: 193, 4: 247, 5: 301 };
+const baseWidth = widths[star];
+const width = baseWidth ? Math.round((baseWidth * size) / 90) : size;
+const renderedSize = Math.round(size * scale);
+const renderedWidth = baseWidth ? Math.round((baseWidth * renderedSize) / 90) : renderedSize;
+const offsetX = Math.floor((renderedWidth - width) / 2);
+const offsetY = Math.floor((renderedSize - size) / 2);
+---
+
+{widths[star] ? <Image class="stars" style={`width:${renderedWidth}px;height:${renderedSize}px;margin:-${offsetY}px -${offsetX}px -${offsetY}px 0;`} src={`/${star}star.png`} width={width} height={size} alt={`${star} stars`} densities={[2]} /> : null}
+
+<style>
+    .stars {
+        display: inline-block;
+        vertical-align: middle;
+        object-fit: contain;
+    }
+</style>

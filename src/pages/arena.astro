@@ -8,15 +8,6 @@ const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-};
 ---
 
 <Layout title="Arena | stelladb" pagefindIgnore={true}>
@@ -24,7 +15,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, group]) => (
                 <div class="card-item" data-id={id} data-name={group.name} data-weakto={group.weakTo}>
-                    <Card href={`/arena/${id}`} name={group.name} desc={`Weak: ${group.weakTo}${emoji[group.weakTo]}`} desc2={group.openDayDesc} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/image/uibg/${group.icon}.webp`} />
+                    <Card href={`/arena/${id}`} name={group.name} weak={group.weakTo} desc2={group.openDayDesc} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/image/uibg/${group.icon}.webp`} />
                 </div>
             ))
         }

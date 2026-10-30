@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+    name: string;
+    size?: number;
+    scale?: number;
+    title?: string;
+    marginLeft?: number;
+}
+
+const { name, size = 16, scale = 1.8, title = name, marginLeft = 0 } = Astro.props;
+const renderedSize = Math.round(size * scale);
+const offset = Math.floor((renderedSize - size) / 2);
+const rightMargin = -offset + (scale === 1 ? 0 : 1);
+---
+
+{name && <Image class="game-icon" style={`width:${renderedSize}px;height:${renderedSize}px;margin:-${offset}px ${rightMargin}px -${offset}px ${marginLeft}px;`} src={`/${name}.avif`} width={size} height={size} alt={name} title={title} densities={[2]} />}
+
+<style>
+    .game-icon {
+        display: inline-block;
+        vertical-align: middle;
+        object-fit: contain;
+    }
+</style>

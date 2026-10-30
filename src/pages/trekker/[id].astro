@@ -4,6 +4,9 @@ import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
+import Icon from '@/components/Icon.astro';
+import Stars from '@/components/Stars.astro';
+import ExternalIcon from '@/components/ExternalIcon.astro';
 import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/team.js';
 
 export async function getStaticPaths() {
@@ -44,18 +47,6 @@ const isUnreleased = /^\d+/.test(char.name);
 if (char.tag[0] === char.class) {
     char.tag.shift();
 }
-
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-    Melee: '⚔️',
-    Ranged: '🏹',
-};
 
 if (!char) {
     throw Astro.redirect('/404');
@@ -151,7 +142,7 @@ const teamsByElement = matchingTeams.reduce((acc, team) => {
     return acc;
 }, {});
 
-const embedLines = [char.star && `${char.star}⭐`, `${char.element}${emoji[char.element]}`, `${char.class}${emoji[char.attackType]}`, ...char.tag, char.jpCv && `🎤 ${char.jpCv}`, char.birthday && `🎂 ${char.birthday}`, char.source.length && char.source.join(', ')].filter(Boolean);
+const embedLines = [char.star && `${char.star}★`, char.element, `${char.class} ${char.attackType}`, ...char.tag, char.jpCv, char.birthday, char.source.length && char.source.join(', ')].filter(Boolean);
 
 const embed = JSON.stringify({
     component: {
@@ -169,7 +160,7 @@ const embed = JSON.stringify({
 });
 ---
 
-<Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}01_XL.webp`} description={`${char.star}⭐ ${char.element}${emoji[char.element]} ${char.class}${emoji[char.attackType]} ${char.tag.join(' ')}`} embed={embed}>
+<Layout title={`${char.name} | stelladb`} image={isUnreleased ? undefined : `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${id}01_XL.webp`} description={`${char.star}★ ${char.element} ${char.class} ${char.attackType} ${char.tag.join(' ')}`} embed={embed}>
     <Page data-json={JSON.stringify(char)} data-item={JSON.stringify(itemData)} data-word={JSON.stringify(word)}>
         <Fragment slot="header">
             <h1>{char.name}</h1>
@@ -200,9 +191,13 @@ const embed = JSON.stringify({
             }
             <div class="info">
                 <p class="indent">
-                    {char.star && `${char.star}⭐`}<br />
-                    {char.element}{emoji[char.element]}<br />
-                    {char.class}{emoji[char.attackType]}<br />
+                    {char.star && <Stars star={char.star} />}<br />
+                    {char.element}
+                    <Icon name={char.element} />
+                    <br />
+                    {char.class}
+                    <Icon name={char.attackType} scale={1} />
+                    <br />
                     {
                         char.tag.map((tag) => (
                             <>
@@ -211,8 +206,8 @@ const embed = JSON.stringify({
                             </>
                         ))
                     }
-                    {char.jpCv && `🎤 ${char.jpCv}`}<br />
-                    {char.birthday && `🎂 ${char.birthday}`}<br />
+                    {char.jpCv}<br />
+                    {char.birthday}<br />
                     {
                         char.source.length ? (
                             <>
@@ -222,7 +217,7 @@ const embed = JSON.stringify({
                         ) : null
                     }
                 </p>
-                <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}`} target="_blank">Open in Wiki ↗</a>
+                <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${char.name.replace(/^\d{3}\s/, '').replaceAll(' ', '_')}`} target="_blank">Open in Wiki <ExternalIcon /></a>
             </div>
         </Fragment>
 

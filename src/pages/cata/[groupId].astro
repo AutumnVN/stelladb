@@ -19,16 +19,6 @@ const {
     props: { group },
 } = Astro;
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-};
-
 if (!group) {
     throw Astro.redirect('/404');
 }
@@ -49,7 +39,7 @@ const embed = JSON.stringify({
         {
             Object.entries(group.diff).map(([id, diff]) => (
                 <div class="card-item" data-id={id} data-name={diff.name} data-weakto={diff.weakTo.join(', ')} data-resistto={diff.resistTo.join(', ')}>
-                    <Card href={`/cata/${groupId}/${id}`} name={diff.name} desc={`Weak: ${diff.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${diff.resistTo.map((e) => e + emoji[e]).join(', ')}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${diff.icon}.webp`} />
+                    <Card href={`/cata/${groupId}/${id}`} name={diff.name} weak={diff.weakTo} resist={diff.resistTo} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/mapchallenge/${diff.icon}.webp`} />
                 </div>
             ))
         }

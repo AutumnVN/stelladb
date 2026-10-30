@@ -8,15 +8,6 @@ const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/
 
 const data = await fetch(DATA_URL).then((res) => res.json());
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-};
 ---
 
 <Layout title="Shadow Siege | stelladb" pagefindIgnore={true}>
@@ -24,7 +15,7 @@ const emoji = {
         {
             Object.entries(data).map(([id, siege]) => (
                 <div class="card-item" data-id={id} data-name={`${siege.name} S${siege.seasons.join(',')}`} data-season={siege.seasons.join(',')} data-weakto={siege.weakTo.join(', ')} data-resistto={siege.resistTo}>
-                    <Card href={`/siege/${id}`} name={`${siege.name} S${siege.seasons.join(',')}`} desc={`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}`} desc2={`Resist: ${siege.resistTo}${emoji[siege.resistTo]}`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/tracehunt/${siege.icon}.webp`} inset={-30} />
+                    <Card href={`/siege/${id}`} name={`${siege.name} S${siege.seasons.join(',')}`} weak={siege.weakTo} resist={siege.resistTo} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/tracehunt/${siege.icon}.webp`} inset={-30} />
                 </div>
             ))
         }

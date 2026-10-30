@@ -88,17 +88,6 @@ if (isValid) {
         return null;
     }
 
-    const emoji = {
-        Aqua: '💧',
-        Ignis: '🔥',
-        Terra: '⛰️',
-        Ventus: '🌪️',
-        Lux: '☀️',
-        Umbra: '🌙',
-        Melee: '⚔️',
-        Ranged: '🏹',
-    };
-
     function format(desc) {
         return desc
             .replace(/<color=#(.{6})>/g, '<color style="color:#$1">')
@@ -163,7 +152,7 @@ if (isValid) {
             html += `<img src="${charImg}" alt="${alt}" style="position:absolute;left:${leftOffset}px;top:${topOffset}px;width:${scaledW}px;height:${scaledH}px;object-fit:cover;display:block;" />`;
             html += `<div class="tooltip-text" style="position:fixed; z-index:727;">`;
             html += `<b style="display:block;margin-bottom:6px">${char.name}</b>`;
-            html += `<p style="margin:0">${char.star}⭐<br />${char.element}${emoji[char.element] || ''}<br />${char.class}${emoji[char.attackType] || ''}</p>`;
+            html += `<p style="margin:0">${char.star ? `<img src="/${char.star}star.png" alt="${char.star} stars" height="20" style="vertical-align:middle;margin:-1px 0;" />` : ''}<br />${char.element}${char.element ? ` <img src="/${char.element}.avif" alt="${char.element}" width="29" height="29" style="vertical-align:middle;margin:-6px -5px -6px 0;" />` : ''}<br />${char.class}${char.attackType ? ` <img src="/${char.attackType}.avif" alt="${char.attackType}" width="16" height="16" style="vertical-align:middle;" />` : ''}</p>`;
             html += `</div>`;
             html += `</a>`;
         }

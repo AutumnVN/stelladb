@@ -2,6 +2,7 @@
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
+import Icon from '@/components/Icon.astro';
 import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
@@ -19,23 +20,13 @@ const {
     props: { siege },
 } = Astro;
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-};
-
 if (!siege) {
     throw Astro.redirect('/404');
 }
 
 const image = `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/tracehunt/${siege.icon}.webp`;
 
-const embedLines = [`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}`, `Resist: ${siege.resistTo}${emoji[siege.resistTo]}`, `Season: ${siege.seasons.join(', ')}`].filter(Boolean);
+const embedLines = [`Weak: ${siege.weakTo.join(', ')}`, `Resist: ${siege.resistTo}`, `Season: ${siege.seasons.join(', ')}`].filter(Boolean);
 
 const embed = JSON.stringify({
     component: {
@@ -46,7 +37,7 @@ const embed = JSON.stringify({
 });
 ---
 
-<Layout title={`${siege.name} | stelladb`} image={image} description={`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${siege.resistTo}${emoji[siege.resistTo]}, Season: ${siege.seasons.join(', ')}`} embed={embed}>
+<Layout title={`${siege.name} | stelladb`} image={image} description={`Weak: ${siege.weakTo.join(', ')}, Resist: ${siege.resistTo}, Season: ${siege.seasons.join(', ')}`} embed={embed}>
     <Page data-json={JSON.stringify(siege)}>
         <Fragment slot="header">
             <h1>{siege.name}</h1>
@@ -60,8 +51,19 @@ const embed = JSON.stringify({
                 <p class="indent">
                     {`Season: ${siege.seasons.join(', ')}`}<br />
                     {`Type: ${siege.type}`}<br />
-                    {`Weak: ${siege.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
-                    {`Resist: ${siege.resistTo}${emoji[siege.resistTo]}`}<br />
+                    Weak:{' '}
+                    {siege.weakTo.map((e, i) => (
+                        <>
+                            {i > 0 && ', '}
+                            {e}
+                            <Icon name={e} />
+                        </>
+                    ))}
+                    <br />
+                    Resist:{' '}
+                    {siege.resistTo}
+                    <Icon name={siege.resistTo} />
+                    <br />
                 </p>
             </div>
         </Fragment>

@@ -1,5 +1,6 @@
 ---
 import 'normalize.css';
+import ExternalIcon from '@/components/ExternalIcon.astro';
 
 export interface Props {
     title: string;
@@ -121,8 +122,8 @@ if (import.meta.env.SSR) {
                         <a href="/unreleased" data-astro-prefetch>Unreleased</a>
                         <a href="/infodoc">Infodoc</a>
                         <a href="/new">Newbie Guide</a>
-                        <a href="https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950" target="_blank">Damage Formula ↗</a>
-                        <a href="https://github.com/users/AutumnVN/projects/2" target="_blank">Known Issues ↗</a>
+                        <a href="https://gist.github.com/AutumnVN/91afd7a37a9743488419b70f07225950" target="_blank">Damage Formula <ExternalIcon /></a>
+                        <a href="https://github.com/users/AutumnVN/projects/2" target="_blank">Known Issues <ExternalIcon /></a>
                     </div>
                 </details>
             </div>

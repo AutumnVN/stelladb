@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Tabs from '@/components/Tabs.astro';
 import Page from '@/components/Page.astro';
+import Icon from '@/components/Icon.astro';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/duel.json';
@@ -20,21 +21,11 @@ const {
     props: { duel },
 } = Astro;
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-};
-
 if (!duel) {
     throw Astro.redirect('/404');
 }
 
-const embedLines = [`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}`, `Resist: ${duel.resistTo}${emoji[duel.resistTo]}`, `Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString('en-US')}`];
+const embedLines = [`Weak: ${duel.weakTo.join(', ')}`, `Resist: ${duel.resistTo}`, `Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString('en-US')}`];
 
 const embed = JSON.stringify({
     component: {
@@ -47,7 +38,7 @@ const embed = JSON.stringify({
 });
 ---
 
-<Layout title={`${duel.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} description={`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${duel.resistTo}${emoji[duel.resistTo]}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString('en-US')}`} embed={embed}>
+<Layout title={`${duel.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${duel.icon}.webp`} description={`Weak: ${duel.weakTo.join(', ')}, Resist: ${duel.resistTo}, Lv100 HP: ${(duel.stat.HP + (duel.diff[100].HP || 0)).toLocaleString('en-US')}`} embed={embed}>
     <Page data-json={JSON.stringify(duel)}>
         <Fragment slot="header">
             <h1>{duel.name}</h1>
@@ -64,8 +55,19 @@ const embed = JSON.stringify({
             <div class="info">
                 <p class="indent">
                     {`Type: ${duel.type}`}<br />
-                    {`Weak: ${duel.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
-                    {`Resist: ${duel.resistTo}${emoji[duel.resistTo]}`}<br />
+                    Weak:{' '}
+                    {duel.weakTo.map((e, i) => (
+                        <>
+                            {i > 0 && ', '}
+                            {e}
+                            <Icon name={e} />
+                        </>
+                    ))}
+                    <br />
+                    Resist:{' '}
+                    {duel.resistTo}
+                    <Icon name={duel.resistTo} />
+                    <br />
                 </p>
             </div>
         </Fragment>

@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
 import Page from '@/components/Page.astro';
+import Icon from '@/components/Icon.astro';
 import Layout from '@/layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
@@ -30,21 +31,11 @@ const {
     props: { group, diff, floor, monster },
 } = Astro;
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-};
-
 if (!group || !diff || !floor || !monster) {
     throw Astro.redirect('/404');
 }
 
-const embedLines = [`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`, `Resist: ${monster.resistTo}${emoji[monster.resistTo]}`, `HP: ${monster.stat.HP.toLocaleString('en-US')}`, monster.type !== 'Normal' && monster.type].filter(Boolean);
+const embedLines = [`Weak: ${monster.weakTo.join(', ')}`, `Resist: ${monster.resistTo}`, `HP: ${monster.stat.HP.toLocaleString('en-US')}`, monster.type !== 'Normal' && monster.type].filter(Boolean);
 
 const embed = JSON.stringify({
     component: {
@@ -57,7 +48,7 @@ const embed = JSON.stringify({
 });
 ---
 
-<Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} description={`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}, Resist: ${monster.resistTo}${emoji[monster.resistTo]}, HP: ${monster.stat.HP.toLocaleString('en-US')}`} embed={embed}>
+<Layout title={`${monster.name} | ${diff.name} ${floor.name} | stelladb`} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/monster/${monster.icon}.webp`} description={`Weak: ${monster.weakTo.join(', ')}, Resist: ${monster.resistTo}, HP: ${monster.stat.HP.toLocaleString('en-US')}`} embed={embed}>
     <Page>
         <Fragment slot="header">
             <h1>{monster.name} | {diff.name} {floor.name}</h1>
@@ -70,8 +61,19 @@ const embed = JSON.stringify({
             <div class="info">
                 <p class="indent">
                     {`Type: ${monster.type}`}<br />
-                    {`Weak: ${monster.weakTo.map((e) => e + emoji[e]).join(', ')}`}<br />
-                    {`Resist: ${monster.resistTo}${emoji[monster.resistTo]}`}<br />
+                    Weak:{' '}
+                    {monster.weakTo.map((e, i) => (
+                        <>
+                            {i > 0 && ', '}
+                            {e}
+                            <Icon name={e} />
+                        </>
+                    ))}
+                    <br />
+                    Resist:{' '}
+                    {monster.resistTo}
+                    <Icon name={monster.resistTo} />
+                    <br />
                 </p>
             </div>
         </Fragment>

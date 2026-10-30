@@ -6,6 +6,9 @@ import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Tabs from '@/components/Tabs.astro';
 import Card from '@/components/Card.astro';
+import Icon from '@/components/Icon.astro';
+import Stars from '@/components/Stars.astro';
+import ExternalIcon from '@/components/ExternalIcon.astro';
 import { loadAllTeams, buildNameIndex, findId, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitMacros, youtubeId, youtubeParams } from '@/scripts/team.js';
 
 export async function getStaticPaths() {
@@ -120,18 +123,6 @@ const { team, tabCharIds, characterData, ytInfo } = Astro.props;
 
 const skillIndex = buildSkillIndex(characterData);
 
-const emoji = {
-    Aqua: '💧',
-    Ignis: '🔥',
-    Terra: '⛰️',
-    Ventus: '🌪️',
-    Lux: '☀️',
-    Umbra: '🌙',
-    None: '⬜',
-    Melee: '⚔️',
-    Ranged: '🏹',
-};
-
 const isCharTab = (tab) => team.character.includes(tab.title);
 
 const lv = (item) => item.level;
@@ -217,7 +208,7 @@ const embed = JSON.stringify({
                     if (!c) return null;
                     return {
                         type: 9,
-                        components: [{ type: 10, content: [`**${c.name}**`, `${c.star}⭐`, `${c.element}${emoji[c.element]}`, `${c.class}${emoji[c.attackType]}`].join('  \n') }],
+                        components: [{ type: 10, content: [`**${c.name}**`, `${c.star}★`, c.element, `${c.class} ${c.attackType}`].join('  \n') }],
                         accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[tab.id]}01_XL.webp` } },
                     };
                 })
@@ -230,7 +221,7 @@ const embed = JSON.stringify({
 <Layout title={`${team.title} | stelladb`} description={team.character} image={`https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${tabCharIds[team.tabs.find(isCharTab).id]}01_XL.webp`} embed={embed}>
     <Page>
         <Fragment slot="header">
-            <h1>{team.title} <a href={`https://github.com/AutumnVN/stelladb/edit/main/src/content/team/${team.element}/${team.slug}.md`}>✏️</a></h1>
+            <h1>{team.title} <a href={`https://github.com/AutumnVN/stelladb/edit/main/src/content/team/${team.element}/${team.slug}.md`}>Edit</a></h1>
             {
                 team.wip && (
                     <span class="wip" title="work in progress">
@@ -265,13 +256,13 @@ const embed = JSON.stringify({
                                 <div class="info">
                                     {c ? (
                                         <p class="indent">
-                                            {c.star && `${c.star}⭐`}
+                                            {c.star && <Stars star={c.star} />}
                                             <br />
                                             {c.element}
-                                            {emoji[c.element]}
+                                            <Icon name={c.element} />
                                             <br />
                                             {c.class}
-                                            {emoji[c.attackType]}
+                                            <Icon name={c.attackType} scale={1} />
                                             <br />
                                             {c.tag.map((tag) => (
                                                 <>
@@ -279,9 +270,9 @@ const embed = JSON.stringify({
                                                     <br />
                                                 </>
                                             ))}
-                                            {c.jpCv && `🎤 ${c.jpCv}`}
+                                            {c.jpCv}
                                             <br />
-                                            {c.birthday && `🎂 ${c.birthday}`}
+                                            {c.birthday}
                                             <br />
                                             {c.source.length ? (
                                                 <>
@@ -293,7 +284,7 @@ const embed = JSON.stringify({
                                     ) : null}
                                     {c && (
                                         <a class="wiki" href={`https://stellasora.miraheze.org/wiki/${c.name.replaceAll(' ', '_')}`} target="_blank">
-                                            Open in Wiki ↗
+                                            Open in Wiki <ExternalIcon />
                                         </a>
                                     )}
                                 </div>
@@ -305,7 +296,7 @@ const embed = JSON.stringify({
                         <div class="info">
                             <p class="indent">
                                 {team.element[0].toUpperCase() + team.element.slice(1)}
-                                {emoji[team.element]}
+                                <Icon name={team.element} />
                             </p>
                         </div>
                     </div>
@@ -342,7 +333,7 @@ const embed = JSON.stringify({
                                 if (!hasMacro && !showSkills) return <p class="indent" set:html={renderInline(section.text)} />;
                                 return (
                                     <div class="macro-prose">
-                                        {showSkills && skillList.map(({ name, entry }) => (entry ? <img src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
+                                        {showSkills && skillList.map(({ name, entry }) => (entry ? <Image src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
                                         {hasMacro ? (
                                             <p class="indent">
                                                 {parts.map((part) => {
@@ -356,7 +347,7 @@ const embed = JSON.stringify({
                                                                 <YouTube id={yt} title={info?.title || undefined} posterQuality={info?.posterQuality || 'default'} params={youtubeParams(part.url) || undefined} />
                                                                 {(info?.title || info?.channel) && (
                                                                     <span class="yt-meta">
-                                                                        {info?.avatar && <img class="yt-avatar" src={info.avatar} alt="" loading="lazy" />}
+                                                                        {info?.avatar && <Image class="yt-avatar" src={info.avatar} alt="" width="36" height="36" loading="lazy" />}
                                                                         <span class="yt-text">
                                                                             {info?.title && <span class="yt-title">{info.title}</span>}
                                                                             {info?.channel && <span class="yt-channel">{info.channel}</span>}
@@ -420,7 +411,7 @@ const embed = JSON.stringify({
                                                     <YouTube id={yt} title={info?.title || undefined} posterQuality={info?.posterQuality || 'default'} params={youtubeParams(item.name) || undefined} />
                                                     {(info?.title || info?.channel) && (
                                                         <span class="yt-meta">
-                                                            {info?.avatar && <img class="yt-avatar" src={info.avatar} alt="" loading="lazy" />}
+                                                            {info?.avatar && <Image class="yt-avatar" src={info.avatar} alt="" width="36" height="36" loading="lazy" />}
                                                             <span class="yt-text">
                                                                 {info?.title && <span class="yt-title">{info.title}</span>}
                                                                 {info?.channel && <span class="yt-channel">{info.channel}</span>}
@@ -437,7 +428,7 @@ const embed = JSON.stringify({
                                 return (
                                     <div class="inline-images indent">
                                         {section.items.map((item) => (
-                                            <img src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />
+                                            <Image src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />
                                         ))}
                                     </div>
                                 );
@@ -465,13 +456,13 @@ const embed = JSON.stringify({
                                                 );
                                             }
                                             if (section.type === 'skill') {
-                                                return <img src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />;
+                                                return <Image src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />;
                                             }
                                             const def = findPotDef(item.id);
                                             const descHtml = potDescHtml(def, item.level ?? 1);
                                             return (
                                                 <a class="tooltip" href={isPot ? potImg(item.id) : skillImg(item.id)} target="_blank" rel="noreferrer">
-                                                    <img src={isPot ? potImg(item.id) : skillImg(item.id)} alt={item.name} title={item.name} width="120" height={isPot ? 153 : 120} loading="lazy" />
+                                                    <Image src={isPot ? potImg(item.id) : skillImg(item.id)} alt={item.name} title={item.name} width="120" height={isPot ? 153 : 120} loading="lazy" />
                                                     {item.level != null && <div class="level-overlay">{lv(item)}</div>}
                                                     <div class="tooltip-text">
                                                         <div class="tooltip-name">

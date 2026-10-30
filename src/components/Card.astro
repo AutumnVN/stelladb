@@ -1,6 +1,7 @@
 ---
 // @ts-nocheck
 import { Image, getImage, inferRemoteSize } from 'astro:assets';
+import Icon from '@/components/Icon.astro';
 interface Props {
     href: string;
     name?: string;
@@ -14,9 +15,13 @@ interface Props {
     charClass?: string;
     attackType?: string;
     position?: string;
+    weak?: string | string[];
+    resist?: string | string[];
 }
 
-const { href, name, desc, desc2, star, image, inset = 0, element, elementSize = 48, charClass, attackType, position = 'top' } = Astro.props;
+const { href, name, desc, desc2, star, image, inset = 0, element, elementSize = 48, charClass, attackType, position = 'top', weak, resist } = Astro.props;
+const weakList = weak ? (Array.isArray(weak) ? weak : [weak]) : [];
+const resistList = resist ? (Array.isArray(resist) ? resist : [resist]) : [];
 ---
 
 <div class={`card-border ${star ? `star${star}` : ''}`}>
@@ -27,7 +32,33 @@ const { href, name, desc, desc2, star, image, inset = 0, element, elementSize = 
                 <div class="text">
                     <h2>{name}</h2>
                     {desc && <p>{desc}</p>}
+                    {
+                        weakList.length > 0 && (
+                            <p>
+                                Weak:{' '}
+                                {weakList.map((item, i) => (
+                                    <>
+                                        {i > 0 && ' '}
+                                        <Icon name={item} />
+                                    </>
+                                ))}
+                            </p>
+                        )
+                    }
                     {desc2 && <p>{desc2}</p>}
+                    {
+                        resistList.length > 0 && (
+                            <p>
+                                Resist:{' '}
+                                {resistList.map((item, i) => (
+                                    <>
+                                        {i > 0 && ' '}
+                                        <Icon name={item} marginLeft={i === 0 ? 11 : 0} />
+                                    </>
+                                ))}
+                            </p>
+                        )
+                    }
                 </div>
             )
         }
@@ -68,7 +99,7 @@ const { href, name, desc, desc2, star, image, inset = 0, element, elementSize = 
             }
 
             p {
-                margin: 0.25rem 0 0 0;
+                margin: 0;
                 color: var(--muted);
                 font-size: 0.8rem;
             }

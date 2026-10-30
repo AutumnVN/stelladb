@@ -166,7 +166,7 @@ function renderAccounts() {
         const title = [gameName, `UID ${gameUid || uid}`]
             .filter(Boolean)
             .join(' · ');
-        return `<button type="button" class="account-tab${active ? ' active' : ''}" data-uid="${escAttr(uid)}" aria-pressed="${active}" title="${escAttr(title)}">
+        return `<button type="button" class="account-tab${active ? ' active' : ''}" data-uid="${escAttr(uid)}" title="${escAttr(title)}">
             <span>${esc(gameName || gameUid || uid)}</span>
             <small>${REGION_LABELS[region] || '??'} · ${formatNumber(totalPulls(data))} pulls</small>
         </button>`;
@@ -263,7 +263,7 @@ function renderBanners(data) {
         ['all', 'All', counts.all],
     ];
     if (!modes.some(([key]) => key === filters.mode)) filters.mode = 'history';
-    els.filters.innerHTML = modes.map(([key, label, count]) => `<button type="button" class="filter-tab${key === filters.mode ? ' active' : ''}" data-mode="${key}" aria-pressed="${key === filters.mode}">
+    els.filters.innerHTML = modes.map(([key, label, count]) => `<button type="button" class="filter-tab${key === filters.mode ? ' active' : ''}" data-mode="${key}">
         ${label}<span>${formatNumber(count)}</span>
     </button>`).join('');
     const query = filters.query.trim().toLowerCase();

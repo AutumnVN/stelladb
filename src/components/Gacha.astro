@@ -31,15 +31,15 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
         </div>
     </header>
 
-    <div id="gacha-toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <div id="gacha-toast" class="toast" role="status" hidden></div>
 
     <div id="gacha-import-panel" class="import-panel">
         <div class="command-row">
             <div class="command-block">
                 <code id="gacha-command">iwr https://stelladb.pages.dev/gacha.ps1 | iex</code>
-                <span id="gacha-copy-status" class="copy-status" role="status" aria-live="polite"></span>
-                <button id="gacha-copy" class="copy-button" type="button" aria-label="Copy command" title="Copy command">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <span id="gacha-copy-status" class="copy-status" role="status"></span>
+                <button id="gacha-copy" class="copy-button" type="button" title="Copy command">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="9" y="9" width="13" height="13" rx="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
@@ -48,7 +48,7 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
             <span class="command-or">or</span>
             <a class="button primary download-button" href="https://github.com/AutumnVN/ssgacha/releases/download/release/gacha.exe" download>Download gacha.exe</a>
         </div>
-        <section id="gacha-drop" class="drop-zone" role="button" tabindex="0" aria-label="Import gacha JSON">
+        <section id="gacha-drop" class="drop-zone" role="button" tabindex="0">
             <p class="drop-title">Drop your gacha JSON here</p>
         </section>
     </div>
@@ -87,7 +87,7 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
         </section>
     </div>
 
-    <div class="drop-overlay" aria-hidden="true"><div>Drop gacha JSON to import</div></div>
+    <div class="drop-overlay"><div>Drop gacha JSON to import</div></div>
 </div>
 
 <script>

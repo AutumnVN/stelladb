@@ -32,10 +32,13 @@ const modalData = {
 const modalDataJson = JSON.stringify(modalData).replace(/</g, '\\u003c');
 const description = pastnames.length ? `formerly known as ${pastnames.join(', ')}` : undefined;
 
-const embedLines = [
-    ...(pastnames.length ? [`formerly known as ${pastnames.join(', ')}`] : []),
-    ...seasons.map(([season, entry]) => `${seasonName(season)} • Rank ${entry.Rank} • ${entry.Score.toLocaleString('en-US')}`),
-];
+const tableHeaders = ['Season', 'Rank', 'Score'];
+const tableRows = seasons.map(([season, entry]) => [seasonName(season), String(entry.Rank), entry.Score.toLocaleString('en-US')]);
+const tableWidths = tableHeaders.map((header, index) => Math.max(header.length, ...tableRows.map((row) => row[index].length)));
+const formatTableRow = (row) => row.map((cell, index) => (index === 0 ? cell.padEnd(tableWidths[index]) : cell.padStart(tableWidths[index]))).join(' | ');
+const embedTable = [formatTableRow(tableHeaders), tableWidths.map((width) => '-'.repeat(width)).join('-+-'), ...tableRows.map(formatTableRow)].join('\n');
+
+const embedLines = [...(pastnames.length ? [`formerly known as ${pastnames.join(', ')}`] : []), ...(seasons.length ? [`\`\`\`text\n${embedTable}\n\`\`\``] : [])];
 
 const embedIconUrl = playerIconUrl(player.icon, playerHeadData, { cdn: false });
 

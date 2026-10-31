@@ -30,10 +30,31 @@ const modalData = {
 };
 
 const modalDataJson = JSON.stringify(modalData).replace(/</g, '\\u003c');
-const description = pastnames.length ? `formerly known as ${pastnames.join(', ')}` : 'Stella Sora leaderboard player';
+const description = pastnames.length ? `formerly known as ${pastnames.join(', ')}` : undefined;
+
+const embedLines = [
+    ...(pastnames.length ? [`formerly known as ${pastnames.join(', ')}`] : []),
+    ...seasons.map(([season, entry]) => `${seasonName(season)} • Rank ${entry.Rank} • ${entry.Score.toLocaleString('en-US')}`),
+];
+
+const embedIconUrl = playerIconUrl(player.icon, playerHeadData, { cdn: false });
+
+const embed = JSON.stringify({
+    component: {
+        type: 17,
+        accent_color: 6750105,
+        components: [
+            {
+                type: 9,
+                components: [{ type: 10, content: [`## **[${player.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
+                ...(embedIconUrl ? { accessory: { type: 11, media: { url: embedIconUrl } } } : {}),
+            },
+        ],
+    },
+});
 ---
 
-<Layout title={`${player.name} | stelladb`} description={description} image={iconUrl || undefined}>
+<Layout title={`${player.name} | stelladb`} description={description} image={iconUrl || undefined} embed={embed}>
     <div class="player-page">
         <div class="header">
             <div class="player-heading">

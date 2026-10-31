@@ -108,16 +108,10 @@ function activate(context) {
     const dataFile = path.join(dir, 'data.json');
     const metaFile = path.join(dir, 'meta.json');
 
-    async function fetchJson(url) {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`${url} -> ${res.status}`);
-        return res.json();
-    }
-
     async function collect() {
         const [chars, disc] = await Promise.all([
-            fetchJson(BASE + 'character.json'),
-            fetchJson(BASE + 'disc.json'),
+            fetch(BASE + 'character.json').then((res) => res.json()),
+            fetch(BASE + 'disc.json').then((res) => res.json()),
         ]);
         const discNames = (Array.isArray(disc) ? disc : Object.values(disc)).map((d) => d && d.name);
         return { data: withIndex(prepare(chars, discNames)), chars, disc: discNames };
@@ -129,22 +123,18 @@ function activate(context) {
         if (fs.existsSync(dataFile) && fs.existsSync(metaFile)) {
             try {
                 const raw = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
-                cache = withIndex(prepare(raw.chars ?? {}, raw.disc ?? []));
+                cache = withIndex(prepare(raw.chars, raw.disc));
                 exp = JSON.parse(fs.readFileSync(metaFile, 'utf8')).exp;
             } catch {
                 cache = null;
             }
         }
         if (cache && Date.now() < exp) return cache;
-        try {
-            const fresh = await collect();
-            cache = fresh.data;
-            fs.mkdirSync(dir, { recursive: true });
-            fs.writeFileSync(dataFile, JSON.stringify({ chars: fresh.chars, disc: fresh.disc }));
-            fs.writeFileSync(metaFile, JSON.stringify({ exp: expiry() }));
-        } catch (e) {
-            console.warn('[stelladb] refresh failed:', e.message);
-        }
+        const fresh = await collect();
+        cache = fresh.data;
+        fs.mkdirSync(dir, { recursive: true });
+        fs.writeFileSync(dataFile, JSON.stringify({ chars: fresh.chars, disc: fresh.disc }));
+        fs.writeFileSync(metaFile, JSON.stringify({ exp: expiry() }));
         return cache;
     }
 

@@ -98,9 +98,10 @@ if (import.meta.env.SSR) {
                 <a href="/trekker" data-astro-prefetch>Trekker</a>
                 <a href="/disc" data-astro-prefetch>Disc</a>
                 <a href="/banner" data-astro-prefetch>Banner</a>
-                <a href="/lb" data-astro-prefetch>Leaderboard</a>
+                <a href="/lb" class="nav-break" data-astro-prefetch>Leader<br />board</a>
+                <a href="/player" data-astro-prefetch>Player</a>
                 <a href="/team" data-astro-prefetch>Team</a>
-                <a href="/gacha" data-astro-prefetch>Pull Tracker</a>
+                <a href="/gacha" class="nav-break" data-astro-prefetch>Pull <br />Tracker</a>
                 <details>
                     <summary>Monster</summary>
                     <div>
@@ -540,6 +541,15 @@ if (import.meta.env.SSR) {
 
             a {
                 padding: 0.5rem 0.5rem;
+
+                &.nav-break {
+                    text-align: center;
+                    line-height: 1.1;
+
+                    br {
+                        display: none;
+                    }
+                }
             }
 
             details {
@@ -585,6 +595,12 @@ if (import.meta.env.SSR) {
                     }
                 }
             }
+        }
+    }
+
+    @media (max-width: 800px) {
+        nav .navlinks a.nav-break br {
+            display: block;
         }
     }
 

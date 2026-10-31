@@ -549,10 +549,10 @@ const embed = JSON.stringify({
 
         const playerHeadUrl = headIconUrl(entry.HeadIcon);
         const headingHtml = `
-            <div class="modal-heading">
+            <a class="modal-heading" href="/player/${entry.Id}" title="View player profile">
                 ${playerHeadUrl ? `<img class="player-head modal-player-head" src="${playerHeadUrl}" alt="${entry.NickName}" width="48" height="48">` : ''}
                 <div>${entry.NickName} • Rank: ${entry.Rank}</div>
-            </div>
+            </a>
         `;
 
         const teamsHtml = entry.Teams.sort((a, b) => a.LevelId - b.LevelId)
@@ -1549,8 +1549,15 @@ const embed = JSON.stringify({
         display: flex;
         align-items: center;
         margin-bottom: 0.5rem;
+        color: inherit;
         font-weight: 700;
         font-size: 1.1rem;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-content .modal-heading:hover {
+        text-decoration: underline;
     }
 
     .modal-team {

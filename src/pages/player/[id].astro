@@ -1,0 +1,620 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import { CHARACTER_ID_URL, META_URL, PLAYER_HEAD_URL, PLAYER_INDEX_URL, playerDataUrl, playerIconUrl, seasonName } from '@/scripts/leaderboard';
+
+export const prerender = false;
+
+const { id } = Astro.params;
+
+const players = await fetch(PLAYER_INDEX_URL).then((response) => response.json());
+const player = players[id];
+if (!player) return Astro.redirect('/404');
+
+const [seasonData, meta, playerHeadData, characterIdData] = await Promise.all([
+    fetch(playerDataUrl(id)).then((response) => response.json()),
+    fetch(META_URL).then((response) => response.json()),
+    fetch(PLAYER_HEAD_URL).then((response) => response.json()),
+    fetch(CHARACTER_ID_URL).then((response) => response.json()),
+]);
+
+const seasons = Object.entries(seasonData);
+const iconUrl = playerIconUrl(player.icon, playerHeadData);
+const pastnames = player.pastname;
+
+const modalData = {
+    seasons: seasonData,
+    meta: Object.fromEntries(seasons.map(([season]) => [season, meta[season]])),
+    playerHeadData,
+    characterIdData,
+};
+
+const modalDataJson = JSON.stringify(modalData).replace(/</g, '\\u003c');
+const description = pastnames.length ? `formerly known as ${pastnames.join(', ')}` : 'Stella Sora leaderboard player';
+---
+
+<Layout title={`${player.name} | stelladb`} description={description} image={iconUrl || undefined}>
+    <div class="player-page">
+        <div class="header">
+            <div class="player-heading">
+                {iconUrl && <img class="player-head" src={iconUrl} alt={player.name} width="64" height="64" />}
+                <div>
+                    <h1>{player.name}</h1>
+                    {pastnames.length > 0 && <p class="pastname">formerly known as {pastnames.join(', ')}</p>}
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            {
+                seasons.map(([season, entry]) => (
+                    <section class="season-section">
+                        <h2>{seasonName(season)}</h2>
+                        <div class="leaderboard-grid">
+                            <div class="grid-header">
+                                <div class="col rank">Rank</div>
+                                <div class="col player">Player</div>
+                                <div class="col score">Score</div>
+                            </div>
+
+                            <div class="grid-row" data-id={entry.Id} data-season={season} tabindex="0" role="button" title="View team details">
+                                <div class="col rank">
+                                    <div class="rank-num">{entry.Rank}</div>
+                                </div>
+
+                                <div class="col player" title={entry.Id}>
+                                    <img class="player-head" src={playerIconUrl(entry.HeadIcon, playerHeadData)} alt={entry.NickName} width="48" height="48" />
+                                    <div class="player-name">{entry.NickName}</div>
+                                </div>
+
+                                <div class="col score">
+                                    <span data-id={entry.Id}>{entry.Score.toLocaleString('en-US')}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                ))
+            }
+
+            {seasons.length === 0 && <p class="no-data">No leaderboard data found for this player.</p>}
+        </div>
+
+        <div id="team-modal" class="team-modal" hidden>
+            <div class="modal-backdrop" id="team-modal-backdrop"></div>
+            <div class="modal-wrapper">
+                <button class="modal-close" id="team-modal-close">×</button>
+                <div class="modal-content" id="team-modal-content"></div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<script is:inline type="application/json" id="player-modal-data" set:html={modalDataJson}></script>
+
+<script>
+    // @ts-nocheck
+    const modalData = JSON.parse(document.getElementById('player-modal-data').textContent);
+    const { seasons, meta, playerHeadData, characterIdData } = modalData;
+
+    const modal = document.querySelector('#team-modal');
+    const modalContent = document.querySelector('#team-modal-content');
+    const modalClose = document.querySelector('#team-modal-close');
+    const modalBackdrop = document.querySelector('#team-modal-backdrop');
+
+    function headIconUrl(icon) {
+        const iconPath = playerHeadData[icon]?.Icon;
+        if (!iconPath) return '';
+        const [, folder, file] = iconPath.split('/');
+        return `https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/${folder.toLowerCase()}/${file}.webp`;
+    }
+
+    function openModal(entry, season) {
+        const floorData = meta[season]?.floor || {};
+        const isBB = /^bb/.test(season);
+        const playerHeadUrl = headIconUrl(entry.HeadIcon);
+
+        const headingHtml = `
+            <div class="modal-heading">
+                ${playerHeadUrl ? `<img class="player-head modal-player-head" src="${playerHeadUrl}" alt="${entry.NickName}" width="48" height="48">` : ''}
+                <div>${entry.NickName} • Rank: ${entry.Rank}</div>
+            </div>
+        `;
+
+        const teamsHtml = entry.Teams
+            .sort((a, b) => a.LevelId - b.LevelId)
+            .map((t, i) => {
+                const levelName = floorData[t.LevelId]?.name;
+                let titleStr = `Team ${i + 1}: `;
+                if (levelName) titleStr += `${levelName} • `;
+                titleStr += (t.LevelScore || t.Time / 1000).toLocaleString('en-US');
+                if (!isBB) titleStr += 's';
+                if (t.BuildScore) titleStr += ` • Record: ${t.RecordRank} (${t.BuildScore})`;
+
+                const charsHtml = t.Chars.map((c) => {
+                    const charName = characterIdData[c.Id];
+                    return `
+                        <a class="modal-char-card" href="/trekker/${c.Id}" title="${charName}">
+                            <div class="modal-char-image" style="background-image: url(https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/head/head_${c.Id}01_XXL.webp);"></div>
+                            <div class="modal-char-label">${charName} • Lv${c.Level}</div>
+                        </a>
+                    `;
+                }).join('');
+
+                let discsHtml = '';
+                if (t.Discs) {
+                    const discsListHtml = t.Discs.map((d) => {
+                        const discIdStr = String(d);
+                        const discAssetId = discIdStr.length > 2 ? discIdStr.slice(2) : discIdStr;
+                        return `
+                            <a class="modal-disc" href="/disc/${d}" title="${d}">
+                                <img class="modal-disc-image" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${discAssetId}.webp" alt="${d}" width="48" height="48">
+                            </a>
+                        `;
+                    }).join('');
+                    discsHtml = `<div class="modal-discs"><div class="modal-discs-list">${discsListHtml}</div></div>`;
+                }
+
+                let notesHtml = '';
+                if (t.Notes) {
+                    const notesListHtml = t.Notes.map(
+                        (n) => `
+                        <div class="modal-note" title="${n.Tid}">
+                            <img class="modal-note-image" src="https://chino.is-a.dev/cdn-cgi/image/format=avif/https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/note/note_${n.Tid}_S.webp" alt="${n.Tid}" width="36" height="36">
+                            <div class="modal-note-qty">x${n.Qty}</div>
+                        </div>
+                    `,
+                    ).join('');
+                    notesHtml = `<div class="modal-notes"><div class="modal-notes-list">${notesListHtml}</div></div>`;
+                }
+
+                let secHtml = '';
+                if (t.Discs) {
+                    const discPrefixes = t.Discs.slice(0, 3).map((d) => String(d).slice(2));
+                    const activeIds = t.ActiveSecondaryIds?.map(String) || [];
+                    const numEmojis = { '1': '1️⃣', '2': '2️⃣', '3': '3️⃣', '4': '4️⃣', '5': '5️⃣' };
+                    let gridItemsHtml = '';
+
+                    for (let r = 0; r < 2; r++) {
+                        for (let c = 0; c < 3; c++) {
+                            const prefix = discPrefixes[c];
+                            const matches = activeIds.filter((s) => s.startsWith(prefix));
+                            const matchedId = matches[r];
+
+                            if (matchedId) {
+                                const last = matchedId.slice(-1);
+                                gridItemsHtml += `<div class="modal-secondary-id" title="${prefix} harmony ${r + 1}">${numEmojis[last] || '✅'}</div>`;
+                            } else {
+                                gridItemsHtml += `<div class="modal-secondary-id" title="${prefix} harmony ${r + 1}">❌</div>`;
+                            }
+                        }
+                    }
+                    secHtml = `
+                        <div class="modal-active-secondaries">
+                            <div class="modal-active-secondaries-list">${gridItemsHtml}</div>
+                        </div>
+                    `;
+                }
+
+                const buildLinkHref = t.BuildCode ? `/build/${t.BuildCode}` : '#';
+                const buildLinkTarget = t.BuildCode ? 'target="_blank"' : '';
+
+                return `
+                    <div class="modal-team">
+                        <div class="modal-team-header">
+                            <div class="modal-team-title">${titleStr}</div>
+                        </div>
+                        <div class="modal-team-row">
+                            <div class="modal-team-left">
+                                <div class="modal-chars-row">
+                                    <div class="modal-chars">${charsHtml}</div>
+                                    <div class="modal-build-wrap">
+                                        <a class="modal-build-link" href="${buildLinkHref}" ${buildLinkTarget}>Open build</a>
+                                    </div>
+                                </div>
+                                <div class="modal-discs-and-secondaries">
+                                    ${discsHtml}
+                                    ${secHtml}
+                                </div>
+                                ${notesHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            })
+            .join('');
+
+        modalContent.innerHTML = headingHtml + teamsHtml;
+        modal.hidden = false;
+    }
+
+    function closeModal() {
+        modal.hidden = true;
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+
+    document.querySelectorAll('.player-page .grid-row').forEach((row) => {
+        const open = () => {
+            const entry = seasons[row.dataset.season];
+            if (entry) openModal(entry, row.dataset.season);
+        };
+
+        row.addEventListener('click', open);
+        row.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') open();
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeModal();
+    });
+</script>
+
+<style is:global>
+    .player-page {
+        .header {
+            display: flex;
+            position: sticky;
+            top: var(--nav-height);
+            z-index: 3;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            margin: 0 auto;
+            background: var(--bg1a);
+            padding: 0 1rem;
+            max-width: 1000px;
+            min-height: 96px;
+        }
+
+        .player-heading {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .pastname {
+            margin: 0.25rem 0 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .content {
+            padding-bottom: 2rem;
+        }
+
+        .season-section {
+            margin: 1rem auto 2rem;
+            max-width: 1000px;
+        }
+
+        h2 {
+            margin: 0 1rem 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .leaderboard-grid {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .grid-header,
+        .grid-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 220px;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid var(--bg2);
+            padding: 0.6rem 1rem;
+        }
+
+        .grid-header {
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .grid-row .rank-num {
+            font-weight: 700;
+            font-size: 1.75rem;
+        }
+
+        .player {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .player-head {
+            border-radius: 4px;
+            background: var(--bg2);
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+        }
+
+        .player-heading .player-head {
+            width: 64px;
+            height: 64px;
+        }
+
+        .player-name {
+            font-weight: 600;
+        }
+
+        .score {
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .grid-header .col.rank,
+        .grid-header .col.player,
+        .grid-header .col.score,
+        .grid-row .col.rank,
+        .grid-row .col.score {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .grid-row .col.player {
+            margin: 0 auto;
+            width: 300px;
+        }
+
+        .grid-row {
+            cursor: pointer;
+        }
+
+        .grid-row:hover {
+            background: var(--bg2);
+        }
+
+        .no-data {
+            margin: 2rem;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        @media (width < 800px) {
+            .grid-header,
+            .grid-row {
+                grid-template-columns: 56px 1fr 220px;
+            }
+
+            .grid-row .col.player {
+                margin: 0 !important;
+                width: auto !important;
+            }
+        }
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+
+    .team-modal {
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        align-items: center;
+        z-index: 727;
+        inset: 0;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-wrapper {
+        position: relative;
+        z-index: 2;
+        border-radius: 10px;
+        background: var(--bg1a);
+        padding: 1rem;
+        width: min(480px, 90%);
+        max-height: 80vh;
+        overflow: auto;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        font-size: 2rem;
+    }
+
+    .modal-content .modal-heading {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .modal-team {
+        margin-bottom: 0.6rem;
+    }
+    .modal-team-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    .modal-chars-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .modal-discs-and-secondaries {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
+    }
+    .modal-team-title {
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+    .modal-chars {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .modal-char-card {
+        display: inline-block;
+        width: 100px;
+        color: inherit;
+        font-size: 0.8rem;
+    }
+    .modal-char-image {
+        border-radius: 8px;
+        background-position: top center;
+        background-size: cover;
+        width: 100px;
+        height: 100px;
+    }
+    .modal-char-label {
+        margin-top: 0.25rem;
+        font-size: 0.75rem;
+        text-align: center;
+    }
+
+    .modal-build-link {
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: 6px;
+        background: var(--bg2);
+        padding: 0.35rem 0.6rem;
+        color: inherit;
+        font-weight: 600;
+    }
+
+    .modal-team-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.4rem;
+    }
+
+    .modal-build-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+        width: 120px;
+    }
+
+    .modal-player-head {
+        vertical-align: middle;
+        margin-right: 0.5rem;
+        border-radius: 4px;
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+    }
+    .modal-discs,
+    .modal-notes,
+    .modal-active-secondaries {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 0.4rem;
+    }
+
+    .modal-discs-list {
+        display: grid;
+        grid-template-rows: repeat(2, 48px);
+        grid-template-columns: repeat(3, 48px);
+        justify-content: start;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .modal-notes-list {
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .modal-active-secondaries-list {
+        display: grid;
+        grid-template-rows: repeat(2, 48px);
+        grid-template-columns: repeat(3, 48px);
+        justify-content: start;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .modal-disc {
+        display: inline-block;
+        width: 48px;
+        height: 48px;
+        line-height: 0;
+    }
+
+    .modal-disc img,
+    .modal-disc-image {
+        display: block;
+        border-radius: 4px;
+        background: var(--bg2);
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+    }
+
+    .modal-note {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.15rem 0.25rem;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .modal-note-image {
+        border-radius: 6px;
+        background: var(--bg2);
+        width: 36px;
+        height: 36px;
+        object-fit: cover;
+    }
+
+    .modal-note-qty {
+        color: var(--muted);
+        font-size: 0.85rem;
+    }
+
+    .modal-secondary-id {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+        background: var(--bg2);
+        width: 48px;
+        height: 48px;
+        color: var(--muted);
+        font-size: 2rem;
+    }
+
+    .modal-team-list {
+        display: flex;
+        flex-direction: column;
+    }
+</style>

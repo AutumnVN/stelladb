@@ -1,0 +1,84 @@
+---
+// @ts-nocheck
+import Card from '@/components/Card.astro';
+import SearchableGrid from '@/components/SearchableGrid.astro';
+import Layout from '@/layouts/Layout.astro';
+import { PLAYER_HEAD_URL, PLAYER_INDEX_URL, playerIconUrl } from '@/scripts/leaderboard';
+
+export const prerender = false;
+
+const [players, playerHeadData] = await Promise.all([fetch(PLAYER_INDEX_URL).then((response) => response.json()), fetch(PLAYER_HEAD_URL).then((response) => response.json())]);
+
+const PINNED_IDS = [
+    '701427440',
+    '700341479',
+    '700341828',
+    '700344393',
+    '700347027',
+    '700347550',
+    '700357218',
+    '700357641',
+    '700367958',
+    '700369210',
+    '700389671',
+    '700400273',
+    '700412551',
+    '700412730',
+    '700418648',
+    '700452235',
+    '700473851',
+    '700485636',
+    '700487622',
+    '700494617',
+    '700498580',
+    '700503645',
+    '700564933',
+    '700570098',
+    '700584868',
+    '700612657',
+    '700618831',
+    '700632942',
+    '700670879',
+    '700699110',
+    '700705628',
+    '700780468',
+    '700838571',
+    '700897570',
+    '700924509',
+    '701216294',
+    '701293902',
+    '701316792',
+    '701809479',
+    '702098237',
+    '704000939',
+    '704263705',
+    '707070478',
+];
+
+const pinnedOrder = new Map(PINNED_IDS.map((id, index) => [id, index]));
+const entries = Object.entries(players).sort(([a], [b]) => {
+    const aPinned = pinnedOrder.get(a);
+    const bPinned = pinnedOrder.get(b);
+
+    if (aPinned !== undefined && bPinned !== undefined) return aPinned - bPinned;
+    if (aPinned !== undefined) return -1;
+    if (bPinned !== undefined) return 1;
+    return 0;
+});
+---
+
+<Layout title="Player | stelladb" pagefindIgnore={true}>
+    <SearchableGrid placeholder="Search players by id/name/pastname" noResultsText="No player found.">
+        {
+            entries.map(([id, player]) => {
+                const iconUrl = playerIconUrl(player.icon, playerHeadData);
+
+                return (
+                    <div class="card-item" data-id={id} data-name={player.name} data-pastname={player.pastname.join(' ')}>
+                        <Card href={`/player/${id}`} name={player.name} desc={id} image={iconUrl} inset={0} unoptimized />
+                    </div>
+                );
+            })
+        }
+    </SearchableGrid>
+</Layout>

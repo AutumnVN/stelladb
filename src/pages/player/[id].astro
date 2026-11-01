@@ -75,12 +75,6 @@ const embed = JSON.stringify({
                     <section class="season-section">
                         <h2>{seasonName(season)}</h2>
                         <div class="leaderboard-grid">
-                            <div class="grid-header">
-                                <div class="col rank">Rank</div>
-                                <div class="col player">Player</div>
-                                <div class="col score">Score</div>
-                            </div>
-
                             <div class="grid-row" data-id={entry.Id} data-season={season} tabindex="0" role="button" title="View team details">
                                 <div class="col rank">
                                     <div class="rank-num">{entry.Rank}</div>
@@ -330,7 +324,6 @@ const embed = JSON.stringify({
             max-width: 1000px;
         }
 
-        .grid-header,
         .grid-row {
             display: grid;
             grid-template-columns: 100px 1fr 220px;
@@ -338,13 +331,6 @@ const embed = JSON.stringify({
             gap: 1rem;
             border-bottom: 1px solid var(--bg2);
             padding: 0.6rem 1rem;
-        }
-
-        .grid-header {
-            color: var(--muted);
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
         }
 
         .grid-row .rank-num {
@@ -381,9 +367,6 @@ const embed = JSON.stringify({
             cursor: pointer;
         }
 
-        .grid-header .col.rank,
-        .grid-header .col.player,
-        .grid-header .col.score,
         .grid-row .col.rank,
         .grid-row .col.score {
             justify-content: center;
@@ -410,7 +393,6 @@ const embed = JSON.stringify({
         }
 
         @media (width < 800px) {
-            .grid-header,
             .grid-row {
                 grid-template-columns: 56px 1fr 220px;
             }

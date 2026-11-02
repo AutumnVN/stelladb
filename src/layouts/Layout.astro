@@ -89,7 +89,7 @@ if (import.meta.env.SSR) {
                 url: Astro.url.href,
             })}
         />
-        <script is:inline defer src="/u.js" data-website-id="a702f6da-1e9a-4d42-bf33-cc60aba3c081"></script>
+        <script is:inline defer src="/u.js" data-website-id="a702f6da-1e9a-4d42-bf33-cc60aba3c081" data-exclude-hash="true"></script>
     </head>
     <body>
         <nav>
@@ -543,8 +543,8 @@ if (import.meta.env.SSR) {
                 padding: 0.5rem 0.5rem;
 
                 &.nav-break {
-                    text-align: center;
                     line-height: 1.1;
+                    text-align: center;
 
                     br {
                         display: none;

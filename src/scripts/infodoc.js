@@ -1,7 +1,7 @@
 export const style = `
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5">
-    <script defer src="/u.js" data-website-id="a702f6da-1e9a-4d42-bf33-cc60aba3c081"></script>
+    <script defer src="/u.js" data-website-id="a702f6da-1e9a-4d42-bf33-cc60aba3c081" data-exclude-hash="true"></script>
     <style>
         .column-header-wrapper,
         .row-header-wrapper,

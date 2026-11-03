@@ -68,13 +68,13 @@ const entries = Object.entries(players).sort(([a], [b]) => {
 ---
 
 <Layout title="Player | stelladb" pagefindIgnore={true}>
-    <SearchableGrid placeholder="Search players by id/name/pastname" noResultsText="No player found.">
+    <SearchableGrid placeholder="Search players by id/name/pastname/region" noResultsText="No player found.">
         {
             entries.map(([id, player]) => {
                 const iconUrl = playerIconUrl(player.icon, playerHeadData);
 
                 return (
-                    <div class="card-item" data-id={id} data-name={player.name} data-pastname={player.pastname.join(' ')}>
+                    <div class="card-item" data-id={id} data-name={player.name} data-pastname={player.pastname.join(' ')} data-region={player.region}>
                         <Card href={`/player/${id}`} name={player.name} desc={id} image={iconUrl} inset={0} unoptimized />
                     </div>
                 );

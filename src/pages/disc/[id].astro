@@ -42,17 +42,20 @@ if (!disc) {
 }
 
 const embedLines = [`${disc.star}★`, disc.element, ...disc.tag, disc.char.length && disc.char.join(', '), disc.source.length && disc.source.join(', ')].filter(Boolean);
+const embedContent = [`## **[${disc.name}](${Astro.url.href})**`, ...embedLines].join('  \n');
 
 const embed = JSON.stringify({
     component: {
         type: 17,
         accent_color: 6750105,
         components: [
-            {
-                type: 9,
-                components: [{ type: 10, content: [`## **[${disc.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
-                ...(isUnreleased ? {} : { accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp` } } }),
-            },
+            isUnreleased
+                ? { type: 10, content: embedContent }
+                : {
+                      type: 9,
+                      components: [{ type: 10, content: embedContent }],
+                      accessory: { type: 11, media: { url: `https://raw.githubusercontent.com/AutumnVN/ssassets/refs/heads/main/export/assets/assetbundles/icon/outfit/outfit_${id.replace(/^.{2}/, '')}.webp` } },
+                  },
             { type: 1, components: [{ type: 2, style: 5, label: 'Wiki', url: `https://stellasora.miraheze.org/wiki/${disc.name.replaceAll(' ', '_')}` }] },
         ],
     },

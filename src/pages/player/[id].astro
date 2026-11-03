@@ -41,17 +41,20 @@ const embedTable = [formatTableRow(tableHeaders), tableWidths.map((width) => '-'
 const embedLines = [...(pastnames.length ? [`formerly known as ${pastnames.join(', ')}`] : []), ...(seasons.length ? [`\`\`\`text\n${embedTable}\n\`\`\``] : [])];
 
 const embedIconUrl = playerIconUrl(player.icon, playerHeadData, { cdn: false });
+const embedContent = [`## **[${player.name}](${Astro.url.href})**`, ...embedLines].join('  \n');
 
 const embed = JSON.stringify({
     component: {
         type: 17,
         accent_color: 6750105,
         components: [
-            {
-                type: 9,
-                components: [{ type: 10, content: [`## **[${player.name}](${Astro.url.href})**`, ...embedLines].join('  \n') }],
-                ...(embedIconUrl ? { accessory: { type: 11, media: { url: embedIconUrl } } } : {}),
-            },
+            embedIconUrl
+                ? {
+                      type: 9,
+                      components: [{ type: 10, content: embedContent }],
+                      accessory: { type: 11, media: { url: embedIconUrl } },
+                  }
+                : { type: 10, content: embedContent },
         ],
     },
 });

@@ -6,6 +6,21 @@ import Layout from '@/layouts/Layout.astro';
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/emblem.json';
 
 const data = await fetch(DATA_URL).then((res) => res.json());
+
+function formatValue(value: string) {
+    if (value.includes('x')) return `<s>${value.replace('x', '')}</s>`;
+    if (value.includes('*')) return `<u>${value.replace('*', '')}</u>`;
+    return value;
+}
+
+function formatAttr(attr: string) {
+    const separator = attr.indexOf(': ');
+    if (separator === -1) return attr;
+
+    const name = attr.slice(0, separator);
+    const values = attr.slice(separator + 2).split(' / ');
+    return `${name}: ${values.map(formatValue).join(' / ')}`;
+}
 ---
 
 <Layout title="Emblem | stelladb">
@@ -26,7 +41,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
             warning will trigger on reforge if:<br />
             - no lock and have at least 2 rainbow attr<br />
             - locked but have an unlocked rainbow attr<br />
-            - have an unlocked attr mark with (*)
+            - have an unlocked underlined attr
         </p>
 
         <div class="content">
@@ -39,7 +54,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                             <div class="attr-group">
                                 <h3>Group weight: {group.weight}</h3>
                                 {group.attr.map((attr) => (
-                                    <p class="indent">{attr}</p>
+                                    <p class="indent" set:html={formatAttr(attr)} />
                                 ))}
                             </div>
                         ))
@@ -65,7 +80,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                         }
                     </p>
                     <br />
-                    {data.lv80.uniqueAttrGroup.attr.map((attr) => <p class="indent">{attr}</p>)}
+                    {data.lv80.uniqueAttrGroup.attr.map((attr) => <p class="indent" set:html={formatAttr(attr)} />)}
                 </div>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
@@ -74,7 +89,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                             <div class="attr-group">
                                 <h3>Group weight: {group.weight}</h3>
                                 {group.attr.map((attr) => (
-                                    <p class="indent">{attr}</p>
+                                    <p class="indent" set:html={formatAttr(attr)} />
                                 ))}
                             </div>
                         ))
@@ -100,7 +115,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                         }
                     </p>
                     <br />
-                    {data.lv90.uniqueAttrGroup.attr.map((attr) => <p class="indent">{attr}</p>)}
+                    {data.lv90.uniqueAttrGroup.attr.map((attr) => <p class="indent" set:html={formatAttr(attr)} />)}
                 </div>
                 <div class="normal-attr">
                     <h2>Normal Attributes</h2>
@@ -109,7 +124,7 @@ const data = await fetch(DATA_URL).then((res) => res.json());
                             <div class="attr-group">
                                 <h3>Group weight: {group.weight}</h3>
                                 {group.attr.map((attr) => (
-                                    <p class="indent">{attr}</p>
+                                    <p class="indent" set:html={formatAttr(attr)} />
                                 ))}
                             </div>
                         ))

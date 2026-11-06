@@ -4,10 +4,11 @@ import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
 import { PLAYER_HEAD_URL, PLAYER_INDEX_URL, playerIconUrl } from '@/scripts/leaderboard';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export const prerender = false;
 
-const [players, playerHeadData] = await Promise.all([fetch(PLAYER_INDEX_URL).then((response) => response.json()), fetch(PLAYER_HEAD_URL).then((response) => response.json())]);
+const [players, playerHeadData] = await Promise.all([fetchJson(PLAYER_INDEX_URL), fetchJson(PLAYER_HEAD_URL)]);
 
 const PINNED_IDS = [
     '701427440',

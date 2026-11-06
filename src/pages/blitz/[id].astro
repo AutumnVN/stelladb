@@ -5,10 +5,11 @@ import Layout from '@/layouts/Layout.astro';
 import Page from '@/components/Page.astro';
 import Icon from '@/components/Icon.astro';
 import Tabs from '@/components/Tabs.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/blitz.json';
-    const data = await fetch(DATA_URL).then((res) => res.json());
+    const data = await fetchJson(DATA_URL);
 
     return Object.keys(data).map((id) => ({
         params: { id },

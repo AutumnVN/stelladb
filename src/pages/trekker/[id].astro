@@ -8,6 +8,7 @@ import Icon from '@/components/Icon.astro';
 import Stars from '@/components/Stars.astro';
 import ExternalIcon from '@/components/ExternalIcon.astro';
 import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/team.js';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
@@ -16,18 +17,10 @@ export async function getStaticPaths() {
     const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/word.json';
 
     const [data, unreleased, itemData, word] = await Promise.all([
-        fetch(DATA_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(UNRELEASED_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(ITEM_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(WORD_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
+        fetchJson(DATA_URL),
+        fetchJson(UNRELEASED_URL),
+        fetchJson(ITEM_URL),
+        fetchJson(WORD_URL),
     ]);
 
     const both = Object.assign({}, data, unreleased);

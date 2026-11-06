@@ -3,10 +3,11 @@
 import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import Card from '@/components/Card.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/gacha.json';
 
-const data = await fetch(DATA_URL).then((res) => res.json());
+const data = await fetchJson(DATA_URL);
 ---
 
 <Layout title="Banner | stelladb">

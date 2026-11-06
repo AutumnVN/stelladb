@@ -3,10 +3,11 @@
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/siege.json';
 
-const data = await fetch(DATA_URL).then((res) => res.json());
+const data = await fetchJson(DATA_URL);
 
 ---
 
@@ -24,8 +25,10 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 
 <script>
     // @ts-nocheck
+    import { fetchJson } from '@/scripts/fetchJson.js';
+
     const TRACEHUNTCONTROL_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/TraceHuntControl.json';
-    const traceHuntControl = await fetch(TRACEHUNTCONTROL_URL).then((res) => res.json());
+    const traceHuntControl = await fetchJson(TRACEHUNTCONTROL_URL);
     const currentSeason = Object.values(traceHuntControl).filter((season) => Date.now() >= new Date(season.StartTime) && Date.now() <= new Date(season.EndTime))[0];
     const upcomingSeasons = Object.values(traceHuntControl).filter((season) => Date.now() < new Date(season.StartTime));
     const cardItems = document.querySelectorAll('.card-item');

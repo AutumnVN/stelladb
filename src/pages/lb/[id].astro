@@ -2,10 +2,11 @@
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
 import Tabs from '@/components/Tabs.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
     const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
-    const meta = await fetch(META_URL).then((r) => r.json());
+    const meta = await fetchJson(META_URL);
     return Object.keys(meta).map((id) => ({ params: { id }, props: { meta: JSON.stringify(meta[id]) } }));
 }
 
@@ -42,6 +43,8 @@ const embed = JSON.stringify({
 
 <script>
     // @ts-nocheck
+    import { fetchJson } from '@/scripts/fetchJson.js';
+
     const id = location.pathname.split('/').filter(Boolean).pop();
     const SEASON_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
     const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
@@ -51,36 +54,13 @@ const embed = JSON.stringify({
     let data;
 
     const [seasonData, characterIdData, metaData, playerHeadData] = await Promise.all([
-        fetch(SEASON_URL)
-            .then((r) => r.json())
-            .catch(onError),
-        fetch(CHARACTER_ID_URL)
-            .then((r) => r.json())
-            .catch(onError),
-        fetch(META_URL)
-            .then((r) => r.json())
-            .catch(onError),
-        fetch(PLAYER_HEAD_URL)
-            .then((r) => r.json())
-            .catch(onError),
+        fetchJson(SEASON_URL),
+        fetchJson(CHARACTER_ID_URL),
+        fetchJson(META_URL),
+        fetchJson(PLAYER_HEAD_URL),
     ]);
 
-    async function onError(e) {
-        const GITHUBSTATUS_URL = 'https://www.githubstatus.com/api/v2/status.json';
-        const githubStatus = await fetch(GITHUBSTATUS_URL).then((r) => r.json());
-        const pageEl = document.querySelector('.lb-page');
-        pageEl.insertAdjacentHTML(
-            'beforeend',
-            `
-                <div class="leaderboard-header">
-                    <p>
-                        ${e}<br/>
-                        <a href="https://www.githubstatus.com" target="_blank">GitHub status: ${githubStatus.status.description}</a>
-                    </p>
-                </div>
-            `,
-        );
-    }
+    const meta = metaData[id];
 
     const regionData = seasonData.region;
     const regionTabs = ['en', 'jp', 'kr', 'tw', ...(regionData.cn ? ['cn'] : []), 'all'];
@@ -93,7 +73,6 @@ const embed = JSON.stringify({
         all: 'ALL',
     };
     const pageEl = document.querySelector('.lb-page');
-    const meta = metaData[id];
     const isBB = /^bb/.test(id);
     const season = id.match(/\d+/)?.[0];
     const name = isBB ? `Boss Blitz S${season}` : `Finale Echoing S${season}`;

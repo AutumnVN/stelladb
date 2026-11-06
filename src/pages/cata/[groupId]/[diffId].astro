@@ -3,10 +3,11 @@
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/cata.json';
-    const data = await fetch(DATA_URL).then((res) => res.json());
+    const data = await fetchJson(DATA_URL);
 
     return Object.keys(data).flatMap((groupId) =>
         Object.keys(data[groupId].diff).map((diffId) => ({

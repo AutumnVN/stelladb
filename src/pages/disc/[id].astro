@@ -7,6 +7,7 @@ import Tabs from '@/components/Tabs.astro';
 import Icon from '@/components/Icon.astro';
 import Stars from '@/components/Stars.astro';
 import ExternalIcon from '@/components/ExternalIcon.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
     const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/disc.json';
@@ -14,15 +15,9 @@ export async function getStaticPaths() {
     const WORD_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/word.json';
 
     const [data, itemData, word] = await Promise.all([
-        fetch(DATA_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(ITEM_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(WORD_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
+        fetchJson(DATA_URL),
+        fetchJson(ITEM_URL),
+        fetchJson(WORD_URL),
     ]);
 
     return Object.keys(data).map((id) => ({

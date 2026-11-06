@@ -1,16 +1,19 @@
 ---
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export const prerender = false;
 
 const INV_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/inv.json';
 
-const invData = await fetch(INV_URL).then((res) => res.json());
+const invData = await fetchJson(INV_URL);
 const mergedInvData = [...invData.Items, ...invData.Res];
 
 function g(id) {
-    return mergedInvData.find((item) => item.Tid === id)?.Qty || 0;
+    const item = mergedInvData.find((entry) => entry.Tid === id);
+    if (!item) return 0;
+    return +item.Qty;
 }
 
 function i(id) {

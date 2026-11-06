@@ -51,15 +51,14 @@ export function packPotentialData(tbCharPotential, charCfgMap = {}) {
         const nCharId = v.nCharId ?? v.CharId ?? v.charId;
         const potentials = v.tbPotential ?? v.Potentials ?? v.potentials ?? [];
         const cfg = charCfgMap[nCharId];
-        if (!cfg) return;
         if (idx === 0) {
-            pack_potential(cfg.MasterSpecificPotentialIds || [], potentials, true);
-            pack_potential(cfg.MasterNormalPotentialIds || [], potentials, false);
-            pack_potential(cfg.CommonPotentialIds || [], potentials, false);
+            pack_potential(cfg.MasterSpecificPotentialIds, potentials, true);
+            pack_potential(cfg.MasterNormalPotentialIds, potentials, false);
+            pack_potential(cfg.CommonPotentialIds, potentials, false);
         } else {
-            pack_potential(cfg.AssistSpecificPotentialIds || [], potentials, true);
-            pack_potential(cfg.AssistNormalPotentialIds || [], potentials, false);
-            pack_potential(cfg.CommonPotentialIds || [], potentials, false);
+            pack_potential(cfg.AssistSpecificPotentialIds, potentials, true);
+            pack_potential(cfg.AssistNormalPotentialIds, potentials, false);
+            pack_potential(cfg.CommonPotentialIds, potentials, false);
         }
     });
 
@@ -106,10 +105,10 @@ export function unpackPotentialData(b64Str, charCfgMap = {}, options = {}) {
 
     let bitIndex = 0;
     const readBits = numBits => {
+        if (bitIndex + numBits > bitBuffer.length) throw new RangeError('Truncated potential data');
         let value = 0;
         for (let i = numBits - 1; i >= 0; i--) {
-            if (bitIndex >= bitBuffer.length) break;
-            value += (bitBuffer[bitIndex++] || 0) << i;
+            value += bitBuffer[bitIndex++] << i;
         }
         return value >>> 0;
     };
@@ -148,16 +147,15 @@ export function unpackPotentialData(b64Str, charCfgMap = {}, options = {}) {
     for (let k = 0; k < tbCharPotential.length; k++) {
         const entry = tbCharPotential[k];
         const cfg = charCfgMap[entry.CharId];
-        if (!cfg) continue;
         let ok = true;
         if (k === 0) {
-            ok = ok && unpack_potential(entry.Potentials, cfg.MasterSpecificPotentialIds || [], true);
-            ok = ok && unpack_potential(entry.Potentials, cfg.MasterNormalPotentialIds || [], false);
+            ok = ok && unpack_potential(entry.Potentials, cfg.MasterSpecificPotentialIds, true);
+            ok = ok && unpack_potential(entry.Potentials, cfg.MasterNormalPotentialIds, false);
         } else {
-            ok = ok && unpack_potential(entry.Potentials, cfg.AssistSpecificPotentialIds || [], true);
-            ok = ok && unpack_potential(entry.Potentials, cfg.AssistNormalPotentialIds || [], false);
+            ok = ok && unpack_potential(entry.Potentials, cfg.AssistSpecificPotentialIds, true);
+            ok = ok && unpack_potential(entry.Potentials, cfg.AssistNormalPotentialIds, false);
         }
-        ok = ok && unpack_potential(entry.Potentials, cfg.CommonPotentialIds || [], false);
+        ok = ok && unpack_potential(entry.Potentials, cfg.CommonPotentialIds, false);
         if (!ok) return null;
     }
 

@@ -347,30 +347,28 @@ export function findId(index, name) {
     return null;
 }
 
-export function resolveIds(team, potIndex = null, discIndex = null, skillIndex = null, charIdHint = null, tabCharIds = null, discData = null) {
+export function resolveIds(team, potIndex = null, discIndex = null, skillIndex = null, tabCharIds = null, discData = null) {
     for (const tab of team.tabs) {
-        const tabHint = (tabCharIds && tabCharIds[tab.id]) || charIdHint;
+        const tabHint = tabCharIds[tab.id];
         for (const section of tab.sections) {
             if (section.type === 'pot') {
                 for (const item of section.items) {
-                    const list = (potIndex && potIndex.get(String(item.name).toLowerCase())) || [];
-                    const best = tabHint ? list.find((e) => e.charId === String(tabHint)) : null;
-                    const entry = best || list[0];
-                    item.id = entry ? entry.id : null;
+                    const list = potIndex.get(`${item.name}`.toLowerCase());
+                    const entry = list.find((e) => e.charId === `${tabHint}`);
+                    item.id = entry.id;
                 }
             } else if (section.type === 'disc') {
                 for (const item of section.items) {
                     const id = findId(discIndex, item.name);
                     item.id = id;
-                    if (id && discData && discData[id]) item.data = { name: discData[id].name, star: discData[id].star, element: discData[id].element };
+                    item.data = { name: discData[id].name, star: discData[id].star, element: discData[id].element };
                 }
             } else if (section.type === 'skill' && skillIndex) {
                 for (const item of section.items) {
-                    const list = skillIndex.get(String(item.name).toLowerCase()) || [];
-                    const best = tabHint ? list.find((e) => e.charId === String(tabHint)) : null;
-                    const entry = best || list[0];
-                    item.id = entry ? entry.icon : null;
-                    item.data = entry ? { charId: entry.charId, field: entry.field, charName: entry.name } : null;
+                    const list = skillIndex.get(`${item.name}`.toLowerCase());
+                    const entry = list.find((e) => e.charId === `${tabHint}`);
+                    item.id = entry.icon;
+                    item.data = { charId: entry.charId, field: entry.field, charName: entry.name };
                 }
             }
         }

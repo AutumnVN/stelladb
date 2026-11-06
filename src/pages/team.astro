@@ -4,12 +4,11 @@ import { Image } from 'astro:assets';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
 import { loadAllTeams, buildNameIndex, findCharId } from '@/scripts/team.js';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
 
-const characterData = await fetch(CHARACTER_URL)
-    .then((res) => res.json())
-    .catch(() => ({}));
+const characterData = await fetchJson(CHARACTER_URL);
 
 const charIndex = buildNameIndex(characterData);
 

@@ -2,20 +2,21 @@
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
 import { CHARACTER_ID_URL, META_URL, PLAYER_HEAD_URL, PLAYER_INDEX_URL, playerDataUrl, playerIconUrl, seasonName } from '@/scripts/leaderboard';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export const prerender = false;
 
 const { id } = Astro.params;
 
-const players = await fetch(PLAYER_INDEX_URL).then((response) => response.json());
+const players = await fetchJson(PLAYER_INDEX_URL);
 const player = players[id];
 if (!player) return Astro.redirect('/404');
 
 const [seasonData, meta, playerHeadData, characterIdData] = await Promise.all([
-    fetch(playerDataUrl(id)).then((response) => response.json()),
-    fetch(META_URL).then((response) => response.json()),
-    fetch(PLAYER_HEAD_URL).then((response) => response.json()),
-    fetch(CHARACTER_ID_URL).then((response) => response.json()),
+    fetchJson(playerDataUrl(id)),
+    fetchJson(META_URL),
+    fetchJson(PLAYER_HEAD_URL),
+    fetchJson(CHARACTER_ID_URL),
 ]);
 
 const seasons = Object.entries(seasonData);

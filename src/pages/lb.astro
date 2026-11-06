@@ -3,12 +3,11 @@
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
 
-const data = await fetch(DATA_URL)
-    .then((r) => r.json())
-    .catch(() => ({}));
+const data = await fetchJson(DATA_URL);
 ---
 
 <Layout title="Leaderboard | stelladb" pagefindIgnore={true}>

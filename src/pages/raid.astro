@@ -3,10 +3,11 @@
 import Card from '@/components/Card.astro';
 import SearchableGrid from '@/components/SearchableGrid.astro';
 import Layout from '@/layouts/Layout.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 const DATA_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/raid.json';
 
-const data = await fetch(DATA_URL).then((res) => res.json());
+const data = await fetchJson(DATA_URL);
 
 ---
 
@@ -24,8 +25,10 @@ const data = await fetch(DATA_URL).then((res) => res.json());
 
 <script>
     // @ts-nocheck
+    import { fetchJson } from '@/scripts/fetchJson.js';
+
     const ACTIVITY_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/Activity.json';
-    const activity = await fetch(ACTIVITY_URL).then((res) => res.json());
+    const activity = await fetchJson(ACTIVITY_URL);
     const raidActivity = Object.values(activity).filter((act) => act.ActivityType === 7);
     const currentRaid = raidActivity.filter((raid) => Date.now() >= new Date(raid.StartTime) && Date.now() <= new Date(raid.EndTime))[0];
     const upcomingRaids = raidActivity.filter((raid) => Date.now() < new Date(raid.StartTime));

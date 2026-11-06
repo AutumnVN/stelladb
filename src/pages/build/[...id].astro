@@ -4,6 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 import Tabs from '@/components/Tabs.astro';
 import SearchInput from '@/components/SearchInput.astro';
 import { packPotentialData, unpackPotentialData } from '@/scripts/potentialPack.js';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export const prerender = false;
 
@@ -16,18 +17,10 @@ const { params, response } = Astro;
 const id = Array.isArray(params.id) ? params.id.join('/') : params.id;
 
 const [data, characterData, itemData, word] = await Promise.all([
-    fetch(DATA_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(CHARACTER_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(ITEM_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
-    fetch(WORD_URL)
-        .then((r) => r.json())
-        .catch(() => ({})),
+    fetchJson(DATA_URL),
+    fetchJson(CHARACTER_URL),
+    fetchJson(ITEM_URL),
+    fetchJson(WORD_URL),
 ]);
 
 const unpack = unpackPotentialData(id, data);
@@ -81,7 +74,7 @@ if (isValid) {
             const arr = charObj.potential[key];
             if (!Array.isArray(arr)) continue;
             for (const pot of arr) {
-                const pid = pot.id ?? pot.Id ?? pot.Id;
+                const pid = pot.id ?? pot.Id;
                 if (String(pid) === String(id)) return pot;
             }
         }
@@ -174,7 +167,7 @@ if (isValid) {
             }
 
             let potentialDesc = '';
-            const potentialLevel = Number(p.Level) || 1;
+            const potentialLevel = +p.Level;
             const skillLevel2 = 10;
             let result = (potDef && (potDef.desc || potDef.descEN)) || '';
 

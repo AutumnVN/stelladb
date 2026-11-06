@@ -1,6 +1,7 @@
 import { Resvg, initWasm } from '@resvg/resvg-wasm';
 
 import { unpackPotentialData } from '@/scripts/potentialPack.js';
+import { fetchJson } from '@/scripts/fetchJson.js';
 import wasmModule from '@/scripts/resvg.wasm?module';
 import { Buffer } from 'buffer';
 
@@ -27,9 +28,9 @@ export async function GET({ params, request }) {
     const wasmPromise = initWasmOnce();
 
     const [charCfg, characterData, itemData] = await Promise.all([
-        fetch(DATA_URL).then((r) => r.json()),
-        fetch(CHARACTER_URL).then((r) => r.json()),
-        fetch(ITEM_URL).then((r) => r.json()),
+        fetchJson(DATA_URL),
+        fetchJson(CHARACTER_URL),
+        fetchJson(ITEM_URL),
     ]);
 
     const unpack = unpackPotentialData(id, charCfg);

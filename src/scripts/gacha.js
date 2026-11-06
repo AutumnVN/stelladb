@@ -1,4 +1,6 @@
 // @ts-nocheck
+import { fetchWithRetry } from '@/scripts/fetchJson.js';
+
 const STORAGE_KEY = 'stelladb:gacha';
 const REGION_ORDER = ['en', 'jp', 'kr', 'tw', 'cn'];
 const REGION_LABELS = { en: 'EN', jp: 'JP', kr: 'KR', tw: 'TW', cn: 'CN' };
@@ -407,7 +409,7 @@ function groupHistory(history) {
         singles = [];
     };
     for (const record of history) {
-        const count = recordItems(record).length || 1;
+        const count = recordItems(record).length;
         if (count === 1) {
             singles.push(record);
         } else {
@@ -420,7 +422,7 @@ function groupHistory(history) {
 }
 
 function groupPullCount(group) {
-    return group.records.reduce((sum, record) => sum + (recordItems(record).length || 1), 0);
+    return group.records.reduce((sum, record) => sum + recordItems(record).length, 0);
 }
 
 function renderSparkClaim(banner, threshold) {
@@ -532,7 +534,7 @@ function renderPityBar(banner, statusKey = bannerStatus(banner).key) {
 function renderRecord(record) {
     const items = recordItems(record);
     const time = recordDate(record);
-    const count = items.length || number(record.count, 1);
+    const count = items.length || number(record.count);
     return `<div class="pull-record">
         <div class="pull-meta"><time datetime="${escAttr(time ? time.toISOString() : '')}">${esc(formatTime(time))}</time><span>${formatNumber(count)} ${count === 1 ? 'pull' : 'pulls'}</span></div>
         <div class="pull-items${count > 1 ? ' grid' : ''}">${items.map(renderPullItem).join('')}</div>
@@ -578,32 +580,19 @@ function rarityLabel(rarity) {
 }
 
 function summarize(data) {
-    const totals = data.totals || {};
-    const banners = Array.isArray(data.banners) ? data.banners : [];
-    const byRarity = { ...(totals.byRarity || {}) };
-    if (!Object.keys(byRarity).length) {
-        for (const banner of banners) {
-            for (const [rarity, count] of Object.entries(banner.stats?.byRarity || {})) {
-                byRarity[rarity] = number(byRarity[rarity]) + number(count);
-            }
-        }
-    }
-    const sumStat = (field) => banners.reduce((sum, banner) => sum + number(banner.stats?.[field]), 0);
-    const items = number(totals.items) || sumStat('items') || number(totals.pulls) || sumStat('pulls');
-    const rateUpSSR = number(totals.rateUpSSR)
-        || sumStat('rateUpSSR')
-        || banners.reduce((sum, banner) => sum + bannerRateUpSSR(banner), 0);
-    const pity = pityCategories(data);
+    const totals = data.totals;
+    const banners = data.banners;
+    const byRarity = totals.byRarity;
     return {
-        pulls: items,
-        items,
-        rateUpSSR,
+        pulls: number(totals.items),
+        items: number(totals.items),
+        rateUpSSR: number(totals.rateUpSSR),
         ssr: number(byRarity.SSR),
         byRarity,
-        banners: number(totals.banners, banners.length),
-        bannersWithHistory: number(totals.bannersWithHistory, banners.filter((banner) => banner.history?.length).length),
-        activeBanners: number(totals.activeBanners, banners.filter((banner) => ['active', 'standard'].includes(bannerStatus(banner).key)).length),
-        pityTypes: pity.length,
+        banners: number(totals.banners),
+        bannersWithHistory: number(totals.bannersWithHistory),
+        activeBanners: number(totals.activeBanners),
+        pityTypes: pityCategories(data).length,
         pityHits: pityHitInfo(data).hits,
         sparks: banners.filter((banner) => hasSpark(banner) && banner.spark.sparked).length,
     };
@@ -621,11 +610,11 @@ function bannerRateUpSSR(banner) {
 }
 
 function totalPulls(data) {
-    return number(data?.totals?.items) || number(data?.totals?.pulls);
+    return number(data?.totals?.items);
 }
 
 function storagePulls(storage) {
-    return number(storage?.items) || number(storage?.pulls);
+    return number(storage?.items);
 }
 
 function storageList(data) {
@@ -680,11 +669,13 @@ function sortBanners(a, b) {
 function bannerStatus(banner) {
     const start = parseDate(banner?.startTime);
     const end = parseDate(banner?.endTime);
-    const now = Date.now();
     if (!start && !end) return { key: 'standard', label: 'Standard' };
+    const now = Date.now();
     if (start && now < start.getTime()) return { key: 'upcoming', label: 'Upcoming' };
     if (end && now > end.getTime()) return { key: 'ended', label: 'Ended' };
-    return { key: 'active', label: 'Ongoing' };
+    if (banner?.active === false) return { key: 'ended', label: 'Ended' };
+    if (banner?.active === true) return { key: 'active', label: 'Ongoing' };
+    throw new Error(`Banner ${banner?.id ?? 'unknown'} is missing its active status`);
 }
 
 function hasSpark(banner) {
@@ -721,9 +712,8 @@ function bannerIconUrl(banner) {
 
 async function loadDemo(url) {
     try {
-        const response = await fetch(url, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-        const data = parseGacha(await response.text(), 'gacha.en.json');
+        const response = await fetchWithRetry(url, { cache: 'no-store' });
+        const data = parseGacha(await response.text());
         const uid = normalizeUid(data.uid);
         state.accounts = { [uid]: data };
         state.active = uid;
@@ -743,7 +733,7 @@ async function importFiles(fileList) {
     const failed = [];
     for (const file of files) {
         try {
-            const data = parseGacha(await file.text(), file.name);
+            const data = parseGacha(await file.text());
             const uid = normalizeUid(data.uid);
             const existing = state.accounts[uid];
             state.accounts[uid] = existing ? mergeGachaAccounts(existing, data) : data;
@@ -810,8 +800,8 @@ function mergeGachaAccounts(existing, incoming) {
         uid: incoming.uid,
         gameUid: primary.gameUid || secondary.gameUid || null,
         gameName: primary.gameName || secondary.gameName || null,
-        region: primary.region || secondary.region,
-        updatedAt: primary.updatedAt || secondary.updatedAt || new Date().toISOString(),
+        region: primary.region,
+        updatedAt: primary.updatedAt,
         totals: rebuildGachaTotals(banners),
         storages: rebuildGachaStorages(banners, secondary, primary),
         banners,
@@ -884,7 +874,7 @@ function rebuildBannerStats(banner, items) {
     const history = Array.isArray(banner.history) ? banner.history : [];
     for (const record of history) {
         const recordItems = recordItemsFor(record, items);
-        stats.pulls += recordItems.length || number(record.count, 1);
+        stats.pulls += recordItems.length || number(record.count);
         for (const item of recordItems) addItemToStats(stats, item);
     }
     const times = history
@@ -933,7 +923,8 @@ function rebuildGachaTotals(banners) {
     };
     for (const banner of banners) {
         addStatsToTarget(totals, banner.stats);
-        if (banner.active ?? ['active', 'standard'].includes(bannerStatus(banner).key)) totals.activeBanners += 1;
+        const status = bannerStatus(banner).key;
+        if (status === 'active' || status === 'standard') totals.activeBanners += 1;
         if (banner.history?.length) totals.bannersWithHistory += 1;
         if (hasSpark(banner) && banner.spark?.sparked) {
             totals.sparks += 1;
@@ -1021,7 +1012,7 @@ function rebuildFlatHistory(banners, items) {
                 storageId: banner.storageId,
                 time,
                 timeISO: record.timeISO || (time ? new Date(time * 1000).toISOString() : undefined),
-                count: recordItems.length || number(record.count, 1),
+                count: recordItems.length || number(record.count),
                 ids: recordItems.map((item) => number(item.id)).filter((id) => Number.isFinite(id)),
             });
         }
@@ -1061,7 +1052,7 @@ function sortCounts(counts) {
     return Object.fromEntries(Object.entries(counts).sort(([a], [b]) => a.localeCompare(b)));
 }
 
-function parseGacha(text, filename) {
+function parseGacha(text) {
     let data;
     try {
         data = JSON.parse(text);
@@ -1073,22 +1064,19 @@ function parseGacha(text, filename) {
     }
     const uid = normalizeUid(data.uid);
     if (!uid) throw new Error('Missing UID');
-    const region = normalizeRegion(data.region) || regionFromFilename(filename);
-    if (!region) throw new Error('Unknown region');
+    const region = normalizeRegion(data.region);
+    if (!region) throw new Error('Missing or unknown region');
+    const updatedAt = new Date(data.updatedAt).toISOString();
     const gameUid = normalizeUid(data.gameUid ?? data.game_uid);
     const gameName = normalizeUid(data.gameName ?? data.game_name);
     return {
         ...data,
         uid,
         region,
+        updatedAt,
         ...(gameUid ? { gameUid } : {}),
         ...(gameName ? { gameName } : {}),
     };
-}
-
-function regionFromFilename(filename) {
-    const match = String(filename || '').toLowerCase().match(/^gacha(?:[._-][^.]+)?[._-](en|jp|kr|tw|cn)(?:[._-].*)?\.json$/);
-    return match ? match[1] : null;
 }
 
 function exportActive() {
@@ -1162,28 +1150,24 @@ async function copyCommand() {
 }
 
 function loadStored() {
-    try {
-        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-        const stored = parsed?.accounts && typeof parsed.accounts === 'object' ? parsed.accounts : {};
-        const accounts = {};
-        for (const [key, data] of Object.entries(stored)) {
-            if (!isGachaData(data)) continue;
-            const uid = normalizeUid(data.uid) || normalizeUid(key);
-            if (!uid) continue;
-            const gameUid = normalizeUid(data.gameUid ?? data.game_uid);
-            const gameName = normalizeUid(data.gameName ?? data.game_name);
-            accounts[uid] = {
-                ...data,
-                uid,
-                ...(gameUid ? { gameUid } : {}),
-                ...(gameName ? { gameName } : {}),
-            };
-        }
-        const active = normalizeUid(parsed?.active);
-        return { accounts, active: active && accounts[active] ? active : firstAccountUid(accounts) };
-    } catch {
-        return { accounts: {}, active: null };
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { accounts: {}, active: null };
+
+    const parsed = JSON.parse(raw);
+    const accounts = {};
+    for (const data of Object.values(parsed.accounts)) {
+        const uid = normalizeUid(data.uid);
+        const gameUid = normalizeUid(data.gameUid ?? data.game_uid);
+        const gameName = normalizeUid(data.gameName ?? data.game_name);
+        accounts[uid] = {
+            ...data,
+            uid,
+            ...(gameUid ? { gameUid } : {}),
+            ...(gameName ? { gameName } : {}),
+        };
     }
+    const active = normalizeUid(parsed.active);
+    return { accounts, active: active || firstAccountUid(accounts) };
 }
 
 function saveStored() {
@@ -1199,10 +1183,6 @@ function saveStored() {
         toast(`Could not save locally: ${error.message}`, 'error');
         return false;
     }
-}
-
-function isGachaData(data) {
-    return Boolean(data && typeof data === 'object' && Array.isArray(data.banners) && data.totals && typeof data.totals === 'object');
 }
 
 function activeData() {

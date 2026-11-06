@@ -10,7 +10,8 @@ import Icon from '@/components/Icon.astro';
 import Stars from '@/components/Stars.astro';
 import ExternalIcon from '@/components/ExternalIcon.astro';
 import EditIcon from '@/components/EditIcon.astro';
-import { loadAllTeams, buildNameIndex, findId, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitMacros, youtubeId, youtubeParams } from '@/scripts/team.js';
+import { loadAllTeams, buildNameIndex, findCharId, baseCharacterName, buildSkillIndex, buildPotIndex, resolveIds, renderInline, assetUrl, assetName, splitMacros, youtubeId, youtubeParams } from '@/scripts/team.js';
+import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
     const teams = loadAllTeams();
@@ -19,12 +20,8 @@ export async function getStaticPaths() {
     const DISC_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/disc.json';
 
     const [characterData, discData] = await Promise.all([
-        fetch(CHARACTER_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
-        fetch(DISC_URL)
-            .then((r) => r.json())
-            .catch(() => ({})),
+        fetchJson(CHARACTER_URL),
+        fetchJson(DISC_URL),
     ]);
 
     const discIndex = buildNameIndex(discData);
@@ -101,7 +98,6 @@ export async function getStaticPaths() {
     }
 
     return teams.map((team) => {
-        const charId = team.character ? findId(charIndex, team.character) : null;
         const tabCharIds = {};
         for (const tab of team.tabs) {
             if (tab.title.toLowerCase() === 'other') continue;
@@ -111,7 +107,7 @@ export async function getStaticPaths() {
         return {
             params: { element: team.element, id: team.slug },
             props: {
-                team: resolveIds(team, potIndex, discIndex, skillIndex, charId, tabCharIds, discData),
+                team: resolveIds(team, potIndex, discIndex, skillIndex, tabCharIds, discData),
                 tabCharIds,
                 characterData,
                 ytInfo,
@@ -165,16 +161,16 @@ function findPotDef(id) {
 
 function potDescHtml(def, level) {
     if (!def) return '';
-    const lvl = Number(String(level ?? 1).replace(/\D/g, '')) || 1;
+    const lvl = level == null ? null : +`${level}`.replace(/\D/g, '');
     let desc = def.desc || def.descEN || '';
     (def.params || []).forEach((paramSet, index) => {
         const splitted = String(paramSet).split('/');
-        const value = splitted.length === 13 ? (splitted[9] ?? splitted[0]) : splitted.length === 9 ? (splitted[lvl - 1] ?? splitted[0]) : splitted[0];
+        const value = splitted.length === 13 ? splitted[9] : splitted.length === 9 && lvl != null ? splitted[lvl - 1] : splitted[0];
         desc = desc.replaceAll(new RegExp(`&Param${index + 1}(?:_.*?)?&`, 'g'), value);
     });
     (def.hiddenParams || []).forEach((paramSet, index) => {
         const splitted = String(paramSet).split('/');
-        const value = splitted.length === 13 ? (splitted[9] ?? splitted[0]) : splitted.length === 9 ? (splitted[lvl - 1] ?? splitted[0]) : splitted[0];
+        const value = splitted.length === 13 ? splitted[9] : splitted.length === 9 && lvl != null ? splitted[lvl - 1] : splitted[0];
         desc = desc.replaceAll(`&HiddenParam${index + 1}&`, value);
     });
     return desc
@@ -324,7 +320,9 @@ const embed = JSON.stringify({
                                 const SKILL_MACRO = /^skill\[\s*([^\]]*?)\s*\]\s*/;
                                 while ((mm = rest.match(SKILL_MACRO))) {
                                     const n = mm[1].trim();
-                                    const entry = (skillIndex.get(String(n).toLowerCase()) || [])[0];
+                                    const charId = tabCharIds[tab.id];
+                                    const list = skillIndex.get(`${n}`.toLowerCase());
+                                    const entry = list.find((e) => e.charId === `${charId}`);
                                     skillList.push({ name: n, entry });
                                     rest = rest.slice(mm[0].length);
                                 }
@@ -334,7 +332,7 @@ const embed = JSON.stringify({
                                 if (!hasMacro && !showSkills) return <p class="indent" set:html={renderInline(section.text)} />;
                                 return (
                                     <div class="macro-prose">
-                                        {showSkills && skillList.map(({ name, entry }) => (entry ? <Image src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" /> : <span class="indent">{name}</span>))}
+                                        {showSkills && skillList.map(({ name, entry }) => <Image src={skillImg(entry.icon)} alt={name} title={name} width="64" height="64" loading="lazy" />)}
                                         {hasMacro ? (
                                             <p class="indent">
                                                 {parts.map((part) => {
@@ -440,18 +438,11 @@ const embed = JSON.stringify({
                                 return (
                                     <div class={isDisc ? 'disc-list indent' : 'inline-images indent'}>
                                         {section.items.map((item) => {
-                                            if (!item.id) {
-                                                return (
-                                                    <div class="inline-images indent">
-                                                        <p class="indent">{item.name}</p>
-                                                    </div>
-                                                );
-                                            }
                                             if (isDisc) {
-                                                const discName = item.data?.name || item.name;
+                                                const discName = item.data.name;
                                                 return (
                                                     <div class="disc-wrap">
-                                                        <Card href={`/disc/${item.id}`} name={discName} star={item.data?.star || 0} image={discImg(item.id)} element={item.data?.element} />
+                                                        <Card href={`/disc/${item.id}`} name={discName} star={item.data.star} image={discImg(item.id)} element={item.data.element} />
                                                         {item.level != null && <div class="c-badge">C{lv(item)}</div>}
                                                     </div>
                                                 );
@@ -460,7 +451,7 @@ const embed = JSON.stringify({
                                                 return <Image src={skillImg(item.id)} alt={item.name} title={item.name} width="64" height="64" loading="lazy" />;
                                             }
                                             const def = findPotDef(item.id);
-                                            const descHtml = potDescHtml(def, item.level ?? 1);
+                                            const descHtml = potDescHtml(def, item.level);
                                             return (
                                                 <a class="tooltip" href={isPot ? potImg(item.id) : skillImg(item.id)} target="_blank" rel="noreferrer">
                                                     <Image src={isPot ? potImg(item.id) : skillImg(item.id)} alt={item.name} title={item.name} width="120" height={isPot ? 153 : 120} loading="lazy" />

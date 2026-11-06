@@ -1,6 +1,4 @@
-const DEFAULT_BASE = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main';
-
-export const LEADERBOARD_BASE = (process.env.SSLEADERBOARD_URL || DEFAULT_BASE).replace(/\/$/, '');
+export const LEADERBOARD_BASE = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main';
 export const META_URL = `${LEADERBOARD_BASE}/meta.json`;
 export const PLAYER_INDEX_URL = `${LEADERBOARD_BASE}/player.json`;
 export const PLAYER_HEAD_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/PlayerHead.json';

@@ -24,7 +24,7 @@ const TIME_FMT = new Intl.DateTimeFormat('en-US', {
 let page = null;
 let els = null;
 let state = { accounts: {}, active: null };
-let filters = { mode: 'history', query: '' };
+let filters = { mode: 'history', query: '', storages: [] };
 let bannerMap = new Map();
 let pityItems = new WeakSet();
 let demoMode = false;
@@ -52,6 +52,7 @@ function init(element) {
         summary: page.querySelector('#gacha-summary'),
         rarity: page.querySelector('#gacha-rarity'),
         storages: page.querySelector('#gacha-storages'),
+        storageClear: page.querySelector('#gacha-storage-clear'),
         filters: page.querySelector('#gacha-filters'),
         search: page.querySelector('#gacha-search'),
         banners: page.querySelector('#gacha-banners'),
@@ -93,7 +94,7 @@ function bind() {
         const button = event.target.closest('[data-uid]');
         if (!button || !state.accounts[button.dataset.uid]) return;
         state.active = button.dataset.uid;
-        filters = { mode: 'history', query: '' };
+        filters = { mode: 'history', query: '', storages: [] };
         els.search.value = '';
         saveStored();
         render();
@@ -107,6 +108,24 @@ function bind() {
     els.search.addEventListener('input', () => {
         filters.query = els.search.value;
         renderBanners(activeData());
+    });
+    els.storages.addEventListener('click', (event) => {
+        const button = event.target.closest('[data-storage]');
+        if (!button) return;
+        const id = button.dataset.storage;
+        const index = filters.storages.indexOf(id);
+        if (index >= 0) {
+            filters.storages.splice(index, 1);
+        } else {
+            filters.storages.push(id);
+        }
+        updateStorageFilterUi();
+        refreshScopedViews();
+    });
+    els.storageClear.addEventListener('click', () => {
+        filters.storages = [];
+        updateStorageFilterUi();
+        refreshScopedViews();
     });
     document.addEventListener('dragenter', (event) => {
         if (demoMode || !hasFileDrag(event)) return;
@@ -151,9 +170,27 @@ function render() {
         return;
     }
     renderAccount(data);
-    renderSummary(data);
-    renderRarity(data);
+    const scoped = scopedData(data);
+    renderSummary(scoped);
+    renderRarity(scoped);
     renderStorages(data);
+    renderBanners(data);
+}
+
+function updateStorageFilterUi() {
+    for (const row of els.storages.querySelectorAll('[data-storage]')) {
+        const active = filters.storages.includes(row.dataset.storage);
+        row.classList.toggle('active', active);
+        row.setAttribute('aria-pressed', String(active));
+    }
+    els.storageClear.hidden = !filters.storages.length;
+}
+
+function refreshScopedViews() {
+    const data = activeData();
+    const scoped = scopedData(data);
+    renderSummary(scoped);
+    renderRarity(scoped);
     renderBanners(data);
 }
 
@@ -193,17 +230,20 @@ function renderAccount(data) {
 
 function renderSummary(data) {
     const totals = summarize(data);
+    const limitedSSR = totals.rateUpSSR + totals.rateUpLost;
     const cards = [
         ['Pulls', totals.pulls, 'recruits', 'pulls'],
         [rarityLabel('SSR'), totals.ssr, `${percent(totals.ssr, totals.pulls)} of pulls`, 'ssr'],
-        [`Rate-up ${rarityLabel('SSR')}`, totals.rateUpSSR, `${percent(totals.rateUpSSR, totals.pulls)} of pulls`, 'rateup'],
-        ['Banners', totals.bannersWithHistory, `of ${formatNumber(totals.banners)} total`],
+        [`Rate-up ${rarityLabel('SSR')}`, totals.rateUpSSR, totals.limitedPulls ? `${percent(totals.rateUpSSR, totals.limitedPulls)} of ${formatNumber(totals.limitedPulls)} pulls` : 'no limited pulls', 'rateup'],
+        [`Off-rate ${rarityLabel('SSR')}`, totals.rateUpLost, limitedSSR ? `${percent(totals.rateUpLost, limitedSSR)} of limited 5★` : 'no limited 5★', 'pity'],
         ['Spark', totals.sparks, totals.sparks === 1 ? 'spark reached' : 'sparks reached', 'spark'],
         ['Pity', totals.pityHits, totals.pityHits === 1 ? 'pity hit' : 'pity hits', 'pity'],
+        ['Average', totals.ssr ? totals.averagePity : '-', totals.ssr ? 'pulls per 5★' : 'no 5★ yet'],
+        ['Limited average', totals.rateUpSSR ? totals.averageLimitedPity : '-', totals.rateUpSSR ? 'pulls per rate-up 5★' : 'no rate-up 5★ yet'],
     ];
     els.summary.innerHTML = cards.map(([label, value, hint, tone]) => `<div class="stat-card${tone ? ` tone-${tone}` : ''}">
         <span class="stat-label">${esc(label)}</span>
-        <strong class="stat-value">${formatNumber(value)}</strong>
+        <strong class="stat-value">${typeof value === 'string' ? esc(value) : formatNumber(value)}</strong>
         <span class="stat-hint">${esc(hint)}</span>
     </div>`).join('');
 }
@@ -228,6 +268,7 @@ function renderStorages(data) {
     const storages = storageList(data).filter((storage) => storagePulls(storage) > 0);
     if (!storages.length) {
         els.storages.innerHTML = '<p class="empty">No banner type data.</p>';
+        els.storageClear.hidden = !filters.storages.length;
         return;
     }
     const max = Math.max(1, ...storages.map((storage) => storagePulls(storage)));
@@ -235,12 +276,15 @@ function renderStorages(data) {
         const name = storage.name || storage.key || `Pool ${storage.id}`;
         const pulls = storagePulls(storage);
         const ssr = number(storage.byRarity?.SSR);
-        return `<div class="storage-row" title="${escAttr(`${formatNumber(pulls)} pulls · ${formatNumber(ssr)} ${rarityLabel('SSR')}`)}">
-            <div class="storage-label"><span>${esc(name)}</span></div>
-            <div class="chart-track"><span class="chart-fill" style="width:${(pulls / max) * 100}%;background:var(--green)"></span></div>
-            <div class="storage-value">${pulls ? `<b>${formatNumber(pulls)}</b>` : ''}</div>
-        </div>`;
+        const id = String(storage.id);
+        const active = filters.storages.includes(id);
+        return `<button type="button" class="storage-row${active ? ' active' : ''}" data-storage="${escAttr(id)}" aria-pressed="${active}" title="${escAttr(`${formatNumber(pulls)} pulls · ${formatNumber(ssr)} ${rarityLabel('SSR')}`)}">
+            <span class="storage-label"><span>${esc(name)}</span></span>
+            <span class="chart-track"><span class="chart-fill" style="width:${(pulls / max) * 100}%;background:var(--green)"></span></span>
+            <span class="storage-value">${pulls ? `<b>${formatNumber(pulls)}</b>` : ''}</span>
+        </button>`;
     }).join('');
+    updateStorageFilterUi();
 }
 
 function renderBanners(data) {
@@ -248,14 +292,18 @@ function renderBanners(data) {
     const banners = Array.isArray(data.banners) ? data.banners : [];
     const pityHits = pityHitInfo(data);
     const pitiedBanners = pityHits.bannerIds;
-    const pitied = pitiedBanners.size;
     pityItems = pityHits.items;
+    const storages = storageList(data);
+    const activeStorages = storages.filter((storage) => filters.storages.includes(String(storage.id)));
+    const scoped = filters.storages.length
+        ? banners.filter((banner) => filters.storages.includes(String(banner.storageId)))
+        : banners;
     const counts = {
-        history: banners.filter((banner) => banner.history?.length).length,
-        ongoing: banners.filter((banner) => ['active', 'standard'].includes(bannerStatus(banner).key)).length,
-        pity: pitied,
-        sparked: banners.filter((banner) => hasSpark(banner) && banner.spark.sparked).length,
-        all: banners.length,
+        history: scoped.filter((banner) => banner.history?.length).length,
+        ongoing: scoped.filter((banner) => ['active', 'standard'].includes(bannerStatus(banner).key)).length,
+        pity: scoped.filter((banner) => pitiedBanners.has(String(banner.id))).length,
+        sparked: scoped.filter((banner) => hasSpark(banner) && banner.spark.sparked).length,
+        all: scoped.length,
     };
     const modes = [
         ['history', 'Pulled', counts.history],
@@ -269,13 +317,16 @@ function renderBanners(data) {
         ${label}<span>${formatNumber(count)}</span>
     </button>`).join('');
     const query = filters.query.trim().toLowerCase();
-    const suffix = query ? ` matching “${filters.query.trim()}”` : '';
+    const suffix = [
+        activeStorages.length ? `in ${activeStorages.map((storage) => storage.name || storage.key || storage.id).join(', ')}` : '',
+        query ? `matching “${filters.query.trim()}”` : '',
+    ].filter(Boolean).join(' ');
     els.sectionTitle.textContent = filters.mode === 'pity' ? 'Pity' : 'Banners';
     bannerMap = new Map(banners.map((banner) => [String(banner.id), banner]));
-    const filtered = banners
+    const filtered = scoped
         .filter((banner) => bannerMatches(banner, filters.mode, query, pitiedBanners))
         .sort(sortBanners);
-    els.count.textContent = `${formatNumber(filtered.length)} of ${formatNumber(banners.length)} banners${suffix}`;
+    els.count.textContent = `${formatNumber(filtered.length)} of ${formatNumber(scoped.length)} banners${suffix ? ` ${suffix}` : ''}`;
     if (!filtered.length) {
         els.banners.innerHTML = '<div class="no-results">No banners match this view.</div>';
         return;
@@ -579,15 +630,29 @@ function rarityLabel(rarity) {
     return RARITY_LABELS[rarity] || rarity;
 }
 
+function scopedData(data) {
+    if (!filters.storages.length) return data;
+    const banners = data.banners
+        .filter((banner) => filters.storages.includes(String(banner.storageId)));
+    return { ...data, banners, totals: rebuildGachaTotals(banners) };
+}
+
 function summarize(data) {
     const totals = data.totals;
     const banners = data.banners;
     const byRarity = totals.byRarity;
+    const pulls = number(totals.items);
+    const ssr = number(byRarity.SSR);
+    const rateUp = limitedRateUpStats(data);
     return {
-        pulls: number(totals.items),
-        items: number(totals.items),
-        rateUpSSR: number(totals.rateUpSSR),
-        ssr: number(byRarity.SSR),
+        pulls,
+        items: pulls,
+        rateUpSSR: rateUp.up,
+        rateUpLost: rateUp.lost,
+        limitedPulls: rateUp.pulls,
+        averagePity: ssr ? Math.round((pulls / ssr) * 10) / 10 : 0,
+        averageLimitedPity: rateUp.up ? Math.round((rateUp.pulls / rateUp.up) * 10) / 10 : 0,
+        ssr,
         byRarity,
         banners: number(totals.banners),
         bannersWithHistory: number(totals.bannersWithHistory),
@@ -596,6 +661,26 @@ function summarize(data) {
         pityHits: pityHitInfo(data).hits,
         sparks: banners.filter((banner) => hasSpark(banner) && banner.spark.sparked).length,
     };
+}
+
+function limitedRateUpStats(data) {
+    const categories = PITY_CATEGORIES.filter((category) => category.rateUp);
+    let pulls = 0;
+    let up = 0;
+    let lost = 0;
+    for (const banner of data.banners) {
+        if (!categories.some((category) => bannerMatchesPityCategory(banner, category))) continue;
+        for (const record of banner.history ?? []) {
+            const recordItems = recordItemsFor(record, data.items);
+            pulls += recordItems.length || number(record.count);
+            for (const item of recordItems) {
+                if (String(item?.rarity || '').toUpperCase() !== 'SSR') continue;
+                if (number(item?.rateUp) >= 5) up += 1;
+                else lost += 1;
+            }
+        }
+    }
+    return { pulls, up, lost };
 }
 
 function bannerRateUpSSR(banner) {
@@ -717,7 +802,7 @@ async function loadDemo(url) {
         const uid = normalizeUid(data.uid);
         state.accounts = { [uid]: data };
         state.active = uid;
-        filters = { mode: 'history', query: '' };
+        filters = { mode: 'history', query: '', storages: [] };
         els.search.value = '';
         render();
     } catch (error) {
@@ -745,7 +830,7 @@ async function importFiles(fileList) {
     if (imported.length) {
         const unique = [...new Set(imported)];
         state.active = unique[0];
-        filters = { mode: 'history', query: '' };
+        filters = { mode: 'history', query: '', storages: [] };
         els.search.value = '';
         const saved = saveStored();
         render();
@@ -1115,7 +1200,7 @@ function clearActive() {
     delete state.accounts[uid];
     const next = accountList()[0];
     state.active = next ? normalizeUid(next.uid) : null;
-    filters = { mode: 'history', query: '' };
+    filters = { mode: 'history', query: '', storages: [] };
     els.search.value = '';
     saveStored();
     render();

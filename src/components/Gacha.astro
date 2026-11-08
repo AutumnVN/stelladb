@@ -66,7 +66,10 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
             <section class="panel">
                 <div class="panel-head">
                     <h2>Banner types</h2>
-                    <span>Pulls</span>
+                    <div class="panel-tools">
+                        <button id="gacha-storage-clear" class="storage-clear" type="button" hidden>Clear filter</button>
+                        <span>Pulls</span>
+                    </div>
                 </div>
                 <div id="gacha-storages"></div>
             </section>
@@ -387,7 +390,7 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
 
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(6, minmax(0, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 0.5rem;
             margin-top: 0.65rem;
         }
@@ -468,6 +471,30 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
             }
         }
 
+        .panel-tools {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .storage-clear {
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            background: var(--bg3);
+            padding: 0.15rem 0.45rem;
+            color: var(--green);
+            font: inherit;
+            font-size: 0.8rem;
+
+            &:hover {
+                color: #7f9;
+            }
+            &:focus-visible {
+                outline: 1px solid var(--green);
+            }
+        }
+
         .chart-row {
             display: grid;
             grid-template-columns: 46px minmax(0, 1fr) 88px;
@@ -517,7 +544,31 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
             grid-template-columns: minmax(96px, 1.1fr) minmax(50px, 1fr) 58px;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.25rem 0;
+            cursor: pointer;
+            border: 0;
+            border-radius: 5px;
+            background: transparent;
+            box-sizing: border-box;
+            padding: 0.25rem 0.4rem;
+            margin: 0 -0.4rem;
+            width: calc(100% + 0.8rem);
+            color: var(--text);
+            font: inherit;
+            text-align: left;
+
+            &:hover {
+                background: var(--bg3);
+            }
+            &:focus-visible {
+                outline: 1px solid var(--green);
+            }
+            &.active {
+                background: var(--bg3);
+
+                .storage-label span {
+                    color: var(--green);
+                }
+            }
         }
 
         .storage-label {
@@ -1083,9 +1134,6 @@ const { demoUrl = '', heading = 'Pull Tracker' } = Astro.props;
             .gacha-header {
                 flex-direction: column;
                 align-items: flex-start;
-            }
-            .summary-grid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
             .dashboard-grid {
                 grid-template-columns: 1fr;

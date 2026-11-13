@@ -292,6 +292,7 @@ function renderBanners(data) {
     const banners = Array.isArray(data.banners) ? data.banners : [];
     const pityHits = pityHitInfo(data);
     const pitiedBanners = pityHits.bannerIds;
+    const pityCounts = pityHits.bannerCounts;
     pityItems = pityHits.items;
     const storages = storageList(data);
     const activeStorages = storages.filter((storage) => filters.storages.includes(String(storage.id)));
@@ -331,7 +332,7 @@ function renderBanners(data) {
         els.banners.innerHTML = '<div class="no-results">No banners match this view.</div>';
         return;
     }
-    els.banners.innerHTML = filtered.map((banner) => renderBannerCard(banner, pitiedBanners)).join('');
+    els.banners.innerHTML = filtered.map((banner) => renderBannerCard(banner, pitiedBanners, pityCounts)).join('');
     els.banners.querySelectorAll('details.banner-card').forEach((details) => {
         details.addEventListener('toggle', () => {
             if (details.open) loadBannerBody(details);
@@ -339,10 +340,11 @@ function renderBanners(data) {
     });
 }
 
-function renderBannerCard(banner, pitiedBanners = new Set()) {
+function renderBannerCard(banner, pitiedBanners = new Set(), pityCounts = new Map()) {
     const status = bannerStatus(banner);
     const stats = banner.stats || {};
     const pulls = number(stats.items) || number(stats.pulls);
+    const pityCount = pityCounts.get(String(banner.id)) || 0;
     const pitied = pitiedBanners.has(String(banner.id));
     const rateUp = bannerRateUpSSR(banner);
     const ssr = number(stats.byRarity?.SSR);
@@ -386,7 +388,7 @@ function renderBannerCard(banner, pitiedBanners = new Set()) {
         `<span class="status ${status.key}">${status.label}</span>`,
         banner.storageName ? `<span class="chip">${esc(banner.storageName)}</span>` : '',
         hasSpark(banner) && spark.sparked ? '<span class="chip spark">Sparked</span>' : '',
-        pitied ? '<span class="chip pitied">Pitied</span>' : '',
+        pitied ? `<span class="chip pitied">Pitied${pityCount > 1 ? ` x${pityCount}` : ''}</span>` : '',
     ].filter(Boolean).join('');
     const pullClasses = [sparkReached ? 'spark-reached' : '', pitied ? 'pitied' : ''].filter(Boolean).join(' ');
     return `<details class="banner-card" data-banner="${escAttr(banner.id)}">
@@ -526,6 +528,7 @@ function pityHitInfo(data = activeData(), categories = PITY_CATEGORIES) {
     const banners = Array.isArray(data?.banners) ? data.banners : [];
     const items = data?.items && typeof data.items === 'object' ? data.items : {};
     const bannerIds = new Set();
+    const bannerCounts = new Map();
     const itemSet = new WeakSet();
     let hits = 0;
     for (const category of categories) {
@@ -546,7 +549,9 @@ function pityHitInfo(data = activeData(), categories = PITY_CATEGORIES) {
                 if (qualifies) {
                     if (counter >= category.threshold - 1) {
                         hits += 1;
-                        bannerIds.add(String(entry.banner.id));
+                        const id = String(entry.banner.id);
+                        bannerIds.add(id);
+                        bannerCounts.set(id, (bannerCounts.get(id) || 0) + 1);
                         if (item && typeof item === 'object') itemSet.add(item);
                     }
                     counter = 0;
@@ -556,7 +561,7 @@ function pityHitInfo(data = activeData(), categories = PITY_CATEGORIES) {
             }
         }
     }
-    return { bannerIds, items: itemSet, hits };
+    return { bannerIds, bannerCounts, items: itemSet, hits };
 }
 
 function bannerMatchesPityCategory(banner, category) {

@@ -99,8 +99,10 @@ function getPotentialBuffs(pot) {
         if (buff.icon && buff.icon !== 'No Icon' && icons.includes(buff.icon)) continue;
         if (buff.id && seenIds.has(buff.id)) continue;
         if (buff.id) seenIds.add(buff.id);
+        const icon = buff.icon && buff.icon !== 'No Icon' ? buff.icon : null;
+        if (!icon && merged.some((entry) => !entry.icon)) continue;
         merged.push({
-            icon: buff.icon && buff.icon !== 'No Icon' ? buff.icon : null,
+            icon,
             id: buff.id,
         });
     }

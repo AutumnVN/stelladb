@@ -49,8 +49,5 @@ it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what 
 # Suntide Willow > Foam Echo
 summoning a new bubble frog removes foam echo's atk buff from willow herself, but non-aqua teammates keep theirs
 
-# Leafia > Terra DMG Etching
-this pot checks for enemies within a radius 6 circle around observation point and doesnt care about tactical mapping at all
-
 # Colors Pierce the Grey > Street Spirit
 the dmg reduction doesnt work because it is wrongly assigned to aqua dmg taken instead of final dmg taken

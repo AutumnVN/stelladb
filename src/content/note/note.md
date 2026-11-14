@@ -19,5 +19,8 @@ this pot gives atk at level 1 and gives auto attack dmg instead at level 2+
 # Gerie > Samsara's Judgment
 it doesnt buff mark dmg, her mark dmg is missing the damagetag that this pot check to buff
 
+# Leafia > Terra DMG Etching
+this pot checks for enemies within a radius 6 circle around observation point and doesnt care about tactical mapping at all
+
 # Colors Pierce the Grey > Street Spirit
 the dmg reduction doesnt work because it is wrongly assigned to aqua dmg taken

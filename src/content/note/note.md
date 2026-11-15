@@ -51,3 +51,6 @@ summoning a new bubble frog removes foam echo's atk buff from willow herself, bu
 
 # Colors Pierce the Grey > Street Spirit
 the dmg reduction doesnt work because it is wrongly assigned to aqua dmg taken instead of final dmg taken
+
+# Dream Factory of ☆Truth > Dream Factory of ☆Truth
+corrosion doesnt debuff the enemy with umbra dmg taken because its effect is set to target the enemy's "enemy" instead of the enemy itself, so it has no valid target, the icon can still appear

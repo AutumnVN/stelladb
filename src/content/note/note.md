@@ -49,8 +49,26 @@ it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what 
 # Suntide Willow > Foam Echo
 summoning a new bubble frog removes foam echo's atk buff from willow herself, but non-aqua teammates keep theirs
 
+# Soaring Blue > Horn of Departure
+the skill dmg bonus from bright tide stacks applies to any teammate's damage, not just aqua trekkers
+
+# New Star Prelude > Starlit Winds
+the ventus dmg buff triggers when any ventus trekker gains a shield, not just the main ventus trekker, so a support's shield also gives the whole team the buff
+
+# Fireworks > Fireworks
+the max stack debuff is generic auto attack dmg taken instead of ignis auto attack dmg taken (wow the text doesnt even mention taken), so other elements auto attacks also benefit
+
+# United by Fate > Moment of Unity
+the extra dmg from every 10 kills is supposed to stack up to 10 times but the buff is reset to 1 stack each time, so it never stacks
+
 # Colors Pierce the Grey > Street Spirit
 the dmg reduction doesnt work because it is wrongly assigned to aqua dmg taken instead of final dmg taken
+
+# Sword Against Stream > Splashing Moves
+the 15s cooldown is not implemented, it can trigger again as soon as the 10s atk buff expires
+
+# Daylight Garden > Swaying Petals
+the hit counter counts any teammate's damage, not just the main ventus trekker's, so support damage also triggers the ventus dmg taken debuff
 
 # Dream Factory of ☆Truth > Dream Factory of ☆Truth
 corrosion doesnt debuff the enemy with umbra dmg taken because its effect is set to target the enemy's "enemy" instead of the enemy itself, so it has no valid target, the icon can still appear
@@ -60,3 +78,21 @@ boulder is applied to all terra units instead of only the main terra trekker, so
 
 # Dancing with the Bones > Buried Past
 the text says atk but the actual effect is skill dmg, and it is only wrong in en, truly a third-world server moment
+
+# Veiled Dawn of Spring > Blossom's Requiring
+the text says dmg but the hit counter only counts skill dmg, and it is only wrong in en, truly a third-world server moment
+
+# Petals of Blooming Mirage > Lunar Mirage
+the text says auto attack crit dmg but the actual effect is skill crit dmg, and it is only wrong in en, truly a third-world server moment
+
+# Phantom of the Banquet > Umbral Harmony
+at level 4, the per-stack ultimate dmg bonus is missing because of an id typo (4051044 instead of 4050144), so you only get the skill dmg part
+
+# Touch of Miracle > Touch of Miracle
+the atk buff from 2 stacks of assembly is permanent and never removed, so it stays after assembly expires
+
+# Little Paradise > Symphony Box
+the atk buff from 3 stacks of loaded is permanent and never removed, so it stays after loaded expires
+
+# Eternal Brilliance > Light of Humanity
+the lux dmg buff from max stacks of eternity is permanent and never removed, so it stays after eternity expires

@@ -122,6 +122,10 @@ export function getNote(pageTitle) {
     return new Map();
 }
 
+export function getNoteEntries() {
+    return Object.values(NOTE_FILE).flatMap((raw) => parseNote(raw));
+}
+
 export function findNote(note, heading) {
     const found = [];
     const seen = new Set();

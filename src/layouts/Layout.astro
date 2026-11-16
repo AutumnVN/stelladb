@@ -1,6 +1,6 @@
 ---
-import 'normalize.css';
 import ExternalIcon from '@/components/ExternalIcon.astro';
+import 'normalize.css';
 
 export interface Props {
     title: string;
@@ -123,6 +123,7 @@ if (import.meta.env.SSR) {
                 <details>
                     <summary>Other</summary>
                     <div>
+                        <a href="/bug" data-astro-prefetch>Bug List</a>
                         <a href="/build" data-astro-prefetch>Build Preset</a>
                         <a href="/emblem" data-astro-prefetch>Emblem</a>
                         <a href="/unreleased" data-astro-prefetch>Unreleased</a>

@@ -1,0 +1,172 @@
+---
+// @ts-nocheck
+import Layout from '@/layouts/Layout.astro';
+import { fetchJson } from '@/scripts/fetchJson.js';
+import { getNoteEntries } from '@/scripts/note.js';
+import { slugify } from '@/scripts/team.js';
+
+const CHARACTER_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/character.json';
+const DISC_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/disc.json';
+
+const [characterData, discData] = await Promise.all([fetchJson(CHARACTER_URL), fetchJson(DISC_URL)]);
+
+function normalize(text) {
+    return String(text ?? '')
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, ' ');
+}
+
+function normalizeHeading(text) {
+    return normalize(text)
+        .replace(/^\d+\s*(?:[.)]\s*)?/, '')
+        .trim();
+}
+
+const charByName = new Map(Object.entries(characterData).map(([id, char]) => [normalize(char.name), { id, char }]));
+const discByName = new Map(Object.entries(discData).map(([id, disc]) => [normalize(disc.name), { id, disc }]));
+
+function getCharacterTab(char, heading) {
+    const h = normalizeHeading(heading);
+
+    const skills = [
+        ['Normal attack', char.normalAtk],
+        ['Skill', char.skill],
+        ['Support skill', char.supportSkill],
+        ['Ultimate', char.ultimate],
+        ['Special', char.special],
+    ];
+
+    if (skills.some(([prefix, skill]) => skill && h === normalize(`${prefix}: ${skill.name}`))) return 'skills';
+
+    if (Object.values(char.potential).flat().some((pot) => h === normalizeHeading(`${pot.id % 100}. ${pot.name}`))) return 'potentials';
+
+    if (char.talent.some((talent, index) => h === normalizeHeading(`${index + 1}. ${talent.name}`))) return 'talents';
+
+    if (char.date.some((date) => h === normalizeHeading(date.name))) return 'dates';
+
+    if (h === normalize('Stats') || h === normalize('Next upgrade cost')) return 'details';
+    if (h === normalize('Next skill upgrade cost')) return 'skills';
+    if (h === normalize('Bonus stats for each activated talent') || h === normalize('Soul key flavor text')) return 'talents';
+    if (h === normalize('Love gift') || h === normalize('Hate gift')) return 'gifts';
+
+    return null;
+}
+
+function getDiscTab(disc, heading) {
+    const h = normalizeHeading(heading);
+
+    if (h === normalizeHeading(disc.mainSkill.name)) return 'melody';
+
+    if ([disc.secondarySkill1, disc.secondarySkill2].filter(Boolean).some((skill) => h === normalizeHeading(skill.name))) return 'harmony';
+
+    if (h === normalize('Support Note')) return 'note';
+    if (h === normalize('Stats') || h === normalize('Next upgrade cost')) return 'details';
+
+    return null;
+}
+
+function getTarget(page, heading) {
+    const char = charByName.get(normalize(page));
+    if (char) {
+        const tab = getCharacterTab(char.char, heading);
+        return `/trekker/${char.id}${tab ? `#${tab}` : ''}`;
+    }
+
+    const disc = discByName.get(normalize(page));
+    if (disc) {
+        const tab = getDiscTab(disc.disc, heading);
+        return `/disc/${disc.id}${tab ? `#${tab}` : ''}`;
+    }
+
+    return null;
+}
+
+const notes = getNoteEntries().map((note) => ({
+    ...note,
+    id: slugify(`${note.page} ${note.heading}`),
+    href: getTarget(note.page, note.heading),
+}));
+---
+
+<Layout title="Bug List | stelladb" description={`${notes.length} bugs for you to cause yostar engineers unpaid overtime`}>
+    <div class="page">
+        <div class="header">
+            <div>
+                <h1>Bug List</h1>
+                <p>{notes.length} bugs for you to cause yostar engineers unpaid overtime</p>
+            </div>
+        </div>
+
+        <div class="content">
+            {
+                notes.map((note) => (
+                    <article class="note" id={note.id}>
+                        <h2>
+                            {note.href ? (
+                                <a href={note.href}>
+                                    {note.page} &gt; {note.heading}
+                                </a>
+                            ) : (
+                                <>
+                                    {note.page} &gt; {note.heading}
+                                </>
+                            )}
+                        </h2>
+                        {note.html.map((body) => <p class="indent" set:html={body} />)}
+                    </article>
+                ))
+            }
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .page {
+        padding: 1rem 0 3rem;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 1rem;
+            margin-bottom: 1rem;
+
+            > div:first-child {
+                min-width: 0;
+            }
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .header p {
+            margin: 0.35rem 0 0;
+            max-width: 60ch;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .note {
+            h2 {
+                margin: 1.5rem 0 0.75rem;
+                color: var(--text);
+            }
+
+            h2 a {
+                color: var(--text);
+            }
+
+            h2 a:hover {
+                color: var(--accent);
+            }
+
+            p {
+                margin: 0.25rem 0;
+                color: var(--text);
+            }
+        }
+    }
+</style>

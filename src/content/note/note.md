@@ -56,7 +56,7 @@ the dmg reduction doesnt work because it is wrongly assigned to aqua dmg taken i
 corrosion doesnt debuff the enemy with umbra dmg taken because its effect is set to target the enemy's "enemy" instead of the enemy itself, so it has no valid target, the icon can still appear
 
 # Dancing with the Bones > Dancing with the Bones
-boulder is applied to all terra units instead of only the main terra trekker, so the whole terra team gets the dmg reduction
+boulder is applied to all terra units instead of only the main terra trekker, so the whole terra team gets the dmg reduction, but support trekkers cant take dmg so it still works as intended i guess lol
 
 # Dancing with the Bones > Buried Past
 the text says atk but the actual effect is skill dmg, and it is only wrong in en, truly a third-world server moment

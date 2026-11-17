@@ -43,6 +43,9 @@ the last-hit aqua dmg bonus also applies to mirror image's aa6, not just chitose
 # Gerie > Samsara's Judgment
 it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what this pot checks
 
+# Shia > Kick the Wave
+the text says the target takes more surfing skill dmg but the buff is actually on shia, so it applies to every target
+
 # Suntide Willow > Foam Echo
 summoning a new bubble frog removes foam echo's atk buff from willow herself, but non-aqua teammates keep theirs
 

@@ -34,6 +34,9 @@ the shield also triggers when picking up a meteor from star core crumbled, not j
 # Minova > Optimal Hit Zone
 the astral hex dmg itself gets this pot's bonus as if the target had 1 stack, even after the last stack is consumed
 
+# Minova > Shutout Desire
+the extra hit deals 51% to 296% (hiddenparam1) of minova's atk, not the 55% to 203% in the text
+
 # Nazuka > Youth: Annihilation
 the flower petal has a 10% chance to instantly kill a normal target, not the 15% in the text
 

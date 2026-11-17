@@ -16,6 +16,15 @@ this pot gives 0.39 flat atk instead of 39% atk at level 6, how can yostar buffe
 # Freesia > Doomsday Blessing
 this pot gives atk at level 1 and gives auto attack dmg instead at level 2+
 
+# Freesia > Elemental Sublimation
+the ult dmg bonus from each main skill cast also stacks up to 3 times
+
+# Freesia > Frost Gift
+the elite/boss bonus only triggers from main skill hits
+
+# Freesia > Desperate Counterattack
+the energy gain cooldown is 10s, not the 5s in the text
+
 # Freesia > Frost Warning
 the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it
 

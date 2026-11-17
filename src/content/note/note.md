@@ -10,8 +10,29 @@ the skill dmg taken is the same one u got from perfect spiral (same lightning ar
 # Shimiao > Cascade Glow
 the level 9 number is a lot lower than level 8 lmao
 
+# Firefly > Flash Resonance
+the atk buff can only stack once per enemy per main skill cast, so against a single target it never gets past 1 stack even though the text says up to 5
+
+# Firefly > Lightforged Blade
+the glow and halo bonuses are swapped, so glow gives skill dmg and halo gives skill crit rate
+
+# Nanoha > Growth Tempest
+the aoe counts 4 auto attack hits on the same target instead of 3 like the text says
+
+# Nanoha > Sun Chaser
+the buff only has a chance to proc when nanoha crits, not on any dmg like the text says
+
+# Nanoha > Blooming Flowers
+the atk buff also stacks when anyone triggers a ventus mark, not only when nanoha triggers it
+
+# Nanoha > Unfulfilled Enthusiasm
+the marks stack up to 16, not the 12 in the text
+
 # Nanoha > Blossom Rhyme
 this pot gives 0.39 flat atk instead of 39% atk at level 6, how can yostar buffed her kit and still missed this
+
+# Nanoha > Rejuvenating Spring
+the atk buff only procs when nanoha's own hits tagged WindTag1Boom pop a ventus mark, so marks popped by her ult clones never give it
 
 # Freesia > Doomsday Blessing
 this pot gives atk at level 1 and gives auto attack dmg instead at level 2+

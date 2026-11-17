@@ -34,6 +34,12 @@ the shield also triggers when picking up a meteor from star core crumbled, not j
 # Minova > Optimal Hit Zone
 the astral hex dmg itself gets this pot's bonus as if the target had 1 stack, even after the last stack is consumed
 
+# Chixia > Flame-Stained Ink
+burning a target with 4 stacks of ink also gives chixia 30% attack speed for 10s, which is not mentioned in the text at all
+
+# Chixia > Blazing Rainbow Array
+the text says 272% skill dmg but the buff only stacks 3 times at 68% each (game tried to give 4 stacks but the buff cap at 3 stacks), so the real max is 204%
+
 # Chitose > Aqueous Phantasm
 mirror image's coiling serpents cant trigger it because their hit lacks 144_SnakeAtk_07, which is what aqueous phantasm checks
 

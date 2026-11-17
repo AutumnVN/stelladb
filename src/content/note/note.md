@@ -34,6 +34,12 @@ the shield also triggers when picking up a meteor from star core crumbled, not j
 # Minova > Optimal Hit Zone
 the astral hex dmg itself gets this pot's bonus as if the target had 1 stack, even after the last stack is consumed
 
+# Nazuka > Youth: Annihilation
+the flower petal has a 10% chance to instantly kill a normal target, not the 15% in the text
+
+# Nazuka > Flower Formation: Convergence
+the extra dmg needs 3 targets inside the flower formation, not the 2 or more in the text (CN/KR say "more than 2", TW/JP say "3 or more"), and it is only wrong in en, truly a third-world server moment
+
 # Eleanor > Flicker Sequence
 decreases dodge cooldown by 30%, not the 25% in the text
 

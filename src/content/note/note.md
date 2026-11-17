@@ -19,6 +19,15 @@ this pot gives atk at level 1 and gives auto attack dmg instead at level 2+
 # Freesia > Frost Warning
 the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it
 
+# Donna > Condensation Orbs
+the orbs dont fire when agile ends, they stay stored until u cast the main skill again, so they always fire on the first auto attack of the next agile window, and since the 10 hits are counted from hits tagged 130_B1_Bullet, the azure night spikes also count, so u get an orb every 2 auto attacks
+
+# Donna > Rime Shatterer
+the skill dmg bonus only applies to the hit that triggers it, and only hits tagged 130_B1_Bullet can trigger it, so the agile auto attacks get nothing, only the azure night spikes benefit, and without azure night it does nothing at all
+
+# Donna > Freezing Stasis
+chill doesnt count for this pot, only frozen does, even though the text says frozen and chill
+
 # Minova > Skill: Syou: Pulsar Streak
 the hold phase is capped at 1.7s, not the 3s in the text, so u only get 6 hits instead of 10
 

@@ -34,9 +34,6 @@ the shield also triggers when picking up a meteor from star core crumbled, not j
 # Minova > Optimal Hit Zone
 the astral hex dmg itself gets this pot's bonus as if the target had 1 stack, even after the last stack is consumed
 
-# Nazuka > Self-Improvement
-the skill dmg buff only triggers from hits tagged 133_Sup32 (flower petal and flower formation), so flower bouquet dmg never gets it
-
 # Chitose > Aqueous Phantasm
 mirror image's coiling serpents cant trigger it because their hit lacks 144_SnakeAtk_07, which is what aqueous phantasm checks
 
@@ -72,9 +69,6 @@ the hit counter counts any teammate's damage, not just the main ventus trekker's
 
 # Dream Factory of ☆Truth > Dream Factory of ☆Truth
 corrosion doesnt debuff the enemy with umbra dmg taken because its effect is set to target the enemy's "enemy" instead of the enemy itself, so it has no valid target, the icon can still appear
-
-# Dancing with the Bones > Dancing with the Bones
-boulder is applied to all terra units instead of only the main terra trekker, so the whole terra team gets the dmg reduction, but support trekkers cant take dmg so it still works as intended i guess lol
 
 # Dancing with the Bones > Buried Past
 the text says atk but the actual effect is skill dmg, and it is only wrong in en, truly a third-world server moment

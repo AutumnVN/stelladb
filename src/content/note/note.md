@@ -34,6 +34,12 @@ the shield also triggers when picking up a meteor from star core crumbled, not j
 # Minova > Optimal Hit Zone
 the astral hex dmg itself gets this pot's bonus as if the target had 1 stack, even after the last stack is consumed
 
+# Eleanor > Flicker Sequence
+decreases dodge cooldown by 30%, not the 25% in the text
+
+# Eleanor > Chain Detonation
+the text says each jump slam gets 1 extra explosion, but it actually gets 1 more than the previous slam, so the first slam gets none and every later slam gets more, so you get 36 extras total instead of 9, and it is only wrong in en, truly a third-world server moment
+
 # Chixia > Flame-Stained Ink
 burning a target with 4 stacks of ink also gives chixia 30% attack speed for 10s, which is not mentioned in the text at all
 

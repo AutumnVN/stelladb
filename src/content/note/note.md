@@ -31,6 +31,9 @@ the aoe counts 4 auto attack hits on the same target instead of 3 like the text 
 # Nanoha > Sun Chaser
 the buff only has a chance to proc when nanoha crits, not on any dmg like the text says
 
+# Nanoha > Splendid Vortex
+the buff stack is given whenever a hit that can trigger a ventus mark lands on a target that already has one, instead of when a ventus mark is actually triggered, so it can stacks while mark is on 1s cooldown
+
 # Nanoha > Blooming Flowers
 the atk buff also stacks when anyone triggers a ventus mark, not only when nanoha triggers it
 
@@ -57,6 +60,15 @@ the energy gain cooldown is 10s, not the 5s in the text
 
 # Freesia > Frost Warning
 the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it
+
+# Teresa > Muddy Engulf
+the higher aqua dmg taken value is given to elite and boss targets instead of targets without broken resilience, so normal enemies never get it and broken bosses still do
+
+# Teresa > Hold On!
+the support skill cooldown is also reduced when the main trekker deals damage, and in that case it doesnt even need the surging shield
+
+# Teresa > How About This!
+the geyser still procs when the main trekker is not aqua, even though the text only counts an aqua main trekker, and it also has a hidden 1s cooldown
 
 # Donna > Condensation Orbs
 the orbs dont fire when agile ends, they stay stored until u cast the main skill again, so they always fire on the first auto attack of the next agile window, and since the 10 hits are counted from hits tagged 130_B1_Bullet, the azure night spikes also count, so u get an orb every 2 auto attacks

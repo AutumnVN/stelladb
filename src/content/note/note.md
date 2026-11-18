@@ -61,6 +61,9 @@ the energy gain cooldown is 10s, not the 5s in the text
 # Freesia > Frost Warning
 the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it
 
+# Flora > Perfect Acting
+the scorched butterfly also spawns when flora herself lands a crit hit, not only when the main trekker does
+
 # Teresa > Muddy Engulf
 the higher aqua dmg taken value is given to elite and boss targets instead of targets without broken resilience, so normal enemies never get it and broken bosses still do
 

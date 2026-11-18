@@ -17,7 +17,7 @@ the level 9 number is a lot lower than level 8 lmao
 the skill crit dmg buff is given every time you hold the main skill even without a spark, only the explosive bomb needs the spark the text says you consume
 
 # Chaton > Energy Overflow
-the buff is removed as soon as you cast the support skill and is not given again while energy stays full, so it lasts once instead of 20s
+the buff is removed when the support skill cast ends and is not given again while energy stays full, so it lasts once instead of 20s
 
 # Firefly > Flash Resonance
 the atk buff can only stack once per enemy per main skill cast, so against a single target it never gets past 1 stack even though the text says up to 5
@@ -102,6 +102,18 @@ burning a target with 4 stacks of ink also gives chixia 30% attack speed for 10s
 
 # Chixia > Blazing Rainbow Array
 the text says 272% skill dmg but the buff only stacks 3 times at 68% each (game tried to give 4 stacks but the buff cap at 3 stacks), so the real max is 204%
+
+# Cosette > Nocturn Mark
+the 3rd mark is counted across all enemies instead of on the same target, so marking 3 different enemies triggers it, and it can trigger every 0.5s instead of once per second
+
+# Cosette > Dark: Hallucination
+the 30% stun and atk buff have no 0.5s cooldown, so they can roll on every claw hit instead of at most once every 0.5s
+
+# Cosette > Dark: Form Breaker
+the resilience reduction can only trigger once per second instead of every 0.5s like the text says
+
+# Cosette > Phantom Shelter
+the def buff is also given while she casts her ultimate, not just while casting the support skill
 
 # Chitose > Aqueous Phantasm
 mirror image's coiling serpents cant trigger it because their hit lacks 144_SnakeAtk_07, which is what aqueous phantasm checks

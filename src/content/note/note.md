@@ -40,8 +40,26 @@ the skill dmg bonus never applies because it only checks hits tagged 111_P26, wh
 # Iris > Gleaming Snow
 kills made outside the ultimate also add stacks, so the next ultimate starts with bonus dmg, and the stacks are secretly capped at 10 and only reset when the ultimate ends
 
+# Noya > Wind Glaive
+the skill dmg bonus applies to every skill hit, not just the major sword auras the text says, because the HeavyWBlade tag is never checked
+
+# Noya > Leaf Barrier
+the movement spd reduction never applies because the target's hit count is reset to 0 on every hit, so it never reaches the 1 hit needed to trigger the slow
+
+# Noya > Cyclone Blades
+the atk buff also triggers when an ally triggers ventus mark, because the trigger doesn't check that noya herself caused it
+
 # Shimiao > Cascade Glow
 the level 9 number is a lot lower than level 8 lmao
+
+# Shimiao > Rain Whisper: Light
+the next water blade gets the bonus every 1.4s instead of the 1.5s the text says
+
+# Shimiao > Full Preparation
+the buff needs at least 3 slowed targets, not the 2 or more in the text (CN/TW/JP say "more than 2"), and it is only wrong in en and kr, the third-world server isnt alone this time
+
+# Shimiao > Wave Rider
+above 90% target hp the ult dmg bonus is 0 instead of the some % minimum because the top hp bracket is mapped to 0
 
 # Chaton > Efficient Use
 the skill crit dmg buff is given every time you hold the main skill even without a spark, only the explosive bomb needs the spark the text says you consume
@@ -71,7 +89,7 @@ the skill dmg bonus is not cleared when the skill ends, so it keeps applying to 
 the extra seed hits a random enemy within 10m instead of the nearest target
 
 # Jinglin > Energy Storage: Bind
-the 2s cooldown reduction also applies to her dodge and ultimate, not just Thunder Strike, and the 1s dodge only goes to 0.5s instead of 0 because cooldowns cannot drop below half their base
+the 2s cooldown reduction also applies to her dodge and ultimate, not just main skill, and the 1s dodge only goes to 0.5s instead of 0 because cooldowns cannot drop below half their base
 
 # Jinglin > Energy Storage: Knot
 the stack count goes 1, 2, 3, 4, 1, 2, 3, 4 instead of 0, 1, 2, 3, 0, 1, 2, 3, so the first cast already gets a stack then goes up to 4 stacks
@@ -204,6 +222,12 @@ mirror image's coiling serpents cant trigger it because their hit lacks 144_Snak
 
 # Chitose > Dance of Elegance
 the last-hit aqua dmg bonus also applies to mirror image's aa6, not just chitose's own aa6
+
+# Caramel > Rhythm Pulse
+the extra sound waves cant trigger umbra mark because their hit has no damage tag, and only tagged hits trigger the mark
+
+# Caramel > Fallen Duet
+the boombox hits 14 times instead of the 13 the text says, and another 15th hit is added while she is linked to the boombox
 
 # Gerie > Samsara's Judgment
 it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what this pot checks

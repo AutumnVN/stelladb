@@ -17,7 +17,7 @@ the level 9 number is a lot lower than level 8 lmao
 the skill crit dmg buff is given every time you hold the main skill even without a spark, only the explosive bomb needs the spark the text says you consume
 
 # Chaton > Energy Overflow
-the buff is removed as soon as you cast the main skill and is not given again while energy stays full, so it lasts once instead of 20s
+the buff is removed as soon as you cast the support skill and is not given again while energy stays full, so it lasts once instead of 20s
 
 # Firefly > Flash Resonance
 the atk buff can only stack once per enemy per main skill cast, so against a single target it never gets past 1 stack even though the text says up to 5

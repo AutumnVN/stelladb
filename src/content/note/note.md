@@ -7,8 +7,17 @@ the skill dmg taken is the same one u got from revealed flaw (same lightning arr
 # Tilia > Revealed Flaw
 the skill dmg taken is the same one u got from perfect spiral (same lightning array/debuff), so they share stacks
 
+# Firenze > High Risk
+the 80% chance is decided by your team element instead of dark burn, a full umbra team gets 80% against every target dark burn or not, while a mixed team is stuck at 40% even against umbra dark burn targets
+
 # Shimiao > Cascade Glow
 the level 9 number is a lot lower than level 8 lmao
+
+# Chaton > Efficient Use
+the skill crit dmg buff is given every time you hold the main skill even without a spark, only the explosive bomb needs the spark the text says you consume
+
+# Chaton > Energy Overflow
+the buff is removed as soon as you cast the main skill and is not given again while energy stays full, so it lasts once instead of 20s
 
 # Firefly > Flash Resonance
 the atk buff can only stack once per enemy per main skill cast, so against a single target it never gets past 1 stack even though the text says up to 5

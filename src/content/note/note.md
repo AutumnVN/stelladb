@@ -1,8 +1,17 @@
 # Tilia > Ultimate: Glorious Smite
-the skill hit damage is tagged as main skill, so it can trigger atk buff from main skill, even if u use tilia in support slot, and in that case the param scales with ur support skill level
+the skill hit damage is tagged 107_Main_Skill, so it can trigger atk buff from main skill, even if u use tilia in support slot, and in that case the param scales with ur support skill level
+
+# Tilia > Aegis Blessing
+the ultimate sphere is tagged 107_Main_Skill, so aegis blessing can also proc from its ticks, not only from main skill
+
+# Tilia > Holy Inscription
+the 4 sphere limit is not enforced, one sphere is created for each enemy hit so a crowd can give more than 4
 
 # Tilia > Perfect Spiral
 the skill dmg taken is the same one u got from revealed flaw (same lightning array/debuff), so they share stacks
+
+# Tilia > Knight's Seal
+the atk buff and energy gain also have a hidden 5s cooldown
 
 # Tilia > Revealed Flaw
 the skill dmg taken is the same one u got from perfect spiral (same lightning array/debuff), so they share stacks
@@ -25,6 +34,9 @@ the atk buff can only stack once per enemy per main skill cast, so against a sin
 # Firefly > Lightforged Blade
 the glow and halo bonuses are swapped, so glow gives skill dmg and halo gives skill crit rate
 
+# Coronis > Spiritual Tome
+the second sweep only launches if exactly 1 hit tagged 118_Sup_HengZhan_Hit_1 lands, so hitting 2 or more enemies cancels it
+
 # Nanoha > Growth Tempest
 the aoe counts 4 auto attack hits on the same target instead of 3 like the text says
 
@@ -45,6 +57,18 @@ this pot gives 0.39 flat atk instead of 39% atk at level 6, how can yostar buffe
 
 # Nanoha > Rejuvenating Spring
 the atk buff only procs when nanoha's own hits tagged WindTag1Boom pop a ventus mark, so marks popped by her ult clones never give it
+
+# Canace > Erratic Weather
+the extra auto attack bullets only have a 20% chance to fire, even though the text says 25%
+
+# Ann > Wind's Breath
+only hits tagged 123NrmAtk (her auto attacks) can create a wind burst, so her skill and ultimate dmg never trigger one, and it also has a hidden 1s cooldown
+
+# Ann > Grand Debut
+the mark dmg buff only goes to support trekkers whose support skill is ready when bubble is summoned, so the main trekker never gets it
+
+# Ann > Wind's Track
+ann also gets the skill dmg buff herself, even though the text says all other friendly units
 
 # Freesia > Doomsday Blessing
 this pot gives atk at level 1 and gives auto attack dmg instead at level 2+

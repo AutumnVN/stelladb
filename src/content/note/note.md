@@ -107,7 +107,7 @@ the text says 272% skill dmg but the buff only stacks 3 times at 68% each (game 
 the 3rd mark is counted across all enemies instead of on the same target, so marking 3 different enemies triggers it, and it can trigger every 0.5s instead of once per second
 
 # Cosette > Dark: Hallucination
-the 30% stun and atk buff have no 0.5s cooldown, so they can roll on every claw hit instead of at most once every 0.5s
+the 30% stun and atk buff have no 0.5s cooldown, so they can roll on every claw hit
 
 # Cosette > Dark: Form Breaker
 the resilience reduction can only trigger once per second instead of every 0.5s like the text says

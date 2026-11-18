@@ -1,3 +1,9 @@
+# Amber > Greed Gunfire
+the reload and auto attack dmg buff need 8 crit hits, not the 7 the text says
+
+# Amber > Overloaded Spark
+the skill dmg buff lasts 10s after the ultimate instead of the 8s the text says, the 8s only gates the skill cooldown reduction
+
 # Tilia > Ultimate: Glorious Smite
 the skill hit damage is tagged 107_Main_Skill, so it can trigger atk buff from main skill, even if u use tilia in support slot, and in that case the param scales with ur support skill level
 
@@ -18,6 +24,9 @@ the skill dmg taken is the same one u got from perfect spiral (same lightning ar
 
 # Kasimira > Heated Battle
 the crater hits every 1s for 7 hits instead of every 0.5s, so it ticks 7 times over the 8s instead of 16
+
+# Kasimira > Gradual Heat-Up
+inflicting the ignis mark from ultimate dmg has a hidden 1s cooldown
 
 # Firenze > High Risk
 the 80% chance is decided by your team element instead of dark burn, a full umbra team gets 80% against every target dark burn or not, while a mixed team is stuck at 40% even against umbra dark burn targets
@@ -146,7 +155,10 @@ the elite/boss bonus only triggers from main skill hits
 the energy gain cooldown is 10s, not the 5s in the text
 
 # Freesia > Frost Warning
-the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it
+the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it, and it has a hidden 1s cooldown
+
+# Freesia > Ocean of Law
+the atk buff has a hidden 1s cooldown, so it can only be gained once per second
 
 # Flora > Perfect Acting
 the scorched butterfly also spawns when flora herself lands a crit hit, not only when the main trekker does
@@ -193,17 +205,26 @@ the flower petal has a 10% chance to instantly kill a normal target, not the 15%
 # Nazuka > Flower Formation: Convergence
 the extra dmg needs 3 targets inside the flower formation, not the 2 or more in the text (CN/KR say "more than 2", TW/JP say "3 or more"), and it is only wrong in en, truly a third-world server moment
 
+# Mistique > Abominable Fester
+the phantom's dmg buff and stun have a hidden 1.5s cooldown, so a phantom can only buff itself once every 1.5s
+
 # Eleanor > Flicker Sequence
 decreases dodge cooldown by 30%, not the 25% in the text
 
 # Eleanor > Chain Detonation
 the text says each jump slam gets 1 extra explosion, but it actually gets 1 more than the previous slam, so the first slam gets none and every later slam gets more, so you get 36 extras total instead of 9, and it is only wrong in en, truly a third-world server moment
 
+# Sparkla > Ticking Aftershock
+the 5 booby traps from bunny jaws shells have a hidden 2s cooldown, so several shells exploding together only drop one set
+
 # Chixia > Flame-Stained Ink
 burning a target with 4 stacks of ink also gives chixia 30% attack speed for 10s, which is not mentioned in the text at all
 
 # Chixia > Blazing Rainbow Array
 the text says 272% skill dmg but the buff only stacks 3 times at 68% each (game tried to give 4 stacks but the buff cap at 3 stacks), so the real max is 204%
+
+# Cosette > Nightscar Trace
+the cooldown reduction and claw marks also have a hidden 0.5s cooldown between triggers
 
 # Cosette > Nocturn Mark
 the 3rd mark is counted across all enemies instead of on the same target, so marking 3 different enemies triggers it, and it can trigger every 0.5s instead of once per second
@@ -217,6 +238,9 @@ the resilience reduction can only trigger once per second instead of every 0.5s 
 # Cosette > Phantom Shelter
 the def buff is also given while she casts her ultimate, not just while casting the support skill
 
+# Wraith > Ominous Vibe
+the laser proc has a hidden 1s cooldown, so it can only fire once per 1s
+
 # Chitose > Aqueous Phantasm
 mirror image's coiling serpents cant trigger it because their hit lacks 144_SnakeAtk_07, which is what aqueous phantasm checks
 
@@ -227,16 +251,34 @@ the last-hit aqua dmg bonus also applies to mirror image's aa6, not just chitose
 the extra sound waves cant trigger umbra mark because their hit has no damage tag, and only tagged hits trigger the mark
 
 # Caramel > Fallen Duet
-the boombox hits 14 times instead of the 13 the text says, and another 15th hit is added while she is linked to the boombox
+the boombox hits 12 times instead of the 13 the text says, and the linked bonus hit is a separate 1-hit aoe, so only linked casts reach 13
 
 # Gerie > Samsara's Judgment
 it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what this pot checks
 
+# Laru > Arc Chain Laser
+the explosion also triggers when shock expires or the target dies, not only on the 20th hit, and below 20 stacks it uses a smaller explosion that deals 37.4%/41.2%/44.9%/56.1%/59.9%/63.6%/71.1%/74.9%/78.6%/86.1%/89.8%/93.6%/97.3%
+
+# Laru > Radiant Ascent
+the dmg bonus also applies to stunned, frozen and other control-lost targets, not just airborne ones, because the check is isLostControl
+
+# Laru > Lancefall: Electro Bind
+the 5 energy also has a hidden 2s cooldown, so several ultimate hits in a row only give it once
+
+# Laru > Lancefall: Thunder Surge
+every ultimate hit adds a stack, not only hits on a different target, so one target can reach the 5 stacks through the 18 lance ticks from lancefall: light bealm
+
 # Shia > Kick the Wave
 the text says the target takes more surfing skill dmg but the buff is actually on shia, so it applies to every target
 
+# Nazuna > Clean Sweep
+auto attacks within 1s after throwing a golden egg are skipped before the 20% roll, so eggs are at least ~1s apart
+
 # Suntide Willow > Foam Echo
 summoning a new bubble frog removes foam echo's atk buff from willow herself, but non-aqua teammates keep theirs
+
+# Firstlight Noya > Dawnflare
+radiance flurry can't be granted again until 8s after the last use, and the granted skill expires after 10s and all 17 glows are lost if it isn't used
 
 # Soaring Blue > Horn of Departure
 the skill dmg bonus from bright tide stacks applies to any teammate's damage, not just aqua trekkers

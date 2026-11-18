@@ -86,7 +86,7 @@ the glow and halo bonuses are swapped, so glow gives skill dmg and halo gives sk
 the resilience break efficiency bonus never applies because it only checks hits tagged Bullet_11601_NormalBullet, which none of her auto attacks have
 
 # Ridge > Power Slide
-the auto attack dmg buff also has a hidden 8s cooldown, so dodging again before it runs out does not refresh it
+the auto attack dmg buff also has a hidden 8s cooldown
 
 # Ridge > Hasty Growth
 the seed orb duration is doubled to 6s so that is 100% increase not 50% like the text says
@@ -158,7 +158,7 @@ the energy gain cooldown is 10s, not the 5s in the text
 the extra hit only triggers from hits tagged 125_P24 (berserk aa and support skill), so ultimate hits never trigger it, and it has a hidden 1s cooldown
 
 # Freesia > Ocean of Law
-the atk buff has a hidden 1s cooldown, so it can only be gained once per second
+the atk buff has a hidden 1s cooldown
 
 # Flora > Perfect Acting
 the scorched butterfly also spawns when flora herself lands a crit hit, not only when the main trekker does
@@ -206,7 +206,7 @@ the flower petal has a 10% chance to instantly kill a normal target, not the 15%
 the extra dmg needs 3 targets inside the flower formation, not the 2 or more in the text (CN/KR say "more than 2", TW/JP say "3 or more"), and it is only wrong in en, truly a third-world server moment
 
 # Mistique > Abominable Fester
-the phantom's dmg buff and stun have a hidden 1.5s cooldown, so a phantom can only buff itself once every 1.5s
+the phantom's dmg buff and stun have a hidden 1.5s cooldown
 
 # Eleanor > Flicker Sequence
 decreases dodge cooldown by 30%, not the 25% in the text
@@ -215,7 +215,7 @@ decreases dodge cooldown by 30%, not the 25% in the text
 the text says each jump slam gets 1 extra explosion, but it actually gets 1 more than the previous slam, so the first slam gets none and every later slam gets more, so you get 36 extras total instead of 9, and it is only wrong in en, truly a third-world server moment
 
 # Sparkla > Ticking Aftershock
-the 5 booby traps from bunny jaws shells have a hidden 2s cooldown, so several shells exploding together only drop one set
+the 5 booby traps from bunny jaws shells have a hidden 2s cooldown
 
 # Chixia > Flame-Stained Ink
 burning a target with 4 stacks of ink also gives chixia 30% attack speed for 10s, which is not mentioned in the text at all
@@ -239,7 +239,7 @@ the resilience reduction can only trigger once per second instead of every 0.5s 
 the def buff is also given while she casts her ultimate, not just while casting the support skill
 
 # Wraith > Ominous Vibe
-the laser proc has a hidden 1s cooldown, so it can only fire once per 1s
+the laser proc has a hidden 1s cooldown
 
 # Chitose > Aqueous Phantasm
 mirror image's coiling serpents cant trigger it because their hit lacks 144_SnakeAtk_07, which is what aqueous phantasm checks
@@ -263,7 +263,7 @@ the explosion also triggers when shock expires or the target dies, not only on t
 the dmg bonus also applies to stunned, frozen and other control-lost targets, not just airborne ones, because the check is isLostControl
 
 # Laru > Lancefall: Electro Bind
-the 5 energy also has a hidden 2s cooldown, so several ultimate hits in a row only give it once
+the 5 energy also has a hidden 2s cooldown
 
 # Laru > Lancefall: Thunder Surge
 every ultimate hit adds a stack, not only hits on a different target, so one target can reach the 5 stacks through the 18 lance ticks from lancefall: light bealm
@@ -273,6 +273,9 @@ the text says the target takes more surfing skill dmg but the buff is actually o
 
 # Nazuna > Clean Sweep
 auto attacks within 1s after throwing a golden egg are skipped before the 20% roll, so eggs are at least ~1s apart
+
+# Suntide Willow > Luminous Leaper
+the bubble frog's squad atk buff has a hidden 1s cooldown
 
 # Suntide Willow > Foam Echo
 summoning a new bubble frog removes foam echo's atk buff from willow herself, but non-aqua teammates keep theirs

@@ -16,8 +16,29 @@ the atk buff and energy gain also have a hidden 5s cooldown
 # Tilia > Revealed Flaw
 the skill dmg taken is the same one u got from perfect spiral (same lightning array/debuff), so they share stacks
 
+# Kasimira > Heated Battle
+the crater hits every 1s for 7 hits instead of every 0.5s, so it ticks 7 times over the 8s instead of 16
+
 # Firenze > High Risk
 the 80% chance is decided by your team element instead of dark burn, a full umbra team gets 80% against every target dark burn or not, while a mixed team is stuck at 40% even against umbra dark burn targets
+
+# Iris > Vector: Shatter
+the 12s cooldown is only checked when the greatarrow is fired, so every enemy pierced by the same cast gets the extra aoe dmg instead of only one trigger every 12s
+
+# Iris > Oops I Did It Again
+the aa dmg bonus also applies to the school bag melee swing, even though the text says it only affects frost arrows
+
+# Iris > Cold Snap
+the 12s cooldown is missing, so every chill to frozen conversion reduces the main skill cooldown and grants the skill crit rate buff
+
+# Iris > Keep Strangers at Bay
+the cooldown also goes down with the pot level, 12s/12s/11s/11s/10s/10s/9s/9s/8s from level 1 to 9, while the text always says 12s
+
+# Iris > Prolonged Winter
+the skill dmg bonus never applies because it only checks hits tagged 111_P26, which the glacier array never has
+
+# Iris > Gleaming Snow
+kills made outside the ultimate also add stacks, so the next ultimate starts with bonus dmg, and the stacks are secretly capped at 10 and only reset when the ultimate ends
 
 # Shimiao > Cascade Glow
 the level 9 number is a lot lower than level 8 lmao
@@ -33,6 +54,30 @@ the atk buff can only stack once per enemy per main skill cast, so against a sin
 
 # Firefly > Lightforged Blade
 the glow and halo bonuses are swapped, so glow gives skill dmg and halo gives skill crit rate
+
+# Ridge > Hardened Cone
+the resilience break efficiency bonus never applies because it only checks hits tagged Bullet_11601_NormalBullet, which none of her auto attacks have
+
+# Ridge > Power Slide
+the auto attack dmg buff also has a hidden 8s cooldown, so dodging again before it runs out does not refresh it
+
+# Ridge > Hasty Growth
+the seed orb duration is doubled to 6s so that is 100% increase not 50% like the text says
+
+# Ridge > Needle Seed
+the skill dmg bonus is not cleared when the skill ends, so it keeps applying to her attacks for up to 10s until the next support skill is cast
+
+# Ridge > Cone Bomb
+the extra seed hits a random enemy within 10m instead of the nearest target
+
+# Jinglin > Energy Storage: Bind
+the 2s cooldown reduction also applies to her dodge and ultimate, not just Thunder Strike, and the 1s dodge only goes to 0.5s instead of 0 because cooldowns cannot drop below half their base
+
+# Jinglin > Energy Storage: Knot
+the stack count goes 1, 2, 3, 4, 1, 2, 3, 4 instead of 0, 1, 2, 3, 0, 1, 2, 3, so the first cast already gets a stack then goes up to 4 stacks
+
+# Jinglin > Thunderbolt: Character
+the stun lasts 2s instead of the 1s the text says
 
 # Coronis > Spiritual Tome
 the second sweep only launches if exactly 1 hit tagged 118_Sup_HengZhan_Hit_1 lands, so hitting 2 or more enemies cancels it

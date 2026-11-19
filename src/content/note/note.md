@@ -257,7 +257,10 @@ the boombox hits 12 times instead of the 13 the text says, and the linked bonus 
 it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what this pot checks
 
 # Laru > Arc Chain Laser
-the explosion also triggers when shock expires or the target dies, not only on the 20th hit, and below 20 stacks it uses a smaller explosion that deals 37.4%/41.2%/44.9%/56.1%/59.9%/63.6%/71.1%/74.9%/78.6%/86.1%/89.8%/93.6%/97.3%
+the explosion also triggers when shock expires or the target dies, not only on the 20th hit, and below 20 stacks it uses a smaller explosion, hiddenparam1
+
+# Laru > Electric Chain
+chain lightning only comes from mark triggers whose hit has the 150_P09 tag, so sky rend, aerial suspension and arc chain laser's extra hits and explosion trigger the mark without proccing it, and the first chain hit lands 0.5s after the trigger with links every 0.2s and 3 procs per 1s counted from the first proc
 
 # Laru > Radiant Ascent
 the dmg bonus also applies to stunned, frozen and other control-lost targets, not just airborne ones, because the check is isLostControl

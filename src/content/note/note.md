@@ -256,14 +256,17 @@ it doesnt buff mark dmg because the mark dmg has no 149_Gray tag, which is what 
 # Laru > Arc Chain Laser
 the explosion also triggers when shock expires or the target dies, not only on the 20th hit, and below 20 stacks it uses a smaller explosion, hiddenparam1
 
+# Laru > Piercing Sting
+it stacks from any of laru's skill dmg hits, not only main skill, so the rest of her kit stacks it too
+
 # Laru > Electric Chain
-chain lightning only comes from mark triggers whose hit has the 150_P09 tag, so sky rend, aerial suspension and arc chain laser's extra hits and explosion trigger the mark without proccing it, and the first chain hit lands 0.5s after the trigger with links every 0.2s and 3 procs per 1s counted from the first proc
+chain lightning only comes from mark triggers whose hit has the 150_P09 tag, so sky rend, aerial suspension and arc chain laser's extra hits and explosion trigger the mark without proccing it
 
 # Laru > Radiant Ascent
 the dmg bonus also applies to stunned, frozen and other control-lost targets, not just airborne ones, because the check is isLostControl
 
 # Laru > Lancefall: Electro Bind
-the 5 energy also has a hidden 2s cooldown
+the 5 energy also has a hidden 2s cooldown, and lancefall: light realm's lance ticks cannot trigger it because only the ultimate hit carries the 150_Ultra_P42 tag
 
 # Laru > Lancefall: Thunder Surge
 every ultimate hit adds a stack, not only hits on a different target, so one target can reach the 5 stacks through the 18 lance ticks from lancefall: light bealm

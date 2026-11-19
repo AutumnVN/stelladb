@@ -286,6 +286,9 @@ summoning a new bubble frog removes foam echo's atk buff from willow herself, bu
 # Firstlight Noya > Dawnflare
 radiance flurry can't be granted again until 8s after the last use, and the granted skill expires after 10s and all 17 glows are lost if it isn't used
 
+# Steam Syndrome > Aromatic Steam
+the text leaves out that the second effect only boosts aqua trekkers' skill hits, and it is only wrong in en, truly a third-world server moment
+
 # Soaring Blue > Horn of Departure
 the skill dmg bonus from bright tide stacks applies to any teammate's damage, not just aqua trekkers
 

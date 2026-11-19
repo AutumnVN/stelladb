@@ -68,7 +68,7 @@ the next water blade gets the bonus every 1.4s instead of the 1.5s the text says
 the buff needs at least 3 slowed targets, not the 2 or more in the text (CN/TW/JP say "more than 2"), and it is only wrong in en and kr, the third-world server isnt alone this time
 
 # Shimiao > Wave Rider
-above 90% target hp the ult dmg bonus is 0 instead of the some % minimum because the top hp bracket is mapped to 0
+above 90% target hp the ult dmg bonus is 0 instead of the minimum listed in the text, because the top hp bracket is mapped to 0
 
 # Chaton > Efficient Use
 the skill crit dmg buff is given every time you hold the main skill even without a spark, only the explosive bomb needs the spark the text says you consume
@@ -101,7 +101,7 @@ the extra seed hits a random enemy within 10m instead of the nearest target
 the 2s cooldown reduction also applies to her dodge and ultimate, not just main skill, and the 1s dodge only goes to 0.5s instead of 0 because cooldowns cannot drop below half their base
 
 # Jinglin > Energy Storage: Knot
-the stack count goes 1, 2, 3, 4, 1, 2, 3, 4 instead of 0, 1, 2, 3, 0, 1, 2, 3, so the first cast already gets a stack then goes up to 4 stacks
+the stack count goes 1, 2, 3, 4, 1, 2, 3, 4 instead of resetting after 3, so the 4th cast gives 4 stacks and the cycle never clears
 
 # Jinglin > Thunderbolt: Character
 the stun lasts 2s instead of the 1s the text says
@@ -116,7 +116,7 @@ the aoe counts 4 auto attack hits on the same target instead of 3 like the text 
 the buff only has a chance to proc when nanoha crits, not on any dmg like the text says
 
 # Nanoha > Splendid Vortex
-the buff stack is given whenever a hit that can trigger a ventus mark lands on a target that already has one, instead of when a ventus mark is actually triggered, so it can stacks while mark is on 1s cooldown
+the buff stack is given whenever a hit that can trigger a ventus mark lands on a target that already has one, instead of when a ventus mark is actually triggered, so it can stack while mark is on 1s cooldown
 
 # Nanoha > Blooming Flowers
 the atk buff also stacks when anyone triggers a ventus mark, not only when nanoha triggers it
@@ -125,7 +125,7 @@ the atk buff also stacks when anyone triggers a ventus mark, not only when nanoh
 the marks stack up to 16, not the 12 in the text
 
 # Nanoha > Blossom Rhyme
-this pot gives 0.39 flat atk instead of 39% atk at level 6, how can yostar buffed her kit and still missed this
+this pot gives 0.39 flat atk instead of 39% atk at level 6, how can yostar buff her kit and still miss this
 
 # Nanoha > Rejuvenating Spring
 the atk buff only procs when nanoha's own hits tagged WindTag1Boom pop a ventus mark, so marks popped by her ult clones never give it
@@ -174,9 +174,6 @@ the geyser still procs when the main trekker is not aqua, even though the text o
 
 # Donna > Condensation Orbs
 the orbs dont fire when agile ends, they stay stored until u cast the main skill again, so they always fire on the first auto attack of the next agile window, and since the 10 hits are counted from hits tagged 130_B1_Bullet, the azure night spikes also count, so u get an orb every 2 auto attacks
-
-# Donna > Rime Shatterer
-the skill dmg bonus only applies to the hit that triggers it, and only hits tagged 130_B1_Bullet can trigger it, so the agile auto attacks get nothing, only the azure night spikes benefit, and without azure night it does nothing at all
 
 # Donna > Freezing Stasis
 chill doesnt count for this pot, only frozen does, even though the text says frozen and chill
@@ -277,7 +274,7 @@ the text says the target takes more surfing skill dmg but the buff is actually o
 # Nazuna > Clean Sweep
 auto attacks within 1s after throwing a golden egg are skipped before the 20% roll, so eggs are at least ~1s apart
 
-# Suntide Willow > Luminous Leaper
+# Suntide Willow > Skill: Luminous Leaper
 the bubble frog's squad atk buff has a hidden 1s cooldown
 
 # Suntide Willow > Foam Echo
@@ -308,7 +305,7 @@ the 15s cooldown is not implemented, it can trigger again as soon as the 10s atk
 the hit counter counts any teammate's damage, not just the main ventus trekker's, so support damage also triggers the ventus dmg taken debuff
 
 # Dream Factory of ☆Truth > Dream Factory of ☆Truth
-corrosion doesnt debuff the enemy with umbra dmg taken because its effect is set to target the enemy's "enemy" instead of the enemy itself, so it has no valid target, the icon can still appear
+corrosion never applies its umbra dmg taken debuff because its effect is set to hit an enemy target, which is empty when the buff is applied, so it does nothing, though the icon can still appear
 
 # Dancing with the Bones > Buried Past
 the text says atk but the actual effect is skill dmg, and it is only wrong in en, truly a third-world server moment

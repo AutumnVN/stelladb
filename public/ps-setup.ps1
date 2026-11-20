@@ -166,7 +166,13 @@ echo build done
 function Get-JavaMajor {
     $cmd = Get-Command java -ErrorAction SilentlyContinue
     if (-not $cmd) { return 0 }
-    $text = (& $cmd.Source -version 2>&1 | Out-String)
+    $old = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        $text = (& $cmd.Source -version 2>&1 | Out-String)
+    } finally {
+        $ErrorActionPreference = $old
+    }
     $m = [regex]::Match($text, 'version "(\d+)(?:\.(\d+))?')
     if (-not $m.Success) { return 0 }
     if ($m.Groups[1].Value -eq '1') { return [int]$m.Groups[2].Value }

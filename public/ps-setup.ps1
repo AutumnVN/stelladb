@@ -31,12 +31,12 @@ start "" wt -w 0 new-tab --title "ps mogger" cmd /c "%~s0" run
 exit /b
 
 :main
-set "LL=%USERPROFILE%\AppData\LocalLow\YOSTAR (HONG KONG) LIMITED"
-set "GAME=%LL%\StellaSora"
+set "LL=%USERPROFILE%\AppData\LocalLow\__COMPANY__"
+set "GAME=%LL%\__PROFILE__"
 set "BASE=%LOCALAPPDATA%\stellasora-login"
 set "LIVE=%BASE%\live"
 set "PS=%BASE%\ps"
-set "PREFS=HKCU\Software\YOSTAR (HONG KONG) LIMITED\StellaSora"
+set "PREFS=HKCU\Software\__COMPANY__\__PROFILE__"
 
 if not exist "%BASE%" mkdir "%BASE%"
 if not exist "%LIVE%" (
@@ -79,12 +79,12 @@ wscript //nologo "%VBS%"
 exit /b 0
 
 :waitmode
-set "LL=%USERPROFILE%\AppData\LocalLow\YOSTAR (HONG KONG) LIMITED"
-set "GAME=%LL%\StellaSora"
+set "LL=%USERPROFILE%\AppData\LocalLow\__COMPANY__"
+set "GAME=%LL%\__PROFILE__"
 set "BASE=%LOCALAPPDATA%\stellasora-login"
 set "LIVE=%BASE%\live"
 set "PS=%BASE%\ps"
-set "PREFS=HKCU\Software\YOSTAR (HONG KONG) LIMITED\StellaSora"
+set "PREFS=HKCU\Software\__COMPANY__\__PROFILE__"
 
 set /a tries=0
 :waitlaunch
@@ -177,6 +177,17 @@ function Get-JavaMajor {
     if (-not $m.Success) { return 0 }
     if ($m.Groups[1].Value -eq '1') { return [int]$m.Groups[2].Value }
     return [int]$m.Groups[1].Value
+}
+
+function Get-GameProfile {
+    param([string]$GameDir)
+    $info = Join-Path $GameDir 'StellaSora_Data\app.info'
+    if (-not (Test-Path $info)) { throw "missing $info - is this the Stella Sora install folder?" }
+    $lines = [IO.File]::ReadAllLines($info)
+    $company = $lines[0].Trim()
+    $product = $lines[1].Trim()
+    if (-not $company -or -not $product) { throw "could not read company and product from $info" }
+    [pscustomobject]@{ Company = $company; Product = $product }
 }
 
 function Test-Appx {
@@ -318,6 +329,8 @@ function Invoke-PsSetup {
     if (-not (Test-Path (Join-Path $GameDir 'StellaSora.exe'))) {
         throw "StellaSora.exe not found in '$GameDir'"
     }
+    $Profile = Get-GameProfile $GameDir
+    Write-Note "game data: $($Profile.Product)"
 
     Write-Step 'Checking prerequisites'
     $missing = Get-MissingPrereqs
@@ -438,6 +451,8 @@ function Invoke-PsSetup {
         '__NEBULA__' = $Nebula
         '__SSDATA__' = $SsData
         '__GAME__' = $GameDir
+        '__COMPANY__' = $Profile.Company
+        '__PROFILE__' = $Profile.Product
     }
     Set-BatFile -Path (Join-Path $Desktop 'ps mogger.bat') -Content $MoggerBat -Map $map
     Set-BatFile -Path (Join-Path $Desktop 'ps resources.bat') -Content $ResourcesBat -Map $map

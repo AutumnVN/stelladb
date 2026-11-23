@@ -1,7 +1,6 @@
 ---
 // @ts-nocheck
 import Layout from '@/layouts/Layout.astro';
-import Tabs from '@/components/Tabs.astro';
 import { fetchJson } from '@/scripts/fetchJson.js';
 
 export async function getStaticPaths() {
@@ -48,22 +47,22 @@ const embed = JSON.stringify({
     const id = location.pathname.split('/').filter(Boolean).pop();
     const SEASON_URL = `https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/${id}.json`;
     const META_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/meta.json';
+    const MESSAGE_URL = 'https://raw.githubusercontent.com/AutumnVN/ssleaderboard/refs/heads/main/message.json';
     const CHARACTER_ID_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/characterid.json';
     const PLAYER_HEAD_URL = 'https://raw.githubusercontent.com/AutumnVN/ss-data/refs/heads/main/EN/bin/PlayerHead.json';
 
     let data;
 
-    const [seasonData, characterIdData, metaData, playerHeadData] = await Promise.all([
-        fetchJson(SEASON_URL),
-        fetchJson(CHARACTER_ID_URL),
-        fetchJson(META_URL),
-        fetchJson(PLAYER_HEAD_URL),
-    ]);
+    const [seasonData, characterIdData, metaData, playerHeadData] = await Promise.all([fetchJson(SEASON_URL), fetchJson(CHARACTER_ID_URL), fetchJson(META_URL), fetchJson(PLAYER_HEAD_URL)]);
+
+    const messageData = await fetchJson(MESSAGE_URL).catch(() => ({}));
 
     const meta = metaData[id];
 
     const regionData = seasonData.region;
-    const regionTabs = ['en', 'jp', 'kr', 'tw', ...(regionData.cn ? ['cn'] : []), 'all'];
+    const regionOrder = ['en', 'jp', 'kr', 'tw', 'cn', 'all'];
+    const regionTabs = regionOrder.filter((region) => regionData[region]);
+    const defaultRegion = regionTabs[0];
     const regionLabels = {
         en: 'EN',
         jp: 'JP',
@@ -72,6 +71,7 @@ const embed = JSON.stringify({
         cn: 'CN',
         all: 'ALL',
     };
+    const escapeHtml = (value) => `${value}`.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
     const pageEl = document.querySelector('.lb-page');
     const isBB = /^bb/.test(id);
     const season = id.match(/\d+/)?.[0];
@@ -90,7 +90,7 @@ const embed = JSON.stringify({
                             ${regionTabs
                                 .map(
                                     (region) => `
-                                <button class="tab${region === 'en' ? ' active' : ''}" data-tab="${region}">
+                                <button class="tab${region === defaultRegion ? ' active' : ''}" data-tab="${region}">
                                     ${regionLabels[region] || region.toUpperCase()}
                                 </button>
                             `,
@@ -117,7 +117,7 @@ const embed = JSON.stringify({
                     .map((rk) => {
                         const rd = regionData[rk] || {};
                         return `
-                            <div class="region-data" data-region="${rk}" ${rk !== 'en' ? 'hidden' : ''}>
+                            <div class="region-data" data-region="${rk}" ${rk !== defaultRegion ? 'hidden' : ''}>
                                 <div class="leaderboard-header">
                                     <p>
                                         ${(rd.Total || 0).toLocaleString('en-US')} players total • last updated <span class="update-time" data-time="${(rd.LastRefreshTime || 0) * 1000}"></span>
@@ -141,6 +141,7 @@ const embed = JSON.stringify({
                                         `
                                                 : ''
                                         }
+                                        ${messageData[rk] ? `<br /><span>${escapeHtml(messageData[rk])}</span>` : ''}
                                     </p>
                                     <p class="rank-cutoff">
                                         10%: #${Math.floor((rd.Total || 0) / 10)}
@@ -252,7 +253,7 @@ const embed = JSON.stringify({
                                 .map((fk) => {
                                     const list = (rd.UsageByFloor && rd.UsageByFloor[fk]) || [];
                                     return `
-                                    <div class="region-data" data-region="${rk}" data-floor="${String(fk)}" ${rk !== 'en' || fk !== 'all' ? 'hidden' : ''}>
+                                    <div class="region-data" data-region="${rk}" data-floor="${String(fk)}" ${rk !== defaultRegion || fk !== 'all' ? 'hidden' : ''}>
                                         ${
                                             list.length
                                                 ? list
@@ -334,7 +335,7 @@ const embed = JSON.stringify({
                                 .map((fk) => {
                                     const list = (rd.UsageTeamByFloor && rd.UsageTeamByFloor[fk]) || [];
                                     return `
-                                    <div class="region-data" data-region="${rk}" data-floor="${String(fk)}" ${rk !== 'en' || fk !== 'all' ? 'hidden' : ''}>
+                                    <div class="region-data" data-region="${rk}" data-floor="${String(fk)}" ${rk !== defaultRegion || fk !== 'all' ? 'hidden' : ''}>
                                         ${
                                             list.length
                                                 ? list
@@ -419,7 +420,7 @@ const embed = JSON.stringify({
                                 .map((fk) => {
                                     const list = (rd.ScoreTeamByFloor && rd.ScoreTeamByFloor[fk]) || [];
                                     return `
-                                    <div class="region-data" data-region="${rk}" data-floor="${String(fk)}" ${rk !== 'en' || fk !== 'all' ? 'hidden' : ''}>
+                                    <div class="region-data" data-region="${rk}" data-floor="${String(fk)}" ${rk !== defaultRegion || fk !== 'all' ? 'hidden' : ''}>
                                         ${
                                             list.length
                                                 ? list
@@ -948,11 +949,11 @@ const embed = JSON.stringify({
     const mainTabs = document.querySelector('.tabs-container > .tabs-wrapper:last-child .tabs');
     const regionTabsNav = document.querySelector('.region-tabs .tabs');
     const regionTabsEls = regionTabsNav ? regionTabsNav.querySelectorAll('.tab') : [];
-    let currentRegion = 'en';
+    let currentRegion = defaultRegion;
     const selectedFloor = { 'char-usage': 'all', 'team-usage': 'all' };
 
     function getDefaultRegion() {
-        return regionTabsNav?.querySelector('.tab')?.dataset.tab || 'en';
+        return regionTabsNav?.querySelector('.tab')?.dataset.tab;
     }
 
     function getValidRegion(region) {
@@ -1090,7 +1091,7 @@ const embed = JSON.stringify({
 
         const container = tab.closest('.tabs');
         if (container?.closest('.region-tabs')) {
-            setRegion(tab.dataset.tab || 'en');
+            setRegion(tab.dataset.tab);
             return;
         }
 
@@ -1534,8 +1535,8 @@ const embed = JSON.stringify({
     }
 
     .modal-content a.modal-heading {
-        text-decoration: none;
         cursor: pointer;
+        text-decoration: none;
     }
 
     .modal-content a.modal-heading:hover {

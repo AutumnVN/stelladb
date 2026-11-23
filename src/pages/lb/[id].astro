@@ -72,6 +72,19 @@ const embed = JSON.stringify({
         all: 'ALL',
     };
     const escapeHtml = (value) => `${value}`.replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    const MONTH_INDEX = { jan: 0, feb: 1, mar: 2, apr: 3, may: 4, jun: 5, jul: 6, aug: 7, sep: 8, oct: 9, nov: 10, dec: 11 };
+    const MESSAGE_TIME = /(?:\bby\s+)?([A-Za-z]{3})\.?\s+(\d{1,2}),\s*(\d{4})\s+(\d{1,2}):(\d{2})\s*\(UTC([+-]\d{1,2})\)/;
+    const messageHtml = (message) => {
+        const match = message.match(MESSAGE_TIME);
+        const month = match ? MONTH_INDEX[match[1].toLowerCase()] : undefined;
+        if (month === undefined) return escapeHtml(message);
+
+        const [, , day, year, hour, minute, offset] = match;
+        const time = Date.UTC(+year, month, +day, +hour, +minute) - +offset * 60 * 60 * 1000;
+        const before = message.slice(0, match.index);
+        const after = message.slice(match.index + match[0].length);
+        return `${escapeHtml(before)}<span class="update-time" data-time="${time}"></span>${escapeHtml(after)}`;
+    };
     const pageEl = document.querySelector('.lb-page');
     const isBB = /^bb/.test(id);
     const season = id.match(/\d+/)?.[0];
@@ -141,7 +154,7 @@ const embed = JSON.stringify({
                                         `
                                                 : ''
                                         }
-                                        ${messageData[rk] ? `<br /><span>${escapeHtml(messageData[rk])}</span>` : ''}
+                                        ${messageData[rk] ? `<br /><span>${messageHtml(messageData[rk])}</span>` : ''}
                                     </p>
                                     <p class="rank-cutoff">
                                         10%: #${Math.floor((rd.Total || 0) / 10)}
@@ -482,12 +495,10 @@ const embed = JSON.stringify({
         </div>
     `;
 
-    let currentUpdateTime = new Date(+document.querySelector('.update-time')?.dataset.time || Date.now());
-
     function updateDisplayedTime() {
-        const el = document.querySelector('.region-data:not([hidden]) .update-time');
-        if (!el) return;
-        el.textContent = formatRelativeTime(currentUpdateTime);
+        document.querySelectorAll('.region-data:not([hidden]) .update-time').forEach((el) => {
+            el.textContent = formatRelativeTime(new Date(+el.dataset.time));
+        });
     }
     updateDisplayedTime();
     setInterval(updateDisplayedTime, 1000);
@@ -1027,12 +1038,7 @@ const embed = JSON.stringify({
             el.hidden = elRegion !== currentRegion || selFloor !== elFloor;
         });
 
-        const visibleRegion = document.querySelector('.region-data:not([hidden])');
-        const ut = visibleRegion?.querySelector('.update-time');
-        if (ut) {
-            currentUpdateTime = new Date(+ut.dataset.time || Date.now());
-            updateDisplayedTime();
-        }
+        updateDisplayedTime();
 
         if (syncHash) syncTabsHash();
     }

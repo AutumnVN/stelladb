@@ -211,6 +211,9 @@ decreases dodge cooldown by 30%, not the 25% in the text
 # Eleanor > Chain Detonation
 the text says each jump slam gets 1 extra explosion, but it actually gets 1 more than the previous slam, so the first slam gets none and every later slam gets more, so you get 36 extras total instead of 9, and it is only wrong in en, truly a third-world server moment
 
+# Eleanor > Precision Calibration
+the buff is only applied to hits on the normal attack slot so it doesnt increase wraith's whirlwind aa dmg, which is tagged as skill slot
+
 # Sparkla > Ticking Aftershock
 the 5 booby traps from bunny jaws shells have a hidden 2s cooldown
 

@@ -301,14 +301,26 @@ the max stack debuff is generic auto attack dmg taken instead of ignis auto atta
 # United by Fate > Moment of Unity
 the extra dmg from every 10 kills is supposed to stack up to 10 times but the buff is reset to 1 stack each time, so it never stacks
 
+# Meowing Cat God > Cat God's Penalty
+doesnt apply to boss blitz and finale echoing, I REPEAT IT DOESNT APPLY TO BOSS BLITZ AND FINALE ECHOING
+
+# Summer Afternoon Rain > Dancing Waters
+doesnt apply to boss blitz and finale echoing, I REPEAT IT DOESNT APPLY TO BOSS BLITZ AND FINALE ECHOING
+
 # Colors Pierce the Grey > Street Spirit
 the dmg reduction doesnt work because it is wrongly assigned to aqua dmg taken instead of final dmg taken
 
 # Sword Against Stream > Splashing Moves
 the 15s cooldown is not implemented, it can trigger again as soon as the 10s atk buff expires
 
+# Sword Against Stream > Water Mirror
+doesnt apply to boss blitz and finale echoing, I REPEAT IT DOESNT APPLY TO BOSS BLITZ AND FINALE ECHOING
+
 # Daylight Garden > Swaying Petals
 the hit counter counts any teammate's damage, not just the main ventus trekker's, so support damage also triggers the ventus dmg taken debuff
+
+# The Clash of Blade and Axe > Surging Slash
+doesnt apply to boss blitz and finale echoing, I REPEAT IT DOESNT APPLY TO BOSS BLITZ AND FINALE ECHOING
 
 # Dream Factory of ☆Truth > Dream Factory of ☆Truth
 corrosion never applies its umbra dmg taken debuff because its effect is set to hit an enemy target, which is empty when the buff is applied, so it does nothing, though the icon can still appear

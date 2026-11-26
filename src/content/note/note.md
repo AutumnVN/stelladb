@@ -272,7 +272,7 @@ the dmg bonus also applies to stunned, frozen and other control-lost targets, no
 the 5 energy also has a hidden 2s cooldown, and lancefall: light realm's lance ticks cannot trigger it because only the ultimate hit carries the 150_Ultra_P42 tag
 
 # Laru > Lancefall: Thunder Surge
-every ultimate hit adds a stack, not only hits on a different target, so one target can reach the 5 stacks through the 18 lance ticks from lancefall: light bealm
+every ultimate hit adds a stack, not only hits on a different target, so one target can reach the 5 stacks through the 18 lance ticks from lancefall: light realm
 
 # Shia > Kick the Wave
 the text says the target takes more surfing skill dmg but the buff is actually on shia, so it applies to every target

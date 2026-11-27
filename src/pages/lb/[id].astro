@@ -551,7 +551,7 @@ const embed = JSON.stringify({
                 const levelName = floorData[t.LevelId]?.name;
                 let titleStr = `Team ${i + 1}: `;
                 if (levelName) titleStr += `${levelName} • `;
-                titleStr += (t.LevelScore || t.Time / 1000).toLocaleString('en-US');
+                titleStr += (t.LevelScore || (t.Time ?? 0) / 1000).toLocaleString('en-US');
                 if (!isBB) titleStr += 's';
                 if (t.BuildScore) titleStr += ` • Record: ${t.RecordRank} (${t.BuildScore})`;
 

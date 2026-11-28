@@ -57,7 +57,7 @@ if (import.meta.env.SSR) {
 ---
 
 <!doctype html>
-<html lang="en" {...pagefindIgnore ? { 'data-pagefind-ignore': '' } : {}}>
+<html lang="en" {...(pagefindIgnore ? { 'data-pagefind-ignore': '' } : {})}>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=0.5" />
@@ -72,14 +72,12 @@ if (import.meta.env.SSR) {
         <meta property="og:description" content={description} />
         <meta property="og:image" content={image} data-pagefind-default-meta="image[content]" />
         <meta property="og:site_name" content="stelladb.pages.dev" />
-        {
-            bigImage && (
-                <>
-                    <meta name="twitter:card" content="summary_large_image" />
-                    <meta name="twitter:image" content={image} />
-                </>
-            )
-        }
+        {bigImage && (
+            <>
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:image" content={image} />
+            </>
+        )}
         <link rel="sitemap" href="/sitemap-index.xml" />
         <script is:inline id="discord:component-embed" type="application/json" set:html={embedPayload.replace(/</g, '\\u003c')} />
         <script
@@ -98,39 +96,88 @@ if (import.meta.env.SSR) {
     </head>
     <body>
         <nav>
-            <a href="/" data-astro-prefetch><div class="logo">stelladb</div></a>
+            <a href="/" data-astro-prefetch>
+                <div class="logo">stelladb</div>
+            </a>
             <div class="navlinks">
-                <a href="/trekker" data-astro-prefetch>Trekker</a>
-                <a href="/disc" data-astro-prefetch>Disc</a>
-                <a href="/banner" data-astro-prefetch>Banner</a>
-                <a href="/lb" class="nav-break" data-astro-prefetch>Leader<br />board</a>
-                <a href="/player" data-astro-prefetch>Player</a>
-                <a href="/team" data-astro-prefetch>Team</a>
-                <a href="/gacha" class="nav-break" data-astro-prefetch>Pull <br />Tracker</a>
+                <a href="/trekker" data-astro-prefetch>
+                    Trekker
+                </a>
+                <a href="/disc" data-astro-prefetch>
+                    Disc
+                </a>
+                <a href="/banner" data-astro-prefetch>
+                    Banner
+                </a>
+                <a href="/lb" class="nav-break" data-astro-prefetch>
+                    Leader
+                    <br />
+                    board
+                </a>
+                <a href="/player" data-astro-prefetch>
+                    Player
+                </a>
+                <a href="/team" data-astro-prefetch>
+                    Team
+                </a>
+                <a href="/gacha" class="nav-break" data-astro-prefetch>
+                    Pull <br />
+                    Tracker
+                </a>
                 <details>
                     <summary>Monster</summary>
                     <div>
-                        <a href="/ascension" data-astro-prefetch>Ascension</a>
-                        <a href="/arena" data-astro-prefetch>Menace Arena</a>
-                        <a href="/ground" data-astro-prefetch>Proving Ground</a>
-                        <a href="/cata" data-astro-prefetch>Cataclysm Survivor</a>
-                        <a href="/blitz" data-astro-prefetch>Boss Blitz</a>
-                        <a href="/raid" data-astro-prefetch>Finale Echoing</a>
-                        <a href="/duel" data-astro-prefetch>Summit Show</a>
-                        <a href="/siege" data-astro-prefetch>Shadow Siege</a>
+                        <a href="/ascension" data-astro-prefetch>
+                            Ascension
+                        </a>
+                        <a href="/arena" data-astro-prefetch>
+                            Menace Arena
+                        </a>
+                        <a href="/ground" data-astro-prefetch>
+                            Proving Ground
+                        </a>
+                        <a href="/cata" data-astro-prefetch>
+                            Cataclysm Survivor
+                        </a>
+                        <a href="/blitz" data-astro-prefetch>
+                            Boss Blitz
+                        </a>
+                        <a href="/raid" data-astro-prefetch>
+                            Finale Echoing
+                        </a>
+                        <a href="/duel" data-astro-prefetch>
+                            Summit Show
+                        </a>
+                        <a href="/siege" data-astro-prefetch>
+                            Shadow Siege
+                        </a>
                     </div>
                 </details>
                 <details>
                     <summary>Other</summary>
                     <div>
-                        <a href="/bug" data-astro-prefetch>Bug List</a>
-                        <a href="/build" data-astro-prefetch>Build Preset</a>
-                        <a href="/emblem" data-astro-prefetch>Emblem</a>
-                        <a href="/unreleased" data-astro-prefetch>Unreleased</a>
+                        <a href="/bug" data-astro-prefetch>
+                            Bug List
+                        </a>
+                        <a href="/build" data-astro-prefetch>
+                            Build Preset
+                        </a>
+                        <a href="/emblem" data-astro-prefetch>
+                            Emblem
+                        </a>
+                        <a href="/unreleased" data-astro-prefetch>
+                            Unreleased
+                        </a>
                         <a href="/infodoc">Infodoc</a>
-                        <a href="https://docs.google.com/document/d/18NrprCI7NJvOeBswQw6Y3xcG0bXW6HXjj5pLHzCehHY" target="_blank">Damage Formula <ExternalIcon /></a>
-                        <a href="https://docs.google.com/document/d/1_TL_qgj1Cb4O0I5aoiTt3jbZG0NO7G2trVDqgOLjC4M" target="_blank">Newbie Guide <ExternalIcon /></a>
-                        <a href="https://docs.google.com/spreadsheets/d/1eGTh38V1VD-1O-yyMBB5gnlZw_ykt-WfFmE0Lg4XS8w" target="_blank">Team Ranking <ExternalIcon /></a>
+                        <a href="https://docs.google.com/document/d/18NrprCI7NJvOeBswQw6Y3xcG0bXW6HXjj5pLHzCehHY" target="_blank">
+                            Damage Formula <ExternalIcon />
+                        </a>
+                        <a href="https://docs.google.com/document/d/1_TL_qgj1Cb4O0I5aoiTt3jbZG0NO7G2trVDqgOLjC4M" target="_blank">
+                            Newbie Guide <ExternalIcon />
+                        </a>
+                        <a href="https://docs.google.com/spreadsheets/d/1eGTh38V1VD-1O-yyMBB5gnlZw_ykt-WfFmE0Lg4XS8w" target="_blank">
+                            Team Ranking <ExternalIcon />
+                        </a>
                     </div>
                 </details>
             </div>
@@ -176,15 +223,7 @@ if (import.meta.env.SSR) {
                     last build <span class="build-time" data-time={buildTime}></span>
                     <br />
                     <span>
-                        <a href="https://github.com/AutumnVN/stelladb">website</a>
-                        •
-                        <a href="https://github.com/AutumnVN/ss-data">data</a>
-                        •
-                        <a href="https://github.com/AutumnVN/ssassets">assets</a>
-                        •
-                        <a href="https://github.com/AutumnVN/ssleaderboard">leaderboard</a>
-                        •
-                        <a href="https://github.com/AutumnVN/ssgacha">gacha</a>
+                        <a href="https://github.com/AutumnVN/stelladb">website</a>•<a href="https://github.com/AutumnVN/ss-data">data</a>•<a href="https://github.com/AutumnVN/ssassets">assets</a>•<a href="https://github.com/AutumnVN/ssleaderboard">leaderboard</a>•<a href="https://github.com/AutumnVN/ssgacha">gacha</a>
                     </span>
                 </p>
             </div>
@@ -328,7 +367,7 @@ if (import.meta.env.SSR) {
 
         function applyData(d) {
             const u = d.discord_user;
-            if (displayEl) displayEl.textContent = u.display_name || '';
+            if (displayEl) displayEl.textContent = u.global_name || '';
             if (usernameEl) usernameEl.textContent = u.username;
 
             let actLabel = '';
